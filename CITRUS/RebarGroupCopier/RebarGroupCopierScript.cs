@@ -90,7 +90,70 @@ namespace CITRUS
 
 			else if (checkedButtonNameResult == "radioButton_OutletsGroups")
 			{
+				//Выбор группы арматуры
+				GroupSelectionFilter selFilter = new GroupSelectionFilter(); //Вызов фильтра выбора
+				List<Reference> selGroupList = sel.PickObjects(ObjectType.Element, selFilter, "Выберите группу!").ToList();//Получение ссылки на выбранную группу
+				List<Group> myGroupList = new List<Group>();
+				foreach (Reference refer in selGroupList)
+				{
+					myGroupList.Add(doc.GetElement(refer) as Group);
+				}
 
+				//Выбор связанного файла
+				RevitLinkInstanceSelectionFilter selFilterRevitLinkInstance = new RevitLinkInstanceSelectionFilter(); //Вызов фильтра выбора
+				Reference selRevitLinkInstance = sel.PickObject(ObjectType.Element, selFilterRevitLinkInstance, "Выберите связанный файл!");//Получение ссылки на выбранную группу
+				IEnumerable<RevitLinkInstance> myRevitLinkInstance = new FilteredElementCollector(doc)
+					.OfClass(typeof(RevitLinkInstance))
+					.Where(li => li.Id == selRevitLinkInstance.ElementId)
+					.Cast<RevitLinkInstance>();
+				Document doc2 = myRevitLinkInstance.First().GetLinkDocument();
+				
+				using (Transaction t = new Transaction(doc))
+				{
+					t.Start("Копирование групп арматуры");
+
+
+					foreach (Group myGroup in myGroupList)
+					{
+						BoundingBoxXYZ bbox = myGroup.get_BoundingBox(null);
+						Outline myGroupOutLn = new Outline(bbox.Min, bbox.Max);
+					
+						//Список колонн не пересекающих группу
+						List<FamilyInstance> myColumnsList = new FilteredElementCollector(doc2)
+						.OfClass(typeof(FamilyInstance))
+						.OfCategory(BuiltInCategory.OST_StructuralColumns)
+						.WherePasses(new BoundingBoxIntersectsFilter(myGroupOutLn, true))
+						.Where(fi => fi.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString() == myGroup.Name.Split(' ')[1])
+						.Cast<FamilyInstance>()
+						.ToList();
+
+						LocationPoint groupLocation = myGroup.Location as LocationPoint;
+						XYZ groupLocationXYZ = groupLocation.Point;
+
+						foreach (FamilyInstance column in myColumnsList)
+						{
+							LocationPoint columnLocation = column.Location as LocationPoint;
+							XYZ columnLocationXYZ = columnLocation.Point;
+							XYZ vectorForGroupCopy = new XYZ(columnLocationXYZ.X - groupLocationXYZ.X, columnLocationXYZ.Y - groupLocationXYZ.Y, 0);
+
+							List<ElementId> newGroupElementIdList = ElementTransformUtils.CopyElement(doc, myGroup.Id, vectorForGroupCopy) as List<ElementId>;
+							ElementId newGroupElementId = newGroupElementIdList.First();
+
+							//Ось вращения
+							XYZ rotationPoint1 = new XYZ(columnLocationXYZ.X, columnLocationXYZ.Y, columnLocationXYZ.Z);
+							XYZ rotationPoint2 = new XYZ(columnLocationXYZ.X, columnLocationXYZ.Y, columnLocationXYZ.Z + 1);
+							Line rotationAxis = Line.CreateBound(rotationPoint1, rotationPoint2);
+
+							if (columnLocation.Rotation != 0)
+							{
+								ElementTransformUtils.RotateElement(doc, newGroupElementId, rotationAxis, columnLocation.Rotation);
+							}
+
+						}
+					}
+
+					t.Commit();
+				}
 			}
 
 			return Result.Succeeded;
