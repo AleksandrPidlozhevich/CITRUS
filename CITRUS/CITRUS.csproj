@@ -88,8 +88,14 @@
     <Compile Include="MEPViewScheduleHostStartForm.Designer.cs">
       <DependentUpon>MEPViewScheduleHostStartForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RebarGroupCopier\RebarGroupCopierForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RebarGroupCopier\RebarGroupCopierForm.Designer.cs">
+      <DependentUpon>RebarGroupCopierForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="RevitLinkInstanceSelectionFilter.cs" />
-    <Compile Include="RebarGroupCopier.cs" />
+    <Compile Include="RebarGroupCopier\RebarGroupCopierScript.cs" />
     <Compile Include="GroupSelectionFilter.cs" />
     <Compile Include="RebarOutletsCreator.cs" />
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\CIT_04_1_1FormSquareColumnsReinforcementType4.cs">
@@ -203,6 +209,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FloorTypeSelector.resx">
       <DependentUpon>FloorTypeSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RebarGroupCopier\RebarGroupCopierForm.resx">
+      <DependentUpon>RebarGroupCopierForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TXTExportForm.resx">
       <DependentUpon>TXTExportForm.cs</DependentUpon>

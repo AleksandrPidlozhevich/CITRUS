@@ -105,7 +105,7 @@ namespace CITRUS
                 PushButtonData pbdRebarGroupCopier = new PushButtonData("RebarGroupCopier"
                     , "Копирователь\nгрупп"
                     , assemblyPach
-                    , "CITRUS.RebarGroupCopier");
+                    , "CITRUS.RebarGroupCopierScript");
 
                 Image RebarGroupCopier_img1 = Properties.Resources.RebarGroupCopier_Large;
                 ImageSource RebarGroupCopier_imgLarge = GetImageSourse(RebarGroupCopier_img1);
