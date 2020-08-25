@@ -178,6 +178,13 @@ namespace CITRUS
 
                 panel_Other.AddItem(pbdMEPViewScheduleCreatorADM);
 
+            //Создание кнопки "Армирование прямоугольной колонны" в категории "Другое"
+            PushButtonData pbdRectangularColumnsReinforcement = new PushButtonData("RectangularColumnsReinforcement"
+                , "Арм.Прямоугольной\nколонны"
+                , assemblyPach
+                , "CITRUS.CIT_04_2_RectangularColumnsReinforcement.CIT_04_2_RectangularColumnsReinforcement");
+            panel_Other.AddItem(pbdRectangularColumnsReinforcement);
+
 
             return Result.Succeeded;
             }

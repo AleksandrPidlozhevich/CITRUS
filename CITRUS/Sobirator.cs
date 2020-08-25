@@ -38,8 +38,15 @@ namespace CITRUS
 					Parameter sheet_number = sh.get_Parameter(BuiltInParameter.SHEET_NUMBER);
 					if (sheet_number.AsString() == s_number.AsString())
 					{
+						if (sh.GetParameters("Раздел проекта").Count != 0)
+						{
+							s_complect = sh.GetParameters("Раздел проекта")[0].AsString();
+						}
 
-						s_complect = sh.GetParameters("Раздел проекта")[0].AsString();
+						else if (sh.GetParameters("РОВЕН_Раздел проекта").Count != 0)
+						{
+							s_complect = sh.GetParameters("РОВЕН_Раздел проекта")[0].AsString();
+						}
 						break;
 					}
 				}

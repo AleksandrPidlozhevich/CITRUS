@@ -73,6 +73,13 @@
     </Compile>
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\CIT_04_1_1SquareColumnsReinforcementType6.cs" />
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\CIT_04_1_1SquareColumnsReinforcementType5.cs" />
+    <Compile Include="CIT_04_2_RectangularColumnsReinforcement\CIT_04_2_RectangularColumnsReinforcement.cs" />
+    <Compile Include="CIT_04_2_RectangularColumnsReinforcement\CIT_04_2_RectangularColumnsReinforcementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CIT_04_2_RectangularColumnsReinforcement\CIT_04_2_RectangularColumnsReinforcementForm.Designer.cs">
+      <DependentUpon>CIT_04_2_RectangularColumnsReinforcementForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormRebarOutletsCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -193,6 +200,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CIT_04_1_SquareColumnsReinforcement\SquareСolumnTypeSelectionForm.resx">
       <DependentUpon>SquareСolumnTypeSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CIT_04_2_RectangularColumnsReinforcement\CIT_04_2_RectangularColumnsReinforcementForm.resx">
+      <DependentUpon>CIT_04_2_RectangularColumnsReinforcementForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FloorTypeSelectorForCapitalMaker.resx">
       <DependentUpon>FloorTypeSelectorForCapitalMaker.cs</DependentUpon>
