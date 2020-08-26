@@ -1036,8 +1036,8 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
 
                     //Копирование хомута
                     XYZ pointTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupSpacing);
-                    List<ElementId> columnRebarTopСlampIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownStirrup.Id, pointTopStirrupInstallation) as List<ElementId>;
-                    Element columnRebarTopStirrup = doc.GetElement(columnRebarTopСlampIdList.First());
+                    List<ElementId> columnRebarTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownStirrup.Id, pointTopStirrupInstallation) as List<ElementId>;
+                    Element columnRebarTopStirrup = doc.GetElement(columnRebarTopStirrupIdList.First());
 
                     //Высота размещения хомутов со стандартным шагом
                     double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset;
