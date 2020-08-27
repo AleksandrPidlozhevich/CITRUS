@@ -17,15 +17,25 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         public RebarBarType mySelectionMainBarTapeTwo;
         public RebarBarType mySelectionMainBarTapeThree;
         public RebarBarType mySelectionStirrupBarTape;
+        public RebarBarType mySelectionPinBarTape;
         public RebarCoverType mySelectionRebarCoverType;
 
         public int NumberOfBarsLRFaces = 0;
         public int NumberOfBarsTBFaces = 0;
+        public double RebarOutletsLengthLong = 0;
+        public double RebarOutletsLengthShort = 0;
+        public double FloorThicknessAboveColumn = 0;
+        public double StandardStirrupStep = 0;
+        public double IncreasedStirrupStep = 0;
+        public double FirstStirrupOffset = 0;
+        public double StirrupIncreasedPlacementHeight = 0;
+
 
         public CIT_04_2_RectangularColumnsReinforcementForm(List<RebarBarType> mainBarTapesOne
             , List<RebarBarType> mainBarTapesTwo
             , List<RebarBarType> mainBarTapesThree
             , List<RebarBarType> stirrupBarTapes
+            , List<RebarBarType> pinBarTapes
             , List<RebarCoverType> rebarCoverTypes)
         {
             InitializeComponent();
@@ -46,6 +56,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
             comboBox_StirrupBarTapes.DataSource = stirrupBarTapesForComboBox;
             comboBox_StirrupBarTapes.DisplayMember = "Name";
 
+            List<RebarBarType> pinBarTapesForComboBox = pinBarTapes;
+            comboBox_PinBarTapes.DataSource = pinBarTapesForComboBox;
+            comboBox_PinBarTapes.DisplayMember = "Name";
+
             List<RebarCoverType> rebarCoverTypesListForComboBox = rebarCoverTypes;
             comboBox_RebarCoverTypes.DataSource = rebarCoverTypesListForComboBox;
             comboBox_RebarCoverTypes.DisplayMember = "Name";
@@ -65,12 +79,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         {
             mySelectionMainBarTapeOne = comboBox_MainBarTapesOne.SelectedItem as RebarBarType;
         }
-
         private void comboBox_MainBarTapesTwo_SelectedIndexChanged(object sender, EventArgs e)
         {
             mySelectionMainBarTapeTwo = comboBox_MainBarTapesTwo.SelectedItem as RebarBarType;
         }
-
         private void comboBox_MainBarTapesThree_SelectedIndexChanged(object sender, EventArgs e)
         {
             mySelectionMainBarTapeThree = comboBox_MainBarTapesThree.SelectedItem as RebarBarType;
@@ -80,19 +92,49 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         {
             mySelectionStirrupBarTape = comboBox_StirrupBarTapes.SelectedItem as RebarBarType;
         }
+        private void comboBox_PinBarTapes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            mySelectionPinBarTape = comboBox_PinBarTapes.SelectedItem as RebarBarType;
+        }
         private void comboBox_RebarCoverTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
             mySelectionRebarCoverType = comboBox_RebarCoverTypes.SelectedItem as RebarCoverType;
         }
-
         private void textBox_NumberOfBarsLRFaces_TextChanged(object sender, EventArgs e)
         {
             Int32.TryParse(textBox_NumberOfBarsLRFaces.Text, out NumberOfBarsLRFaces);
         }
-
         private void textBox_NumberOfBarsTBFaces_TextChanged(object sender, EventArgs e)
         {
             Int32.TryParse(textBox_NumberOfBarsTBFaces.Text, out NumberOfBarsTBFaces);
+        }
+        private void textBox_RebarOutletsLengthLong_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_RebarOutletsLengthLong.Text, out RebarOutletsLengthLong);
+        }
+        private void textBox_RebarOutletsLengthShort_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_RebarOutletsLengthShort.Text, out RebarOutletsLengthShort);
+        }
+        private void textBox_FloorThicknessAboveColumn_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_FloorThicknessAboveColumn.Text, out FloorThicknessAboveColumn);
+        }
+        private void textBox_StandardStirrupStep_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_StandardStirrupStep.Text, out StandardStirrupStep);
+        }
+        private void textBox_IncreasedStirrupStep_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_IncreasedStirrupStep.Text, out IncreasedStirrupStep);
+        }
+        private void textBox_FirstStirrupOffset_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_FirstStirrupOffset.Text, out FirstStirrupOffset);
+        }
+        private void textBox_StirrupIncreasedPlacementHeight_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_StirrupIncreasedPlacementHeight.Text, out StirrupIncreasedPlacementHeight);
         }
     }
 }

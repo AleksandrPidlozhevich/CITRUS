@@ -37,11 +37,19 @@
             this.comboBox_MainBarTapesThree = new System.Windows.Forms.ComboBox();
             this.textBox_NumberOfBarsLRFaces = new System.Windows.Forms.TextBox();
             this.textBox_NumberOfBarsTBFaces = new System.Windows.Forms.TextBox();
+            this.comboBox_PinBarTapes = new System.Windows.Forms.ComboBox();
+            this.textBox_RebarOutletsLengthLong = new System.Windows.Forms.TextBox();
+            this.textBox_RebarOutletsLengthShort = new System.Windows.Forms.TextBox();
+            this.textBox_FirstStirrupOffset = new System.Windows.Forms.TextBox();
+            this.textBox_FloorThicknessAboveColumn = new System.Windows.Forms.TextBox();
+            this.textBox_StirrupIncreasedPlacementHeight = new System.Windows.Forms.TextBox();
+            this.textBox_StandardStirrupStep = new System.Windows.Forms.TextBox();
+            this.textBox_IncreasedStirrupStep = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btn_Ok
             // 
-            this.btn_Ok.Location = new System.Drawing.Point(184, 229);
+            this.btn_Ok.Location = new System.Drawing.Point(288, 374);
             this.btn_Ok.Name = "btn_Ok";
             this.btn_Ok.Size = new System.Drawing.Size(100, 25);
             this.btn_Ok.TabIndex = 0;
@@ -51,7 +59,7 @@
             // 
             // btn_Cancel
             // 
-            this.btn_Cancel.Location = new System.Drawing.Point(314, 229);
+            this.btn_Cancel.Location = new System.Drawing.Point(418, 374);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(100, 25);
             this.btn_Cancel.TabIndex = 1;
@@ -72,7 +80,7 @@
             // comboBox_StirrupBarTapes
             // 
             this.comboBox_StirrupBarTapes.FormattingEnabled = true;
-            this.comboBox_StirrupBarTapes.Location = new System.Drawing.Point(12, 65);
+            this.comboBox_StirrupBarTapes.Location = new System.Drawing.Point(12, 94);
             this.comboBox_StirrupBarTapes.Name = "comboBox_StirrupBarTapes";
             this.comboBox_StirrupBarTapes.Size = new System.Drawing.Size(121, 21);
             this.comboBox_StirrupBarTapes.Sorted = true;
@@ -82,7 +90,7 @@
             // comboBox_RebarCoverTypes
             // 
             this.comboBox_RebarCoverTypes.FormattingEnabled = true;
-            this.comboBox_RebarCoverTypes.Location = new System.Drawing.Point(12, 117);
+            this.comboBox_RebarCoverTypes.Location = new System.Drawing.Point(12, 178);
             this.comboBox_RebarCoverTypes.Name = "comboBox_RebarCoverTypes";
             this.comboBox_RebarCoverTypes.Size = new System.Drawing.Size(121, 21);
             this.comboBox_RebarCoverTypes.Sorted = true;
@@ -127,11 +135,92 @@
             this.textBox_NumberOfBarsTBFaces.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_NumberOfBarsTBFaces.TextChanged += new System.EventHandler(this.textBox_NumberOfBarsTBFaces_TextChanged);
             // 
+            // comboBox_PinBarTapes
+            // 
+            this.comboBox_PinBarTapes.FormattingEnabled = true;
+            this.comboBox_PinBarTapes.Location = new System.Drawing.Point(12, 126);
+            this.comboBox_PinBarTapes.Name = "comboBox_PinBarTapes";
+            this.comboBox_PinBarTapes.Size = new System.Drawing.Size(121, 21);
+            this.comboBox_PinBarTapes.Sorted = true;
+            this.comboBox_PinBarTapes.TabIndex = 9;
+            this.comboBox_PinBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_PinBarTapes_SelectedIndexChanged);
+            // 
+            // textBox_RebarOutletsLengthLong
+            // 
+            this.textBox_RebarOutletsLengthLong.Location = new System.Drawing.Point(293, 126);
+            this.textBox_RebarOutletsLengthLong.Name = "textBox_RebarOutletsLengthLong";
+            this.textBox_RebarOutletsLengthLong.Size = new System.Drawing.Size(100, 20);
+            this.textBox_RebarOutletsLengthLong.TabIndex = 10;
+            this.textBox_RebarOutletsLengthLong.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_RebarOutletsLengthLong.TextChanged += new System.EventHandler(this.textBox_RebarOutletsLengthLong_TextChanged);
+            // 
+            // textBox_RebarOutletsLengthShort
+            // 
+            this.textBox_RebarOutletsLengthShort.Location = new System.Drawing.Point(293, 152);
+            this.textBox_RebarOutletsLengthShort.Name = "textBox_RebarOutletsLengthShort";
+            this.textBox_RebarOutletsLengthShort.Size = new System.Drawing.Size(100, 20);
+            this.textBox_RebarOutletsLengthShort.TabIndex = 11;
+            this.textBox_RebarOutletsLengthShort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_RebarOutletsLengthShort.TextChanged += new System.EventHandler(this.textBox_RebarOutletsLengthShort_TextChanged);
+            // 
+            // textBox_FirstStirrupOffset
+            // 
+            this.textBox_FirstStirrupOffset.Location = new System.Drawing.Point(12, 316);
+            this.textBox_FirstStirrupOffset.Name = "textBox_FirstStirrupOffset";
+            this.textBox_FirstStirrupOffset.Size = new System.Drawing.Size(50, 20);
+            this.textBox_FirstStirrupOffset.TabIndex = 12;
+            this.textBox_FirstStirrupOffset.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_FirstStirrupOffset.TextChanged += new System.EventHandler(this.textBox_FirstStirrupOffset_TextChanged);
+            // 
+            // textBox_FloorThicknessAboveColumn
+            // 
+            this.textBox_FloorThicknessAboveColumn.Location = new System.Drawing.Point(12, 236);
+            this.textBox_FloorThicknessAboveColumn.Name = "textBox_FloorThicknessAboveColumn";
+            this.textBox_FloorThicknessAboveColumn.Size = new System.Drawing.Size(50, 20);
+            this.textBox_FloorThicknessAboveColumn.TabIndex = 13;
+            this.textBox_FloorThicknessAboveColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_FloorThicknessAboveColumn.TextChanged += new System.EventHandler(this.textBox_FloorThicknessAboveColumn_TextChanged);
+            // 
+            // textBox_StirrupIncreasedPlacementHeight
+            // 
+            this.textBox_StirrupIncreasedPlacementHeight.Location = new System.Drawing.Point(12, 342);
+            this.textBox_StirrupIncreasedPlacementHeight.Name = "textBox_StirrupIncreasedPlacementHeight";
+            this.textBox_StirrupIncreasedPlacementHeight.Size = new System.Drawing.Size(50, 20);
+            this.textBox_StirrupIncreasedPlacementHeight.TabIndex = 14;
+            this.textBox_StirrupIncreasedPlacementHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_StirrupIncreasedPlacementHeight.TextChanged += new System.EventHandler(this.textBox_StirrupIncreasedPlacementHeight_TextChanged);
+            // 
+            // textBox_StandardStirrupStep
+            // 
+            this.textBox_StandardStirrupStep.Location = new System.Drawing.Point(12, 262);
+            this.textBox_StandardStirrupStep.Name = "textBox_StandardStirrupStep";
+            this.textBox_StandardStirrupStep.Size = new System.Drawing.Size(50, 20);
+            this.textBox_StandardStirrupStep.TabIndex = 15;
+            this.textBox_StandardStirrupStep.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_StandardStirrupStep.TextChanged += new System.EventHandler(this.textBox_StandardStirrupStep_TextChanged);
+            // 
+            // textBox_IncreasedStirrupStep
+            // 
+            this.textBox_IncreasedStirrupStep.Location = new System.Drawing.Point(12, 288);
+            this.textBox_IncreasedStirrupStep.Name = "textBox_IncreasedStirrupStep";
+            this.textBox_IncreasedStirrupStep.Size = new System.Drawing.Size(50, 20);
+            this.textBox_IncreasedStirrupStep.TabIndex = 16;
+            this.textBox_IncreasedStirrupStep.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_IncreasedStirrupStep.TextChanged += new System.EventHandler(this.textBox_IncreasedStirrupStep_TextChanged);
+            // 
             // CIT_04_2_RectangularColumnsReinforcementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(426, 266);
+            this.ClientSize = new System.Drawing.Size(530, 411);
+            this.Controls.Add(this.textBox_IncreasedStirrupStep);
+            this.Controls.Add(this.textBox_StandardStirrupStep);
+            this.Controls.Add(this.textBox_StirrupIncreasedPlacementHeight);
+            this.Controls.Add(this.textBox_FloorThicknessAboveColumn);
+            this.Controls.Add(this.textBox_FirstStirrupOffset);
+            this.Controls.Add(this.textBox_RebarOutletsLengthShort);
+            this.Controls.Add(this.textBox_RebarOutletsLengthLong);
+            this.Controls.Add(this.comboBox_PinBarTapes);
             this.Controls.Add(this.textBox_NumberOfBarsTBFaces);
             this.Controls.Add(this.textBox_NumberOfBarsLRFaces);
             this.Controls.Add(this.comboBox_MainBarTapesThree);
@@ -159,5 +248,13 @@
         private System.Windows.Forms.ComboBox comboBox_MainBarTapesThree;
         private System.Windows.Forms.TextBox textBox_NumberOfBarsLRFaces;
         private System.Windows.Forms.TextBox textBox_NumberOfBarsTBFaces;
+        private System.Windows.Forms.ComboBox comboBox_PinBarTapes;
+        private System.Windows.Forms.TextBox textBox_RebarOutletsLengthLong;
+        private System.Windows.Forms.TextBox textBox_RebarOutletsLengthShort;
+        private System.Windows.Forms.TextBox textBox_FirstStirrupOffset;
+        private System.Windows.Forms.TextBox textBox_FloorThicknessAboveColumn;
+        private System.Windows.Forms.TextBox textBox_StirrupIncreasedPlacementHeight;
+        private System.Windows.Forms.TextBox textBox_StandardStirrupStep;
+        private System.Windows.Forms.TextBox textBox_IncreasedStirrupStep;
     }
 }
