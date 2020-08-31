@@ -362,5 +362,11 @@
   <ItemGroup>
     <None Include="Resources\ScheduleHost_Large.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\formRectangularColumnsReinforcement_3D.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\formRectangularColumnsReinforcement_Section.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

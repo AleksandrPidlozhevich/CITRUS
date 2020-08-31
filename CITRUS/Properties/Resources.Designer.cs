@@ -113,6 +113,26 @@ namespace CITRUS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap formRectangularColumnsReinforcement_3D {
+            get {
+                object obj = ResourceManager.GetObject("formRectangularColumnsReinforcement_3D", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap formRectangularColumnsReinforcement_Section {
+            get {
+                object obj = ResourceManager.GetObject("formRectangularColumnsReinforcement_Section", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap formSquareColumnsReinforcementType1_3D {
             get {
                 object obj = ResourceManager.GetObject("formSquareColumnsReinforcementType1_3D", resourceCulture);

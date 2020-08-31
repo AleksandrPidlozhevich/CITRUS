@@ -1021,7 +1021,7 @@ namespace CITRUS
                         XYZ pointStirrupInstallation2 = new XYZ(0, 0, -((mySelFloorThickness - offsetFromSlabBottom - 200 / 304.8)) / 2);
                         List<ElementId> outletsStirrup_2 = ElementTransformUtils.CopyElement(doc, outletsStirrup_1.Id, pointStirrupInstallation1) as List<ElementId>;
                         List<ElementId> outletsStirrup_3 = ElementTransformUtils.CopyElement(doc, outletsStirrup_1.Id, pointStirrupInstallation2) as List<ElementId>;
-                        
+
                         rebarIdCollection.Add(outletsStirrup_1.Id);
                         rebarIdCollection.Add(doc.GetElement(outletsStirrup_2.First()).Id);
                         rebarIdCollection.Add(doc.GetElement(outletsStirrup_3.First()).Id);
@@ -1125,7 +1125,7 @@ namespace CITRUS
                             , myStirrupCurves
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
-                        
+
                         //Копирование хомута
                         XYZ pointStirrupInstallation1 = new XYZ(0, 0, -(mySelFloorThickness - (offsetFromSlabBottom + 200 / 304.8)));
                         XYZ pointStirrupInstallation2 = new XYZ(0, 0, -((mySelFloorThickness - offsetFromSlabBottom - 200 / 304.8)) / 2);
