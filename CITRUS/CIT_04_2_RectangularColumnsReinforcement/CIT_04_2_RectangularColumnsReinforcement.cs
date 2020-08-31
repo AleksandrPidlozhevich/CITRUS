@@ -305,6 +305,9 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                     double stepBarsLRFacesForStirrup = 0;
                     double residueForOffsetForStirrup = 0;
 
+                    //Универсальная коллекция для формирования группы выпусков
+                    ICollection<ElementId> rebarIdCollection = new List<ElementId>();
+
                     //Если стыковка стержней в нахлест без изменения сечения колонны выше
                     if (checkedRebarOutletsButtonName == "radioButton_MainOverlappingRods")
                     {
@@ -372,6 +375,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         XYZ newPlaсeСolumnMainRebarLowerLeftСorner = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebarLowerLeftСorner.Id, newPlaсeСolumnMainRebarLowerLeftСorner);
 
+                        rebarIdCollection.Add(columnMainRebarLowerLeftСorner.Id);
+
                         //Верхний левый угол
                         if (numberOfBarsLRFaces % 2 != 0)
                         {
@@ -388,6 +393,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                             XYZ newPlaсeСolumnMainRebarUpperLeftСorner = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarUpperLeftСorner.Id, newPlaсeСolumnMainRebarUpperLeftСorner);
+
+                            rebarIdCollection.Add(columnMainRebarUpperLeftСorner.Id);
                         }
                         else if (numberOfBarsLRFaces % 2 == 0)
                         {
@@ -404,6 +411,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                             XYZ newPlaсeСolumnMainRebarUpperLeftСorner = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarUpperLeftСorner.Id, newPlaсeСolumnMainRebarUpperLeftСorner);
+
+                            rebarIdCollection.Add(columnMainRebarUpperLeftСorner.Id);
                         }
 
                         //Верхний правый угол
@@ -425,6 +434,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         XYZ newPlaсeColumnMainRebarUpperRightСorner = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebarUpperRightСorner.Id, newPlaсeColumnMainRebarUpperRightСorner);
 
+                        rebarIdCollection.Add(columnMainRebarUpperRightСorner.Id);
+
                         if (numberOfBarsLRFaces % 2 != 0)
                         {
                             //Нижний правый угол
@@ -442,6 +453,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             ElementTransformUtils.RotateElement(doc, columnMainRebarLowerRightСorner.Id, rotateLine, 180 * (Math.PI / 180));
                             XYZ newPlaсeColumnMainRebarLowerRightСorner = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarLowerRightСorner.Id, newPlaсeColumnMainRebarLowerRightСorner);
+
+                            rebarIdCollection.Add(columnMainRebarLowerRightСorner.Id);
                         }
 
                         if (numberOfBarsLRFaces % 2 == 0)
@@ -461,6 +474,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             ElementTransformUtils.RotateElement(doc, columnMainRebarLowerRightСorner.Id, rotateLine, 180 * (Math.PI / 180));
                             XYZ newPlaсeColumnMainRebarLowerRightСorner = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarLowerRightСorner.Id, newPlaсeColumnMainRebarLowerRightСorner);
+
+                            rebarIdCollection.Add(columnMainRebarLowerRightСorner.Id);
                         }
 #endregion
 
@@ -550,6 +565,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             }
                             columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
 
+                            rebarIdCollection.Add(columnMainRebarLeftFaceLong.Id);
+
                             if (numberOfBarsLRFaces > 3)
                             {
                                 //Левая грань длинные
@@ -579,6 +596,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsLRFaces - 2) / 2)));
                                 }
                                 columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
+
+                                rebarIdCollection.Add(columnMainRebarLeftFaceShort.Id);
                             }
 
                             //Правая грань короткий
@@ -609,6 +628,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             }
                             columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
 
+                            rebarIdCollection.Add(columnMainRebarRightFaceShort.Id);
+
                             if (numberOfBarsLRFaces > 3)
                             {
                                 //Правая грань длинный
@@ -638,6 +659,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsLRFaces - 2) / 2)));
                                 }
                                 columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
+
+                                rebarIdCollection.Add(columnMainRebarRightFaceLong.Id);
                             }
                         }
 #endregion
@@ -726,6 +749,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             }
                             columnMainRebarBottomFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
 
+                            rebarIdCollection.Add(columnMainRebarBottomFaceShort.Id);
+
                             if (numberOfBarsTBFaces > 3)
                             {
                                 //Нижняя грань длинные
@@ -754,6 +779,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsTBFaces - 2) / 2)));
                                 }
                                 columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
+
+                                rebarIdCollection.Add(columnMainRebarBottomFaceLong.Id);
                             }
 
                             //Верхняя грань короткие
@@ -784,6 +811,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             }
                             columnMainRebarTopFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
 
+                            rebarIdCollection.Add(columnMainRebarTopFaceShort.Id);
+
                             if (numberOfBarsTBFaces > 3)
                             {
                                 //Верхняя грань длинные
@@ -813,6 +842,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsTBFaces - 2) / 2)));
                                 }
                                 columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
+
+                                rebarIdCollection.Add(columnMainRebarTopFaceLong.Id);
                             }
                         }
 
@@ -858,10 +889,12 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                         XYZ newPlaсeСolumnMainRebarLowerLeftСorner = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebarLowerLeftСorner.Id, newPlaсeСolumnMainRebarLowerLeftСorner);
+                        rebarIdCollection.Add(columnMainRebarLowerLeftСorner.Id);
 
                         FamilyInstance tubWeldingLowerLeftСorner = doc.Create.NewFamilyInstance(longTubWeldingOne_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWeldingLowerLeftСorner.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeOne);
                         ElementTransformUtils.MoveElement(doc, tubWeldingLowerLeftСorner.Id, newPlaсeСolumnMainRebarLowerLeftСorner);
+                        rebarIdCollection.Add(tubWeldingLowerLeftСorner.Id);
 
                         //Верхний левый угол
                         if (numberOfBarsLRFaces % 2 != 0)
@@ -879,10 +912,12 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                             XYZ newPlaсeСolumnMainRebarUpperLeftСorner = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarUpperLeftСorner.Id, newPlaсeСolumnMainRebarUpperLeftСorner);
+                            rebarIdCollection.Add(columnMainRebarUpperLeftСorner.Id);
 
                             FamilyInstance tubWeldingUpperLeftСorner = doc.Create.NewFamilyInstance(longTubWeldingOne_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                             tubWeldingUpperLeftСorner.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeOne);
                             ElementTransformUtils.MoveElement(doc, tubWeldingUpperLeftСorner.Id, newPlaсeСolumnMainRebarUpperLeftСorner);
+                            rebarIdCollection.Add(tubWeldingUpperLeftСorner.Id);
                         }
                         else if (numberOfBarsLRFaces % 2 == 0)
                         {
@@ -899,10 +934,12 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                             XYZ newPlaсeСolumnMainRebarUpperLeftСorner = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarUpperLeftСorner.Id, newPlaсeСolumnMainRebarUpperLeftСorner);
+                            rebarIdCollection.Add(columnMainRebarUpperLeftСorner.Id);
 
                             FamilyInstance tubWeldingUpperLeftСorner = doc.Create.NewFamilyInstance(shortTubWeldingOne_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                             tubWeldingUpperLeftСorner.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeOne);
                             ElementTransformUtils.MoveElement(doc, tubWeldingUpperLeftСorner.Id, newPlaсeСolumnMainRebarUpperLeftСorner);
+                            rebarIdCollection.Add(tubWeldingUpperLeftСorner.Id);
                         }
 
                         //Верхний правый угол
@@ -923,10 +960,12 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebarUpperRightСorner.Id, rotateLine, 180 * (Math.PI / 180));
                         XYZ newPlaсeColumnMainRebarUpperRightСorner = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebarUpperRightСorner.Id, newPlaсeColumnMainRebarUpperRightСorner);
+                        rebarIdCollection.Add(columnMainRebarUpperRightСorner.Id);
 
                         FamilyInstance tubWeldingUpperRightСorner = doc.Create.NewFamilyInstance(longTubWeldingOne_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWeldingUpperRightСorner.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeOne);
                         ElementTransformUtils.MoveElement(doc, tubWeldingUpperRightСorner.Id, newPlaсeColumnMainRebarUpperRightСorner);
+                        rebarIdCollection.Add(tubWeldingUpperRightСorner.Id);
 
                         if (numberOfBarsLRFaces % 2 != 0)
                         {
@@ -945,10 +984,12 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             ElementTransformUtils.RotateElement(doc, columnMainRebarLowerRightСorner.Id, rotateLine, 180 * (Math.PI / 180));
                             XYZ newPlaсeColumnMainRebarLowerRightСorner = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarLowerRightСorner.Id, newPlaсeColumnMainRebarLowerRightСorner);
+                            rebarIdCollection.Add(columnMainRebarLowerRightСorner.Id);
 
                             FamilyInstance tubWeldingLowerRightСorner = doc.Create.NewFamilyInstance(longTubWeldingOne_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                             tubWeldingLowerRightСorner.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeOne);
                             ElementTransformUtils.MoveElement(doc, tubWeldingLowerRightСorner.Id, newPlaсeColumnMainRebarLowerRightСorner);
+                            rebarIdCollection.Add(tubWeldingLowerRightСorner.Id);
                         }
 
                         if (numberOfBarsLRFaces % 2 == 0)
@@ -968,10 +1009,12 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             ElementTransformUtils.RotateElement(doc, columnMainRebarLowerRightСorner.Id, rotateLine, 180 * (Math.PI / 180));
                             XYZ newPlaсeColumnMainRebarLowerRightСorner = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarLowerRightСorner.Id, newPlaсeColumnMainRebarLowerRightСorner);
+                            rebarIdCollection.Add(columnMainRebarLowerRightСorner.Id);
 
                             FamilyInstance tubWeldingLowerRightСorner = doc.Create.NewFamilyInstance(shortTubWeldingOne_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                             tubWeldingLowerRightСorner.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeOne);
                             ElementTransformUtils.MoveElement(doc, tubWeldingLowerRightСorner.Id, newPlaсeColumnMainRebarLowerRightСorner);
+                            rebarIdCollection.Add(tubWeldingLowerRightСorner.Id);
                         }
 #endregion
 
@@ -1032,12 +1075,14 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 FamilyInstance tubWeldingLeftFaceShort = doc.Create.NewFamilyInstance(shortTubWeldingTwo_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                 tubWeldingLeftFaceShort.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeTwo);
                                 ElementTransformUtils.MoveElement(doc, tubWeldingLeftFaceShort.Id, newPlaсeСolumnMainRebarLeftFaceShort);
+                                rebarIdCollection.Add(tubWeldingLeftFaceShort.Id);
 
                                 for (int i =1; i< (numberOfBarsLRFaces - 2) / 2; i++)
                                 {
                                     XYZ pointTubWeldingInstallationLeftFaceShort = new XYZ(0, (stepBarsLRFaces * 2) * i, 0);
                                     List<ElementId> newTubWeldingLeftFaceShortIdList = ElementTransformUtils.CopyElement(doc, tubWeldingLeftFaceShort.Id, pointTubWeldingInstallationLeftFaceShort) as List<ElementId>;
                                     Element newTubWeldingLeftFaceShort = doc.GetElement(newTubWeldingLeftFaceShortIdList.First());
+                                    rebarIdCollection.Add(newTubWeldingLeftFaceShort.Id);
                                 }
                             }
                             if (numberOfBarsLRFaces % 2 != 0)
@@ -1047,18 +1092,21 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 FamilyInstance tubWeldingLeftFaceShort = doc.Create.NewFamilyInstance(shortTubWeldingTwo_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                 tubWeldingLeftFaceShort.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeTwo);
                                 ElementTransformUtils.MoveElement(doc, tubWeldingLeftFaceShort.Id, newPlaсeСolumnMainRebarLeftFaceShort);
+                                rebarIdCollection.Add(tubWeldingLeftFaceShort.Id);
 
                                 for (int i = 1; i <= (numberOfBarsLRFaces - 2) / 2; i++)
                                 {
                                     XYZ pointTubWeldingInstallationLeftFaceShort = new XYZ(0, (stepBarsLRFaces * 2) * i, 0);
                                     List<ElementId> newTubWeldingLeftFaceShortIdList = ElementTransformUtils.CopyElement(doc, tubWeldingLeftFaceShort.Id, pointTubWeldingInstallationLeftFaceShort) as List<ElementId>;
                                     Element newTubWeldingLeftFaceShort = doc.GetElement(newTubWeldingLeftFaceShortIdList.First());
+                                    rebarIdCollection.Add(newTubWeldingLeftFaceShort.Id);
                                 }
                             }
                             if (columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
                             {
                                 columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
                             }
+                            rebarIdCollection.Add(columnMainRebarLeftFaceShort.Id);
 
                             if (numberOfBarsLRFaces > 3)
                             {
@@ -1087,12 +1135,14 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     FamilyInstance tubWeldingLeftFaceLong = doc.Create.NewFamilyInstance(longTubWeldingTwo_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                     tubWeldingLeftFaceLong.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeTwo);
                                     ElementTransformUtils.MoveElement(doc, tubWeldingLeftFaceLong.Id, newPlaсeСolumnMainRebarLeftFaceLong);
+                                    rebarIdCollection.Add(tubWeldingLeftFaceLong.Id);
 
                                     for (int i = 1; i < (numberOfBarsLRFaces - 2) / 2; i++)
                                     {
                                         XYZ pointTubWeldingInstallationLeftFaceLong = new XYZ(0, (stepBarsLRFaces * 2) * i, 0);
                                         List<ElementId> newTubWeldingLeftFaceLongIdList = ElementTransformUtils.CopyElement(doc, tubWeldingLeftFaceLong.Id, pointTubWeldingInstallationLeftFaceLong) as List<ElementId>;
                                         Element newTubWeldingLeftFaceLong = doc.GetElement(newTubWeldingLeftFaceLongIdList.First());
+                                        rebarIdCollection.Add(newTubWeldingLeftFaceLong.Id);
                                     }
 
                                 }
@@ -1103,18 +1153,21 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     FamilyInstance tubWeldingLeftFaceLong = doc.Create.NewFamilyInstance(longTubWeldingTwo_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                     tubWeldingLeftFaceLong.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeTwo);
                                     ElementTransformUtils.MoveElement(doc, tubWeldingLeftFaceLong.Id, newPlaсeСolumnMainRebarLeftFaceLong);
+                                    rebarIdCollection.Add(tubWeldingLeftFaceLong.Id);
 
                                     for (int i = 1; i < (numberOfBarsLRFaces - 2) / 2; i++)
                                     {
                                         XYZ pointTubWeldingInstallationLeftFaceLong = new XYZ(0, (stepBarsLRFaces * 2) * i, 0);
                                         List<ElementId> newTubWeldingLeftFaceLongIdList = ElementTransformUtils.CopyElement(doc, tubWeldingLeftFaceLong.Id, pointTubWeldingInstallationLeftFaceLong) as List<ElementId>;
                                         Element newTubWeldingLeftFaceLong = doc.GetElement(newTubWeldingLeftFaceLongIdList.First());
+                                        rebarIdCollection.Add(newTubWeldingLeftFaceLong.Id);
                                     }
                                 }
                                 if (columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
                                 {
                                     columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
                                 }
+                                rebarIdCollection.Add(columnMainRebarLeftFaceLong.Id);
                             }
 
                             //Правая грань короткий
@@ -1142,12 +1195,14 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 FamilyInstance tubWeldingRightFaceShort = doc.Create.NewFamilyInstance(shortTubWeldingTwo_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                 tubWeldingRightFaceShort.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeTwo);
                                 ElementTransformUtils.MoveElement(doc, tubWeldingRightFaceShort.Id, newPlaсeColumnMainRebarRightFaceShort);
+                                rebarIdCollection.Add(tubWeldingRightFaceShort.Id);
 
                                 for (int i = 1; i < (numberOfBarsLRFaces - 2) / 2; i++)
                                 {
                                     XYZ pointTubWeldingInstallationRightFaceShort = new XYZ(0, (-stepBarsLRFaces * 2) * i, 0);
                                     List<ElementId> newTubWeldingRightFaceShortIdList = ElementTransformUtils.CopyElement(doc, tubWeldingRightFaceShort.Id, pointTubWeldingInstallationRightFaceShort) as List<ElementId>;
                                     Element newTubWeldingRightFaceShort = doc.GetElement(newTubWeldingRightFaceShortIdList.First());
+                                    rebarIdCollection.Add(newTubWeldingRightFaceShort.Id);
                                 }
                             }
                             if (numberOfBarsLRFaces % 2 != 0)
@@ -1157,18 +1212,21 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 FamilyInstance tubWeldingRightFaceShort = doc.Create.NewFamilyInstance(shortTubWeldingTwo_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                 tubWeldingRightFaceShort.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeTwo);
                                 ElementTransformUtils.MoveElement(doc, tubWeldingRightFaceShort.Id, newPlaсeColumnMainRebarRightFaceShort);
+                                rebarIdCollection.Add(tubWeldingRightFaceShort.Id);
 
                                 for (int i = 1; i <= (numberOfBarsLRFaces - 2) / 2; i++)
                                 {
                                     XYZ pointTubWeldingInstallationRightFaceShort = new XYZ(0, (-stepBarsLRFaces * 2) * i, 0);
                                     List<ElementId> newTubWeldingRightFaceShortIdList = ElementTransformUtils.CopyElement(doc, tubWeldingRightFaceShort.Id, pointTubWeldingInstallationRightFaceShort) as List<ElementId>;
                                     Element newTubWeldingRightFaceShort = doc.GetElement(newTubWeldingRightFaceShortIdList.First());
+                                    rebarIdCollection.Add(newTubWeldingRightFaceShort.Id);
                                 }
                             }
                             if (columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
                             {
                                 columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
                             }
+                            rebarIdCollection.Add(columnMainRebarRightFaceShort.Id);
 
                             if (numberOfBarsLRFaces > 3)
                             {
@@ -1197,12 +1255,14 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     FamilyInstance tubWeldingRightFaceLong = doc.Create.NewFamilyInstance(longTubWeldingTwo_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                     tubWeldingRightFaceLong.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeTwo);
                                     ElementTransformUtils.MoveElement(doc, tubWeldingRightFaceLong.Id, newPlaсeColumnMainRebarRightFaceLong);
+                                    rebarIdCollection.Add(tubWeldingRightFaceLong.Id);
 
                                     for (int i = 1; i < (numberOfBarsLRFaces - 2) / 2; i++)
                                     {
                                         XYZ pointTubWeldingInstallationRightFaceLong = new XYZ(0, (-stepBarsLRFaces * 2) * i, 0);
                                         List<ElementId> newTubWeldingRightFaceLongIdList = ElementTransformUtils.CopyElement(doc, tubWeldingRightFaceLong.Id, pointTubWeldingInstallationRightFaceLong) as List<ElementId>;
                                         Element newTubWeldingRightFaceLong = doc.GetElement(newTubWeldingRightFaceLongIdList.First());
+                                        rebarIdCollection.Add(newTubWeldingRightFaceLong.Id);
                                     }
                                 }
                                 if (numberOfBarsLRFaces % 2 != 0)
@@ -1212,18 +1272,21 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     FamilyInstance tubWeldingRightFaceLong = doc.Create.NewFamilyInstance(longTubWeldingTwo_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                     tubWeldingRightFaceLong.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeTwo);
                                     ElementTransformUtils.MoveElement(doc, tubWeldingRightFaceLong.Id, newPlaсeColumnMainRebarRightFaceLong);
+                                    rebarIdCollection.Add(tubWeldingRightFaceLong.Id);
 
                                     for (int i = 1; i < (numberOfBarsLRFaces - 2) / 2; i++)
                                     {
                                         XYZ pointTubWeldingInstallationRightFaceLong = new XYZ(0, (-stepBarsLRFaces * 2) * i, 0);
                                         List<ElementId> newTubWeldingRightFaceLongIdList = ElementTransformUtils.CopyElement(doc, tubWeldingRightFaceLong.Id, pointTubWeldingInstallationRightFaceLong) as List<ElementId>;
                                         Element newTubWeldingRightFaceLong = doc.GetElement(newTubWeldingRightFaceLongIdList.First());
+                                        rebarIdCollection.Add(newTubWeldingRightFaceLong.Id);
                                     }
                                 }
                                 if (columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
                                 {
                                     columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
                                 }
+                                rebarIdCollection.Add(columnMainRebarRightFaceLong.Id);
                             }
                         }
 #endregion
@@ -1283,12 +1346,14 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 FamilyInstance tubWeldingBottomFaceShort = doc.Create.NewFamilyInstance(shortTubWeldingThree_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                 tubWeldingBottomFaceShort.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeThree);
                                 ElementTransformUtils.MoveElement(doc, tubWeldingBottomFaceShort.Id, newPlaсeСolumnMainRebarBottomFaceShort);
+                                rebarIdCollection.Add(tubWeldingBottomFaceShort.Id);
 
                                 for (int i = 1; i < (numberOfBarsTBFaces - 2) / 2; i++)
                                 {
                                     XYZ pointTubWeldingInstallationBottomFaceShort = new XYZ((stepBarsTBFaces * 2) * i, 0, 0);
                                     List<ElementId> newTubWeldingBottomFaceShortIdList = ElementTransformUtils.CopyElement(doc, tubWeldingBottomFaceShort.Id, pointTubWeldingInstallationBottomFaceShort) as List<ElementId>;
                                     Element newTubWeldingBottomFaceShort = doc.GetElement(newTubWeldingBottomFaceShortIdList.First());
+                                    rebarIdCollection.Add(newTubWeldingBottomFaceShort.Id);
                                 }
                             }
 
@@ -1299,18 +1364,21 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 FamilyInstance tubWeldingBottomFaceShort = doc.Create.NewFamilyInstance(shortTubWeldingThree_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                 tubWeldingBottomFaceShort.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeThree);
                                 ElementTransformUtils.MoveElement(doc, tubWeldingBottomFaceShort.Id, newPlaсeСolumnMainRebarBottomFaceShort);
+                                rebarIdCollection.Add(tubWeldingBottomFaceShort.Id);
 
                                 for (int i = 1; i <= (numberOfBarsTBFaces - 2) / 2; i++)
                                 {
                                     XYZ pointTubWeldingInstallationBottomFaceShort = new XYZ((stepBarsTBFaces * 2) * i, 0, 0);
                                     List<ElementId> newTubWeldingBottomFaceShortIdList = ElementTransformUtils.CopyElement(doc, tubWeldingBottomFaceShort.Id, pointTubWeldingInstallationBottomFaceShort) as List<ElementId>;
                                     Element newTubWeldingBottomFaceShort = doc.GetElement(newTubWeldingBottomFaceShortIdList.First());
+                                    rebarIdCollection.Add(newTubWeldingBottomFaceShort.Id);
                                 }
                             }
                             if (columnMainRebarBottomFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
                             {
                                 columnMainRebarBottomFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
                             }
+                            rebarIdCollection.Add(columnMainRebarBottomFaceShort.Id);
 
                             if (numberOfBarsTBFaces > 3)
                             {
@@ -1338,12 +1406,14 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     FamilyInstance tubWeldingBottomFaceLong = doc.Create.NewFamilyInstance(longTubWeldingThree_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                     tubWeldingBottomFaceLong.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeThree);
                                     ElementTransformUtils.MoveElement(doc, tubWeldingBottomFaceLong.Id, newPlaсeСolumnMainRebarBottomFaceLong);
+                                    rebarIdCollection.Add(tubWeldingBottomFaceLong.Id);
 
                                     for (int i = 1; i < (numberOfBarsTBFaces - 2) / 2; i++)
                                     {
                                         XYZ pointTubWeldingInstallationBottomFaceLong = new XYZ((stepBarsTBFaces * 2) * i, 0, 0);
                                         List<ElementId> newTubWeldingBottomFaceLongIdList = ElementTransformUtils.CopyElement(doc, tubWeldingBottomFaceLong.Id, pointTubWeldingInstallationBottomFaceLong) as List<ElementId>;
                                         Element newTubWeldingBottomFaceLong = doc.GetElement(newTubWeldingBottomFaceLongIdList.First());
+                                        rebarIdCollection.Add(newTubWeldingBottomFaceLong.Id);
                                     }
                                 }
                                 if (numberOfBarsTBFaces % 2 != 0)
@@ -1353,18 +1423,21 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     FamilyInstance tubWeldingBottomFaceLong = doc.Create.NewFamilyInstance(longTubWeldingThree_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                     tubWeldingBottomFaceLong.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeThree);
                                     ElementTransformUtils.MoveElement(doc, tubWeldingBottomFaceLong.Id, newPlaсeСolumnMainRebarBottomFaceLong);
+                                    rebarIdCollection.Add(tubWeldingBottomFaceLong.Id);
 
                                     for (int i = 1; i < (numberOfBarsTBFaces - 2) / 2; i++)
                                     {
                                         XYZ pointTubWeldingInstallationBottomFaceLong = new XYZ((stepBarsTBFaces * 2) * i,0 , 0);
                                         List<ElementId> newTubWeldingBottomFaceLongIdList = ElementTransformUtils.CopyElement(doc, tubWeldingBottomFaceLong.Id, pointTubWeldingInstallationBottomFaceLong) as List<ElementId>;
                                         Element newTubWeldingBottomFaceLong = doc.GetElement(newTubWeldingBottomFaceLongIdList.First());
+                                        rebarIdCollection.Add(newTubWeldingBottomFaceLong.Id);
                                     }
                                 }
                                 if (columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
                                 {
                                     columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
                                 }
+                                rebarIdCollection.Add(columnMainRebarBottomFaceLong.Id);
                             }
 
                             //Верхняя грань короткие
@@ -1392,12 +1465,14 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 FamilyInstance tubWeldingTopFaceShort = doc.Create.NewFamilyInstance(shortTubWeldingThree_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                 tubWeldingTopFaceShort.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeThree);
                                 ElementTransformUtils.MoveElement(doc, tubWeldingTopFaceShort.Id, newPlaсeСolumnMainRebarTopFaceShort);
+                                rebarIdCollection.Add(tubWeldingTopFaceShort.Id);
 
                                 for (int i = 1; i < (numberOfBarsTBFaces - 2) / 2; i++)
                                 {
                                     XYZ pointTubWeldingInstallationTopFaceShort = new XYZ((-stepBarsTBFaces * 2) * i, 0, 0);
                                     List<ElementId> newTubWeldingTopFaceShortIdList = ElementTransformUtils.CopyElement(doc, tubWeldingTopFaceShort.Id, pointTubWeldingInstallationTopFaceShort) as List<ElementId>;
                                     Element newTubWeldingTopFaceShort = doc.GetElement(newTubWeldingTopFaceShortIdList.First());
+                                    rebarIdCollection.Add(newTubWeldingTopFaceShort.Id);
                                 }
                             }
                             if (numberOfBarsTBFaces % 2 != 0)
@@ -1407,18 +1482,21 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 FamilyInstance tubWeldingTopFaceShort = doc.Create.NewFamilyInstance(shortTubWeldingThree_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                 tubWeldingTopFaceShort.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeThree);
                                 ElementTransformUtils.MoveElement(doc, tubWeldingTopFaceShort.Id, newPlaсeСolumnMainRebarTopFaceShort);
+                                rebarIdCollection.Add(tubWeldingTopFaceShort.Id);
 
                                 for (int i = 1; i <= (numberOfBarsTBFaces - 2) / 2; i++)
                                 {
                                     XYZ pointTubWeldingInstallationTopFaceShort = new XYZ((-stepBarsTBFaces * 2) * i, 0, 0);
                                     List<ElementId> newTubWeldingTopFaceShortIdList = ElementTransformUtils.CopyElement(doc, tubWeldingTopFaceShort.Id, pointTubWeldingInstallationTopFaceShort) as List<ElementId>;
                                     Element newTubWeldingTopFaceShort = doc.GetElement(newTubWeldingTopFaceShortIdList.First());
+                                    rebarIdCollection.Add(newTubWeldingTopFaceShort.Id);
                                 }
                             }
                             if (columnMainRebarTopFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
                             {
                                 columnMainRebarTopFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
                             }
+                            rebarIdCollection.Add(columnMainRebarTopFaceShort.Id);
 
                             if (numberOfBarsTBFaces > 3)
                             {
@@ -1447,12 +1525,14 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     FamilyInstance tubWeldingTopFaceLong = doc.Create.NewFamilyInstance(longTubWeldingThree_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                     tubWeldingTopFaceLong.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeThree);
                                     ElementTransformUtils.MoveElement(doc, tubWeldingTopFaceLong.Id, newPlaсeСolumnMainRebarTopFaceLong);
+                                    rebarIdCollection.Add(tubWeldingTopFaceLong.Id);
 
                                     for (int i = 1; i < (numberOfBarsTBFaces - 2) / 2; i++)
                                     {
                                         XYZ pointTubWeldingInstallationTopFaceLong = new XYZ((-stepBarsTBFaces * 2) * i, 0, 0);
                                         List<ElementId> newTubWeldingTopFaceLongIdList = ElementTransformUtils.CopyElement(doc, tubWeldingTopFaceLong.Id, pointTubWeldingInstallationTopFaceLong) as List<ElementId>;
                                         Element newTubWeldingTopFaceLong = doc.GetElement(newTubWeldingTopFaceLongIdList.First());
+                                        rebarIdCollection.Add(newTubWeldingTopFaceLong.Id);
                                     }
                                 }
                                 if (numberOfBarsTBFaces % 2 != 0)
@@ -1462,19 +1542,21 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     FamilyInstance tubWeldingTopFaceLong = doc.Create.NewFamilyInstance(longTubWeldingThree_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                                     tubWeldingTopFaceLong.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeThree);
                                     ElementTransformUtils.MoveElement(doc, tubWeldingTopFaceLong.Id, newPlaсeСolumnMainRebarTopFaceLong);
+                                    rebarIdCollection.Add(tubWeldingTopFaceLong.Id);
 
                                     for (int i = 1; i < (numberOfBarsTBFaces - 2) / 2; i++)
                                     {
                                         XYZ pointTubWeldingInstallationTopFaceLong = new XYZ((-stepBarsTBFaces * 2) * i, 0, 0);
                                         List<ElementId> newTubWeldingTopFaceLongIdList = ElementTransformUtils.CopyElement(doc, tubWeldingTopFaceLong.Id, pointTubWeldingInstallationTopFaceLong) as List<ElementId>;
                                         Element newTubWeldingTopFaceLong = doc.GetElement(newTubWeldingTopFaceLongIdList.First());
+                                        rebarIdCollection.Add(newTubWeldingTopFaceLong.Id);
                                     }
                                 }
                                 if (columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
                                 {
                                     columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
                                 }
-
+                                rebarIdCollection.Add(columnMainRebarTopFaceLong.Id);
                             }
                         }
 
@@ -1539,6 +1621,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         columnRebarFirstDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
                         columnRebarFirstDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
 
+                        rebarIdCollection.Add(columnRebarFirstDownStirrup.Id);
+
                         //Копирование хомута 1
                         XYZ pointFirstTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
                         List<ElementId> columnRebarFirstTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarFirstDownStirrup.Id, pointFirstTopStirrupInstallation) as List<ElementId>;
@@ -1551,6 +1635,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
                         columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
                         columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+
+                        rebarIdCollection.Add(columnRebarFirstTopStirrup.Id);
 
                         //Точки для построения кривых стержня хомута 2
                         XYZ rebarStirrupSecond_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - stirrupRebarDiam / 2, 6)
@@ -1607,6 +1693,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         columnRebarSecondDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
                         columnRebarSecondDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
 
+                        rebarIdCollection.Add(columnRebarSecondDownStirrup.Id);
+
                         //Копирование хомута 2
                         XYZ pointSecondTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
                         List<ElementId> columnRebarSecondTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarSecondDownStirrup.Id, pointSecondTopStirrupInstallation) as List<ElementId>;
@@ -1615,6 +1703,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
                         columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
                         columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+
+                        rebarIdCollection.Add(columnRebarSecondTopStirrup.Id);
                     }
 
                     if (numberOfBarsLRFaces <= 5)
@@ -1660,6 +1750,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         columnRebarDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
                         columnRebarDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
 
+                        rebarIdCollection.Add(columnRebarDownStirrup.Id);
+
                         //Копирование хомута
                         XYZ pointTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + increasedStirrupStep);
                         List<ElementId> columnRebarTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownStirrup.Id, pointTopStirrupInstallation) as List<ElementId>;
@@ -1672,6 +1764,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
                         columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemStandardQuantity);
                         columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+
+                        rebarIdCollection.Add(columnRebarTopStirrup.Id);
                     }
 
                     if (numberOfBarsLRFaces > 7)
@@ -1708,6 +1802,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         columnRebarDownPin.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
                         columnRebarDownPin.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
 
+                        rebarIdCollection.Add(columnRebarDownPin.Id);
+
                         //Высота размещения хомутов со стандартным шагом
                         double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset;
                         int stirrupBarElemStandardQuantity = (int)(StirrupStandardInstallationHeigh / standardStirrupStep);
@@ -1721,6 +1817,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         columnRebarTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
                         columnRebarTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
 
+                        rebarIdCollection.Add(columnRebarTopPin.Id);
+
                         if (numberOfBarsLRFaces > 9)
                         {
                             int n = (numberOfBarsLRFaces - 8) / 2; // Необходимое кол-во копий шпильки
@@ -1730,13 +1828,39 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 List<ElementId> newColumnRebarDownPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownPin.Id, pointPinInstallation) as List<ElementId>;
                                 Element newColumnRebarDownPin = doc.GetElement(newColumnRebarDownPinIdList.First());
 
+                                rebarIdCollection.Add(newColumnRebarDownPin.Id);
+
                                 List<ElementId> newColumnRebarTopPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarTopPin.Id, pointPinInstallation) as List<ElementId>;
-                                Element newColumnRebarTopPin = doc.GetElement(newColumnRebarDownPinIdList.First());
+                                Element newColumnRebarTopPin = doc.GetElement(newColumnRebarTopPinIdList.First());
+
+                                rebarIdCollection.Add(newColumnRebarTopPin.Id);
                             }
                         }
                     }
-
 #endregion
+                    List<Group> projectGroupList = new FilteredElementCollector(doc).OfClass(typeof(Group)).Cast<Group>().ToList();
+                    if (projectGroupList.Any(g => g.GroupType.Name == myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString()))
+                    {
+                        TaskDialog.Show("Revit", "Группа с имененм "
+                            + myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString()
+                            + " уже существует!\nБыли созданы отдельные стержни колонны без группировки!"); ;
+                        continue;
+                    }
+                    else
+                    {
+                        Group newOutletsGroup = doc.Create.NewGroup(rebarIdCollection);
+                        if (myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString() == null || myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString() == "")
+                        {
+                            TaskDialog.Show("Revit", "У колонны отсутствует марка!" 
+                                + "\nИмя группы по умолчанию - " + newOutletsGroup.GroupType.Name);
+                        }
+                        else
+                        {
+                            newOutletsGroup.GroupType.Name = myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString();
+                        }
+                        
+                    }
+
                 }
                 t.Commit();
             }
