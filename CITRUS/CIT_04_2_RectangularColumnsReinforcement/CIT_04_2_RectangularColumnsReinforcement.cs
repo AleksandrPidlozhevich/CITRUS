@@ -295,7 +295,6 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                     Line rotationAxis = Line.CreateBound(rotationPoint1, rotationPoint2);
                     //Завершение блока сбора параметров колонны
 #endregion
-
                     //Старт блока задания параметра защитного слоя боковых граней колонны
                     //Защитный слой арматуры боковых граней
                     Parameter clearCoverOther = myColumn.get_Parameter(BuiltInParameter.CLEAR_COVER_OTHER);
@@ -819,10 +818,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
 #endregion
                     }
-
                     //Если стыковка стержней на сварке без изменения сечения колонны выше
                     if (checkedRebarOutletsButtonName == "radioButton_MainWeldingRods")
                     {
+#region Угловые стержни
                         //Точки для построения кривых стержня один длинного
                         XYZ mainRebarTypeOneLong_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z + rebarOutletsLengthLong, 6));
                         XYZ mainRebarTypeOneLong_p2 = new XYZ(Math.Round(mainRebarTypeOneLong_p1.X, 6), Math.Round(mainRebarTypeOneLong_p1.Y, 6), Math.Round(mainRebarTypeOneLong_p1.Z + columnLength + floorThicknessAboveColumn, 6));
@@ -974,6 +973,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             tubWeldingLowerRightСorner.LookupParameter("Диаметр стержня").Set(mainRebarDiamTypeOne);
                             ElementTransformUtils.MoveElement(doc, tubWeldingLowerRightСorner.Id, newPlaсeColumnMainRebarLowerRightСorner);
                         }
+#endregion
 
 #region Стержни по левой и правой граням
                         if (numberOfBarsLRFaces >= 3)
@@ -1479,9 +1479,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         }
 
 #endregion
-
                     }
-
 
 #region Хомуты и стяжки
                     //Хомут
@@ -1619,6 +1617,63 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
                     }
 
+                    if (numberOfBarsLRFaces <= 5)
+                    {
+                        //Точки для построения кривых стержня хомута
+                        XYZ rebarStirrup_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - stirrupRebarDiam / 2, 6)
+                            , Math.Round(columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer + stirrupRebarDiam / 2, 6)
+                            , Math.Round(columnOrigin.Z + firstStirrupOffset, 6));
+
+                        XYZ rebarStirrup_p2 = new XYZ(Math.Round(rebarStirrup_p1.X + columnSectionWidth - mainRebarCoverLayer * 2 + stirrupRebarDiam, 6)
+                            , Math.Round(rebarStirrup_p1.Y, 6)
+                            , Math.Round(rebarStirrup_p1.Z, 6));
+
+                        XYZ rebarStirrup_p3 = new XYZ(Math.Round(rebarStirrup_p2.X, 6)
+                            , Math.Round(rebarStirrup_p2.Y - columnSectionHeight + mainRebarCoverLayer * 2 - stirrupRebarDiam, 6)
+                            , Math.Round(rebarStirrup_p2.Z, 6));
+
+                        XYZ rebarStirrup_p4 = new XYZ(Math.Round(rebarStirrup_p3.X - columnSectionWidth + mainRebarCoverLayer * 2 - stirrupRebarDiam, 6)
+                            , Math.Round(rebarStirrup_p3.Y, 6)
+                            , Math.Round(rebarStirrup_p3.Z, 6));
+
+                        //Кривые хомута
+                        List<Curve> myStirrupCurves = new List<Curve>();
+
+                        Curve Stirrup_line1 = Line.CreateBound(rebarStirrup_p1, rebarStirrup_p2) as Curve;
+                        myStirrupCurves.Add(Stirrup_line1);
+                        Curve Stirrup_line2 = Line.CreateBound(rebarStirrup_p2, rebarStirrup_p3) as Curve;
+                        myStirrupCurves.Add(Stirrup_line2);
+                        Curve Stirrup_line3 = Line.CreateBound(rebarStirrup_p3, rebarStirrup_p4) as Curve;
+                        myStirrupCurves.Add(Stirrup_line3);
+                        Curve Stirrup_line4 = Line.CreateBound(rebarStirrup_p4, rebarStirrup_p1) as Curve;
+                        myStirrupCurves.Add(Stirrup_line4);
+
+                        //Построение нижнего хомута
+                        Rebar columnRebarDownStirrup = Rebar.CreateFromCurvesAndShape(doc, myStirrupRebarShape, myStirrupBarTape, myRebarHookType, myRebarHookType, myColumn, narmalStirrup, myStirrupCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
+
+                        if (columnOriginLocationPoint.Rotation != 0)
+                        {
+                            ElementTransformUtils.RotateElement(doc, columnRebarDownStirrup.Id, rotationAxis, columnRotation);
+                        }
+
+                        columnRebarDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                        columnRebarDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
+                        columnRebarDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
+
+                        //Копирование хомута
+                        XYZ pointTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + increasedStirrupStep);
+                        List<ElementId> columnRebarTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownStirrup.Id, pointTopStirrupInstallation) as List<ElementId>;
+                        Element columnRebarTopStirrup = doc.GetElement(columnRebarTopStirrupIdList.First());
+
+                        //Высота размещения хомутов со стандартным шагом
+                        double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset;
+                        int StirrupBarElemStandardQuantity = (int)(StirrupStandardInstallationHeigh / standardStirrupStep);
+
+                        columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                        columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemStandardQuantity);
+                        columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+                    }
+
                     if (numberOfBarsLRFaces > 7)
                     {
                         //Шпилька
@@ -1681,7 +1736,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         }
                     }
 
-                    #endregion
+#endregion
                 }
                 t.Commit();
             }
