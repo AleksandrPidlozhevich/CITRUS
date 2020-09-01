@@ -40,6 +40,7 @@
             this.textBox_FirstStirrupOffset = new System.Windows.Forms.TextBox();
             this.textBox_IncreasedStirrupSpacing = new System.Windows.Forms.TextBox();
             this.groupBox_RebarOutlets = new System.Windows.Forms.GroupBox();
+            this.checkBox_TransitionToOverlap = new System.Windows.Forms.CheckBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.radioButton_MainWeldingRods = new System.Windows.Forms.RadioButton();
@@ -51,7 +52,6 @@
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.checkBox_TransitionToOverlap = new System.Windows.Forms.CheckBox();
             this.groupBox_RebarOutlets.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -89,6 +89,7 @@
             this.comboBox_FirstMainBarTapes.Location = new System.Drawing.Point(20, 28);
             this.comboBox_FirstMainBarTapes.Name = "comboBox_FirstMainBarTapes";
             this.comboBox_FirstMainBarTapes.Size = new System.Drawing.Size(100, 21);
+            this.comboBox_FirstMainBarTapes.Sorted = true;
             this.comboBox_FirstMainBarTapes.TabIndex = 3;
             this.comboBox_FirstMainBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_FirstMainBarTapes_SelectedIndexChanged);
             // 
@@ -99,6 +100,7 @@
             this.comboBox_StirrupBarTapes.Location = new System.Drawing.Point(304, 89);
             this.comboBox_StirrupBarTapes.Name = "comboBox_StirrupBarTapes";
             this.comboBox_StirrupBarTapes.Size = new System.Drawing.Size(100, 21);
+            this.comboBox_StirrupBarTapes.Sorted = true;
             this.comboBox_StirrupBarTapes.TabIndex = 4;
             this.comboBox_StirrupBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_StirrupBarTapes_SelectedIndexChanged);
             // 
@@ -109,6 +111,7 @@
             this.comboBox_RebarCoverTypes.Location = new System.Drawing.Point(77, 230);
             this.comboBox_RebarCoverTypes.Name = "comboBox_RebarCoverTypes";
             this.comboBox_RebarCoverTypes.Size = new System.Drawing.Size(60, 21);
+            this.comboBox_RebarCoverTypes.Sorted = true;
             this.comboBox_RebarCoverTypes.TabIndex = 5;
             this.comboBox_RebarCoverTypes.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarCoverTypes_SelectedIndexChanged);
             // 
@@ -186,6 +189,16 @@
             this.groupBox_RebarOutlets.TabStop = false;
             this.groupBox_RebarOutlets.Text = "Тип выпусков:";
             // 
+            // checkBox_TransitionToOverlap
+            // 
+            this.checkBox_TransitionToOverlap.AutoSize = true;
+            this.checkBox_TransitionToOverlap.Location = new System.Drawing.Point(220, 194);
+            this.checkBox_TransitionToOverlap.Name = "checkBox_TransitionToOverlap";
+            this.checkBox_TransitionToOverlap.Size = new System.Drawing.Size(127, 17);
+            this.checkBox_TransitionToOverlap.TabIndex = 23;
+            this.checkBox_TransitionToOverlap.Text = "Переход на нахлест";
+            this.checkBox_TransitionToOverlap.UseVisualStyleBackColor = true;
+            // 
             // pictureBox4
             // 
             this.pictureBox4.Image = global::CITRUS.Properties.Resources.formSquareColumnsReinforcementType1_MainWeldingRods;
@@ -254,6 +267,7 @@
             this.comboBox_SecondMainBarTapes.Location = new System.Drawing.Point(305, 217);
             this.comboBox_SecondMainBarTapes.Name = "comboBox_SecondMainBarTapes";
             this.comboBox_SecondMainBarTapes.Size = new System.Drawing.Size(100, 21);
+            this.comboBox_SecondMainBarTapes.Sorted = true;
             this.comboBox_SecondMainBarTapes.TabIndex = 21;
             this.comboBox_SecondMainBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_SecondMainBarTapes_SelectedIndexChanged);
             // 
@@ -298,16 +312,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 16;
             this.pictureBox1.TabStop = false;
-            // 
-            // checkBox_TransitionToOverlap
-            // 
-            this.checkBox_TransitionToOverlap.AutoSize = true;
-            this.checkBox_TransitionToOverlap.Location = new System.Drawing.Point(220, 194);
-            this.checkBox_TransitionToOverlap.Name = "checkBox_TransitionToOverlap";
-            this.checkBox_TransitionToOverlap.Size = new System.Drawing.Size(127, 17);
-            this.checkBox_TransitionToOverlap.TabIndex = 23;
-            this.checkBox_TransitionToOverlap.Text = "Переход на нахлест";
-            this.checkBox_TransitionToOverlap.UseVisualStyleBackColor = true;
             // 
             // CIT_04_1_1FormSquareColumnsReinforcementType2
             // 

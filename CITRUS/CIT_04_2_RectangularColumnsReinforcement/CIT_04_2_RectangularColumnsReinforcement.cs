@@ -1854,11 +1854,17 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             TaskDialog.Show("Revit", "У колонны отсутствует марка!" 
                                 + "\nИмя группы по умолчанию - " + newOutletsGroup.GroupType.Name);
                         }
+
                         else
                         {
                             newOutletsGroup.GroupType.Name = myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString();
                         }
-                        
+
+                        if (columnOriginLocationPoint.Rotation != 0)
+                        {
+                            ElementTransformUtils.RotateElement(doc, newOutletsGroup.Id, rotationAxis, columnRotation);
+                        }
+
                     }
 
                 }

@@ -98,6 +98,7 @@
             this.comboBox_FirstMainBarTapes.Location = new System.Drawing.Point(28, 22);
             this.comboBox_FirstMainBarTapes.Name = "comboBox_FirstMainBarTapes";
             this.comboBox_FirstMainBarTapes.Size = new System.Drawing.Size(80, 21);
+            this.comboBox_FirstMainBarTapes.Sorted = true;
             this.comboBox_FirstMainBarTapes.TabIndex = 3;
             this.comboBox_FirstMainBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_FirstMainBarTapes_SelectedIndexChanged);
             // 
@@ -108,6 +109,7 @@
             this.comboBox_StirrupBarTapes.Location = new System.Drawing.Point(320, 30);
             this.comboBox_StirrupBarTapes.Name = "comboBox_StirrupBarTapes";
             this.comboBox_StirrupBarTapes.Size = new System.Drawing.Size(80, 21);
+            this.comboBox_StirrupBarTapes.Sorted = true;
             this.comboBox_StirrupBarTapes.TabIndex = 4;
             this.comboBox_StirrupBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_StirrupBarTapes_SelectedIndexChanged);
             // 
@@ -118,6 +120,7 @@
             this.comboBox_RebarCoverTypes.Location = new System.Drawing.Point(56, 228);
             this.comboBox_RebarCoverTypes.Name = "comboBox_RebarCoverTypes";
             this.comboBox_RebarCoverTypes.Size = new System.Drawing.Size(60, 21);
+            this.comboBox_RebarCoverTypes.Sorted = true;
             this.comboBox_RebarCoverTypes.TabIndex = 5;
             this.comboBox_RebarCoverTypes.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarCoverTypes_SelectedIndexChanged);
             // 
@@ -262,6 +265,7 @@
             this.comboBox_SecondMainBarTapes.Location = new System.Drawing.Point(320, 230);
             this.comboBox_SecondMainBarTapes.Name = "comboBox_SecondMainBarTapes";
             this.comboBox_SecondMainBarTapes.Size = new System.Drawing.Size(80, 21);
+            this.comboBox_SecondMainBarTapes.Sorted = true;
             this.comboBox_SecondMainBarTapes.TabIndex = 21;
             this.comboBox_SecondMainBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_SecondMainBarTapes_SelectedIndexChanged);
             // 
@@ -280,6 +284,7 @@
             this.comboBox_SecondStirrupBarTapes.Location = new System.Drawing.Point(320, 100);
             this.comboBox_SecondStirrupBarTapes.Name = "comboBox_SecondStirrupBarTapes";
             this.comboBox_SecondStirrupBarTapes.Size = new System.Drawing.Size(80, 21);
+            this.comboBox_SecondStirrupBarTapes.Sorted = true;
             this.comboBox_SecondStirrupBarTapes.TabIndex = 23;
             this.comboBox_SecondStirrupBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_SecondStirrupBarTapes_SelectedIndexChanged);
             // 

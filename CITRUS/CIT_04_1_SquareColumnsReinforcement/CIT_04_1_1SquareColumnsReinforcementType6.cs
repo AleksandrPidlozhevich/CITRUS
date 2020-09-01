@@ -318,6 +318,8 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     clearCoverOther.Set(myRebarCoverType.Id);
                     //Завершение блока задания параметра защитного слоя боковых граней колонны
 
+                    //Универсальная коллекция для формирования группы выпусков
+                    ICollection<ElementId> rebarIdCollection = new List<ElementId>();
 
                     //Старт блока создания арматуры колонны
                     //Нормаль для построения стержней основной арматуры
@@ -394,11 +396,13 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         Rebar columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
+                        rebarIdCollection.Add(columnMainRebar_1.Id);
 
                         //Верхний левый угол
                         Rebar columnMainRebar_2 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnRebar_2);
+                        rebarIdCollection.Add(columnMainRebar_2.Id);
 
                         //Верхний правый угол
                         Rebar columnMainRebar_3 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -408,13 +412,14 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLine, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnRebar_3);
+                        rebarIdCollection.Add(columnMainRebar_3.Id);
 
                         //Нижний правый угол
                         Rebar columnMainRebar_4 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLine, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnRebar_4);
-
+                        rebarIdCollection.Add(columnMainRebar_4.Id);
 
 
                         //Центральный левый нижний стержень1
@@ -422,24 +427,28 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_1A = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1A.Id, newPlaсeСolumnMainRebar_1A);
+                        rebarIdCollection.Add(columnMainRebar_1A.Id);
 
                         //Центральный левый верхний стержень1
                         Rebar columnMainRebar_1B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1B.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_1B = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1B.Id, newPlaсeСolumnMainRebar_1B);
+                        rebarIdCollection.Add(columnMainRebar_1B.Id);
 
                         //Центральный левый нижний стержень2
                         Rebar columnMainRebar_1C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1C.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_1C = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1C.Id, newPlaсeСolumnMainRebar_1C);
+                        rebarIdCollection.Add(columnMainRebar_1C.Id);
 
                         //Центральный левый верхний стержень2
                         Rebar columnMainRebar_1D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1D.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_1D = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1D.Id, newPlaсeСolumnMainRebar_1D);
+                        rebarIdCollection.Add(columnMainRebar_1D.Id);
 
 
                         //Центральный правый нижний стержень1
@@ -447,94 +456,78 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_2A = new XYZ(+columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2A.Id, newPlaсeСolumnMainRebar_2A);
+                        rebarIdCollection.Add(columnMainRebar_2A.Id);
 
                         //Центральный правый верхний стержень1
                         Rebar columnMainRebar_2B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_2B = new XYZ(+columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2B.Id, newPlaсeСolumnMainRebar_2B);
+                        rebarIdCollection.Add(columnMainRebar_2B.Id);
 
                         //Центральный правый нижний стержень2
                         Rebar columnMainRebar_2C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2C.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_2C = new XYZ(+columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2C.Id, newPlaсeСolumnMainRebar_2C);
+                        rebarIdCollection.Add(columnMainRebar_2C.Id);
 
                         //Центральный правый верхний стержень2
                         Rebar columnMainRebar_2D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2D.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_2D = new XYZ(+columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2D.Id, newPlaсeСolumnMainRebar_2D);
+                        rebarIdCollection.Add(columnMainRebar_2D.Id);
 
 
                         //Центральный нижний левый стержень1
                         Rebar columnMainRebar_3A = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3A = new XYZ(-secondLeftRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3A.Id, newPlaсeСolumnMainRebar_3A);
+                        rebarIdCollection.Add(columnMainRebar_3A.Id);
 
                         //Центральный нижний правый стержень1
                         Rebar columnMainRebar_3B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3B = new XYZ(secondRightRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3B.Id, newPlaсeСolumnMainRebar_3B);
+                        rebarIdCollection.Add(columnMainRebar_3B.Id);
 
                         //Центральный нижний левый стержень2
                         Rebar columnMainRebar_3C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3C.Id, newPlaсeСolumnMainRebar_3C);
+                        rebarIdCollection.Add(columnMainRebar_3C.Id);
 
                         //Центральный нижний правый стержень2
                         Rebar columnMainRebar_3D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3D.Id, newPlaсeСolumnMainRebar_3D);
+                        rebarIdCollection.Add(columnMainRebar_3D.Id);
 
 
                         //Центральный верхний левый стержень1
                         Rebar columnMainRebar_4A = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4A = new XYZ(-secondLeftRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4A.Id, newPlaсeСolumnMainRebar_4A);
+                        rebarIdCollection.Add(columnMainRebar_4A.Id);
 
                         //Центральный верхний правый стержень1
                         Rebar columnMainRebar_4B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4B = new XYZ(secondRightRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4B.Id, newPlaсeСolumnMainRebar_4B);
+                        rebarIdCollection.Add(columnMainRebar_4B.Id);
 
                         //Центральный верхний левый стержень2
                         Rebar columnMainRebar_4C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4C.Id, newPlaсeСolumnMainRebar_4C);
+                        rebarIdCollection.Add(columnMainRebar_4C.Id);
 
                         //Центральный верхний правый стержень2
                         Rebar columnMainRebar_4D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4D.Id, newPlaсeСolumnMainRebar_4D);
-
-                        if (columnOriginLocationPoint.Rotation != 0)
-                        {
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4A.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4B.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4C.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4D.Id, rotationAxis, columnRotation);
-                        }
+                        rebarIdCollection.Add(columnMainRebar_4D.Id);
                     }
 
                     else if (checkedRebarOutletsButtonName == "radioButton_MainWeldingRods" & transitionToOverlap == false & changeColumnSection == false)
@@ -565,238 +558,225 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         Rebar columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
+                        rebarIdCollection.Add(columnMainRebar_1.Id);
 
                         FamilyInstance tubWelding_1 = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_1.LookupParameter("Диаметр стержня").Set(firstMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_1.Id, newPlaсeСolumnMainRebar_1);
+                        rebarIdCollection.Add(tubWelding_1.Id);
 
                         //Верхний левый угол
                         Rebar columnMainRebar_2 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_2 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnMainRebar_2);
+                        rebarIdCollection.Add(columnMainRebar_2.Id);
 
                         FamilyInstance tubWelding_2 = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_2.LookupParameter("Диаметр стержня").Set(firstMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_2.Id, newPlaсeСolumnMainRebar_2);
+                        rebarIdCollection.Add(tubWelding_2.Id);
 
                         //Верхний правый угол
                         Rebar columnMainRebar_3 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnMainRebar_3);
+                        rebarIdCollection.Add(columnMainRebar_3.Id);
 
                         FamilyInstance tubWelding_3 = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_3.LookupParameter("Диаметр стержня").Set(firstMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_3.Id, newPlaсeСolumnMainRebar_3);
+                        rebarIdCollection.Add(tubWelding_3.Id);
 
                         //Нижний правый угол
                         Rebar columnMainRebar_4 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnMainRebar_4);
+                        rebarIdCollection.Add(columnMainRebar_4.Id);
 
                         FamilyInstance tubWelding_4 = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_4.LookupParameter("Диаметр стержня").Set(firstMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_4.Id, newPlaсeСolumnMainRebar_4);
-
+                        rebarIdCollection.Add(tubWelding_4.Id);
 
 
                         //Центральный левый нижний стержень1
                         Rebar columnMainRebar_1A = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_1A = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1A.Id, newPlaсeСolumnMainRebar_1A);
+                        rebarIdCollection.Add(columnMainRebar_1A.Id);
 
                         FamilyInstance tubWelding_1A = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_1A.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_1A.Id, newPlaсeСolumnMainRebar_1A);
+                        rebarIdCollection.Add(tubWelding_1A.Id);
 
                         //Центральный левый верхний стержень1
                         Rebar columnMainRebar_1B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_1B = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1B.Id, newPlaсeСolumnMainRebar_1B);
+                        rebarIdCollection.Add(columnMainRebar_1B.Id);
 
                         FamilyInstance tubWelding_1B = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_1B.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_1B.Id, newPlaсeСolumnMainRebar_1B);
+                        rebarIdCollection.Add(tubWelding_1B.Id);
 
                         //Центральный левый нижний стержень2
                         Rebar columnMainRebar_1C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_1C = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1C.Id, newPlaсeСolumnMainRebar_1C);
+                        rebarIdCollection.Add(columnMainRebar_1C.Id);
 
                         FamilyInstance tubWelding_1C = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_1C.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_1C.Id, newPlaсeСolumnMainRebar_1C);
+                        rebarIdCollection.Add(tubWelding_1C.Id);
 
                         //Центральный левый верхний стержень2
                         Rebar columnMainRebar_1D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_1D = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1D.Id, newPlaсeСolumnMainRebar_1D);
+                        rebarIdCollection.Add(columnMainRebar_1D.Id);
 
                         FamilyInstance tubWelding_1D = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_1D.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_1D.Id, newPlaсeСolumnMainRebar_1D);
-
+                        rebarIdCollection.Add(tubWelding_1D.Id);
 
 
                         //Центральный правый нижний стержень1
                         Rebar columnMainRebar_2A = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_2A = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2A.Id, newPlaсeСolumnMainRebar_2A);
+                        rebarIdCollection.Add(columnMainRebar_2A.Id);
 
                         FamilyInstance tubWelding_2A = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_2A.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_2A.Id, newPlaсeСolumnMainRebar_2A);
+                        rebarIdCollection.Add(tubWelding_2A.Id);
 
                         //Центральный правый верхний стержень1
                         Rebar columnMainRebar_2B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_2B = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2B.Id, newPlaсeСolumnMainRebar_2B);
+                        rebarIdCollection.Add(columnMainRebar_2B.Id);
 
                         FamilyInstance tubWelding_2B = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_2B.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_2B.Id, newPlaсeСolumnMainRebar_2B);
+                        rebarIdCollection.Add(tubWelding_2B.Id);
 
                         //Центральный правый нижний стержень2
                         Rebar columnMainRebar_2C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_2C = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2C.Id, newPlaсeСolumnMainRebar_2C);
+                        rebarIdCollection.Add(columnMainRebar_2C.Id);
 
                         FamilyInstance tubWelding_2C = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_2C.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_2C.Id, newPlaсeСolumnMainRebar_2C);
+                        rebarIdCollection.Add(tubWelding_2C.Id);
 
                         //Центральный правый верхний стержень2
                         Rebar columnMainRebar_2D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_2D = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2D.Id, newPlaсeСolumnMainRebar_2D);
+                        rebarIdCollection.Add(columnMainRebar_2D.Id);
 
                         FamilyInstance tubWelding_2D = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_2D.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_2D.Id, newPlaсeСolumnMainRebar_2D);
-
+                        rebarIdCollection.Add(tubWelding_2D.Id);
 
 
                         //Центральный нижний левый стержень1
                         Rebar columnMainRebar_3A = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3A = new XYZ(-secondLeftRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3A.Id, newPlaсeСolumnMainRebar_3A);
+                        rebarIdCollection.Add(columnMainRebar_3A.Id);
 
                         FamilyInstance tubWelding_3A = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_3A.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_3A.Id, newPlaсeСolumnMainRebar_3A);
+                        rebarIdCollection.Add(tubWelding_3A.Id);
 
                         //Центральный нижний правый стержень1
                         Rebar columnMainRebar_3B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3B = new XYZ(secondRightRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3B.Id, newPlaсeСolumnMainRebar_3B);
+                        rebarIdCollection.Add(columnMainRebar_3B.Id);
 
                         FamilyInstance tubWelding_3B = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_3B.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_3B.Id, newPlaсeСolumnMainRebar_3B);
+                        rebarIdCollection.Add(tubWelding_3B.Id);
 
                         //Центральный нижний левый стержень2
                         Rebar columnMainRebar_3C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3C.Id, newPlaсeСolumnMainRebar_3C);
+                        rebarIdCollection.Add(columnMainRebar_3C.Id);
 
                         FamilyInstance tubWelding_3C = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_3C.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_3C.Id, newPlaсeСolumnMainRebar_3C);
+                        rebarIdCollection.Add(tubWelding_3C.Id);
 
                         //Центральный нижний правый стержень2
                         Rebar columnMainRebar_3D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3D.Id, newPlaсeСolumnMainRebar_3D);
+                        rebarIdCollection.Add(columnMainRebar_3D.Id);
 
                         FamilyInstance tubWelding_3D = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_3D.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_3D.Id, newPlaсeСolumnMainRebar_3D);
-
+                        rebarIdCollection.Add(tubWelding_3D.Id);
 
 
                         //Центральный верхний левый стержень1
                         Rebar columnMainRebar_4A = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4A = new XYZ(-secondLeftRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4A.Id, newPlaсeСolumnMainRebar_4A);
+                        rebarIdCollection.Add(columnMainRebar_4A.Id);
 
                         FamilyInstance tubWelding_4A = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_4A.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_4A.Id, newPlaсeСolumnMainRebar_4A);
+                        rebarIdCollection.Add(tubWelding_4A.Id);
 
                         //Центральный верхний правый стержень1
                         Rebar columnMainRebar_4B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4B = new XYZ(secondRightRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4B.Id, newPlaсeСolumnMainRebar_4B);
+                        rebarIdCollection.Add(columnMainRebar_4B.Id);
 
                         FamilyInstance tubWelding_4B = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_4B.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_4B.Id, newPlaсeСolumnMainRebar_4B);
+                        rebarIdCollection.Add(tubWelding_4B.Id);
 
                         //Центральный верхний левый стержень2
                         Rebar columnMainRebar_4C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4C.Id, newPlaсeСolumnMainRebar_4C);
+                        rebarIdCollection.Add(columnMainRebar_4C.Id);
 
                         FamilyInstance tubWelding_4C = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_4C.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_4C.Id, newPlaсeСolumnMainRebar_4C);
+                        rebarIdCollection.Add(tubWelding_4C.Id);
 
                         //Центральный верхний правый стержень2
                         Rebar columnMainRebar_4D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeWeldingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4D.Id, newPlaсeСolumnMainRebar_4D);
+                        rebarIdCollection.Add(columnMainRebar_4D.Id);
 
                         FamilyInstance tubWelding_4D = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_4D.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         ElementTransformUtils.MoveElement(doc, tubWelding_4D.Id, newPlaсeСolumnMainRebar_4D);
-
-
-                        if (columnOriginLocationPoint.Rotation != 0)
-                        {
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_1.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_2.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_3.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_4.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_1A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_2A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_3A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_4A.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_1B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_2B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_3B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_4B.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_1C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_2C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_3C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_4C.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_1D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_2D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_3D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_4D.Id, rotationAxis, columnRotation);
-                        }
+                        rebarIdCollection.Add(tubWelding_4D.Id);
                     }
 
                     else if (checkedRebarOutletsButtonName == "radioButton_MainWeldingRods" & transitionToOverlap == true & changeColumnSection == false)
@@ -870,11 +850,13 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         Rebar columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
+                        rebarIdCollection.Add(columnMainRebar_1.Id);
 
                         //Верхний левый угол
                         Rebar columnMainRebar_2 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnRebar_2);
+                        rebarIdCollection.Add(columnMainRebar_2.Id);
 
                         //Верхний правый угол
                         Rebar columnMainRebar_3 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -884,13 +866,14 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLine, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnRebar_3);
+                        rebarIdCollection.Add(columnMainRebar_3.Id);
 
                         //Нижний правый угол
                         Rebar columnMainRebar_4 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLine, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnRebar_4);
-
+                        rebarIdCollection.Add(columnMainRebar_4.Id);
 
 
                         //Центральный левый нижний стержень1
@@ -898,24 +881,28 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_1A = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1A.Id, newPlaсeСolumnMainRebar_1A);
+                        rebarIdCollection.Add(columnMainRebar_1A.Id);
 
                         //Центральный левый верхний стержень1
                         Rebar columnMainRebar_1B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1B.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_1B = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1B.Id, newPlaсeСolumnMainRebar_1B);
+                        rebarIdCollection.Add(columnMainRebar_1B.Id);
 
                         //Центральный левый нижний стержень2
                         Rebar columnMainRebar_1C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1C.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_1C = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1C.Id, newPlaсeСolumnMainRebar_1C);
+                        rebarIdCollection.Add(columnMainRebar_1C.Id);
 
                         //Центральный левый верхний стержень2
                         Rebar columnMainRebar_1D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1D.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_1D = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1D.Id, newPlaсeСolumnMainRebar_1D);
+                        rebarIdCollection.Add(columnMainRebar_1D.Id);
 
 
                         //Центральный правый нижний стержень1
@@ -923,94 +910,78 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_2A = new XYZ(+columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2A.Id, newPlaсeСolumnMainRebar_2A);
+                        rebarIdCollection.Add(columnMainRebar_2A.Id);
 
                         //Центральный правый верхний стержень1
                         Rebar columnMainRebar_2B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_2B = new XYZ(+columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2B.Id, newPlaсeСolumnMainRebar_2B);
+                        rebarIdCollection.Add(columnMainRebar_2B.Id);
 
                         //Центральный правый нижний стержень2
                         Rebar columnMainRebar_2C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2C.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_2C = new XYZ(+columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2C.Id, newPlaсeСolumnMainRebar_2C);
+                        rebarIdCollection.Add(columnMainRebar_2C.Id);
 
                         //Центральный правый верхний стержень2
                         Rebar columnMainRebar_2D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2D.Id, rotateLine, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_2D = new XYZ(+columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2D.Id, newPlaсeСolumnMainRebar_2D);
+                        rebarIdCollection.Add(columnMainRebar_2D.Id);
 
 
                         //Центральный нижний левый стержень1
                         Rebar columnMainRebar_3A = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3A = new XYZ(-secondLeftRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3A.Id, newPlaсeСolumnMainRebar_3A);
+                        rebarIdCollection.Add(columnMainRebar_3A.Id);
 
                         //Центральный нижний правый стержень1
                         Rebar columnMainRebar_3B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3B = new XYZ(secondRightRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3B.Id, newPlaсeСolumnMainRebar_3B);
+                        rebarIdCollection.Add(columnMainRebar_3B.Id);
 
                         //Центральный нижний левый стержень2
                         Rebar columnMainRebar_3C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3C.Id, newPlaсeСolumnMainRebar_3C);
+                        rebarIdCollection.Add(columnMainRebar_3C.Id);
 
                         //Центральный нижний правый стержень2
                         Rebar columnMainRebar_3D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3D.Id, newPlaсeСolumnMainRebar_3D);
+                        rebarIdCollection.Add(columnMainRebar_3D.Id);
 
 
                         //Центральный верхний левый стержень1
                         Rebar columnMainRebar_4A = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4A = new XYZ(-secondLeftRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4A.Id, newPlaсeСolumnMainRebar_4A);
+                        rebarIdCollection.Add(columnMainRebar_4A.Id);
 
                         //Центральный верхний правый стержень1
                         Rebar columnMainRebar_4B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4B = new XYZ(secondRightRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4B.Id, newPlaсeСolumnMainRebar_4B);
+                        rebarIdCollection.Add(columnMainRebar_4B.Id);
 
                         //Центральный верхний левый стержень2
                         Rebar columnMainRebar_4C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4C.Id, newPlaсeСolumnMainRebar_4C);
+                        rebarIdCollection.Add(columnMainRebar_4C.Id);
 
                         //Центральный верхний правый стержень2
                         Rebar columnMainRebar_4D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4D.Id, newPlaсeСolumnMainRebar_4D);
-
-                        if (columnOriginLocationPoint.Rotation != 0)
-                        {
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4A.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4B.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4C.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4D.Id, rotationAxis, columnRotation);
-                        }
+                        rebarIdCollection.Add(columnMainRebar_4D.Id);
                     }
 
                     else if (checkedRebarOutletsButtonName == "radioButton_MainOverlappingRods" & changeColumnSection == true & sectionOffset <= 50 / 304.8)
@@ -1093,12 +1064,14 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLine, alphaOverlapping);
                         XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
+                        rebarIdCollection.Add(columnMainRebar_1.Id);
 
                         //Верхний левый угол
                         Rebar columnMainRebar_2 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLine, -alphaOverlapping);
                         XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnRebar_2);
+                        rebarIdCollection.Add(columnMainRebar_2.Id);
 
                         //Верхний правый угол
                         Rebar columnMainRebar_3 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1109,6 +1082,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnRebar_3);
+                        rebarIdCollection.Add(columnMainRebar_3.Id);
 
                         //Нижний правый угол
                         Rebar columnMainRebar_4 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1116,7 +1090,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnRebar_4);
-
+                        rebarIdCollection.Add(columnMainRebar_4.Id);
 
 
                         //Центральный левый нижний стержень1
@@ -1124,25 +1098,28 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotateLine, alphaSecondOverlapping);
                         XYZ newPlaсeСolumnMainRebar_1A = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1A.Id, newPlaсeСolumnMainRebar_1A);
+                        rebarIdCollection.Add(columnMainRebar_1A.Id);
 
                         //Центральный левый верхний стержень1
                         Rebar columnMainRebar_1B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1B.Id, rotateLine, alphaSecondOverlapping);
                         XYZ newPlaсeСolumnMainRebar_1B = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1B.Id, newPlaсeСolumnMainRebar_1B);
+                        rebarIdCollection.Add(columnMainRebar_1B.Id);
 
                         //Центральный левый нижний стержень2
                         Rebar columnMainRebar_1C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1C.Id, rotateLine, alphaSecondOverlapping);
                         XYZ newPlaсeСolumnMainRebar_1C = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1C.Id, newPlaсeСolumnMainRebar_1C);
+                        rebarIdCollection.Add(columnMainRebar_1C.Id);
 
                         //Центральный левый верхний стержень2
                         Rebar columnMainRebar_1D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1D.Id, rotateLine, alphaSecondOverlapping);
                         XYZ newPlaсeСolumnMainRebar_1D = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1D.Id, newPlaсeСolumnMainRebar_1D);
-
+                        rebarIdCollection.Add(columnMainRebar_1D.Id);
 
 
                         //Центральный правый нижний стержень1
@@ -1151,6 +1128,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2A = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2A.Id, newPlaсeСolumnRebar_2A);
+                        rebarIdCollection.Add(columnMainRebar_2A.Id);
 
                         //Центральный правый верхний стержень1
                         Rebar columnMainRebar_2B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1158,6 +1136,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2B = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2B.Id, newPlaсeСolumnRebar_2B);
+                        rebarIdCollection.Add(columnMainRebar_2B.Id);
 
                         //Центральный правый нижний стержень2
                         Rebar columnMainRebar_2C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1165,6 +1144,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2C.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2C = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2C.Id, newPlaсeСolumnRebar_2C);
+                        rebarIdCollection.Add(columnMainRebar_2C.Id);
 
                         //Центральный правый верхний стержень2
                         Rebar columnMainRebar_2D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1172,7 +1152,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2D.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2D = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2D.Id, newPlaсeСolumnRebar_2D);
-
+                        rebarIdCollection.Add(columnMainRebar_2D.Id);
 
 
                         //Центральный нижний левый стержень1
@@ -1181,6 +1161,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3A.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3A = new XYZ(-secondLeftRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3A.Id, newPlaсeСolumnRebar_3A);
+                        rebarIdCollection.Add(columnMainRebar_3A.Id);
 
                         //Центральный нижний правый стержень1
                         Rebar columnMainRebar_3B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1188,6 +1169,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3B.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3B = new XYZ(secondRightRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3B.Id, newPlaсeСolumnRebar_3B);
+                        rebarIdCollection.Add(columnMainRebar_3B.Id);
 
                         //Центральный нижний левый стержень2
                         Rebar columnMainRebar_3C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1195,6 +1177,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3C.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3C.Id, newPlaсeСolumnRebar_3C);
+                        rebarIdCollection.Add(columnMainRebar_3C.Id);
 
                         //Центральный нижний правый стержень2
                         Rebar columnMainRebar_3D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1202,7 +1185,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3D.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3D.Id, newPlaсeСolumnRebar_3D);
-
+                        rebarIdCollection.Add(columnMainRebar_3D.Id);
 
 
                         //Центральный верхний левый стержень1
@@ -1211,6 +1194,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4A.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4A = new XYZ(-secondLeftRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4A.Id, newPlaсeСolumnRebar_4A);
+                        rebarIdCollection.Add(columnMainRebar_4A.Id);
 
                         //Центральный верхний правый стержень1
                         Rebar columnMainRebar_4B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1218,6 +1202,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4B.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4B = new XYZ(secondRightRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4B.Id, newPlaсeСolumnRebar_4B);
+                        rebarIdCollection.Add(columnMainRebar_4B.Id);
 
                         //Центральный верхний левый стержень2
                         Rebar columnMainRebar_4C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1225,6 +1210,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4C.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4C.Id, newPlaсeСolumnRebar_4C);
+                        rebarIdCollection.Add(columnMainRebar_4C.Id);
 
                         //Центральный верхний правый стержень2
                         Rebar columnMainRebar_4D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1232,35 +1218,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4D.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4D.Id, newPlaсeСolumnRebar_4D);
-
-
-                        if (columnOriginLocationPoint.Rotation != 0)
-                        {
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4A.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4B.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4C.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4D.Id, rotationAxis, columnRotation);
-                        }
+                        rebarIdCollection.Add(columnMainRebar_4D.Id);
                     }
 
                     else if (checkedRebarOutletsButtonName == "radioButton_MainWeldingRods" & transitionToOverlap == false & changeColumnSection == true & sectionOffset <= 50 / 304.8)
@@ -1342,22 +1300,26 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLine, alphaWelding);
                         XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
+                        rebarIdCollection.Add(columnMainRebar_1.Id);
 
                         FamilyInstance tubWelding_1 = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_1.LookupParameter("Диаметр стержня").Set(firstMainRebarDiam);
                         XYZ newPlaсetubWelding_1 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2 + sectionOffset, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2 + sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_1.Id, newPlaсetubWelding_1);
+                        rebarIdCollection.Add(tubWelding_1.Id);
 
                         //Верхний левый угол
                         Rebar columnMainRebar_2 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLine, -alphaWelding);
                         XYZ newPlaсeСolumnMainRebar_2 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnMainRebar_2);
+                        rebarIdCollection.Add(columnMainRebar_2.Id);
 
                         FamilyInstance tubWelding_2 = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_2.LookupParameter("Диаметр стержня").Set(firstMainRebarDiam);
                         XYZ newPlaсetubWelding_2 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2 + sectionOffset, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2 - sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_2.Id, newPlaсetubWelding_2);
+                        rebarIdCollection.Add(tubWelding_2.Id);
 
                         //Верхний правый угол
                         Rebar columnMainRebar_3 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1368,11 +1330,13 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_3 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnMainRebar_3);
+                        rebarIdCollection.Add(columnMainRebar_3.Id);
 
                         FamilyInstance tubWelding_3 = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_3.LookupParameter("Диаметр стержня").Set(firstMainRebarDiam);
                         XYZ newPlaсetubWelding_3 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2 - sectionOffset, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2 - sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_3.Id, newPlaсetubWelding_3);
+                        rebarIdCollection.Add(tubWelding_3.Id);
 
                         //Нижний правый угол
                         Rebar columnMainRebar_4 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1380,54 +1344,62 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_4 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnMainRebar_4);
+                        rebarIdCollection.Add(columnMainRebar_4.Id);
 
                         FamilyInstance tubWelding_4 = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_4.LookupParameter("Диаметр стержня").Set(firstMainRebarDiam);
                         XYZ newPlaсetubWelding_4 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2 - sectionOffset, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2 + sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_4.Id, newPlaсetubWelding_4);
-
+                        rebarIdCollection.Add(tubWelding_4.Id);
 
 
                         //Центральный левый нижний стержень1
                         Rebar columnMainRebar_1A = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_1A = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1A.Id, newPlaсeСolumnMainRebar_1A);
+                        rebarIdCollection.Add(columnMainRebar_1A.Id);
 
                         FamilyInstance tubWelding_1A = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_1A.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_1A = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2 + sectionOffset, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_1A.Id, newPlaсetubWelding_1A);
+                        rebarIdCollection.Add(tubWelding_1A.Id);
 
                         //Центральный левый верхний стержень1
                         Rebar columnMainRebar_1B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_1B = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1B.Id, newPlaсeСolumnMainRebar_1B);
+                        rebarIdCollection.Add(columnMainRebar_1B.Id);
 
                         FamilyInstance tubWelding_1B = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_1B.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_1B = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2 + sectionOffset, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_1B.Id, newPlaсetubWelding_1B);
+                        rebarIdCollection.Add(tubWelding_1B.Id);
 
                         //Центральный левый нижний стержень2
                         Rebar columnMainRebar_1C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_1C = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1C.Id, newPlaсeСolumnMainRebar_1C);
+                        rebarIdCollection.Add(columnMainRebar_1C.Id);
 
                         FamilyInstance tubWelding_1C = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_1C.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_1C = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2 + sectionOffset, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_1C.Id, newPlaсetubWelding_1C);
+                        rebarIdCollection.Add(tubWelding_1C.Id);
 
                         //Центральный левый верхний стержень2
                         Rebar columnMainRebar_1D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_1D = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1D.Id, newPlaсeСolumnMainRebar_1D);
+                        rebarIdCollection.Add(columnMainRebar_1D.Id);
 
                         FamilyInstance tubWelding_1D = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_1D.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_1D = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2 + sectionOffset, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_1D.Id, newPlaсetubWelding_1D);
-
+                        rebarIdCollection.Add(tubWelding_1D.Id);
 
 
                         //Центральный правый нижний стержень1
@@ -1435,45 +1407,52 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2A = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2A.Id, newPlaсeСolumnRebar_2A);
+                        rebarIdCollection.Add(columnMainRebar_2A.Id);
 
                         FamilyInstance tubWelding_2A = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_2A.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_2A = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2 - sectionOffset, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_2A.Id, newPlaсetubWelding_2A);
+                        rebarIdCollection.Add(tubWelding_2A.Id);
 
                         //Центральный правый верхний стержень1
                         Rebar columnMainRebar_2B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2B = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2B.Id, newPlaсeСolumnRebar_2B);
+                        rebarIdCollection.Add(columnMainRebar_2B.Id);
 
                         FamilyInstance tubWelding_2B = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_2B.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_2B = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2 - sectionOffset, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_2B.Id, newPlaсetubWelding_2B);
+                        rebarIdCollection.Add(tubWelding_2B.Id);
 
                         //Центральный правый нижний стержень2
                         Rebar columnMainRebar_2C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2C.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2C = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2C.Id, newPlaсeСolumnRebar_2C);
+                        rebarIdCollection.Add(columnMainRebar_2C.Id);
 
                         FamilyInstance tubWelding_2C = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_2C.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_2C = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2 - sectionOffset, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_2C.Id, newPlaсetubWelding_2C);
+                        rebarIdCollection.Add(tubWelding_2C.Id);
 
                         //Центральный правый верхний стержень2
                         Rebar columnMainRebar_2D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2D.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2D = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2D.Id, newPlaсeСolumnRebar_2D);
+                        rebarIdCollection.Add(columnMainRebar_2D.Id);
 
                         FamilyInstance tubWelding_2D = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_2D.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_2D = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2 - sectionOffset, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_2D.Id, newPlaсetubWelding_2D);
-
+                        rebarIdCollection.Add(tubWelding_2D.Id);
 
 
                         //Центральный нижний левый стержень1
@@ -1481,45 +1460,52 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3A.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3A = new XYZ(-secondLeftRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3A.Id, newPlaсeСolumnRebar_3A);
+                        rebarIdCollection.Add(columnMainRebar_3A.Id);
 
                         FamilyInstance tubWelding_3A = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_3A.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_3A = new XYZ(-secondLeftRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2 + sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_3A.Id, newPlaсetubWelding_3A);
+                        rebarIdCollection.Add(tubWelding_3A.Id);
 
                         //Центральный нижний правый стержень1
                         Rebar columnMainRebar_3B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3B.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3B = new XYZ(secondRightRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3B.Id, newPlaсeСolumnRebar_3B);
+                        rebarIdCollection.Add(columnMainRebar_3B.Id);
 
                         FamilyInstance tubWelding_3B = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_3B.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_3B = new XYZ(secondRightRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2 + sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_3B.Id, newPlaсetubWelding_3B);
+                        rebarIdCollection.Add(tubWelding_3B.Id);
 
                         //Центральный нижний левый стержень2
                         Rebar columnMainRebar_3C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3C.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3C.Id, newPlaсeСolumnRebar_3C);
+                        rebarIdCollection.Add(columnMainRebar_3C.Id);
 
                         FamilyInstance tubWelding_3C = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_3C.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_3C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2 + sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_3C.Id, newPlaсetubWelding_3C);
+                        rebarIdCollection.Add(tubWelding_3C.Id);
 
                         //Центральный нижний правый стержень2
                         Rebar columnMainRebar_3D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3D.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3D.Id, newPlaсeСolumnRebar_3D);
+                        rebarIdCollection.Add(columnMainRebar_3D.Id);
 
                         FamilyInstance tubWelding_3D = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_3D.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_3D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2 + sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_3D.Id, newPlaсetubWelding_3D);
-
+                        rebarIdCollection.Add(tubWelding_3D.Id);
 
 
                         //Центральный верхний левый стержень1
@@ -1527,93 +1513,52 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4A.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4A = new XYZ(-secondLeftRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4A.Id, newPlaсeСolumnRebar_4A);
+                        rebarIdCollection.Add(columnMainRebar_4A.Id);
 
                         FamilyInstance tubWelding_4A = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_4A.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_4A = new XYZ(-secondLeftRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2 - sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_4A.Id, newPlaсetubWelding_4A);
+                        rebarIdCollection.Add(tubWelding_4A.Id);
 
                         //Центральный верхний стержень1
                         Rebar columnMainRebar_4B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4B.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4B = new XYZ(secondRightRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4B.Id, newPlaсeСolumnRebar_4B);
+                        rebarIdCollection.Add(columnMainRebar_4B.Id);
 
                         FamilyInstance tubWelding_4B = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_4B.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_4B = new XYZ(secondRightRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2 - sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_4B.Id, newPlaсetubWelding_4B);
+                        rebarIdCollection.Add(tubWelding_4B.Id);
 
                         //Центральный верхний левый стержень2
                         Rebar columnMainRebar_4C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4C.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4C.Id, newPlaсeСolumnRebar_4C);
+                        rebarIdCollection.Add(columnMainRebar_4C.Id);
 
                         FamilyInstance tubWelding_4C = doc.Create.NewFamilyInstance(firstTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_4C.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_4C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2 - sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_4C.Id, newPlaсetubWelding_4C);
+                        rebarIdCollection.Add(tubWelding_4C.Id);
 
                         //Центральный верхний стержень2
                         Rebar columnMainRebar_4D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4D.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4D.Id, newPlaсeСolumnRebar_4D);
+                        rebarIdCollection.Add(columnMainRebar_4D.Id);
 
                         FamilyInstance tubWelding_4D = doc.Create.NewFamilyInstance(secondTubWelding_p1, myTubWeldingSymbol, baseLevel, StructuralType.NonStructural);
                         tubWelding_4D.LookupParameter("Диаметр стержня").Set(secondMainRebarDiam);
                         XYZ newPlaсetubWelding_4D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2 - sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, tubWelding_4D.Id, newPlaсetubWelding_4D);
-
-
-                        if (columnOriginLocationPoint.Rotation != 0)
-                        {
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_1.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_2.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_3.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_4.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_1A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_2A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_3A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_4A.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_1B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_2B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_3B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_4B.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_1C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_2C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_3C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_4C.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_1D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_2D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_3D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, tubWelding_4D.Id, rotationAxis, columnRotation);
-                        }
+                        rebarIdCollection.Add(tubWelding_4D.Id);
                     }
 
                     else if (checkedRebarOutletsButtonName == "radioButton_MainWeldingRods" & transitionToOverlap == true & changeColumnSection == true & sectionOffset <= 50 / 304.8)
@@ -1696,12 +1641,14 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLine, alphaOverlapping);
                         XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
+                        rebarIdCollection.Add(columnMainRebar_1.Id);
 
                         //Верхний левый угол
                         Rebar columnMainRebar_2 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLine, -alphaOverlapping);
                         XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnRebar_2);
+                        rebarIdCollection.Add(columnMainRebar_2.Id);
 
                         //Верхний правый угол
                         Rebar columnMainRebar_3 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1712,6 +1659,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnRebar_3);
+                        rebarIdCollection.Add(columnMainRebar_3.Id);
 
                         //Нижний правый угол
                         Rebar columnMainRebar_4 = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, myFirstMainRebarType, null, null, myColumn, mainRebarNormal, myFirstMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1719,7 +1667,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - firstMainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + firstMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnRebar_4);
-
+                        rebarIdCollection.Add(columnMainRebar_4.Id);
 
 
                         //Центральный левый нижний стержень1
@@ -1727,25 +1675,28 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotateLine, alphaSecondOverlapping);
                         XYZ newPlaсeСolumnMainRebar_1A = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1A.Id, newPlaсeСolumnMainRebar_1A);
+                        rebarIdCollection.Add(columnMainRebar_1A.Id);
 
                         //Центральный левый верхний стержень1
                         Rebar columnMainRebar_1B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1B.Id, rotateLine, alphaSecondOverlapping);
                         XYZ newPlaсeСolumnMainRebar_1B = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1B.Id, newPlaсeСolumnMainRebar_1B);
+                        rebarIdCollection.Add(columnMainRebar_1B.Id);
 
                         //Центральный левый нижний стержень2
                         Rebar columnMainRebar_1C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1C.Id, rotateLine, alphaSecondOverlapping);
                         XYZ newPlaсeСolumnMainRebar_1C = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1C.Id, newPlaсeСolumnMainRebar_1C);
+                        rebarIdCollection.Add(columnMainRebar_1C.Id);
 
                         //Центральный левый верхний стержень2
                         Rebar columnMainRebar_1D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1D.Id, rotateLine, alphaSecondOverlapping);
                         XYZ newPlaсeСolumnMainRebar_1D = new XYZ(-columnSectionHeight / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1D.Id, newPlaсeСolumnMainRebar_1D);
-
+                        rebarIdCollection.Add(columnMainRebar_1D.Id);
 
 
                         //Центральный правый нижний стержень1
@@ -1754,6 +1705,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2A = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, -secondLowerRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2A.Id, newPlaсeСolumnRebar_2A);
+                        rebarIdCollection.Add(columnMainRebar_2A.Id);
 
                         //Центральный правый верхний стержень1
                         Rebar columnMainRebar_2B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1761,6 +1713,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2B = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, secondTopRebarOffset1, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2B.Id, newPlaсeСolumnRebar_2B);
+                        rebarIdCollection.Add(columnMainRebar_2B.Id);
 
                         //Центральный правый нижний стержень2
                         Rebar columnMainRebar_2C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1768,6 +1721,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2C.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2C = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, -secondLowerRebarOffset1 - secondLowerRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2C.Id, newPlaсeСolumnRebar_2C);
+                        rebarIdCollection.Add(columnMainRebar_2C.Id);
 
                         //Центральный правый верхний стержень2
                         Rebar columnMainRebar_2D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1775,7 +1729,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2D.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2D = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, secondTopRebarOffset1 + secondTopRebarOffset2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2D.Id, newPlaсeСolumnRebar_2D);
-
+                        rebarIdCollection.Add(columnMainRebar_2D.Id);
 
 
                         //Центральный нижний левый стержень1
@@ -1784,6 +1738,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3A.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3A = new XYZ(-secondLeftRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3A.Id, newPlaсeСolumnRebar_3A);
+                        rebarIdCollection.Add(columnMainRebar_3A.Id);
 
                         //Центральный нижний правый стержень1
                         Rebar columnMainRebar_3B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1791,6 +1746,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3B.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3B = new XYZ(secondRightRebarOffset1, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3B.Id, newPlaсeСolumnRebar_3B);
+                        rebarIdCollection.Add(columnMainRebar_3B.Id);
 
                         //Центральный нижний левый стержень2
                         Rebar columnMainRebar_3C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1798,6 +1754,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3C.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3C.Id, newPlaсeСolumnRebar_3C);
+                        rebarIdCollection.Add(columnMainRebar_3C.Id);
 
                         //Центральный нижний правый стержень2
                         Rebar columnMainRebar_3D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1805,7 +1762,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3D.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, -columnSectionWidth / 2 + mainRebarCoverLayer + secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3D.Id, newPlaсeСolumnRebar_3D);
-
+                        rebarIdCollection.Add(columnMainRebar_3D.Id);
 
 
                         //Центральный верхний левый стержень1
@@ -1814,6 +1771,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4A.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4A = new XYZ(-secondLeftRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4A.Id, newPlaсeСolumnRebar_4A);
+                        rebarIdCollection.Add(columnMainRebar_4A.Id);
 
                         //Центральный верхний правый стержень1
                         Rebar columnMainRebar_4B = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1821,6 +1779,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4B.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4B = new XYZ(secondRightRebarOffset1, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4B.Id, newPlaсeСolumnRebar_4B);
+                        rebarIdCollection.Add(columnMainRebar_4B.Id);
 
                         //Центральный верхний левый стержень2
                         Rebar columnMainRebar_4C = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1828,6 +1787,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4C.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4C = new XYZ(-secondLeftRebarOffset1 - secondLeftRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4C.Id, newPlaсeСolumnRebar_4C);
+                        rebarIdCollection.Add(columnMainRebar_4C.Id);
 
                         //Центральный верхний правый стержень2
                         Rebar columnMainRebar_4D = Rebar.CreateFromCurvesAndShape(doc, myMainRebarShapeOverlappingRods, mySecondMainRebarType, null, null, myColumn, mainRebarNormal, mySecondMainRebarCurvesA, RebarHookOrientation.Right, RebarHookOrientation.Right);
@@ -1835,35 +1795,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4D.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4D = new XYZ(secondRightRebarOffset1 + secondRightRebarOffset2, columnSectionWidth / 2 - mainRebarCoverLayer - secondMainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4D.Id, newPlaсeСolumnRebar_4D);
-
-
-                        if (columnOriginLocationPoint.Rotation != 0)
-                        {
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3A.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4A.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3B.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4B.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3C.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4C.Id, rotationAxis, columnRotation);
-
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_1D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_2D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_3D.Id, rotationAxis, columnRotation);
-                            ElementTransformUtils.RotateElement(doc, columnMainRebar_4D.Id, rotationAxis, columnRotation);
-                        }
+                        rebarIdCollection.Add(columnMainRebar_4D.Id);
                     }    
 
                     //Хомут
@@ -1888,8 +1820,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         , Math.Round(firstRebarStirrup_p3.Z, 6));
 
 
-                    ////Точки для построения кривых стержня хомута дополнительного
-
+                    //Точки для построения кривых стержня хомута дополнительного
                     XYZ secondRebarStirrup_p1 = new XYZ(Math.Round(columnOrigin.X - secondLeftRebarOffset1-secondMainRebarDiam/2-secondStirrupRebarDiam, 6)
                         , Math.Round(columnOrigin.Y+columnSectionWidth/2 - mainRebarCoverLayer+secondStirrupRebarDiam, 6)
                         , Math.Round(columnOrigin.Z + firstStirrupOffset + firstStirrupRebarDiam / 2 + secondStirrupRebarDiam / 2, 6));
@@ -1972,14 +1903,10 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         , RebarHookOrientation.Right
                         , RebarHookOrientation.Right);
 
-                    if (columnOriginLocationPoint.Rotation != 0)
-                    {
-                        ElementTransformUtils.RotateElement(doc, columnRebarDownFirstStirrup.Id, rotationAxis, columnRotation);
-                    }
-
                     columnRebarDownFirstStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
                     columnRebarDownFirstStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
                     columnRebarDownFirstStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupSpacing);
+                    rebarIdCollection.Add(columnRebarDownFirstStirrup.Id);
 
                     //Копирование хомута опоясывающего
                     XYZ pointTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupSpacing);
@@ -1993,6 +1920,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
                     columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemStandardQuantity);
                     columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupSpacing);
+                    rebarIdCollection.Add(columnRebarFirstTopStirrup.Id);
 
                     //Построение нижнего хомута дополнительного
                     Rebar columnRebarDownSecondStirrup = Rebar.CreateFromCurvesAndShape(doc, myStirrupRebarShape
@@ -2005,14 +1933,10 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         , RebarHookOrientation.Right
                         , RebarHookOrientation.Right);
 
-                    if (columnOriginLocationPoint.Rotation != 0)
-                    {
-                        ElementTransformUtils.RotateElement(doc, columnRebarDownSecondStirrup.Id, rotationAxis, columnRotation);
-                    }
-
                     columnRebarDownSecondStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
                     columnRebarDownSecondStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
                     columnRebarDownSecondStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupSpacing);
+                    rebarIdCollection.Add(columnRebarDownSecondStirrup.Id);
 
                     //Копирование хомута дополнительного
                     List<ElementId> columnRebarSecondTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownSecondStirrup.Id, pointTopStirrupInstallation) as List<ElementId>;
@@ -2021,7 +1945,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
                     columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemStandardQuantity);
                     columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupSpacing);
-
+                    rebarIdCollection.Add(columnRebarSecondTopStirrup.Id);
 
                     //Построение нижнего хомута дополнительного 90 град
                     Rebar columnRebarDownThirdStirrup = Rebar.CreateFromCurvesAndShape(doc, myStirrupRebarShape
@@ -2034,14 +1958,10 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         , RebarHookOrientation.Right
                         , RebarHookOrientation.Right);
 
-                    if (columnOriginLocationPoint.Rotation != 0)
-                    {
-                        ElementTransformUtils.RotateElement(doc, columnRebarDownThirdStirrup.Id, rotationAxis, columnRotation);
-                    }
-
                     columnRebarDownThirdStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
                     columnRebarDownThirdStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
                     columnRebarDownThirdStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupSpacing);
+                    rebarIdCollection.Add(columnRebarDownThirdStirrup.Id);
 
                     //Копирование хомута дополнительного 90 град
                     List<ElementId> columnRebarSecondTopThirdIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownThirdStirrup.Id, pointTopStirrupInstallation) as List<ElementId>;
@@ -2050,6 +1970,35 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     columnRebarThirdTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
                     columnRebarThirdTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemStandardQuantity);
                     columnRebarThirdTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupSpacing);
+                    rebarIdCollection.Add(columnRebarThirdTopStirrup.Id);
+
+                    List<Group> projectGroupList = new FilteredElementCollector(doc).OfClass(typeof(Group)).Cast<Group>().ToList();
+                    if (projectGroupList.Any(g => g.GroupType.Name == myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString()))
+                    {
+                        TaskDialog.Show("Revit", "Группа с имененм "
+                            + myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString()
+                            + " уже существует!\nБыли созданы отдельные стержни колонны без группировки!"); ;
+                        continue;
+                    }
+                    else
+                    {
+                        Group newOutletsGroup = doc.Create.NewGroup(rebarIdCollection);
+                        if (myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString() == null || myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString() == "")
+                        {
+                            TaskDialog.Show("Revit", "У колонны отсутствует марка!"
+                                + "\nИмя группы по умолчанию - " + newOutletsGroup.GroupType.Name);
+                        }
+
+                        else
+                        {
+                            newOutletsGroup.GroupType.Name = myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString();
+                        }
+
+                        if (columnOriginLocationPoint.Rotation != 0)
+                        {
+                            ElementTransformUtils.RotateElement(doc, newOutletsGroup.Id, rotationAxis, columnRotation);
+                        }
+                    }
                 }
 
                 t.Commit();
