@@ -53,11 +53,15 @@
             this.radioButton_MainOverlappingRods = new System.Windows.Forms.RadioButton();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox_StrappingType = new System.Windows.Forms.GroupBox();
+            this.radioButton_StrappingTypePylon = new System.Windows.Forms.RadioButton();
+            this.radioButton_StrappingTypeColumn = new System.Windows.Forms.RadioButton();
             this.groupBox_RebarOutlets.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox_StrappingType.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_Ok
@@ -311,11 +315,47 @@
             this.pictureBox1.TabIndex = 35;
             this.pictureBox1.TabStop = false;
             // 
+            // groupBox_StrappingType
+            // 
+            this.groupBox_StrappingType.BackColor = System.Drawing.SystemColors.Window;
+            this.groupBox_StrappingType.Controls.Add(this.radioButton_StrappingTypeColumn);
+            this.groupBox_StrappingType.Controls.Add(this.radioButton_StrappingTypePylon);
+            this.groupBox_StrappingType.Location = new System.Drawing.Point(430, 463);
+            this.groupBox_StrappingType.Name = "groupBox_StrappingType";
+            this.groupBox_StrappingType.Size = new System.Drawing.Size(120, 70);
+            this.groupBox_StrappingType.TabIndex = 36;
+            this.groupBox_StrappingType.TabStop = false;
+            this.groupBox_StrappingType.Text = "Тип обвязки:";
+            // 
+            // radioButton_StrappingTypePylon
+            // 
+            this.radioButton_StrappingTypePylon.AutoSize = true;
+            this.radioButton_StrappingTypePylon.Checked = true;
+            this.radioButton_StrappingTypePylon.Location = new System.Drawing.Point(7, 20);
+            this.radioButton_StrappingTypePylon.Name = "radioButton_StrappingTypePylon";
+            this.radioButton_StrappingTypePylon.Size = new System.Drawing.Size(57, 17);
+            this.radioButton_StrappingTypePylon.TabIndex = 0;
+            this.radioButton_StrappingTypePylon.TabStop = true;
+            this.radioButton_StrappingTypePylon.Text = "Пилон";
+            this.radioButton_StrappingTypePylon.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_StrappingTypeColumn
+            // 
+            this.radioButton_StrappingTypeColumn.AutoSize = true;
+            this.radioButton_StrappingTypeColumn.Location = new System.Drawing.Point(7, 43);
+            this.radioButton_StrappingTypeColumn.Name = "radioButton_StrappingTypeColumn";
+            this.radioButton_StrappingTypeColumn.Size = new System.Drawing.Size(68, 17);
+            this.radioButton_StrappingTypeColumn.TabIndex = 1;
+            this.radioButton_StrappingTypeColumn.TabStop = true;
+            this.radioButton_StrappingTypeColumn.Text = "Колонна";
+            this.radioButton_StrappingTypeColumn.UseVisualStyleBackColor = true;
+            // 
             // CIT_04_2_RectangularColumnsReinforcementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(864, 601);
+            this.Controls.Add(this.groupBox_StrappingType);
             this.Controls.Add(this.groupBox_RebarOutlets);
             this.Controls.Add(this.textBox_IncreasedStirrupStep);
             this.Controls.Add(this.textBox_StandardStirrupStep);
@@ -347,6 +387,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox_StrappingType.ResumeLayout(false);
+            this.groupBox_StrappingType.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -379,5 +421,8 @@
         private System.Windows.Forms.RadioButton radioButton_MainOverlappingRods;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.GroupBox groupBox_StrappingType;
+        private System.Windows.Forms.RadioButton radioButton_StrappingTypeColumn;
+        private System.Windows.Forms.RadioButton radioButton_StrappingTypePylon;
     }
 }

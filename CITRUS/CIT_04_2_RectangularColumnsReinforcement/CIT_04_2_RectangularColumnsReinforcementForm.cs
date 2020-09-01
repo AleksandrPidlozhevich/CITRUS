@@ -21,6 +21,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         public RebarCoverType mySelectionRebarCoverType;
 
         public string CheckedRebarOutletsButtonName = "";
+        public string CheckedRebarStrappingTypeButtonName = "";
         public int NumberOfBarsLRFaces = 0;
         public int NumberOfBarsTBFaces = 0;
         public double RebarOutletsLengthLong = 0;
@@ -69,6 +70,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         private void btn_Ok_Click(object sender, EventArgs e)
         {
             CheckedRebarOutletsButtonName = groupBox_RebarOutlets.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
+            CheckedRebarStrappingTypeButtonName = groupBox_StrappingType.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

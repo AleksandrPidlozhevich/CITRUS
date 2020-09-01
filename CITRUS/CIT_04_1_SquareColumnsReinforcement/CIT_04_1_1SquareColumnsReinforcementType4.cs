@@ -1486,13 +1486,22 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     Element columnRebarFirstTopStirrup = doc.GetElement(columnRebarFirstTopStirrupIdList.First());
 
                     //Высота размещения хомутов опоясывающих со стандартным шагом
-                    double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset;
+                    double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset - 50 / 304.8;
                     int StirrupBarElemStandardQuantity = (int)(StirrupStandardInstallationHeigh / standardStirrupSpacing);
+                    //Высота установки последнего хомута
+                    double lastStirrupInstallationHeigh = columnLength - firstStirrupOffset - 50 / 304.8;
 
                     columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
                     columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemStandardQuantity);
                     columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupSpacing);
                     rebarIdCollection.Add(columnRebarFirstTopStirrup.Id);
+
+                    //Копирование хомута 1 последний
+                    XYZ pointLastTopStirrupInstallation = new XYZ(0, 0, lastStirrupInstallationHeigh);
+                    List<ElementId> columnRebarLastTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownFirstStirrup.Id, pointLastTopStirrupInstallation) as List<ElementId>;
+                    Element columnRebarLastTopStirrup = doc.GetElement(columnRebarLastTopStirrupIdList.First());
+                    columnRebarLastTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(0);
+                    rebarIdCollection.Add(columnRebarLastTopStirrup.Id);
 
                     //Построение нижнего хомута дополнительного
                     Rebar columnRebarDownSecondStirrup = Rebar.CreateFromCurvesAndShape(doc, myStirrupRebarShape
@@ -1519,6 +1528,13 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupSpacing);
                     rebarIdCollection.Add(columnRebarSecondTopStirrup.Id);
 
+                    // Копирование хомута 2 последний
+                    XYZ pointLastSecondTopStirrupInstallation = new XYZ(0, 0, lastStirrupInstallationHeigh);
+                    List<ElementId> columnRebarLastSecondTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownSecondStirrup.Id, pointLastSecondTopStirrupInstallation) as List<ElementId>;
+                    Element columnRebarLastSecondTopStirrup = doc.GetElement(columnRebarLastSecondTopStirrupIdList.First());
+                    columnRebarLastSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(0);
+                    rebarIdCollection.Add(columnRebarLastSecondTopStirrup.Id);
+
                     //Построение нижнего хомута дополнительного 90 град
                     Rebar columnRebarDownThirdStirrup = Rebar.CreateFromCurvesAndShape(doc, myStirrupRebarShape
                         , mySecondStirrupBarTape
@@ -1543,6 +1559,13 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     columnRebarThirdTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemStandardQuantity);
                     columnRebarThirdTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupSpacing);
                     rebarIdCollection.Add(columnRebarThirdTopStirrup.Id);
+
+                    // Копирование хомута 3 последний
+                    XYZ pointLastThirdTopStirrupInstallation = new XYZ(0, 0, lastStirrupInstallationHeigh);
+                    List<ElementId> columnRebarLastThirdTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownThirdStirrup.Id, pointLastThirdTopStirrupInstallation) as List<ElementId>;
+                    Element columnRebarLastThirdTopStirrup = doc.GetElement(columnRebarLastThirdTopStirrupIdList.First());
+                    columnRebarLastThirdTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(0);
+                    rebarIdCollection.Add(columnRebarLastThirdTopStirrup.Id);
 
                     List<Group> projectGroupList = new FilteredElementCollector(doc).OfClass(typeof(Group)).Cast<Group>().ToList();
                     if (projectGroupList.Any(g => g.GroupType.Name == myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString()))

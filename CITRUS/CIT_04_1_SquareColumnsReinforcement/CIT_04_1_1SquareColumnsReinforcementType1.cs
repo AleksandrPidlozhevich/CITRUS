@@ -693,13 +693,22 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     Element columnRebarTopStirrup = doc.GetElement(columnRebarTopStirrupIdList.First());
 
                     //Высота размещения хомутов со стандартным шагом
-                    double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset;
+                    double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset - 50 / 304.8;
                     int StirrupBarElemStandardQuantity = (int)(StirrupStandardInstallationHeigh / standardStirrupSpacing);
+                    //Высота установки последнего хомута
+                    double lastStirrupInstallationHeigh = columnLength - firstStirrupOffset - 50 / 304.8;
 
                     columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
                     columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemStandardQuantity);
                     columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupSpacing);
                     rebarIdCollection.Add(columnRebarTopStirrup.Id);
+
+                    //Копирование хомута последний
+                    XYZ pointLastTopStirrupInstallation = new XYZ(0, 0, lastStirrupInstallationHeigh);
+                    List<ElementId> columnRebarLastTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownStirrup.Id, pointLastTopStirrupInstallation) as List<ElementId>;
+                    Element columnRebarLastTopStirrup = doc.GetElement(columnRebarLastTopStirrupIdList.First());
+                    columnRebarLastTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(0);
+                    rebarIdCollection.Add(columnRebarLastTopStirrup.Id);
 
                     List<Group> projectGroupList = new FilteredElementCollector(doc).OfClass(typeof(Group)).Cast<Group>().ToList();
                     if (projectGroupList.Any(g => g.GroupType.Name == myColumn.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString()))

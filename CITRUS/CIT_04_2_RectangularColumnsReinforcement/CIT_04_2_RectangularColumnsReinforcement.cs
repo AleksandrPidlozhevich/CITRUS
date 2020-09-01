@@ -207,6 +207,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
             int StirrupBarElemFrequentQuantity = (int)(stirrupIncreasedPlacementHeight / increasedStirrupStep) + 1;
 
             string checkedRebarOutletsButtonName = rectangularColumnsReinforcementForm.CheckedRebarOutletsButtonName;
+            string checkedRebarStrappingTypeButtonName = rectangularColumnsReinforcementForm.CheckedRebarStrappingTypeButtonName;
 
 #endregion
 
@@ -303,6 +304,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                     int numberOfSpacesLRFacesForStirrup = numberOfBarsLRFaces - 3;
                     double stepBarsLRFacesForStirrup = 0;
+                    double stepBarsTBFacesForStirrup = 0;
                     double residueForOffsetForStirrup = 0;
 
                     //Универсальная коллекция для формирования группы выпусков
@@ -732,6 +734,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             int numberOfSpacesTBFaces = numberOfBarsTBFaces - 1;
                             double residualSizeTBFaces = columnSectionWidth - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsTBFaces = RoundUpToFive(Math.Round((residualSizeTBFaces / numberOfSpacesTBFaces) * 304.8)) / 304.8;
+                            stepBarsTBFacesForStirrup = stepBarsTBFaces;
                             double residueForOffset = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
 
                             XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffset
@@ -1332,6 +1335,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             int numberOfSpacesTBFaces = numberOfBarsTBFaces - 1;
                             double residualSizeTBFaces = columnSectionWidth - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsTBFaces = RoundUpToFive(Math.Round((residualSizeTBFaces / numberOfSpacesTBFaces) * 304.8)) / 304.8;
+                            stepBarsTBFacesForStirrup = stepBarsTBFaces;
                             double residueForOffset = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
 
                             XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffset
@@ -1564,151 +1568,314 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                     }
 
 #region Хомуты и стяжки
-                    //Хомут
-                    //Нормаль для построения хомута
-                    XYZ narmalStirrup = new XYZ(0, 0, 1);
-
-                    if (numberOfBarsLRFaces > 5)
+                    if (checkedRebarStrappingTypeButtonName == "radioButton_StrappingTypePylon")
                     {
-                        //Точки для построения кривых стержня хомута 1
-                        XYZ rebarStirrupFirst_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - stirrupRebarDiam / 2, 6)
-                        , Math.Round(columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer + stirrupRebarDiam / 2, 6)
-                        , Math.Round(columnOrigin.Z + firstStirrupOffset, 6));
+                        //Хомут
+                        //Нормаль для построения хомута
+                        XYZ normalStirrup = new XYZ(0, 0, 1);
 
-                        XYZ rebarStirrupFirst_p2 = new XYZ(Math.Round(rebarStirrupFirst_p1.X + columnSectionWidth - mainRebarCoverLayer * 2 + stirrupRebarDiam, 6)
-                            , Math.Round(rebarStirrupFirst_p1.Y, 6)
-                            , Math.Round(rebarStirrupFirst_p1.Z, 6));
+                        if (numberOfBarsLRFaces > 5)
+                        {
+                            //Точки для построения кривых стержня хомута 1
+                            XYZ rebarStirrupFirst_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - stirrupRebarDiam / 2, 6)
+                            , Math.Round(columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer + stirrupRebarDiam / 2, 6)
+                            , Math.Round(columnOrigin.Z + firstStirrupOffset, 6));
 
-                        XYZ rebarStirrupFirst_p3 = new XYZ(Math.Round(rebarStirrupFirst_p2.X, 6)
-                            , Math.Round(rebarStirrupFirst_p2.Y
-                            - stepBarsLRFacesForStirrup * numberOfSpacesLRFacesForStirrup
-                            - residueForOffsetForStirrup
-                            - mainRebarDiamTypeOne / 2
-                            - mainRebarDiamTypeTwo / 2
-                            - stirrupRebarDiam
-                            - stirrupRebarDiam / 2, 6)
-                            , Math.Round(rebarStirrupFirst_p2.Z, 6));
+                            XYZ rebarStirrupFirst_p2 = new XYZ(Math.Round(rebarStirrupFirst_p1.X + columnSectionWidth - mainRebarCoverLayer * 2 + stirrupRebarDiam, 6)
+                                , Math.Round(rebarStirrupFirst_p1.Y, 6)
+                                , Math.Round(rebarStirrupFirst_p1.Z, 6));
 
-                        XYZ rebarStirrupFirst_p4 = new XYZ(Math.Round(rebarStirrupFirst_p3.X - columnSectionWidth + mainRebarCoverLayer * 2 - stirrupRebarDiam, 6)
-                            , Math.Round(rebarStirrupFirst_p3.Y, 6)
-                            , Math.Round(rebarStirrupFirst_p3.Z, 6));
+                            XYZ rebarStirrupFirst_p3 = new XYZ(Math.Round(rebarStirrupFirst_p2.X, 6)
+                                , Math.Round(rebarStirrupFirst_p2.Y
+                                - stepBarsLRFacesForStirrup * numberOfSpacesLRFacesForStirrup
+                                - residueForOffsetForStirrup
+                                - mainRebarDiamTypeOne / 2
+                                - mainRebarDiamTypeTwo / 2
+                                - stirrupRebarDiam
+                                - stirrupRebarDiam / 2, 6)
+                                , Math.Round(rebarStirrupFirst_p2.Z, 6));
 
-                        //Кривые хомута 1
-                        List<Curve> myStirrupFirstCurves = new List<Curve>();
+                            XYZ rebarStirrupFirst_p4 = new XYZ(Math.Round(rebarStirrupFirst_p3.X - columnSectionWidth + mainRebarCoverLayer * 2 - stirrupRebarDiam, 6)
+                                , Math.Round(rebarStirrupFirst_p3.Y, 6)
+                                , Math.Round(rebarStirrupFirst_p3.Z, 6));
 
-                        Curve firstStirrup_line1 = Line.CreateBound(rebarStirrupFirst_p1, rebarStirrupFirst_p2) as Curve;
-                        myStirrupFirstCurves.Add(firstStirrup_line1);
-                        Curve firstStirrup_line2 = Line.CreateBound(rebarStirrupFirst_p2, rebarStirrupFirst_p3) as Curve;
-                        myStirrupFirstCurves.Add(firstStirrup_line2);
-                        Curve firstStirrup_line3 = Line.CreateBound(rebarStirrupFirst_p3, rebarStirrupFirst_p4) as Curve;
-                        myStirrupFirstCurves.Add(firstStirrup_line3);
-                        Curve firstStirrup_line4 = Line.CreateBound(rebarStirrupFirst_p4, rebarStirrupFirst_p1) as Curve;
-                        myStirrupFirstCurves.Add(firstStirrup_line4);
+                            //Кривые хомута 1
+                            List<Curve> myStirrupFirstCurves = new List<Curve>();
 
-                        //Построение нижнего хомута 1
-                        Rebar columnRebarFirstDownStirrup = Rebar.CreateFromCurvesAndShape(doc
-                            , myStirrupRebarShape
-                            , myStirrupBarTape
-                            , myRebarHookType
-                            , myRebarHookType
-                            , myColumn
-                            , narmalStirrup
-                            , myStirrupFirstCurves
-                            , RebarHookOrientation.Right
-                            , RebarHookOrientation.Right);
+                            Curve firstStirrup_line1 = Line.CreateBound(rebarStirrupFirst_p1, rebarStirrupFirst_p2) as Curve;
+                            myStirrupFirstCurves.Add(firstStirrup_line1);
+                            Curve firstStirrup_line2 = Line.CreateBound(rebarStirrupFirst_p2, rebarStirrupFirst_p3) as Curve;
+                            myStirrupFirstCurves.Add(firstStirrup_line2);
+                            Curve firstStirrup_line3 = Line.CreateBound(rebarStirrupFirst_p3, rebarStirrupFirst_p4) as Curve;
+                            myStirrupFirstCurves.Add(firstStirrup_line3);
+                            Curve firstStirrup_line4 = Line.CreateBound(rebarStirrupFirst_p4, rebarStirrupFirst_p1) as Curve;
+                            myStirrupFirstCurves.Add(firstStirrup_line4);
 
-                        columnRebarFirstDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
-                        columnRebarFirstDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
-                        columnRebarFirstDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
+                            //Построение нижнего хомута 1
+                            Rebar columnRebarFirstDownStirrup = Rebar.CreateFromCurvesAndShape(doc
+                                , myStirrupRebarShape
+                                , myStirrupBarTape
+                                , myRebarHookType
+                                , myRebarHookType
+                                , myColumn
+                                , normalStirrup
+                                , myStirrupFirstCurves
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
 
-                        rebarIdCollection.Add(columnRebarFirstDownStirrup.Id);
+                            columnRebarFirstDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarFirstDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
+                            columnRebarFirstDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
 
-                        //Копирование хомута 1
-                        XYZ pointFirstTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
-                        List<ElementId> columnRebarFirstTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarFirstDownStirrup.Id, pointFirstTopStirrupInstallation) as List<ElementId>;
-                        Element columnRebarFirstTopStirrup = doc.GetElement(columnRebarFirstTopStirrupIdList.First());
+                            rebarIdCollection.Add(columnRebarFirstDownStirrup.Id);
 
-                        //Высота размещения хомутов со стандартным шагом
-                        double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset;
-                        int stirrupBarElemStandardQuantity = (int)(StirrupStandardInstallationHeigh / standardStirrupStep);
+                            //Копирование хомута 1
+                            XYZ pointFirstTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
+                            List<ElementId> columnRebarFirstTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarFirstDownStirrup.Id, pointFirstTopStirrupInstallation) as List<ElementId>;
+                            Element columnRebarFirstTopStirrup = doc.GetElement(columnRebarFirstTopStirrupIdList.First());
 
-                        columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
-                        columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
-                        columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+                            //Высота размещения хомутов со стандартным шагом
+                            double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset - 50 / 304.8;
+                            int stirrupBarElemStandardQuantity = (int)(StirrupStandardInstallationHeigh / standardStirrupStep);
+                            //Высота установки последнего хомута
+                            double lastStirrupInstallationHeigh = columnLength - firstStirrupOffset - 50 / 304.8;
 
-                        rebarIdCollection.Add(columnRebarFirstTopStirrup.Id);
+                            columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
+                            columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+                            rebarIdCollection.Add(columnRebarFirstTopStirrup.Id);
 
-                        //Точки для построения кривых стержня хомута 2
-                        XYZ rebarStirrupSecond_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - stirrupRebarDiam / 2, 6)
-                            , Math.Round(columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer - stirrupRebarDiam / 2, 6)
-                            , Math.Round(columnOrigin.Z + firstStirrupOffset + stirrupRebarDiam, 6));
+                            //Копирование хомута 1 последний
+                            XYZ pointLastTopStirrupInstallation = new XYZ(0, 0, lastStirrupInstallationHeigh);
+                            List<ElementId> columnRebarLastTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarFirstDownStirrup.Id, pointLastTopStirrupInstallation) as List<ElementId>;
+                            Element columnRebarLastTopStirrup = doc.GetElement(columnRebarLastTopStirrupIdList.First());
+                            columnRebarLastTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(0);
+                            rebarIdCollection.Add(columnRebarLastTopStirrup.Id);
 
-                        XYZ rebarStirrupSecond_p2 = new XYZ(Math.Round(rebarStirrupSecond_p1.X, 6)
-                            , Math.Round(rebarStirrupSecond_p1.Y
-                            + stepBarsLRFacesForStirrup * numberOfSpacesLRFacesForStirrup
-                            + residueForOffsetForStirrup
-                            + mainRebarDiamTypeOne / 2
-                            + mainRebarDiamTypeTwo / 2
-                            + stirrupRebarDiam / 2, 6)
-                            , Math.Round(rebarStirrupSecond_p1.Z, 6));
+                            //Точки для построения кривых стержня хомута 2
+                            XYZ rebarStirrupSecond_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - stirrupRebarDiam / 2, 6)
+                                , Math.Round(columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer - stirrupRebarDiam / 2, 6)
+                                , Math.Round(columnOrigin.Z + firstStirrupOffset + stirrupRebarDiam, 6));
 
-                        XYZ rebarStirrupSecond_p3 = new XYZ(Math.Round(rebarStirrupSecond_p2.X + columnSectionWidth - mainRebarCoverLayer * 2 + stirrupRebarDiam, 6)
-                            , Math.Round(rebarStirrupSecond_p2.Y, 6)
-                            , Math.Round(rebarStirrupSecond_p2.Z, 6));
+                            XYZ rebarStirrupSecond_p2 = new XYZ(Math.Round(rebarStirrupSecond_p1.X, 6)
+                                , Math.Round(rebarStirrupSecond_p1.Y
+                                + stepBarsLRFacesForStirrup * numberOfSpacesLRFacesForStirrup
+                                + residueForOffsetForStirrup
+                                + mainRebarDiamTypeOne / 2
+                                + mainRebarDiamTypeTwo / 2
+                                + stirrupRebarDiam / 2, 6)
+                                , Math.Round(rebarStirrupSecond_p1.Z, 6));
 
-                        XYZ rebarStirrupSecond_p4 = new XYZ(Math.Round(rebarStirrupSecond_p3.X, 6)
-                            , Math.Round(rebarStirrupSecond_p3.Y
-                            - stepBarsLRFacesForStirrup * numberOfSpacesLRFacesForStirrup
-                            - residueForOffsetForStirrup
-                            - mainRebarDiamTypeOne / 2
-                            - mainRebarDiamTypeTwo / 2
-                            - stirrupRebarDiam / 2, 6)
-                            , Math.Round(rebarStirrupSecond_p3.Z, 6));
+                            XYZ rebarStirrupSecond_p3 = new XYZ(Math.Round(rebarStirrupSecond_p2.X + columnSectionWidth - mainRebarCoverLayer * 2 + stirrupRebarDiam, 6)
+                                , Math.Round(rebarStirrupSecond_p2.Y, 6)
+                                , Math.Round(rebarStirrupSecond_p2.Z, 6));
 
-                        //Кривые хомута 2
-                        List<Curve> myStirrupSecondCurves = new List<Curve>();
+                            XYZ rebarStirrupSecond_p4 = new XYZ(Math.Round(rebarStirrupSecond_p3.X, 6)
+                                , Math.Round(rebarStirrupSecond_p3.Y
+                                - stepBarsLRFacesForStirrup * numberOfSpacesLRFacesForStirrup
+                                - residueForOffsetForStirrup
+                                - mainRebarDiamTypeOne / 2
+                                - mainRebarDiamTypeTwo / 2
+                                - stirrupRebarDiam / 2, 6)
+                                , Math.Round(rebarStirrupSecond_p3.Z, 6));
 
-                        Curve secondStirrup_line1 = Line.CreateBound(rebarStirrupSecond_p1, rebarStirrupSecond_p2) as Curve;
-                        myStirrupSecondCurves.Add(secondStirrup_line1);
-                        Curve secondStirrup_line2 = Line.CreateBound(rebarStirrupSecond_p2, rebarStirrupSecond_p3) as Curve;
-                        myStirrupSecondCurves.Add(secondStirrup_line2);
-                        Curve secondStirrup_line3 = Line.CreateBound(rebarStirrupSecond_p3, rebarStirrupSecond_p4) as Curve;
-                        myStirrupSecondCurves.Add(secondStirrup_line3);
-                        Curve secondStirrup_line4 = Line.CreateBound(rebarStirrupSecond_p4, rebarStirrupSecond_p1) as Curve;
-                        myStirrupSecondCurves.Add(secondStirrup_line4);
+                            //Кривые хомута 2
+                            List<Curve> myStirrupSecondCurves = new List<Curve>();
 
-                        //Построение нижнего хомута 2
-                        Rebar columnRebarSecondDownStirrup = Rebar.CreateFromCurvesAndShape(doc
-                            , myStirrupRebarShape
-                            , myStirrupBarTape
-                            , myRebarHookType
-                            , myRebarHookType
-                            , myColumn
-                            , narmalStirrup
-                            , myStirrupSecondCurves
-                            , RebarHookOrientation.Right
-                            , RebarHookOrientation.Right);
+                            Curve secondStirrup_line1 = Line.CreateBound(rebarStirrupSecond_p1, rebarStirrupSecond_p2) as Curve;
+                            myStirrupSecondCurves.Add(secondStirrup_line1);
+                            Curve secondStirrup_line2 = Line.CreateBound(rebarStirrupSecond_p2, rebarStirrupSecond_p3) as Curve;
+                            myStirrupSecondCurves.Add(secondStirrup_line2);
+                            Curve secondStirrup_line3 = Line.CreateBound(rebarStirrupSecond_p3, rebarStirrupSecond_p4) as Curve;
+                            myStirrupSecondCurves.Add(secondStirrup_line3);
+                            Curve secondStirrup_line4 = Line.CreateBound(rebarStirrupSecond_p4, rebarStirrupSecond_p1) as Curve;
+                            myStirrupSecondCurves.Add(secondStirrup_line4);
 
-                        columnRebarSecondDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
-                        columnRebarSecondDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
-                        columnRebarSecondDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
+                            //Построение нижнего хомута 2
+                            Rebar columnRebarSecondDownStirrup = Rebar.CreateFromCurvesAndShape(doc
+                                , myStirrupRebarShape
+                                , myStirrupBarTape
+                                , myRebarHookType
+                                , myRebarHookType
+                                , myColumn
+                                , normalStirrup
+                                , myStirrupSecondCurves
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
 
-                        rebarIdCollection.Add(columnRebarSecondDownStirrup.Id);
+                            columnRebarSecondDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarSecondDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
+                            columnRebarSecondDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
 
-                        //Копирование хомута 2
-                        XYZ pointSecondTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
-                        List<ElementId> columnRebarSecondTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarSecondDownStirrup.Id, pointSecondTopStirrupInstallation) as List<ElementId>;
-                        Element columnRebarSecondTopStirrup = doc.GetElement(columnRebarSecondTopStirrupIdList.First());
+                            rebarIdCollection.Add(columnRebarSecondDownStirrup.Id);
 
-                        columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
-                        columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
-                        columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+                            //Копирование хомута 2
+                            XYZ pointSecondTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
+                            List<ElementId> columnRebarSecondTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarSecondDownStirrup.Id, pointSecondTopStirrupInstallation) as List<ElementId>;
+                            Element columnRebarSecondTopStirrup = doc.GetElement(columnRebarSecondTopStirrupIdList.First());
 
-                        rebarIdCollection.Add(columnRebarSecondTopStirrup.Id);
+                            columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
+                            columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+                            rebarIdCollection.Add(columnRebarSecondTopStirrup.Id);
+
+                            // Копирование хомута 2 последний
+                            XYZ pointLastSecondTopStirrupInstallation = new XYZ(0, 0, lastStirrupInstallationHeigh);
+                            List<ElementId> columnRebarLastSecondTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarSecondDownStirrup.Id, pointLastSecondTopStirrupInstallation) as List<ElementId>;
+                            Element columnRebarLastSecondTopStirrup = doc.GetElement(columnRebarLastSecondTopStirrupIdList.First());
+                            columnRebarLastSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(0);
+                            rebarIdCollection.Add(columnRebarLastSecondTopStirrup.Id);
+                        }
+
+                        if (numberOfBarsLRFaces <= 5)
+                        {
+                            //Точки для построения кривых стержня хомута
+                            XYZ rebarStirrup_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - stirrupRebarDiam / 2, 6)
+                                , Math.Round(columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer + stirrupRebarDiam / 2, 6)
+                                , Math.Round(columnOrigin.Z + firstStirrupOffset, 6));
+
+                            XYZ rebarStirrup_p2 = new XYZ(Math.Round(rebarStirrup_p1.X + columnSectionWidth - mainRebarCoverLayer * 2 + stirrupRebarDiam, 6)
+                                , Math.Round(rebarStirrup_p1.Y, 6)
+                                , Math.Round(rebarStirrup_p1.Z, 6));
+
+                            XYZ rebarStirrup_p3 = new XYZ(Math.Round(rebarStirrup_p2.X, 6)
+                                , Math.Round(rebarStirrup_p2.Y - columnSectionHeight + mainRebarCoverLayer * 2 - stirrupRebarDiam, 6)
+                                , Math.Round(rebarStirrup_p2.Z, 6));
+
+                            XYZ rebarStirrup_p4 = new XYZ(Math.Round(rebarStirrup_p3.X - columnSectionWidth + mainRebarCoverLayer * 2 - stirrupRebarDiam, 6)
+                                , Math.Round(rebarStirrup_p3.Y, 6)
+                                , Math.Round(rebarStirrup_p3.Z, 6));
+
+                            //Кривые хомута
+                            List<Curve> myStirrupCurves = new List<Curve>();
+
+                            Curve Stirrup_line1 = Line.CreateBound(rebarStirrup_p1, rebarStirrup_p2) as Curve;
+                            myStirrupCurves.Add(Stirrup_line1);
+                            Curve Stirrup_line2 = Line.CreateBound(rebarStirrup_p2, rebarStirrup_p3) as Curve;
+                            myStirrupCurves.Add(Stirrup_line2);
+                            Curve Stirrup_line3 = Line.CreateBound(rebarStirrup_p3, rebarStirrup_p4) as Curve;
+                            myStirrupCurves.Add(Stirrup_line3);
+                            Curve Stirrup_line4 = Line.CreateBound(rebarStirrup_p4, rebarStirrup_p1) as Curve;
+                            myStirrupCurves.Add(Stirrup_line4);
+
+                            //Построение нижнего хомута
+                            Rebar columnRebarDownStirrup = Rebar.CreateFromCurvesAndShape(doc, myStirrupRebarShape, myStirrupBarTape, myRebarHookType, myRebarHookType, myColumn, normalStirrup, myStirrupCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
+
+                            columnRebarDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
+                            columnRebarDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
+                            rebarIdCollection.Add(columnRebarDownStirrup.Id);
+
+                            //Копирование хомута
+                            XYZ pointTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
+                            List<ElementId> columnRebarTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownStirrup.Id, pointTopStirrupInstallation) as List<ElementId>;
+                            Element columnRebarTopStirrup = doc.GetElement(columnRebarTopStirrupIdList.First());
+
+                            //Высота размещения хомутов со стандартным шагом
+                            double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset - 50 / 304.8;
+                            int StirrupBarElemStandardQuantity = (int)(StirrupStandardInstallationHeigh / standardStirrupStep);
+                            //Высота установки последнего хомута
+                            double lastStirrupInstallationHeigh = columnLength - firstStirrupOffset - 50 / 304.8;
+
+                            columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemStandardQuantity);
+                            columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+                            rebarIdCollection.Add(columnRebarTopStirrup.Id);
+
+                            //Копирование хомута последний
+                            XYZ pointLastTopStirrupInstallation = new XYZ(0, 0, lastStirrupInstallationHeigh);
+                            List<ElementId> columnRebarLastTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownStirrup.Id, pointLastTopStirrupInstallation) as List<ElementId>;
+                            Element columnRebarLastTopStirrup = doc.GetElement(columnRebarLastTopStirrupIdList.First());
+                            columnRebarLastTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(0);
+                            rebarIdCollection.Add(columnRebarLastTopStirrup.Id);
+                        }
+
+                        if (numberOfBarsLRFaces > 7)
+                        {
+                            //Шпилька
+                            //Точки для построения кривых стержня шпильки
+                            double rebarStandardHookBendDiameter = myPinBarTape.get_Parameter(BuiltInParameter.REBAR_STANDARD_HOOK_BEND_DIAMETER).AsDouble();
+
+                            XYZ rebarDownPin_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - pinRebarDiam, 6)
+                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFacesForStirrup * 4 + residueForOffsetForStirrup + rebarStandardHookBendDiameter / 2 + pinRebarDiam / 2
+                                , Math.Round(columnOrigin.Z + firstStirrupOffset + stirrupRebarDiam + pinRebarDiam, 6));
+
+                            XYZ rebarDownPin_p2 = new XYZ(Math.Round(columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer + pinRebarDiam, 6)
+                                , rebarDownPin_p1.Y
+                                , Math.Round(rebarDownPin_p1.Z, 6));
+
+                            //Кривые шпильки
+                            List<Curve> myDownPinCurves = new List<Curve>();
+                            Curve downPin_line1 = Line.CreateBound(rebarDownPin_p1, rebarDownPin_p2) as Curve;
+                            myDownPinCurves.Add(downPin_line1);
+
+                            Rebar columnRebarDownPin = Rebar.CreateFromCurvesAndShape(doc
+                                , myPinRebarShape
+                                , myPinBarTape
+                                , myRebarPinHookType
+                                , myRebarPinHookType
+                                , myColumn
+                                , normalStirrup
+                                , myDownPinCurves
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            columnRebarDownPin.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarDownPin.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
+                            columnRebarDownPin.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
+                            rebarIdCollection.Add(columnRebarDownPin.Id);
+
+                            //Высота размещения хомутов со стандартным шагом
+                            double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset - 50 / 304.8;
+                            int stirrupBarElemStandardQuantity = (int)(StirrupStandardInstallationHeigh / standardStirrupStep);
+                            //Высота установки последней шпильки 
+                            double lastStirrupInstallationHeigh = columnLength - firstStirrupOffset - 50 / 304.8;
+
+                            //Копирование шпильки вверх
+                            XYZ pointTopPinInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
+                            List<ElementId> columnRebarTopPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownPin.Id, pointTopPinInstallation) as List<ElementId>;
+                            Element columnRebarTopPin = doc.GetElement(columnRebarTopPinIdList.First());
+
+                            columnRebarTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
+                            columnRebarTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+                            rebarIdCollection.Add(columnRebarTopPin.Id);
+
+                            //Копирование шпильки последний
+                            XYZ pointLastTopPinInstallation = new XYZ(0, 0, lastStirrupInstallationHeigh);
+                            List<ElementId> columnRebarLastTopPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownPin.Id, pointLastTopPinInstallation) as List<ElementId>;
+                            Element columnRebarLastTopPin = doc.GetElement(columnRebarLastTopPinIdList.First());
+                            columnRebarLastTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(0);
+                            rebarIdCollection.Add(columnRebarLastTopPin.Id);
+
+                            if (numberOfBarsLRFaces > 9)
+                            {
+                                int n = (numberOfBarsLRFaces - 8) / 2; // Необходимое кол-во копий шпильки
+                                for (int i = 1; i <= n; i++)
+                                {
+                                    XYZ pointPinInstallation = new XYZ(0, (stepBarsLRFacesForStirrup * 2) * i, 0);
+                                    List<ElementId> newColumnRebarDownPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownPin.Id, pointPinInstallation) as List<ElementId>;
+                                    Element newColumnRebarDownPin = doc.GetElement(newColumnRebarDownPinIdList.First());
+                                    rebarIdCollection.Add(newColumnRebarDownPin.Id);
+
+                                    List<ElementId> newColumnRebarTopPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarTopPin.Id, pointPinInstallation) as List<ElementId>;
+                                    Element newColumnRebarTopPin = doc.GetElement(newColumnRebarTopPinIdList.First());
+                                    rebarIdCollection.Add(newColumnRebarTopPin.Id);
+
+                                    List<ElementId> newColumnRebarLastTopPinList = ElementTransformUtils.CopyElement(doc, columnRebarLastTopPin.Id, pointPinInstallation) as List<ElementId>;
+                                    Element newColumnRebarLastTopPin = doc.GetElement(newColumnRebarLastTopPinList.First());
+                                    rebarIdCollection.Add(newColumnRebarLastTopPin.Id);
+                                }
+                            }
+                        }
                     }
 
-                    if (numberOfBarsLRFaces <= 5)
+                    if (checkedRebarStrappingTypeButtonName == "radioButton_StrappingTypeColumn")
                     {
+                        //Хомут
+                        //Нормаль для построения хомута
+                        XYZ normalStirrup = new XYZ(0, 0, 1);
+
                         //Точки для построения кривых стержня хомута
                         XYZ rebarStirrup_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - stirrupRebarDiam / 2, 6)
                             , Math.Round(columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer + stirrupRebarDiam / 2, 6)
@@ -1739,102 +1906,256 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         myStirrupCurves.Add(Stirrup_line4);
 
                         //Построение нижнего хомута
-                        Rebar columnRebarDownStirrup = Rebar.CreateFromCurvesAndShape(doc, myStirrupRebarShape, myStirrupBarTape, myRebarHookType, myRebarHookType, myColumn, narmalStirrup, myStirrupCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
-
-                        if (columnOriginLocationPoint.Rotation != 0)
-                        {
-                            ElementTransformUtils.RotateElement(doc, columnRebarDownStirrup.Id, rotationAxis, columnRotation);
-                        }
+                        Rebar columnRebarDownStirrup = Rebar.CreateFromCurvesAndShape(doc, myStirrupRebarShape, myStirrupBarTape, myRebarHookType, myRebarHookType, myColumn, normalStirrup, myStirrupCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);
 
                         columnRebarDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
                         columnRebarDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
                         columnRebarDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
-
                         rebarIdCollection.Add(columnRebarDownStirrup.Id);
 
                         //Копирование хомута
-                        XYZ pointTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + increasedStirrupStep);
+                        XYZ pointTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
                         List<ElementId> columnRebarTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownStirrup.Id, pointTopStirrupInstallation) as List<ElementId>;
                         Element columnRebarTopStirrup = doc.GetElement(columnRebarTopStirrupIdList.First());
 
                         //Высота размещения хомутов со стандартным шагом
-                        double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset;
-                        int StirrupBarElemStandardQuantity = (int)(StirrupStandardInstallationHeigh / standardStirrupStep);
+                        double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset - 50 / 304.8;
+                        int stirrupBarElemStandardQuantity = (int)(StirrupStandardInstallationHeigh / standardStirrupStep);
+                        //Высота установки последнего хомута
+                        double lastStirrupInstallationHeigh = columnLength - firstStirrupOffset - 50 / 304.8;
 
                         columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
-                        columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemStandardQuantity);
+                        columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
                         columnRebarTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
-
                         rebarIdCollection.Add(columnRebarTopStirrup.Id);
-                    }
 
-                    if (numberOfBarsLRFaces > 7)
-                    {
-                        //Шпилька
-                        //Точки для построения кривых стержня шпильки
-                        double rebarStandardHookBendDiameter = myPinBarTape.get_Parameter(BuiltInParameter.REBAR_STANDARD_HOOK_BEND_DIAMETER).AsDouble();
+                        //Копирование хомута последний
+                        XYZ pointLastTopStirrupInstallation = new XYZ(0, 0, lastStirrupInstallationHeigh);
+                        List<ElementId> columnRebarLastTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownStirrup.Id, pointLastTopStirrupInstallation) as List<ElementId>;
+                        Element columnRebarLastTopStirrup = doc.GetElement(columnRebarLastTopStirrupIdList.First());
+                        columnRebarLastTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(0);
+                        rebarIdCollection.Add(columnRebarLastTopStirrup.Id);
 
-                        XYZ rebarDownPin_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - pinRebarDiam, 6)
-                            , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFacesForStirrup * 4 + residueForOffsetForStirrup + rebarStandardHookBendDiameter / 2 + pinRebarDiam / 2
-                            , Math.Round(columnOrigin.Z + firstStirrupOffset + stirrupRebarDiam + pinRebarDiam, 6));
-
-                        XYZ rebarDownPin_p2 = new XYZ(Math.Round(columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer + pinRebarDiam, 6)
-                            , rebarDownPin_p1.Y
-                            , Math.Round(rebarDownPin_p1.Z, 6));
-
-                        //Кривые шпильки
-                        List<Curve> myDownPinCurves = new List<Curve>();
-                        Curve downPin_line1 = Line.CreateBound(rebarDownPin_p1, rebarDownPin_p2) as Curve;
-                        myDownPinCurves.Add(downPin_line1);
-
-                        Rebar columnRebarDownPin = Rebar.CreateFromCurvesAndShape(doc
-                            , myPinRebarShape
-                            , myPinBarTape
-                            , myRebarPinHookType
-                            , myRebarPinHookType
-                            , myColumn
-                            , narmalStirrup
-                            , myDownPinCurves
-                            , RebarHookOrientation.Right
-                            , RebarHookOrientation.Right);
-
-                        columnRebarDownPin.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
-                        columnRebarDownPin.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
-                        columnRebarDownPin.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
-
-                        rebarIdCollection.Add(columnRebarDownPin.Id);
-
-                        //Высота размещения хомутов со стандартным шагом
-                        double StirrupStandardInstallationHeigh = columnLength - stirrupIncreasedPlacementHeight - firstStirrupOffset;
-                        int stirrupBarElemStandardQuantity = (int)(StirrupStandardInstallationHeigh / standardStirrupStep);
-
-                        //Копирование шпильки вверх
-                        XYZ pointTopPinInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
-                        List<ElementId> columnRebarTopPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownPin.Id, pointTopPinInstallation) as List<ElementId>;
-                        Element columnRebarTopPin = doc.GetElement(columnRebarTopPinIdList.First());
-
-                        columnRebarTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
-                        columnRebarTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
-                        columnRebarTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
-
-                        rebarIdCollection.Add(columnRebarTopPin.Id);
-
-                        if (numberOfBarsLRFaces > 9)
+                        if (numberOfBarsLRFaces >=6)
                         {
-                            int n = (numberOfBarsLRFaces - 8) / 2; // Необходимое кол-во копий шпильки
-                            for (int i =1; i<=n; i++)
+                            //Точки для построения кривых стержня хомута 1
+                            XYZ rebarStirrupFirst_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth/2 + mainRebarCoverLayer - stirrupRebarDiam, 6)
+                            , Math.Round(columnOrigin.Y
+                            + columnSectionHeight/2
+                            - mainRebarCoverLayer
+                            - mainRebarDiamTypeOne/2
+                            - residueForOffsetForStirrup
+                            - stepBarsLRFacesForStirrup*2
+                            + mainRebarDiamTypeTwo / 2
+                            + stirrupRebarDiam / 2, 6)
+                            , Math.Round(columnOrigin.Z + firstStirrupOffset + stirrupRebarDiam, 6));
+
+                            XYZ rebarStirrupFirst_p2 = new XYZ(Math.Round(rebarStirrupFirst_p1.X + columnSectionWidth - mainRebarCoverLayer * 2 + stirrupRebarDiam, 6)
+                                , Math.Round(rebarStirrupFirst_p1.Y, 6)
+                                , Math.Round(rebarStirrupFirst_p1.Z, 6));
+
+                            XYZ rebarStirrupFirst_p3 = new XYZ(Math.Round(rebarStirrupFirst_p2.X, 6)
+                                , Math.Round(columnOrigin.Y
+                                - columnSectionHeight / 2
+                                + mainRebarCoverLayer
+                                + mainRebarDiamTypeOne / 2
+                                + residueForOffsetForStirrup
+                                + stepBarsLRFacesForStirrup * 2
+                                - mainRebarDiamTypeTwo / 2
+                                - stirrupRebarDiam, 6)
+                                , Math.Round(rebarStirrupFirst_p2.Z, 6));
+
+                            XYZ rebarStirrupFirst_p4 = new XYZ(Math.Round(rebarStirrupFirst_p3.X - columnSectionWidth + mainRebarCoverLayer * 2 - stirrupRebarDiam, 6)
+                                , Math.Round(rebarStirrupFirst_p3.Y, 6)
+                                , Math.Round(rebarStirrupFirst_p3.Z, 6));
+
+                            //Кривые хомута 1
+                            List<Curve> myStirrupFirstCurves = new List<Curve>();
+
+                            Curve firstStirrup_line1 = Line.CreateBound(rebarStirrupFirst_p1, rebarStirrupFirst_p2) as Curve;
+                            myStirrupFirstCurves.Add(firstStirrup_line1);
+                            Curve firstStirrup_line2 = Line.CreateBound(rebarStirrupFirst_p2, rebarStirrupFirst_p3) as Curve;
+                            myStirrupFirstCurves.Add(firstStirrup_line2);
+                            Curve firstStirrup_line3 = Line.CreateBound(rebarStirrupFirst_p3, rebarStirrupFirst_p4) as Curve;
+                            myStirrupFirstCurves.Add(firstStirrup_line3);
+                            Curve firstStirrup_line4 = Line.CreateBound(rebarStirrupFirst_p4, rebarStirrupFirst_p1) as Curve;
+                            myStirrupFirstCurves.Add(firstStirrup_line4);
+
+                            //Построение нижнего хомута 1
+                            Rebar columnRebarFirstDownStirrup = Rebar.CreateFromCurvesAndShape(doc
+                                , myStirrupRebarShape
+                                , myStirrupBarTape
+                                , myRebarHookType
+                                , myRebarHookType
+                                , myColumn
+                                , normalStirrup
+                                , myStirrupFirstCurves
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            columnRebarFirstDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarFirstDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
+                            columnRebarFirstDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
+
+                            rebarIdCollection.Add(columnRebarFirstDownStirrup.Id);
+
+                            //Копирование хомута 1
+                            XYZ pointFirstTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
+                            List<ElementId> columnRebarFirstTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarFirstDownStirrup.Id, pointFirstTopStirrupInstallation) as List<ElementId>;
+                            Element columnRebarFirstTopStirrup = doc.GetElement(columnRebarFirstTopStirrupIdList.First());
+
+                            columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
+                            columnRebarFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+                            rebarIdCollection.Add(columnRebarFirstTopStirrup.Id);
+
+                            //Копирование хомута 1 последний
+                            XYZ pointLastFirstTopStirrupInstallation = new XYZ(0, 0, lastStirrupInstallationHeigh);
+                            List<ElementId> columnRebarLastFirstTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarFirstDownStirrup.Id, pointLastFirstTopStirrupInstallation) as List<ElementId>;
+                            Element columnRebarLastFirstTopStirrup = doc.GetElement(columnRebarLastFirstTopStirrupIdList.First());
+                            columnRebarLastFirstTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(0);
+                            rebarIdCollection.Add(columnRebarLastFirstTopStirrup.Id);
+                        }
+
+                        if (numberOfBarsLRFaces > 7)
+                        {
+                            //Шпилька
+                            //Точки для построения кривых стержня шпильки
+                            double rebarStandardHookBendDiameter = myPinBarTape.get_Parameter(BuiltInParameter.REBAR_STANDARD_HOOK_BEND_DIAMETER).AsDouble();
+
+                            XYZ rebarDownPin_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - pinRebarDiam, 6)
+                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFacesForStirrup * 4 + residueForOffsetForStirrup + rebarStandardHookBendDiameter / 2 + pinRebarDiam / 2
+                                , Math.Round(columnOrigin.Z + firstStirrupOffset + stirrupRebarDiam*2 + pinRebarDiam, 6));
+
+                            XYZ rebarDownPin_p2 = new XYZ(Math.Round(columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer + pinRebarDiam, 6)
+                                , rebarDownPin_p1.Y
+                                , Math.Round(rebarDownPin_p1.Z, 6));
+
+                            //Кривые шпильки
+                            List<Curve> myDownPinCurves = new List<Curve>();
+                            Curve downPin_line1 = Line.CreateBound(rebarDownPin_p1, rebarDownPin_p2) as Curve;
+                            myDownPinCurves.Add(downPin_line1);
+
+                            Rebar columnRebarDownPin = Rebar.CreateFromCurvesAndShape(doc
+                                , myPinRebarShape
+                                , myPinBarTape
+                                , myRebarPinHookType
+                                , myRebarPinHookType
+                                , myColumn
+                                , normalStirrup
+                                , myDownPinCurves
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            columnRebarDownPin.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarDownPin.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
+                            columnRebarDownPin.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
+                            rebarIdCollection.Add(columnRebarDownPin.Id);
+
+                            //Копирование шпильки вверх
+                            XYZ pointTopPinInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
+                            List<ElementId> columnRebarTopPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownPin.Id, pointTopPinInstallation) as List<ElementId>;
+                            Element columnRebarTopPin = doc.GetElement(columnRebarTopPinIdList.First());
+
+                            columnRebarTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
+                            columnRebarTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+                            rebarIdCollection.Add(columnRebarTopPin.Id);
+
+                            //Копирование шпильки последний
+                            XYZ pointLastTopPinInstallation = new XYZ(0, 0, lastStirrupInstallationHeigh);
+                            List<ElementId> columnRebarLastTopPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownPin.Id, pointLastTopPinInstallation) as List<ElementId>;
+                            Element columnRebarLastTopPin = doc.GetElement(columnRebarLastTopPinIdList.First());
+                            columnRebarLastTopPin.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(0);
+                            rebarIdCollection.Add(columnRebarLastTopPin.Id);
+
+                            if (numberOfBarsLRFaces > 9)
                             {
-                                XYZ pointPinInstallation = new XYZ(0, (stepBarsLRFacesForStirrup*2)*i, 0);
-                                List<ElementId> newColumnRebarDownPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownPin.Id, pointPinInstallation) as List<ElementId>;
-                                Element newColumnRebarDownPin = doc.GetElement(newColumnRebarDownPinIdList.First());
+                                int n = (numberOfBarsLRFaces - 8) / 2; // Необходимое кол-во копий шпильки
+                                for (int i = 1; i <= n; i++)
+                                {
+                                    XYZ pointPinInstallation = new XYZ(0, (stepBarsLRFacesForStirrup * 2) * i, 0);
+                                    List<ElementId> newColumnRebarDownPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarDownPin.Id, pointPinInstallation) as List<ElementId>;
+                                    Element newColumnRebarDownPin = doc.GetElement(newColumnRebarDownPinIdList.First());
+                                    rebarIdCollection.Add(newColumnRebarDownPin.Id);
 
-                                rebarIdCollection.Add(newColumnRebarDownPin.Id);
+                                    List<ElementId> newColumnRebarTopPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarTopPin.Id, pointPinInstallation) as List<ElementId>;
+                                    Element newColumnRebarTopPin = doc.GetElement(newColumnRebarTopPinIdList.First());
+                                    rebarIdCollection.Add(newColumnRebarTopPin.Id);
 
-                                List<ElementId> newColumnRebarTopPinIdList = ElementTransformUtils.CopyElement(doc, columnRebarTopPin.Id, pointPinInstallation) as List<ElementId>;
-                                Element newColumnRebarTopPin = doc.GetElement(newColumnRebarTopPinIdList.First());
-
-                                rebarIdCollection.Add(newColumnRebarTopPin.Id);
+                                    List<ElementId> newColumnRebarLastTopPinList = ElementTransformUtils.CopyElement(doc, columnRebarLastTopPin.Id, pointPinInstallation) as List<ElementId>;
+                                    Element newColumnRebarLastTopPin = doc.GetElement(newColumnRebarLastTopPinList.First());
+                                    rebarIdCollection.Add(newColumnRebarLastTopPin.Id);
+                                }
                             }
+                        }
+
+                        if(numberOfBarsTBFaces>=5 & numberOfBarsTBFaces%2!=0)
+                        {
+                            //Точки для построения кривых стержня хомута 2
+                            XYZ rebarStirrupSecond_p1 = new XYZ(Math.Round(columnOrigin.X - stepBarsTBFacesForStirrup - mainRebarDiamTypeThree/2 - stirrupRebarDiam, 6)
+                                , Math.Round(columnOrigin.Y + columnSectionHeight/2 - mainRebarCoverLayer + stirrupRebarDiam/2, 6)
+                                , Math.Round(columnOrigin.Z + firstStirrupOffset + stirrupRebarDiam*2, 6));
+
+                            XYZ rebarStirrupSecond_p2 = new XYZ(Math.Round(columnOrigin.X + stepBarsTBFacesForStirrup + mainRebarDiamTypeThree / 2, 6)
+                                , Math.Round(rebarStirrupSecond_p1.Y, 6)
+                                , Math.Round(rebarStirrupSecond_p1.Z, 6));
+
+                            XYZ rebarStirrupSecond_p3 = new XYZ(Math.Round(rebarStirrupSecond_p2.X, 6)
+                                , Math.Round(columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer - stirrupRebarDiam / 2, 6)
+                                , Math.Round(rebarStirrupSecond_p2.Z, 6));
+
+                            XYZ rebarStirrupSecond_p4 = new XYZ(Math.Round(columnOrigin.X - stepBarsTBFacesForStirrup - mainRebarDiamTypeThree / 2 - stirrupRebarDiam, 6)
+                                , Math.Round(rebarStirrupSecond_p3.Y, 6)
+                                , Math.Round(rebarStirrupSecond_p3.Z, 6));
+
+                            //Кривые хомута 2
+                            List<Curve> myStirrupSecondCurves = new List<Curve>();
+
+                            Curve secondStirrup_line1 = Line.CreateBound(rebarStirrupSecond_p1, rebarStirrupSecond_p2) as Curve;
+                            myStirrupSecondCurves.Add(secondStirrup_line1);
+                            Curve secondStirrup_line2 = Line.CreateBound(rebarStirrupSecond_p2, rebarStirrupSecond_p3) as Curve;
+                            myStirrupSecondCurves.Add(secondStirrup_line2);
+                            Curve secondStirrup_line3 = Line.CreateBound(rebarStirrupSecond_p3, rebarStirrupSecond_p4) as Curve;
+                            myStirrupSecondCurves.Add(secondStirrup_line3);
+                            Curve secondStirrup_line4 = Line.CreateBound(rebarStirrupSecond_p4, rebarStirrupSecond_p1) as Curve;
+                            myStirrupSecondCurves.Add(secondStirrup_line4);
+
+                            //Построение нижнего хомута 2
+                            Rebar columnRebarSecondDownStirrup = Rebar.CreateFromCurvesAndShape(doc
+                                , myStirrupRebarShape
+                                , myStirrupBarTape
+                                , myRebarHookType
+                                , myRebarHookType
+                                , myColumn
+                                , normalStirrup
+                                , myStirrupSecondCurves
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            columnRebarSecondDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarSecondDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(StirrupBarElemFrequentQuantity + 1);
+                            columnRebarSecondDownStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(increasedStirrupStep);
+
+                            rebarIdCollection.Add(columnRebarSecondDownStirrup.Id);
+
+                            //Копирование хомута 2
+                            XYZ pointSecondTopStirrupInstallation = new XYZ(0, 0, stirrupIncreasedPlacementHeight + standardStirrupStep);
+                            List<ElementId> columnRebarSecondTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarSecondDownStirrup.Id, pointSecondTopStirrupInstallation) as List<ElementId>;
+                            Element columnRebarSecondTopStirrup = doc.GetElement(columnRebarSecondTopStirrupIdList.First());
+
+                            columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupBarElemStandardQuantity);
+                            columnRebarSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(standardStirrupStep);
+                            rebarIdCollection.Add(columnRebarSecondTopStirrup.Id);
+
+                            // Копирование хомута 2 последний
+                            XYZ pointLastSecondTopStirrupInstallation = new XYZ(0, 0, lastStirrupInstallationHeigh);
+                            List<ElementId> columnRebarLastSecondTopStirrupIdList = ElementTransformUtils.CopyElement(doc, columnRebarSecondDownStirrup.Id, pointLastSecondTopStirrupInstallation) as List<ElementId>;
+                            Element columnRebarLastSecondTopStirrup = doc.GetElement(columnRebarLastSecondTopStirrupIdList.First());
+                            columnRebarLastSecondTopStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(0);
+                            rebarIdCollection.Add(columnRebarLastSecondTopStirrup.Id);
+
                         }
                     }
 #endregion
@@ -1864,9 +2185,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         {
                             ElementTransformUtils.RotateElement(doc, newOutletsGroup.Id, rotationAxis, columnRotation);
                         }
-
                     }
-
                 }
                 t.Commit();
             }
