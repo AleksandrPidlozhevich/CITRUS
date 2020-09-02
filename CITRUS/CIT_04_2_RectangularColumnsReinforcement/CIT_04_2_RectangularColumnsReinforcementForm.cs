@@ -32,6 +32,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         public double FirstStirrupOffset = 0;
         public double StirrupIncreasedPlacementHeight = 0;
 
+        public bool TransitionToOverlap;
 
         public CIT_04_2_RectangularColumnsReinforcementForm(List<RebarBarType> mainBarTapesOne
             , List<RebarBarType> mainBarTapesTwo
@@ -71,6 +72,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         {
             CheckedRebarOutletsButtonName = groupBox_RebarOutlets.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
             CheckedRebarStrappingTypeButtonName = groupBox_StrappingType.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
+            TransitionToOverlap = checkBox_TransitionToOverlap.Checked;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
