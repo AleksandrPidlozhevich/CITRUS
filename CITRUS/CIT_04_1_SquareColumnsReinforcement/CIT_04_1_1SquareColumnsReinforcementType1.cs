@@ -180,9 +180,9 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
             //Завершение блока Получение данных из формы   
             #endregion
             //Завершение блока использования формы
-            #endregion
+#endregion
 
-            #region Старт блока Получение типа элемента CIT_04_ВаннаДляСварки
+ #region Старт блока Получение типа элемента CIT_04_ВаннаДляСварки
             //Список семейств с именем CIT_04_ВаннаДляСварки
             List<Family> familiesTubWelding = new FilteredElementCollector(doc).OfClass(typeof(Family)).Cast<Family>().Where(f => f.Name == "CIT_04_ВаннаДляСварки").ToList();
             if (familiesTubWelding.Count != 1) return Result.Failed;

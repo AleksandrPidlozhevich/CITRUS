@@ -54,14 +54,18 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox_StrappingType = new System.Windows.Forms.GroupBox();
-            this.radioButton_StrappingTypePylon = new System.Windows.Forms.RadioButton();
             this.radioButton_StrappingTypeColumn = new System.Windows.Forms.RadioButton();
+            this.radioButton_StrappingTypePylon = new System.Windows.Forms.RadioButton();
+            this.textBox_ColumnSectionOffset = new System.Windows.Forms.TextBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.checkBox_СhangeSection = new System.Windows.Forms.CheckBox();
             this.groupBox_RebarOutlets.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox_StrappingType.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_Ok
@@ -327,6 +331,17 @@
             this.groupBox_StrappingType.TabStop = false;
             this.groupBox_StrappingType.Text = "Тип обвязки:";
             // 
+            // radioButton_StrappingTypeColumn
+            // 
+            this.radioButton_StrappingTypeColumn.AutoSize = true;
+            this.radioButton_StrappingTypeColumn.Location = new System.Drawing.Point(7, 43);
+            this.radioButton_StrappingTypeColumn.Name = "radioButton_StrappingTypeColumn";
+            this.radioButton_StrappingTypeColumn.Size = new System.Drawing.Size(68, 17);
+            this.radioButton_StrappingTypeColumn.TabIndex = 1;
+            this.radioButton_StrappingTypeColumn.TabStop = true;
+            this.radioButton_StrappingTypeColumn.Text = "Колонна";
+            this.radioButton_StrappingTypeColumn.UseVisualStyleBackColor = true;
+            // 
             // radioButton_StrappingTypePylon
             // 
             this.radioButton_StrappingTypePylon.AutoSize = true;
@@ -339,22 +354,45 @@
             this.radioButton_StrappingTypePylon.Text = "Пилон";
             this.radioButton_StrappingTypePylon.UseVisualStyleBackColor = true;
             // 
-            // radioButton_StrappingTypeColumn
+            // textBox_ColumnSectionOffset
             // 
-            this.radioButton_StrappingTypeColumn.AutoSize = true;
-            this.radioButton_StrappingTypeColumn.Location = new System.Drawing.Point(7, 43);
-            this.radioButton_StrappingTypeColumn.Name = "radioButton_StrappingTypeColumn";
-            this.radioButton_StrappingTypeColumn.Size = new System.Drawing.Size(68, 17);
-            this.radioButton_StrappingTypeColumn.TabIndex = 1;
-            this.radioButton_StrappingTypeColumn.TabStop = true;
-            this.radioButton_StrappingTypeColumn.Text = "Колонна";
-            this.radioButton_StrappingTypeColumn.UseVisualStyleBackColor = true;
+            this.textBox_ColumnSectionOffset.Location = new System.Drawing.Point(774, 137);
+            this.textBox_ColumnSectionOffset.Name = "textBox_ColumnSectionOffset";
+            this.textBox_ColumnSectionOffset.Size = new System.Drawing.Size(55, 20);
+            this.textBox_ColumnSectionOffset.TabIndex = 39;
+            this.textBox_ColumnSectionOffset.TextChanged += new System.EventHandler(this.textBox_ColumnSectionOffset_TextChanged);
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox5.Image = global::CITRUS.Properties.Resources.formSquareColumnsReinforcementType1_ColumnSectionOffset;
+            this.pictureBox5.Location = new System.Drawing.Point(720, 40);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(114, 128);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 38;
+            this.pictureBox5.TabStop = false;
+            // 
+            // checkBox_СhangeSection
+            // 
+            this.checkBox_СhangeSection.AutoSize = true;
+            this.checkBox_СhangeSection.BackColor = System.Drawing.SystemColors.Window;
+            this.checkBox_СhangeSection.Location = new System.Drawing.Point(717, 20);
+            this.checkBox_СhangeSection.Name = "checkBox_СhangeSection";
+            this.checkBox_СhangeSection.Size = new System.Drawing.Size(128, 17);
+            this.checkBox_СhangeSection.TabIndex = 37;
+            this.checkBox_СhangeSection.Text = "Изменение сечения";
+            this.checkBox_СhangeSection.UseVisualStyleBackColor = false;
             // 
             // CIT_04_2_RectangularColumnsReinforcementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(864, 601);
+            this.Controls.Add(this.textBox_ColumnSectionOffset);
+            this.Controls.Add(this.pictureBox5);
+            this.Controls.Add(this.checkBox_СhangeSection);
             this.Controls.Add(this.groupBox_StrappingType);
             this.Controls.Add(this.groupBox_RebarOutlets);
             this.Controls.Add(this.textBox_IncreasedStirrupStep);
@@ -389,6 +427,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox_StrappingType.ResumeLayout(false);
             this.groupBox_StrappingType.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -424,5 +463,8 @@
         private System.Windows.Forms.GroupBox groupBox_StrappingType;
         private System.Windows.Forms.RadioButton radioButton_StrappingTypeColumn;
         private System.Windows.Forms.RadioButton radioButton_StrappingTypePylon;
+        private System.Windows.Forms.TextBox textBox_ColumnSectionOffset;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.CheckBox checkBox_СhangeSection;
     }
 }
