@@ -311,8 +311,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                     int numberOfSpacesLRFacesForStirrup = numberOfBarsLRFaces - 3;
                     double stepBarsLRFacesForStirrup = 0;
                     double stepBarsTBFacesForStirrup = 0;
-                    double residueForOffsetForStirrup = 0;
-
+                    double residueForOffsetForStirrupLR = 0;
+                    double residueForOffsetForStirrupTB = 0;
                     //Универсальная коллекция для формирования группы выпусков
                     ICollection<ElementId> rebarIdCollection = new List<ElementId>();
 
@@ -555,11 +555,11 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double residualSizeLRFaces = columnSectionHeight - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsLRFaces = RoundUpToFive(Math.Round((residualSizeLRFaces / numberOfSpacesLRFaces) * 304.8)) / 304.8;
                             stepBarsLRFacesForStirrup = stepBarsLRFaces;
-                            double residueForOffset = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
-                            residueForOffsetForStirrup = residueForOffset;
+                            double residueForOffsetLR = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
+                            residueForOffsetForStirrupLR = residueForOffsetLR;
 
                             XYZ newPlaсeСolumnMainRebarLeftFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
-                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffset
+                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffsetLR
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceLong.Id, newPlaсeСolumnMainRebarLeftFaceLong);
                             columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -590,7 +590,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 , RebarHookOrientation.Right);
 
                                 XYZ newPlaсeСolumnMainRebarLeftFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
-                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffset
+                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffsetLR
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceShort.Id, newPlaсeСolumnMainRebarLeftFaceShort);
 
@@ -622,7 +622,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                             ElementTransformUtils.RotateElement(doc, columnMainRebarRightFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
                             XYZ newPlaсeColumnMainRebarRightFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
-                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffset
+                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffsetLR
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceShort.Id, newPlaсeColumnMainRebarRightFaceShort);
                             columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -654,7 +654,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                                 ElementTransformUtils.RotateElement(doc, columnMainRebarRightFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
                                 XYZ newPlaсeColumnMainRebarRightFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
-                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffset
+                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffsetLR
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceLong.Id, newPlaсeColumnMainRebarRightFaceLong);
                                 columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -741,9 +741,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double residualSizeTBFaces = columnSectionWidth - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsTBFaces = RoundUpToFive(Math.Round((residualSizeTBFaces / numberOfSpacesTBFaces) * 304.8)) / 304.8;
                             stepBarsTBFacesForStirrup = stepBarsTBFaces;
-                            double residueForOffset = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            double residueForOffsetTB = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            residueForOffsetForStirrupTB = residueForOffsetTB;
 
-                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffset
+                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffsetTB
                                 , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceShort.Id, newPlaсeСolumnMainRebarBottomFaceShort);
@@ -774,7 +775,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     , RebarHookOrientation.Right
                                     , RebarHookOrientation.Right);
 
-                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffset
+                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffsetTB
                                     , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceLong.Id, newPlaсeСolumnMainRebarBottomFaceLong);
@@ -805,7 +806,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             , RebarHookOrientation.Right);
 
                             ElementTransformUtils.RotateElement(doc, columnMainRebarTopFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
-                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffset
+                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffsetTB
                                 , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceShort.Id, newPlaсeСolumnMainRebarTopFaceShort);
@@ -837,7 +838,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     , RebarHookOrientation.Right);
 
                                 ElementTransformUtils.RotateElement(doc, columnMainRebarTopFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
-                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffset
+                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffsetTB
                                     , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceLong.Id, newPlaсeСolumnMainRebarTopFaceLong);
@@ -1097,11 +1098,11 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double residualSizeLRFaces = columnSectionHeight - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsLRFaces = RoundUpToFive(Math.Round((residualSizeLRFaces / numberOfSpacesLRFaces) * 304.8)) / 304.8;
                             stepBarsLRFacesForStirrup = stepBarsLRFaces;
-                            double residueForOffset = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
-                            residueForOffsetForStirrup = residueForOffset;
+                            double residueForOffsetLR = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
+                            residueForOffsetForStirrupLR = residueForOffsetLR;
 
                             XYZ newPlaсeСolumnMainRebarLeftFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
-                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffset
+                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffsetLR
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceLong.Id, newPlaсeСolumnMainRebarLeftFaceLong);
                             columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -1132,7 +1133,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 , RebarHookOrientation.Right);
 
                                 XYZ newPlaсeСolumnMainRebarLeftFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
-                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffset
+                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffsetLR
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceShort.Id, newPlaсeСolumnMainRebarLeftFaceShort);
 
@@ -1164,7 +1165,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                             ElementTransformUtils.RotateElement(doc, columnMainRebarRightFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
                             XYZ newPlaсeColumnMainRebarRightFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
-                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffset
+                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffsetLR
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceShort.Id, newPlaсeColumnMainRebarRightFaceShort);
                             columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -1196,7 +1197,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                                 ElementTransformUtils.RotateElement(doc, columnMainRebarRightFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
                                 XYZ newPlaсeColumnMainRebarRightFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
-                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffset
+                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffsetLR
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceLong.Id, newPlaсeColumnMainRebarRightFaceLong);
                                 columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -1283,9 +1284,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double residualSizeTBFaces = columnSectionWidth - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsTBFaces = RoundUpToFive(Math.Round((residualSizeTBFaces / numberOfSpacesTBFaces) * 304.8)) / 304.8;
                             stepBarsTBFacesForStirrup = stepBarsTBFaces;
-                            double residueForOffset = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            double residueForOffsetTB = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            residueForOffsetForStirrupTB = residueForOffsetTB;
 
-                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffset
+                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffsetTB
                                 , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceShort.Id, newPlaсeСolumnMainRebarBottomFaceShort);
@@ -1316,7 +1318,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     , RebarHookOrientation.Right
                                     , RebarHookOrientation.Right);
 
-                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffset
+                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffsetTB
                                     , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceLong.Id, newPlaсeСolumnMainRebarBottomFaceLong);
@@ -1347,7 +1349,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             , RebarHookOrientation.Right);
 
                             ElementTransformUtils.RotateElement(doc, columnMainRebarTopFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
-                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffset
+                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffsetTB
                                 , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceShort.Id, newPlaсeСolumnMainRebarTopFaceShort);
@@ -1379,7 +1381,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     , RebarHookOrientation.Right);
 
                                 ElementTransformUtils.RotateElement(doc, columnMainRebarTopFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
-                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffset
+                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffsetTB
                                     , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceLong.Id, newPlaсeСolumnMainRebarTopFaceLong);
@@ -1611,11 +1613,11 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double residualSizeLRFaces = columnSectionHeight - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsLRFaces = RoundUpToFive(Math.Round((residualSizeLRFaces / numberOfSpacesLRFaces) * 304.8)) / 304.8;
                             stepBarsLRFacesForStirrup = stepBarsLRFaces;
-                            double residueForOffset = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
-                            residueForOffsetForStirrup = residueForOffset;
+                            double residueForOffsetLR = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
+                            residueForOffsetForStirrupLR = residueForOffsetLR;
 
                             XYZ newPlaсeСolumnMainRebarLeftFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
-                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffset
+                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffsetLR
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceShort.Id, newPlaсeСolumnMainRebarLeftFaceShort);
                             columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -1674,7 +1676,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 , RebarHookOrientation.Right);
 
                                 XYZ newPlaсeСolumnMainRebarLeftFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
-                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffset
+                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffsetLR
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceLong.Id, newPlaсeСolumnMainRebarLeftFaceLong);
 
@@ -1735,7 +1737,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                             ElementTransformUtils.RotateElement(doc, columnMainRebarRightFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
                             XYZ newPlaсeColumnMainRebarRightFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
-                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffset
+                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffsetLR
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceShort.Id, newPlaсeColumnMainRebarRightFaceShort);
                             columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -1795,7 +1797,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                                 ElementTransformUtils.RotateElement(doc, columnMainRebarRightFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
                                 XYZ newPlaсeColumnMainRebarRightFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
-                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffset
+                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffsetLR
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceLong.Id, newPlaсeColumnMainRebarRightFaceLong);
                                 columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -1884,9 +1886,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double residualSizeTBFaces = columnSectionWidth - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsTBFaces = RoundUpToFive(Math.Round((residualSizeTBFaces / numberOfSpacesTBFaces) * 304.8)) / 304.8;
                             stepBarsTBFacesForStirrup = stepBarsTBFaces;
-                            double residueForOffset = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            double residueForOffsetTB = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            residueForOffsetForStirrupTB = residueForOffsetTB;
 
-                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffset
+                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffsetTB
                                 , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceShort.Id, newPlaсeСolumnMainRebarBottomFaceShort);
@@ -1946,7 +1949,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     , RebarHookOrientation.Right
                                     , RebarHookOrientation.Right);
 
-                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffset
+                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffsetTB
                                     , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceLong.Id, newPlaсeСolumnMainRebarBottomFaceLong);
@@ -2005,7 +2008,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             , RebarHookOrientation.Right);
 
                             ElementTransformUtils.RotateElement(doc, columnMainRebarTopFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
-                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffset
+                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffsetTB
                                 , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceShort.Id, newPlaсeСolumnMainRebarTopFaceShort);
@@ -2065,7 +2068,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     , RebarHookOrientation.Right);
 
                                 ElementTransformUtils.RotateElement(doc, columnMainRebarTopFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
-                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffset
+                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffsetTB
                                     , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceLong.Id, newPlaсeСolumnMainRebarTopFaceLong);
@@ -2385,11 +2388,11 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double residualSizeLRFaces = columnSectionHeight - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsLRFaces = RoundUpToFive(Math.Round((residualSizeLRFaces / numberOfSpacesLRFaces) * 304.8)) / 304.8;
                             stepBarsLRFacesForStirrup = stepBarsLRFaces;
-                            double residueForOffset = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
-                            residueForOffsetForStirrup = residueForOffset;
+                            double residueForOffsetLR = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
+                            residueForOffsetForStirrupLR = residueForOffsetLR;
 
                             XYZ newPlaсeСolumnMainRebarLeftFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
-                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffset
+                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffsetLR
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceShort.Id, newPlaсeСolumnMainRebarLeftFaceShort);
                             columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -2448,7 +2451,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 , RebarHookOrientation.Right);
 
                                 XYZ newPlaсeСolumnMainRebarLeftFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
-                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffset
+                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffsetLR
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceLong.Id, newPlaсeСolumnMainRebarLeftFaceLong);
 
@@ -2509,7 +2512,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                             ElementTransformUtils.RotateElement(doc, columnMainRebarRightFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
                             XYZ newPlaсeColumnMainRebarRightFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
-                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffset
+                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffsetLR
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceShort.Id, newPlaсeColumnMainRebarRightFaceShort);
                             columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -2569,7 +2572,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                                 ElementTransformUtils.RotateElement(doc, columnMainRebarRightFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
                                 XYZ newPlaсeColumnMainRebarRightFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
-                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffset
+                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffsetLR
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceLong.Id, newPlaсeColumnMainRebarRightFaceLong);
                                 columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -2614,7 +2617,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 rebarIdCollection.Add(columnMainRebarRightFaceLong.Id);
                             }
                         }
-                        #endregion
+#endregion
 
 #region Стержни по нижней и верхней граням
                         if (numberOfBarsTBFaces >= 3)
@@ -2658,9 +2661,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double residualSizeTBFaces = columnSectionWidth - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsTBFaces = RoundUpToFive(Math.Round((residualSizeTBFaces / numberOfSpacesTBFaces) * 304.8)) / 304.8;
                             stepBarsTBFacesForStirrup = stepBarsTBFaces;
-                            double residueForOffset = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            double residueForOffsetTB = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            residueForOffsetForStirrupTB = residueForOffsetTB;
 
-                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffset
+                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffsetTB
                                 , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceShort.Id, newPlaсeСolumnMainRebarBottomFaceShort);
@@ -2720,7 +2724,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     , RebarHookOrientation.Right
                                     , RebarHookOrientation.Right);
 
-                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffset
+                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffsetTB
                                     , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceLong.Id, newPlaсeСolumnMainRebarBottomFaceLong);
@@ -2779,7 +2783,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             , RebarHookOrientation.Right);
 
                             ElementTransformUtils.RotateElement(doc, columnMainRebarTopFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
-                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffset
+                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffsetTB
                                 , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceShort.Id, newPlaсeСolumnMainRebarTopFaceShort);
@@ -2839,7 +2843,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     , RebarHookOrientation.Right);
 
                                 ElementTransformUtils.RotateElement(doc, columnMainRebarTopFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
-                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffset
+                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffsetTB
                                     , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceLong.Id, newPlaсeСolumnMainRebarTopFaceLong);
@@ -2886,7 +2890,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             }
                         }
 
-                        #endregion
+#endregion
                     }
                     //Если переход со стыковки на сварке в нахлест без изменения сечения колонны выше
                     else if (checkedRebarOutletsButtonName == "radioButton_MainWeldingRods" & transitionToOverlap == true & changeColumnSection == false)
@@ -3127,11 +3131,11 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double residualSizeLRFaces = columnSectionHeight - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsLRFaces = RoundUpToFive(Math.Round((residualSizeLRFaces / numberOfSpacesLRFaces) * 304.8)) / 304.8;
                             stepBarsLRFacesForStirrup = stepBarsLRFaces;
-                            double residueForOffset = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
-                            residueForOffsetForStirrup = residueForOffset;
+                            double residueForOffsetLR = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
+                            residueForOffsetForStirrupLR = residueForOffsetLR;
 
                             XYZ newPlaсeСolumnMainRebarLeftFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
-                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffset
+                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffsetLR
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceLong.Id, newPlaсeСolumnMainRebarLeftFaceLong);
                             columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -3162,7 +3166,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 , RebarHookOrientation.Right);
 
                                 XYZ newPlaсeСolumnMainRebarLeftFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
-                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffset
+                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffsetLR
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceShort.Id, newPlaсeСolumnMainRebarLeftFaceShort);
 
@@ -3194,7 +3198,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                             ElementTransformUtils.RotateElement(doc, columnMainRebarRightFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
                             XYZ newPlaсeColumnMainRebarRightFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
-                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffset
+                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffsetLR
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceShort.Id, newPlaсeColumnMainRebarRightFaceShort);
                             columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -3226,7 +3230,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                                 ElementTransformUtils.RotateElement(doc, columnMainRebarRightFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
                                 XYZ newPlaсeColumnMainRebarRightFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
-                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffset
+                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffsetLR
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceLong.Id, newPlaсeColumnMainRebarRightFaceLong);
                                 columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -3313,9 +3317,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double residualSizeTBFaces = columnSectionWidth - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsTBFaces = RoundUpToFive(Math.Round((residualSizeTBFaces / numberOfSpacesTBFaces) * 304.8)) / 304.8;
                             stepBarsTBFacesForStirrup = stepBarsTBFaces;
-                            double residueForOffset = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            double residueForOffsetTB = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            residueForOffsetForStirrupTB = residueForOffsetTB;
 
-                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffset
+                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffsetTB
                                 , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceShort.Id, newPlaсeСolumnMainRebarBottomFaceShort);
@@ -3346,7 +3351,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     , RebarHookOrientation.Right
                                     , RebarHookOrientation.Right);
 
-                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffset
+                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffsetTB
                                     , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceLong.Id, newPlaсeСolumnMainRebarBottomFaceLong);
@@ -3377,7 +3382,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             , RebarHookOrientation.Right);
 
                             ElementTransformUtils.RotateElement(doc, columnMainRebarTopFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
-                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffset
+                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffsetTB
                                 , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceShort.Id, newPlaсeСolumnMainRebarTopFaceShort);
@@ -3409,7 +3414,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     , RebarHookOrientation.Right);
 
                                 ElementTransformUtils.RotateElement(doc, columnMainRebarTopFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
-                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffset
+                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffsetTB
                                     , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceLong.Id, newPlaсeСolumnMainRebarTopFaceLong);
@@ -3669,11 +3674,11 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double residualSizeLRFaces = columnSectionHeight - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsLRFaces = RoundUpToFive(Math.Round((residualSizeLRFaces / numberOfSpacesLRFaces) * 304.8)) / 304.8;
                             stepBarsLRFacesForStirrup = stepBarsLRFaces;
-                            double residueForOffset = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
-                            residueForOffsetForStirrup = residueForOffset;
+                            double residueForOffsetLR = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
+                            residueForOffsetForStirrupLR = residueForOffsetLR;
 
                             XYZ newPlaсeСolumnMainRebarLeftFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
-                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffset
+                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffsetLR
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceLong.Id, newPlaсeСolumnMainRebarLeftFaceLong);
                             columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -3704,7 +3709,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 , RebarHookOrientation.Right);
 
                                 XYZ newPlaсeСolumnMainRebarLeftFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
-                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffset
+                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffsetLR
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceShort.Id, newPlaсeСolumnMainRebarLeftFaceShort);
 
@@ -3736,7 +3741,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                             ElementTransformUtils.RotateElement(doc, columnMainRebarRightFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
                             XYZ newPlaсeColumnMainRebarRightFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
-                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffset
+                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffsetLR
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceShort.Id, newPlaсeColumnMainRebarRightFaceShort);
                             columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -3768,7 +3773,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
                                 ElementTransformUtils.RotateElement(doc, columnMainRebarRightFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
                                 XYZ newPlaсeColumnMainRebarRightFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
-                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffset
+                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffsetLR
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceLong.Id, newPlaсeColumnMainRebarRightFaceLong);
                                 columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
@@ -3785,7 +3790,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 rebarIdCollection.Add(columnMainRebarRightFaceLong.Id);
                             }
                         }
-                        #endregion
+#endregion
 
 #region Стержни по нижней и верхней граням
                         if (numberOfBarsTBFaces >= 3)
@@ -3855,9 +3860,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double residualSizeTBFaces = columnSectionWidth - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
                             double stepBarsTBFaces = RoundUpToFive(Math.Round((residualSizeTBFaces / numberOfSpacesTBFaces) * 304.8)) / 304.8;
                             stepBarsTBFacesForStirrup = stepBarsTBFaces;
-                            double residueForOffset = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            double residueForOffsetTB = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            residueForOffsetForStirrupTB = residueForOffsetTB;
 
-                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffset
+                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffsetTB
                                 , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceShort.Id, newPlaсeСolumnMainRebarBottomFaceShort);
@@ -3888,7 +3894,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     , RebarHookOrientation.Right
                                     , RebarHookOrientation.Right);
 
-                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffset
+                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffsetTB
                                     , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceLong.Id, newPlaсeСolumnMainRebarBottomFaceLong);
@@ -3919,7 +3925,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             , RebarHookOrientation.Right);
 
                             ElementTransformUtils.RotateElement(doc, columnMainRebarTopFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
-                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffset
+                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffsetTB
                                 , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
                                 , 0);
                             ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceShort.Id, newPlaсeСolumnMainRebarTopFaceShort);
@@ -3951,7 +3957,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                     , RebarHookOrientation.Right);
 
                                 ElementTransformUtils.RotateElement(doc, columnMainRebarTopFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
-                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffset
+                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffsetTB
                                     , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
                                     , 0);
                                 ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceLong.Id, newPlaсeСolumnMainRebarTopFaceLong);
@@ -3970,7 +3976,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             }
                         }
 
-                        #endregion
+#endregion
                     }
 
 #region Хомуты и стяжки
@@ -3994,7 +4000,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             XYZ rebarStirrupFirst_p3 = new XYZ(Math.Round(rebarStirrupFirst_p2.X, 6)
                                 , Math.Round(rebarStirrupFirst_p2.Y
                                 - stepBarsLRFacesForStirrup * numberOfSpacesLRFacesForStirrup
-                                - residueForOffsetForStirrup
+                                - residueForOffsetForStirrupLR
                                 - mainRebarDiamTypeOne / 2
                                 - mainRebarDiamTypeTwo / 2
                                 - stirrupRebarDiam
@@ -4066,7 +4072,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             XYZ rebarStirrupSecond_p2 = new XYZ(Math.Round(rebarStirrupSecond_p1.X, 6)
                                 , Math.Round(rebarStirrupSecond_p1.Y
                                 + stepBarsLRFacesForStirrup * numberOfSpacesLRFacesForStirrup
-                                + residueForOffsetForStirrup
+                                + residueForOffsetForStirrupLR
                                 + mainRebarDiamTypeOne / 2
                                 + mainRebarDiamTypeTwo / 2
                                 + stirrupRebarDiam / 2, 6)
@@ -4079,7 +4085,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             XYZ rebarStirrupSecond_p4 = new XYZ(Math.Round(rebarStirrupSecond_p3.X, 6)
                                 , Math.Round(rebarStirrupSecond_p3.Y
                                 - stepBarsLRFacesForStirrup * numberOfSpacesLRFacesForStirrup
-                                - residueForOffsetForStirrup
+                                - residueForOffsetForStirrupLR
                                 - mainRebarDiamTypeOne / 2
                                 - mainRebarDiamTypeTwo / 2
                                 - stirrupRebarDiam / 2, 6)
@@ -4203,7 +4209,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double rebarStandardHookBendDiameter = myPinBarTape.get_Parameter(BuiltInParameter.REBAR_STANDARD_HOOK_BEND_DIAMETER).AsDouble();
 
                             XYZ rebarDownPin_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - pinRebarDiam, 6)
-                                , Math.Round(columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFacesForStirrup * 4 + residueForOffsetForStirrup + rebarStandardHookBendDiameter / 2 + pinRebarDiam / 2, 6)
+                                , Math.Round(columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFacesForStirrup * 4 + residueForOffsetForStirrupLR + rebarStandardHookBendDiameter / 2 + pinRebarDiam / 2, 6)
                                 , Math.Round(columnOrigin.Z + firstStirrupOffset + stirrupRebarDiam + pinRebarDiam, 6));
 
                             XYZ rebarDownPin_p2 = new XYZ(Math.Round(columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer + pinRebarDiam, 6)
@@ -4402,7 +4408,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double rebarStandardHookBendDiameter = myPinBarTape.get_Parameter(BuiltInParameter.REBAR_STANDARD_HOOK_BEND_DIAMETER).AsDouble();
 
                             XYZ rebarDownPin_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - pinRebarDiam, 6)
-                                , Math.Round(columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFacesForStirrup * 2 + residueForOffsetForStirrup + rebarStandardHookBendDiameter / 2 + pinRebarDiam / 2, 6)
+                                , Math.Round(columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFacesForStirrup * 2 + residueForOffsetForStirrupLR + rebarStandardHookBendDiameter / 2 + pinRebarDiam / 2, 6)
                                 , Math.Round(columnOrigin.Z + firstStirrupOffset + stirrupRebarDiam + pinRebarDiam, 6));
 
                             XYZ rebarDownPin_p2 = new XYZ(Math.Round(columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer + pinRebarDiam, 6)
@@ -4456,7 +4462,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             + columnSectionHeight/2
                             - mainRebarCoverLayer
                             - mainRebarDiamTypeOne/2
-                            - residueForOffsetForStirrup
+                            - residueForOffsetForStirrupLR
                             - stepBarsLRFacesForStirrup*2
                             + mainRebarDiamTypeTwo / 2
                             + stirrupRebarDiam / 2, 6)
@@ -4471,7 +4477,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 - columnSectionHeight / 2
                                 + mainRebarCoverLayer
                                 + mainRebarDiamTypeOne / 2
-                                + residueForOffsetForStirrup
+                                + residueForOffsetForStirrupLR
                                 + stepBarsLRFacesForStirrup * 2
                                 - mainRebarDiamTypeTwo / 2
                                 - stirrupRebarDiam, 6)
@@ -4536,7 +4542,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             double rebarStandardHookBendDiameter = myPinBarTape.get_Parameter(BuiltInParameter.REBAR_STANDARD_HOOK_BEND_DIAMETER).AsDouble();
 
                             XYZ rebarDownPin_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer - pinRebarDiam, 6)
-                                , Math.Round(columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFacesForStirrup * 4 + residueForOffsetForStirrup + rebarStandardHookBendDiameter / 2 + pinRebarDiam / 2, 6)
+                                , Math.Round(columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFacesForStirrup * 4 + residueForOffsetForStirrupLR + rebarStandardHookBendDiameter / 2 + pinRebarDiam / 2, 6)
                                 , Math.Round(columnOrigin.Z + firstStirrupOffset + stirrupRebarDiam*2 + pinRebarDiam, 6));
 
                             XYZ rebarDownPin_p2 = new XYZ(Math.Round(columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer + pinRebarDiam, 6)
@@ -4608,12 +4614,12 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             //Точки для построения кривых стержня шпильки
                             double rebarStandardHookBendDiameter = myPinBarTape.get_Parameter(BuiltInParameter.REBAR_STANDARD_HOOK_BEND_DIAMETER).AsDouble();
 
-                            XYZ rebarDownPin_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFacesForStirrup * 2 + residueForOffsetForStirrup + rebarStandardHookBendDiameter / 2 + pinRebarDiam / 2, 6)
+                            XYZ rebarDownPin_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFacesForStirrup * 2 + residueForOffsetForStirrupTB + rebarStandardHookBendDiameter / 2 + pinRebarDiam / 2, 6)
                                 , Math.Round(columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer + pinRebarDiam, 6)
                                 , Math.Round(columnOrigin.Z + firstStirrupOffset + stirrupRebarDiam * 2 + pinRebarDiam, 6));
 
                             XYZ rebarDownPin_p2 = new XYZ(Math.Round(rebarDownPin_p1.X, 6)
-                                , Math.Round(rebarDownPin_p1.Y - columnSectionHeight / 2 + mainRebarCoverLayer - pinRebarDiam, 6)
+                                , Math.Round(columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer - pinRebarDiam, 6)
                                 , Math.Round(rebarDownPin_p1.Z, 6));
 
                             //Кривые шпильки

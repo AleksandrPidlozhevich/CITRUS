@@ -46,26 +46,26 @@
             this.textBox_StandardStirrupStep = new System.Windows.Forms.TextBox();
             this.textBox_IncreasedStirrupStep = new System.Windows.Forms.TextBox();
             this.groupBox_RebarOutlets = new System.Windows.Forms.GroupBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.checkBox_TransitionToOverlap = new System.Windows.Forms.CheckBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.radioButton_MainWeldingRods = new System.Windows.Forms.RadioButton();
             this.radioButton_MainOverlappingRods = new System.Windows.Forms.RadioButton();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox_StrappingType = new System.Windows.Forms.GroupBox();
             this.radioButton_StrappingTypeColumn = new System.Windows.Forms.RadioButton();
             this.radioButton_StrappingTypePylon = new System.Windows.Forms.RadioButton();
             this.textBox_ColumnSectionOffset = new System.Windows.Forms.TextBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.checkBox_СhangeSection = new System.Windows.Forms.CheckBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox_RebarOutlets.SuspendLayout();
+            this.groupBox_StrappingType.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBox_StrappingType.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_Ok
@@ -243,16 +243,6 @@
             this.groupBox_RebarOutlets.TabStop = false;
             this.groupBox_RebarOutlets.Text = "Тип выпусков:";
             // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = global::CITRUS.Properties.Resources.formSquareColumnsReinforcementType1_MainWeldingRods;
-            this.pictureBox4.Location = new System.Drawing.Point(208, 41);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(150, 150);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 3;
-            this.pictureBox4.TabStop = false;
-            // 
             // checkBox_TransitionToOverlap
             // 
             this.checkBox_TransitionToOverlap.AutoSize = true;
@@ -262,16 +252,6 @@
             this.checkBox_TransitionToOverlap.TabIndex = 34;
             this.checkBox_TransitionToOverlap.Text = "Переход на нахлест";
             this.checkBox_TransitionToOverlap.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::CITRUS.Properties.Resources.formSquareColumnsReinforcementType1_MainOverlappingRods;
-            this.pictureBox3.Location = new System.Drawing.Point(32, 41);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(150, 150);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 2;
-            this.pictureBox3.TabStop = false;
             // 
             // radioButton_MainWeldingRods
             // 
@@ -294,30 +274,6 @@
             this.radioButton_MainOverlappingRods.TabStop = true;
             this.radioButton_MainOverlappingRods.Text = "Выпуски внахлёст";
             this.radioButton_MainOverlappingRods.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox2.Image = global::CITRUS.Properties.Resources.formRectangularColumnsReinforcement_3D;
-            this.pictureBox2.Location = new System.Drawing.Point(425, 12);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(427, 526);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 34;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Image = global::CITRUS.Properties.Resources.formRectangularColumnsReinforcement_Section;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(397, 304);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 35;
-            this.pictureBox1.TabStop = false;
             // 
             // groupBox_StrappingType
             // 
@@ -356,23 +312,11 @@
             // 
             // textBox_ColumnSectionOffset
             // 
-            this.textBox_ColumnSectionOffset.Location = new System.Drawing.Point(774, 137);
+            this.textBox_ColumnSectionOffset.Location = new System.Drawing.Point(764, 142);
             this.textBox_ColumnSectionOffset.Name = "textBox_ColumnSectionOffset";
             this.textBox_ColumnSectionOffset.Size = new System.Drawing.Size(55, 20);
             this.textBox_ColumnSectionOffset.TabIndex = 39;
             this.textBox_ColumnSectionOffset.TextChanged += new System.EventHandler(this.textBox_ColumnSectionOffset_TextChanged);
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.BackColor = System.Drawing.SystemColors.Window;
-            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox5.Image = global::CITRUS.Properties.Resources.formSquareColumnsReinforcementType1_ColumnSectionOffset;
-            this.pictureBox5.Location = new System.Drawing.Point(720, 40);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(114, 128);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox5.TabIndex = 38;
-            this.pictureBox5.TabStop = false;
             // 
             // checkBox_СhangeSection
             // 
@@ -384,6 +328,62 @@
             this.checkBox_СhangeSection.TabIndex = 37;
             this.checkBox_СhangeSection.Text = "Изменение сечения";
             this.checkBox_СhangeSection.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox5.Image = global::CITRUS.Properties.Resources.formRectangularColumnsReinforcement_ColumnSectionOffset;
+            this.pictureBox5.Location = new System.Drawing.Point(720, 40);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(114, 128);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 38;
+            this.pictureBox5.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = global::CITRUS.Properties.Resources.formSquareColumnsReinforcementType1_MainWeldingRods;
+            this.pictureBox4.Location = new System.Drawing.Point(208, 41);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(150, 150);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 3;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::CITRUS.Properties.Resources.formSquareColumnsReinforcementType1_MainOverlappingRods;
+            this.pictureBox3.Location = new System.Drawing.Point(32, 41);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(150, 150);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 2;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox2.Image = global::CITRUS.Properties.Resources.formRectangularColumnsReinforcement_3D;
+            this.pictureBox2.Location = new System.Drawing.Point(425, 12);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(427, 526);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 34;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Image = global::CITRUS.Properties.Resources.formRectangularColumnsReinforcement_Section;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(397, 304);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 35;
+            this.pictureBox1.TabStop = false;
             // 
             // CIT_04_2_RectangularColumnsReinforcementForm
             // 
@@ -421,13 +421,13 @@
             this.Text = "Свойства армирования";
             this.groupBox_RebarOutlets.ResumeLayout(false);
             this.groupBox_RebarOutlets.PerformLayout();
+            this.groupBox_StrappingType.ResumeLayout(false);
+            this.groupBox_StrappingType.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.groupBox_StrappingType.ResumeLayout(false);
-            this.groupBox_StrappingType.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

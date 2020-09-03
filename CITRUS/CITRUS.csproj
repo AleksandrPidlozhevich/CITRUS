@@ -368,5 +368,14 @@
   <ItemGroup>
     <None Include="Resources\formRectangularColumnsReinforcement_Section.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\formRectangularColumnsReinforcement_ColumnSectionOffset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RectangularColumnsReinforcement.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RectangularColumnsReinforcement_Large.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

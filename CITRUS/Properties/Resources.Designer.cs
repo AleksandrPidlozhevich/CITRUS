@@ -123,6 +123,16 @@ namespace CITRUS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap formRectangularColumnsReinforcement_ColumnSectionOffset {
+            get {
+                object obj = ResourceManager.GetObject("formRectangularColumnsReinforcement_ColumnSectionOffset", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap formRectangularColumnsReinforcement_Section {
             get {
                 object obj = ResourceManager.GetObject("formRectangularColumnsReinforcement_Section", resourceCulture);
@@ -326,6 +336,26 @@ namespace CITRUS.Properties {
         internal static System.Drawing.Bitmap RebarOutletsCreatorSketch {
             get {
                 object obj = ResourceManager.GetObject("RebarOutletsCreatorSketch", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RectangularColumnsReinforcement {
+            get {
+                object obj = ResourceManager.GetObject("RectangularColumnsReinforcement", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RectangularColumnsReinforcement_Large {
+            get {
+                object obj = ResourceManager.GetObject("RectangularColumnsReinforcement_Large", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
