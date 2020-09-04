@@ -179,6 +179,7 @@ namespace CITRUS
             this.comboBox_StirrupBarTapes.Location = new System.Drawing.Point(431, 132);
             this.comboBox_StirrupBarTapes.Name = "comboBox_StirrupBarTapes";
             this.comboBox_StirrupBarTapes.Size = new System.Drawing.Size(100, 21);
+            this.comboBox_StirrupBarTapes.Sorted = true;
             this.comboBox_StirrupBarTapes.TabIndex = 8;
             this.comboBox_StirrupBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_StirrupBarTapes_SelectedIndexChanged);
             // 
