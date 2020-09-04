@@ -167,31 +167,38 @@ namespace CITRUS
             panel_OV.AddItem(pbdMEPViewScheduleHost);
 
 
-            //Создание категории кнопок "Другое"
-            RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
+            ////Создание категории кнопок "Другое"
+            //RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
 
-            //Создание кнопки "VR" в категории "Другое"
-            PushButtonData pbdVoiceRecognition = new PushButtonData("VoiceRecognition", "VR", assemblyPach, "CITRUS.VoiceRecognition.VoiceRecognition");
-            Image VoiceRecognition_img1 = Properties.Resources.VoiceRecognition_Large;
-            ImageSource VoiceRecognition_imgLarge = GetImageSourse(VoiceRecognition_img1);
-            Image VoiceRecognition_img2 = Properties.Resources.VoiceRecognition_Small;
-            ImageSource VoiceRecognition_imgStandart = GetImageSourse(VoiceRecognition_img2);
+            ////Создание кнопки "VR" в категории "Другое"
+            //PushButtonData pbdVoiceRecognition = new PushButtonData("VoiceRecognition", "VR", assemblyPach, "CITRUS.VoiceRecognition.VoiceRecognition");
+            //Image VoiceRecognition_img1 = Properties.Resources.VoiceRecognition_Large;
+            //ImageSource VoiceRecognition_imgLarge = GetImageSourse(VoiceRecognition_img1);
+            //Image VoiceRecognition_img2 = Properties.Resources.VoiceRecognition_Small;
+            //ImageSource VoiceRecognition_imgStandart = GetImageSourse(VoiceRecognition_img2);
 
-            pbdVoiceRecognition.LargeImage = VoiceRecognition_imgLarge;
-            pbdVoiceRecognition.Image = VoiceRecognition_imgStandart;
-            panel_Other.AddItem(pbdVoiceRecognition);
+            //pbdVoiceRecognition.LargeImage = VoiceRecognition_imgLarge;
+            //pbdVoiceRecognition.Image = VoiceRecognition_imgStandart;
+            //panel_Other.AddItem(pbdVoiceRecognition);
 
-            //Создание кнопки "GloryHole" в категории "Другое"
-            PushButtonData pbdGloryHole = new PushButtonData("GloryHole", "GloryHole", assemblyPach, "CITRUS.GloryHole");
-            panel_Other.AddItem(pbdGloryHole);
+            ////Создание кнопки "GloryHole" в категории "Другое"
+            //PushButtonData pbdGloryHole = new PushButtonData("GloryHole", "GloryHole", assemblyPach, "CITRUS.GloryHole");
+            //Image GloryHole_img1 = Properties.Resources.GloryHole_Large;
+            //ImageSource GloryHole_imgLarge = GetImageSourse(GloryHole_img1);
+            //Image GloryHole_img2 = Properties.Resources.GloryHole;
+            //ImageSource GloryHole_imgStandart = GetImageSourse(GloryHole_img2);
 
-            //Создание кнопки "MEPViewScheduleCreatorADM" в категории "ОВ"
-            PushButtonData pbdMEPViewScheduleCreatorADM = new PushButtonData("MEPViewScheduleCreatorADM"
-                    , "Создать\ncпецификации MEPADM"
-                    , assemblyPach
-                    , "CITRUS.MEPViewScheduleCreatorADM");
+            //pbdGloryHole.LargeImage = GloryHole_imgLarge;
+            //pbdGloryHole.Image = GloryHole_imgStandart;
+            //panel_Other.AddItem(pbdGloryHole);
 
-            panel_Other.AddItem(pbdMEPViewScheduleCreatorADM);
+            ////Создание кнопки "MEPViewScheduleCreatorADM" в категории "ОВ"
+            //PushButtonData pbdMEPViewScheduleCreatorADM = new PushButtonData("MEPViewScheduleCreatorADM"
+            //        , "Создать\ncпецификации MEPADM"
+            //        , assemblyPach
+            //        , "CITRUS.MEPViewScheduleCreatorADM");
+
+            //panel_Other.AddItem(pbdMEPViewScheduleCreatorADM);
 
 
             return Result.Succeeded;

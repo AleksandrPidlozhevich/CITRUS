@@ -377,5 +377,11 @@
   <ItemGroup>
     <None Include="Resources\RectangularColumnsReinforcement_Large.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GloryHole.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GloryHole_Large.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
