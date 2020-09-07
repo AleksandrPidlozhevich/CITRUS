@@ -72,8 +72,9 @@ namespace CITRUS
                 .OfClass(typeof(RevitLinkInstance))
                 .Where(li => li.Id == selRevitLinkInstance.ElementId)
                 .Cast<RevitLinkInstance>();
+            XYZ linkOrigin = myRevitLinkInstance.First().GetTransform().Origin;
             Document doc2 = myRevitLinkInstance.First().GetLinkDocument();
-            
+
             //Выбор колонн в связанном файле
             IList<Reference> selElementsList = sel.PickObjects(ObjectType.LinkedElement, "Выберите колонны!");//Получение списка ссылок на выбранные колонны
             List<FamilyInstance> columnsList = new List<FamilyInstance>();
@@ -181,7 +182,8 @@ namespace CITRUS
                     double columnSectionHeight = column.Symbol.LookupParameter("Рзм.Высота").AsDouble();
                     //Точка вставки колонны
                     LocationPoint columnOriginLocationPoint = column.Location as LocationPoint;
-                    XYZ columnOrigin = columnOriginLocationPoint.Point;
+                    XYZ columnLinkOrigin = columnOriginLocationPoint.Point;
+                    XYZ columnOrigin = new XYZ(columnLinkOrigin.X + linkOrigin.X, columnLinkOrigin.Y + linkOrigin.Y, columnLinkOrigin.Z + linkOrigin.Z);
 
                     BoundingBoxXYZ bbox = column.get_BoundingBox(null);
                     Outline myColumnOutLn = new Outline(bbox.Min, bbox.Max);
@@ -197,15 +199,13 @@ namespace CITRUS
                         .ToList();
 
                     //Получение ID стержня с мин Х и мин Y из списка
-                    ElementId minXminY = GetMinXMinYRebar(columnRebarList, columnSectionWidth, mainRebarCoverLayer, columnOrigin);
+                    ElementId minXminY = GetMinXMinYRebar(columnRebarList, columnSectionWidth, columnSectionHeight, mainRebarCoverLayer, columnOrigin, linkOrigin);
                     //Получение ID стержня с мин Х и макс Y из списка
-                    ElementId minXmaxY = GetMinXMaxYRebar(columnRebarList, columnSectionWidth, mainRebarCoverLayer, columnOrigin);
-
+                    ElementId minXmaxY = GetMinXMaxYRebar(columnRebarList, columnSectionWidth, columnSectionHeight, mainRebarCoverLayer, columnOrigin, linkOrigin);
                     //Получение ID стержня с мин Х и макс Y из списка
-                    ElementId maxXmaxY = GetMaxXMaxYRebar(columnRebarList, columnSectionWidth, mainRebarCoverLayer, columnOrigin);
-
+                    ElementId maxXmaxY = GetMaxXMaxYRebar(columnRebarList, columnSectionWidth, columnSectionHeight, mainRebarCoverLayer, columnOrigin, linkOrigin);
                     //Получение ID стержня с мин Х и макс Y из списка
-                    ElementId maxXminY = GetMaxXMinYRebar(columnRebarList, columnSectionWidth, mainRebarCoverLayer, columnOrigin);
+                    ElementId maxXminY = GetMaxXMinYRebar(columnRebarList, columnSectionWidth, columnSectionHeight, mainRebarCoverLayer, columnOrigin, linkOrigin);
 
                     //Нахлест или сварка
                     string OverlapOrWelding = "";
@@ -387,8 +387,8 @@ namespace CITRUS
                         if (AnchoringGreaterFloorThickness == true & mySelFloorTopElevation == Math.Round(columnRebarFirstPoint.Z, 6) & forceTypeCheckedButtonName == "radioButton_Stretching")
                         {
                             //Точки для построения стержня
-                            XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(columnRebarFirstPoint.Z + overlapLength, 6));
-                            XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(columnRebarFirstPoint.Z - mySelFloorThickness + offsetFromSlabBottom, 6));
+                            XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(columnRebarFirstPoint.Z + overlapLength, 6));
+                            XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(columnRebarFirstPoint.Z - mySelFloorThickness + offsetFromSlabBottom, 6));
                             XYZ rebar_p3 = new XYZ(Math.Round(rebar_p2.X + (anchorageLength - (mySelFloorThickness - offsetFromSlabBottom)), 6), Math.Round(rebar_p2.Y, 6), Math.Round(rebar_p2.Z, 6));
                             ////Кривые стержня
                             List<Curve> myFloorRebarOutletCurves = new List<Curve>();
@@ -448,7 +448,7 @@ namespace CITRUS
                                 ElementTransformUtils.MoveElement(doc, floorRebarOutlet.Id, translation);
                             }
 
-                            else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                            else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 180 * (Math.PI / 180));
                                 XYZ translation = new XYZ(columnRebarDiamParamDouble, 0, 0);
@@ -459,12 +459,13 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
                                 }
                             }
 
-                            else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                            else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                             {
                                 XYZ translation = new XYZ(-columnRebarDiamParamDouble, 0, 0);
                                 ElementTransformUtils.MoveElement(doc, floorRebarOutlet.Id, translation);
@@ -474,17 +475,13 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                    Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisY, rebar_p1);
-                                    List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                    floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                    ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
                                 }
                             }
 
-                            else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                            else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, -90 * (Math.PI / 180));
                                 XYZ translation = new XYZ(0, columnRebarDiamParamDouble, 0);
@@ -495,12 +492,13 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
                                 }
                             }
 
-                            else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                            else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 90 * (Math.PI / 180));
                                 XYZ translation = new XYZ(0, -columnRebarDiamParamDouble, 0);
@@ -511,13 +509,9 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                    Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisX, rebar_p1);
-                                    List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                    floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                    ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
                                 }
                             }
 
@@ -528,8 +522,8 @@ namespace CITRUS
                         else if (AnchoringGreaterFloorThickness == false & mySelFloorTopElevation == Math.Round(columnRebarFirstPoint.Z, 6) & forceTypeCheckedButtonName == "radioButton_Stretching")
                         {
                             //Точки для построения стержня
-                            XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(columnRebarFirstPoint.Z + overlapLength, 6));
-                            XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(columnRebarFirstPoint.Z - anchorageLength, 6));
+                            XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(columnRebarFirstPoint.Z + overlapLength, 6));
+                            XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(columnRebarFirstPoint.Z - anchorageLength, 6));
 
 
                             ////Кривые стержня
@@ -588,7 +582,7 @@ namespace CITRUS
                                 ElementTransformUtils.MoveElement(doc, floorRebarOutlet.Id, translation);
                             }
 
-                            else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                            else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 180 * (Math.PI / 180));
                                 XYZ translation = new XYZ(columnRebarDiamParamDouble, 0, 0);
@@ -599,12 +593,13 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
                                 }
                             }
 
-                            else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                            else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                             {
                                 XYZ translation = new XYZ(-columnRebarDiamParamDouble, 0, 0);
                                 ElementTransformUtils.MoveElement(doc, floorRebarOutlet.Id, translation);
@@ -614,17 +609,13 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                    Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisY, rebar_p1);
-                                    List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                    floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                    ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
                                 }
                             }
 
-                            else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                            else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, -90 * (Math.PI / 180));
                                 XYZ translation = new XYZ(0, columnRebarDiamParamDouble, 0);
@@ -635,12 +626,13 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
                                 }
                             }
 
-                            else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                            else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 90 * (Math.PI / 180));
                                 XYZ translation = new XYZ(0, -columnRebarDiamParamDouble, 0);
@@ -651,13 +643,9 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                    Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisX, rebar_p1);
-                                    List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                    floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                    ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
                                 }
                             }
 
@@ -668,8 +656,8 @@ namespace CITRUS
                         else if (AnchoringGreaterFloorThickness == true & mySelFloorTopElevation != Math.Round(columnRebarFirstPoint.Z, 6) & forceTypeCheckedButtonName == "radioButton_Stretching")
                         {
                             //Точки для построения стержня
-                            XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(columnRebarFirstPoint.Z, 6));
-                            XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(mySelFloorTopElevation - (mySelFloorThickness - offsetFromSlabBottom), 6));
+                            XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(columnRebarFirstPoint.Z, 6));
+                            XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(mySelFloorTopElevation - (mySelFloorThickness - offsetFromSlabBottom), 6));
                             XYZ rebar_p3 = new XYZ(Math.Round(rebar_p2.X + (anchorageLength - (mySelFloorThickness - offsetFromSlabBottom)), 6), Math.Round(rebar_p2.Y, 6), Math.Round(rebar_p2.Z, 6));
 
                             ////Кривые стержня
@@ -730,7 +718,7 @@ namespace CITRUS
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, -45 * (Math.PI / 180));
                             }
 
-                            else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                            else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 180 * (Math.PI / 180));
 
@@ -739,6 +727,7 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
 
@@ -752,7 +741,7 @@ namespace CITRUS
                                 }
                             }
 
-                            else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                            else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                             {
 
                                 if (columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).AsInteger() == 3)
@@ -760,13 +749,9 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                    Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisY, rebar_p1);
-                                    List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                    floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                    ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
 
                                     for (int i = 1; i < rebarElemQuantityOfBars; i++)
                                     {
@@ -778,17 +763,18 @@ namespace CITRUS
                                 }
                             }
 
-                            else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                            else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, -90 * (Math.PI / 180));
 
                                 if (columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).AsInteger() == 3)
                                 {
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
-                                    double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
-                                    floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
-                                    floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
-                                    floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
+                                double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
+                                floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
+                                floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
+                                floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
 
                                     for (int i = 1; i < rebarElemQuantityOfBars; i++)
                                     {
@@ -800,7 +786,7 @@ namespace CITRUS
                                 }
                             }
 
-                            else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                            else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 90 * (Math.PI / 180));
 
@@ -809,13 +795,9 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                    Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisX, rebar_p1);
-                                    List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                    floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                    ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
 
                                     for (int i = 1; i < rebarElemQuantityOfBars; i++)
                                     {
@@ -834,8 +816,8 @@ namespace CITRUS
                         else if (AnchoringGreaterFloorThickness == false & mySelFloorTopElevation != Math.Round(columnRebarFirstPoint.Z, 6) & forceTypeCheckedButtonName == "radioButton_Stretching")
                         {
                             //Точки для построения стержня
-                            XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(columnRebarFirstPoint.Z, 6));
-                            XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(mySelFloorTopElevation - anchorageLength, 6));
+                            XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(columnRebarFirstPoint.Z, 6));
+                            XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(mySelFloorTopElevation - anchorageLength, 6));
 
 
                             ////Кривые стержня
@@ -894,7 +876,7 @@ namespace CITRUS
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, -45 * (Math.PI / 180));
                             }
 
-                            else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                            else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 180 * (Math.PI / 180));
 
@@ -903,6 +885,7 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
 
@@ -916,7 +899,7 @@ namespace CITRUS
                                 }
                             }
 
-                            else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                            else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                             {
 
                                 if (columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).AsInteger() == 3)
@@ -924,13 +907,9 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                    Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisY, rebar_p1);
-                                    List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                    floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                    ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
 
                                     for (int i = 1; i < rebarElemQuantityOfBars; i++)
                                     {
@@ -942,7 +921,7 @@ namespace CITRUS
                                 }
                             }
 
-                            else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                            else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, -90 * (Math.PI / 180));
 
@@ -951,6 +930,7 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
 
@@ -964,7 +944,7 @@ namespace CITRUS
                                 }
                             }
 
-                            else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                            else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 90 * (Math.PI / 180));
 
@@ -973,13 +953,9 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                    Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisX, rebar_p1);
-                                    List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                    floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                    ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
 
                                     for (int i = 1; i < rebarElemQuantityOfBars; i++)
                                     {
@@ -1008,8 +984,8 @@ namespace CITRUS
                             else
                             {
                                 //Точки для построения стержня
-                                XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(columnRebarFirstPoint.Z + overlapLength, 6));
-                                XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(columnRebarFirstPoint.Z - spAnchorageLength, 6));
+                                XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(columnRebarFirstPoint.Z + overlapLength, 6));
+                                XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(columnRebarFirstPoint.Z - spAnchorageLength, 6));
 
 
                                 ////Кривые стержня
@@ -1068,7 +1044,7 @@ namespace CITRUS
                                     ElementTransformUtils.MoveElement(doc, floorRebarOutlet.Id, translation);
                                 }
 
-                                else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                                else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                                 {
                                     ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 180 * (Math.PI / 180));
                                     XYZ translation = new XYZ(columnRebarDiamParamDouble, 0, 0);
@@ -1079,12 +1055,13 @@ namespace CITRUS
                                         int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                         double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                        floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
                                     }
                                 }
 
-                                else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                                else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                                 {
                                     XYZ translation = new XYZ(-columnRebarDiamParamDouble, 0, 0);
                                     ElementTransformUtils.MoveElement(doc, floorRebarOutlet.Id, translation);
@@ -1094,17 +1071,13 @@ namespace CITRUS
                                         int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                         double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                        floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                        Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisY, rebar_p1);
-                                        List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                        floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                        ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
                                     }
                                 }
 
-                                else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                                else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                                 {
                                     ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, -90 * (Math.PI / 180));
                                     XYZ translation = new XYZ(0, columnRebarDiamParamDouble, 0);
@@ -1115,12 +1088,18 @@ namespace CITRUS
                                         int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                         double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                        floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
+
+                                        Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisX, rebar_p1);
+                                        List<ElementId> floorRebarOutletIdList = new List<ElementId>();
+                                        floorRebarOutletIdList.Add(floorRebarOutlet.Id);
+                                        ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
                                     }
                                 }
 
-                                else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                                else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                                 {
                                     ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 90 * (Math.PI / 180));
                                     XYZ translation = new XYZ(0, -columnRebarDiamParamDouble, 0);
@@ -1131,13 +1110,9 @@ namespace CITRUS
                                         int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                         double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                        floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                        Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisX, rebar_p1);
-                                        List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                        floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                        ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
                                     }
                                 }
 
@@ -1149,8 +1124,8 @@ namespace CITRUS
                         else if (AnchoringGreaterFloorThickness == false & mySelFloorTopElevation == Math.Round(columnRebarFirstPoint.Z, 6) & forceTypeCheckedButtonName == "radioButton_Compression")
                         {
                             //Точки для построения стержня
-                            XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(columnRebarFirstPoint.Z + overlapLength, 6));
-                            XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(columnRebarFirstPoint.Z - anchorageLength, 6));
+                            XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(columnRebarFirstPoint.Z + overlapLength, 6));
+                            XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(columnRebarFirstPoint.Z - anchorageLength, 6));
 
 
                             ////Кривые стержня
@@ -1209,7 +1184,7 @@ namespace CITRUS
                                 ElementTransformUtils.MoveElement(doc, floorRebarOutlet.Id, translation);
                             }
 
-                            else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                            else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 180 * (Math.PI / 180));
                                 XYZ translation = new XYZ(columnRebarDiamParamDouble, 0, 0);
@@ -1220,12 +1195,13 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
                                 }
                             }
 
-                            else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                            else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                             {
                                 XYZ translation = new XYZ(-columnRebarDiamParamDouble, 0, 0);
                                 ElementTransformUtils.MoveElement(doc, floorRebarOutlet.Id, translation);
@@ -1235,17 +1211,13 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                    Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisY, rebar_p1);
-                                    List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                    floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                    ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
                                 }
                             }
 
-                            else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                            else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, -90 * (Math.PI / 180));
                                 XYZ translation = new XYZ(0, columnRebarDiamParamDouble, 0);
@@ -1256,12 +1228,13 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
                                 }
                             }
 
-                            else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                            else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 90 * (Math.PI / 180));
                                 XYZ translation = new XYZ(0, -columnRebarDiamParamDouble, 0);
@@ -1272,13 +1245,9 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                    Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisX, rebar_p1);
-                                    List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                    floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                    ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
                                 }
                             }
 
@@ -1299,8 +1268,8 @@ namespace CITRUS
                             else
                             {
                                 //Точки для построения стержня
-                                XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(columnRebarFirstPoint.Z, 6));
-                                XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(mySelFloorTopElevation - spAnchorageLength, 6));
+                                XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(columnRebarFirstPoint.Z, 6));
+                                XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(mySelFloorTopElevation - spAnchorageLength, 6));
 
                                 ////Кривые стержня
                                 List<Curve> myFloorRebarOutletCurves = new List<Curve>();
@@ -1358,7 +1327,7 @@ namespace CITRUS
                                     ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, -45 * (Math.PI / 180));
                                 }
 
-                                else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                                else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                                 {
                                     ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 180 * (Math.PI / 180));
 
@@ -1367,6 +1336,7 @@ namespace CITRUS
                                         int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                         double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                        floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
 
@@ -1380,7 +1350,7 @@ namespace CITRUS
                                     }
                                 }
 
-                                else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                                else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                                 {
 
                                     if (columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).AsInteger() == 3)
@@ -1388,13 +1358,9 @@ namespace CITRUS
                                         int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                         double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                        floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                        Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisY, rebar_p1);
-                                        List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                        floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                        ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
 
                                         for (int i = 1; i < rebarElemQuantityOfBars; i++)
                                         {
@@ -1406,7 +1372,7 @@ namespace CITRUS
                                     }
                                 }
 
-                                else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                                else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                                 {
                                     ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, -90 * (Math.PI / 180));
 
@@ -1415,6 +1381,7 @@ namespace CITRUS
                                         int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                         double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                        floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
 
@@ -1428,7 +1395,7 @@ namespace CITRUS
                                     }
                                 }
 
-                                else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                                else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                                 {
                                     ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 90 * (Math.PI / 180));
 
@@ -1437,13 +1404,9 @@ namespace CITRUS
                                         int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                         double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                        floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                         floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                        Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisX, rebar_p1);
-                                        List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                        floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                        ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
 
                                         for (int i = 1; i < rebarElemQuantityOfBars; i++)
                                         {
@@ -1463,8 +1426,8 @@ namespace CITRUS
                         else if (AnchoringGreaterFloorThickness == false & mySelFloorTopElevation != Math.Round(columnRebarFirstPoint.Z, 6) & forceTypeCheckedButtonName == "radioButton_Compression")
                         {
                             //Точки для построения стержня
-                            XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(columnRebarFirstPoint.Z, 6));
-                            XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X, 6), Math.Round(columnRebarFirstPoint.Y, 6), Math.Round(mySelFloorTopElevation - anchorageLength, 6));
+                            XYZ rebar_p1 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(columnRebarFirstPoint.Z, 6));
+                            XYZ rebar_p2 = new XYZ(Math.Round(columnRebarFirstPoint.X + linkOrigin.X, 6), Math.Round(columnRebarFirstPoint.Y + linkOrigin.Y, 6), Math.Round(mySelFloorTopElevation - anchorageLength, 6));
 
 
                             ////Кривые стержня
@@ -1523,7 +1486,7 @@ namespace CITRUS
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, -45 * (Math.PI / 180));
                             }
 
-                            else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                            else if (minXminY != columnRebar.Id & minXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X < columnOrigin.X - columnSectionWidth / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 180 * (Math.PI / 180));
 
@@ -1532,6 +1495,7 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
 
@@ -1545,7 +1509,7 @@ namespace CITRUS
                                 }
                             }
 
-                            else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                            else if (maxXminY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.X + linkOrigin.X > columnOrigin.X + columnSectionWidth / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                             {
 
                                 if (columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).AsInteger() == 3)
@@ -1553,13 +1517,9 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = false;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                    Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisY, rebar_p1);
-                                    List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                    floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                    ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
 
                                     for (int i = 1; i < rebarElemQuantityOfBars; i++)
                                     {
@@ -1571,7 +1531,7 @@ namespace CITRUS
                                 }
                             }
 
-                            else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
+                            else if (minXminY != columnRebar.Id & maxXminY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y < columnOrigin.Y - columnSectionHeight / 2 + mainRebarCoverLayer + columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, -90 * (Math.PI / 180));
 
@@ -1580,6 +1540,7 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
 
@@ -1593,7 +1554,7 @@ namespace CITRUS
                                 }
                             }
 
-                            else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
+                            else if (minXmaxY != columnRebar.Id & maxXmaxY != columnRebar.Id & columnRebarFirstPoint.Y + linkOrigin.Y > columnOrigin.Y + columnSectionHeight / 2 - mainRebarCoverLayer - columnRebarDiamParamDouble)
                             {
                                 ElementTransformUtils.RotateElement(doc, floorRebarOutlet.Id, rotateLine, 90 * (Math.PI / 180));
 
@@ -1602,13 +1563,9 @@ namespace CITRUS
                                     int rebarElemQuantityOfBars = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).AsInteger();
                                     double rebarElemBarSpacing = columnRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).AsDouble();
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                    floorRebarOutlet.GetShapeDrivenAccessor().BarsOnNormalSide = true;
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(rebarElemQuantityOfBars);
                                     floorRebarOutlet.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(rebarElemBarSpacing);
-
-                                    Plane plane = Plane.CreateByNormalAndOrigin(XYZ.BasisX, rebar_p1);
-                                    List<ElementId> floorRebarOutletIdList = new List<ElementId>();
-                                    floorRebarOutletIdList.Add(floorRebarOutlet.Id);
-                                    ElementTransformUtils.MirrorElements(doc, floorRebarOutletIdList, plane, false);
 
                                     for (int i = 1; i < rebarElemQuantityOfBars; i++)
                                     {
@@ -3586,13 +3543,15 @@ namespace CITRUS
         }
 
 
-        private ElementId GetMinXMinYRebar(List<Rebar> rebarList, double sectionWidth, double coverLayer, XYZ columnOrigin)
+        private ElementId GetMinXMinYRebar(List<Rebar> rebarList, double sectionWidth, double columnHeight, double coverLayer, XYZ columnOrigin, XYZ linkOrigin)
         { 
             XYZ minmax = new XYZ(10000, 10000, 0);
             ElementId rebId = new ElementId(0);
             double sw = sectionWidth;
+            double sh = columnHeight;
             double cl = coverLayer;
             XYZ p = columnOrigin;
+            XYZ lo = linkOrigin;
 
             foreach (Rebar reb in rebarList)
             {
@@ -3602,10 +3561,10 @@ namespace CITRUS
                 Curve firstCurveColumnRebar = columnRebarCurveList.First();
                 XYZ columnRebarFirstPoint = firstCurveColumnRebar.GetEndPoint(0);
 
-                if (columnRebarFirstPoint.X < p.X - sw / 2 + cl + rebDiam)
+                if (columnRebarFirstPoint.X + lo.X < p.X - sw / 2 + cl + rebDiam)
                 {
 
-                    if (columnRebarFirstPoint.Y < minmax.Y)
+                    if (columnRebarFirstPoint.Y + lo.Y < p.Y - sh/2 + cl + rebDiam & columnRebarFirstPoint.Y + lo.Y < minmax.Y)
                     {
                         minmax = columnRebarFirstPoint;
                         rebId = reb.Id;
@@ -3616,13 +3575,15 @@ namespace CITRUS
             return rebId;
         }
 
-        private ElementId GetMinXMaxYRebar(List<Rebar> rebarList, double sectionWidth, double coverLayer, XYZ columnOrigin)
+        private ElementId GetMinXMaxYRebar(List<Rebar> rebarList, double sectionWidth, double columnHeight, double coverLayer, XYZ columnOrigin, XYZ linkOrigin)
         {
             XYZ minmax = new XYZ(10000, -10000, 0);
             ElementId rebId = new ElementId(0);
             double sw = sectionWidth;
+            double sh = columnHeight;
             double cl = coverLayer;
             XYZ p = columnOrigin;
+            XYZ lo = linkOrigin;
 
             foreach (Rebar reb in rebarList)
             {
@@ -3632,10 +3593,10 @@ namespace CITRUS
                 Curve firstCurveColumnRebar = columnRebarCurveList.First();
                 XYZ columnRebarFirstPoint = firstCurveColumnRebar.GetEndPoint(0);
 
-                if (columnRebarFirstPoint.X < p.X - sw / 2 + cl + rebDiam)
+                if (columnRebarFirstPoint.X + lo.X < p.X - sw / 2 + cl + rebDiam)
                 {
 
-                    if (columnRebarFirstPoint.Y > minmax.Y)
+                    if (columnRebarFirstPoint.Y + lo.Y > p.Y + sh / 2 - cl - rebDiam & columnRebarFirstPoint.Y + lo.Y > minmax.Y)
                     {
                         minmax = columnRebarFirstPoint;
                         rebId = reb.Id;
@@ -3646,13 +3607,15 @@ namespace CITRUS
             return rebId;
         }
 
-        private ElementId GetMaxXMaxYRebar(List<Rebar> rebarList, double sectionWidth, double coverLayer, XYZ columnOrigin)
+        private ElementId GetMaxXMaxYRebar(List<Rebar> rebarList, double sectionWidth, double columnHeight, double coverLayer, XYZ columnOrigin, XYZ linkOrigin)
         {
             XYZ minmax = new XYZ(-10000, -10000, 0);
             ElementId rebId = new ElementId(0);
             double sw = sectionWidth;
+            double sh = columnHeight;
             double cl = coverLayer;
             XYZ p = columnOrigin;
+            XYZ lo = linkOrigin;
 
             foreach (Rebar reb in rebarList)
             {
@@ -3662,9 +3625,9 @@ namespace CITRUS
                 Curve firstCurveColumnRebar = columnRebarCurveList.First();
                 XYZ columnRebarFirstPoint = firstCurveColumnRebar.GetEndPoint(0);
 
-                if (columnRebarFirstPoint.X > p.X + sw / 2 - cl - rebDiam)
+                if (columnRebarFirstPoint.X + lo.X > p.X + sw / 2 - cl - rebDiam)
                 {
-                    if (columnRebarFirstPoint.Y > minmax.Y)
+                    if (columnRebarFirstPoint.Y + lo.Y > p.Y + sh / 2 - cl - rebDiam & columnRebarFirstPoint.Y + lo.Y > minmax.Y)
                     {
                         minmax = columnRebarFirstPoint;
                         rebId = reb.Id;
@@ -3675,13 +3638,15 @@ namespace CITRUS
             return rebId;
         }
 
-        private ElementId GetMaxXMinYRebar(List<Rebar> rebarList, double sectionWidth, double coverLayer, XYZ columnOrigin)
+        private ElementId GetMaxXMinYRebar(List<Rebar> rebarList, double sectionWidth, double columnHeight, double coverLayer, XYZ columnOrigin, XYZ linkOrigin)
         {
             XYZ minmax = new XYZ(-10000, 10000, 0);
             ElementId rebId = new ElementId(0);
             double sw = sectionWidth;
+            double sh = columnHeight;
             double cl = coverLayer;
             XYZ p = columnOrigin;
+            XYZ lo = linkOrigin;
 
             foreach (Rebar reb in rebarList)
             {
@@ -3691,9 +3656,9 @@ namespace CITRUS
                 Curve firstCurveColumnRebar = columnRebarCurveList.First();
                 XYZ columnRebarFirstPoint = firstCurveColumnRebar.GetEndPoint(0);
 
-                if (columnRebarFirstPoint.X > p.X + sw / 2 - cl - rebDiam)
+                if (columnRebarFirstPoint.X + lo.X > p.X + sw / 2 - cl - rebDiam)
                 {
-                    if (columnRebarFirstPoint.Y < minmax.Y)
+                    if (columnRebarFirstPoint.Y + lo.Y < p.Y - sh / 2 + cl + rebDiam & columnRebarFirstPoint.Y + lo.Y < minmax.Y)
                     {
                         minmax = columnRebarFirstPoint;
                         rebId = reb.Id;

@@ -106,6 +106,7 @@ namespace CITRUS
 					.OfClass(typeof(RevitLinkInstance))
 					.Where(li => li.Id == selRevitLinkInstance.ElementId)
 					.Cast<RevitLinkInstance>();
+				XYZ linkOrigin = myRevitLinkInstance.First().GetTransform().Origin;
 				Document doc2 = myRevitLinkInstance.First().GetLinkDocument();
 				
 				using (Transaction t = new Transaction(doc))
@@ -116,7 +117,7 @@ namespace CITRUS
 					foreach (Group myGroup in myGroupList)
 					{
 						BoundingBoxXYZ bbox = myGroup.get_BoundingBox(null);
-						Outline myGroupOutLn = new Outline(bbox.Min, bbox.Max);
+						Outline myGroupOutLn = new Outline(new XYZ (bbox.Min.X - linkOrigin.X, bbox.Min.Y - linkOrigin.Y, bbox.Min.Z), new XYZ (bbox.Max.X - linkOrigin.X, bbox.Max.Y - linkOrigin.Y, bbox.Max.Z));
 					
 						//Список колонн не пересекающих группу
 						List<FamilyInstance> myColumnsList = new FilteredElementCollector(doc2)
@@ -133,7 +134,8 @@ namespace CITRUS
 						foreach (FamilyInstance column in myColumnsList)
 						{
 							LocationPoint columnLocation = column.Location as LocationPoint;
-							XYZ columnLocationXYZ = columnLocation.Point;
+							XYZ columnLocationXYZLink = columnLocation.Point;
+							XYZ columnLocationXYZ = new XYZ(columnLocationXYZLink.X + linkOrigin.X, columnLocationXYZLink.Y + linkOrigin.Y, columnLocationXYZLink.Z);
 							XYZ vectorForGroupCopy = new XYZ(columnLocationXYZ.X - groupLocationXYZ.X, columnLocationXYZ.Y - groupLocationXYZ.Y, 0);
 
 							List<ElementId> newGroupElementIdList = ElementTransformUtils.CopyElement(doc, myGroup.Id, vectorForGroupCopy) as List<ElementId>;
