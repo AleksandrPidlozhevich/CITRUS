@@ -1147,7 +1147,6 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                 t.Commit();
             }
             #endregion
-            TaskDialog.Show("Revit", "Обработка завершена!");
             return Result.Succeeded;
         }
     }

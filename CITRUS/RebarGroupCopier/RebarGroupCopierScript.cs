@@ -118,15 +118,24 @@ namespace CITRUS
 					{
 						BoundingBoxXYZ bbox = myGroup.get_BoundingBox(null);
 						Outline myGroupOutLn = new Outline(new XYZ (bbox.Min.X - linkOrigin.X, bbox.Min.Y - linkOrigin.Y, bbox.Min.Z), new XYZ (bbox.Max.X - linkOrigin.X, bbox.Max.Y - linkOrigin.Y, bbox.Max.Z));
-					
-						//Список колонн не пересекающих группу
-						List<FamilyInstance> myColumnsList = new FilteredElementCollector(doc2)
-						.OfClass(typeof(FamilyInstance))
-						.OfCategory(BuiltInCategory.OST_StructuralColumns)
-						.WherePasses(new BoundingBoxIntersectsFilter(myGroupOutLn, true))
-						.Where(fi => fi.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString() == myGroup.Name.Split(' ')[1])
-						.Cast<FamilyInstance>()
-						.ToList();
+
+						List<FamilyInstance> myColumnsList = new List<FamilyInstance>();
+						if (myGroup.Name.Split(' ').Length > 1)
+						{
+							//Список колонн не пересекающих группу
+							myColumnsList = new FilteredElementCollector(doc2)
+							.OfClass(typeof(FamilyInstance))
+							.OfCategory(BuiltInCategory.OST_StructuralColumns)
+							.WherePasses(new BoundingBoxIntersectsFilter(myGroupOutLn, true))
+							.Where(fi => fi.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString() == myGroup.Name.Split(' ')[1])
+							.Cast<FamilyInstance>()
+							.ToList();
+						}
+						else
+                        {
+							TaskDialog.Show("Revit", "Группа " + "\"" + myGroup.Name+ "\"" + "\nНазвание некорректно!");
+							continue;
+                        }
 
 						LocationPoint groupLocation = myGroup.Location as LocationPoint;
 						XYZ groupLocationXYZ = groupLocation.Point;

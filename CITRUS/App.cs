@@ -116,6 +116,18 @@ namespace CITRUS
             pbdRectangularColumnsReinforcement.Image = RectangularColumnsReinforcement_imgStandart;
             panel_KR.AddItem(pbdRectangularColumnsReinforcement);
 
+            //Создание кнопки "Выпуски" в категории "КР"
+            PushButtonData pbdRebarOutletsCreator = new PushButtonData("RebarOutletsCreator", "Выпуски", assemblyPach, "CITRUS.RebarOutletsCreator");
+
+            Image RebarOutletsCreator_img1 = Properties.Resources.RebarOutletsCreator_Large;
+            ImageSource RebarOutletsCreator_imgLarge = GetImageSourse(RebarOutletsCreator_img1);
+            Image RebarOutletsCreator_img2 = Properties.Resources.RebarOutletsCreator;
+            ImageSource RebarOutletsCreator_imgStandart = GetImageSourse(RebarOutletsCreator_img2);
+            pbdRebarOutletsCreator.LargeImage = RebarOutletsCreator_imgLarge;
+            pbdRebarOutletsCreator.Image = RebarOutletsCreator_imgStandart;
+
+            panel_KR.AddItem(pbdRebarOutletsCreator);
+
             //Создание кнопки "Копирователь групп" в категории "КР"
             PushButtonData pbdRebarGroupCopier = new PushButtonData("RebarGroupCopier"
                 , "Копирователь\nгрупп"
@@ -130,18 +142,6 @@ namespace CITRUS
             pbdRebarGroupCopier.LargeImage = RebarGroupCopier_imgLarge;
             pbdRebarGroupCopier.Image = RebarGroupCopier_imgStandart;
             panel_KR.AddItem(pbdRebarGroupCopier);
-
-            //Создание кнопки "RebarOutletsCreator" в категории "КР"
-            PushButtonData pbdRebarOutletsCreator = new PushButtonData("RebarOutletsCreator", "Выпуски", assemblyPach, "CITRUS.RebarOutletsCreator");
-
-            Image RebarOutletsCreator_img1 = Properties.Resources.RebarOutletsCreator_Large;
-            ImageSource RebarOutletsCreator_imgLarge = GetImageSourse(RebarOutletsCreator_img1);
-            Image RebarOutletsCreator_img2 = Properties.Resources.RebarOutletsCreator;
-            ImageSource RebarOutletsCreator_imgStandart = GetImageSourse(RebarOutletsCreator_img2);
-            pbdRebarOutletsCreator.LargeImage = RebarOutletsCreator_imgLarge;
-            pbdRebarOutletsCreator.Image = RebarOutletsCreator_imgStandart;
-
-            panel_KR.AddItem(pbdRebarOutletsCreator);
 
             //Создание категории кнопок "ОВ"
             RibbonPanel panel_OV = application.CreateRibbonPanel(tabName, "ОВ");
