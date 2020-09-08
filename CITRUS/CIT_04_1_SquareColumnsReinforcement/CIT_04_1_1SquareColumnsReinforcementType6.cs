@@ -121,7 +121,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
 
             #endregion
 
-            #region  Старт блока использования формы
+#region  Старт блока использования формы
 
             //Вызов формы
             CIT_04_1_1FormSquareColumnsReinforcementType6 formSquareColumnsReinforcementType6 = new CIT_04_1_1FormSquareColumnsReinforcementType6(firstMainRebarTapesList, secondMainRebarTapesList, firstStirrupRebarTapesList, secondStirrupRebarTapesList, rebarCoverTypesList);
@@ -207,6 +207,18 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
             double secondTopRebarOffset2 = formSquareColumnsReinforcementType6.SecondTopRebarOffset2 / 304.8;
             double secondLeftRebarOffset2 = formSquareColumnsReinforcementType6.SecondLeftRebarOffset2 / 304.8;
             double secondRightRebarOffset2 = formSquareColumnsReinforcementType6.SecondRightRebarOffset2 / 304.8;
+
+            //Заглубление стержней
+            double deepeningBarsSize = 0;
+            bool deepeningBars = formSquareColumnsReinforcementType6.DeepeningBars;
+            if (deepeningBars == true)
+            {
+                deepeningBarsSize = formSquareColumnsReinforcementType6.DeepeningBarsSize / 304.8;
+            }
+            else
+            {
+                deepeningBarsSize = 0;
+            }
 
             //Завершение блока Получение данных из формы
             #endregion
@@ -329,26 +341,26 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     {
                         //Если стыковка стержней в нахлест без изменения сечения колонны выше
                         //Точки для построения кривых основных угловых стержней с двойным нахлестом
-                        XYZ firstMainRebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z, 6));
-                        XYZ firstMainRebar_p2 = new XYZ(Math.Round(firstMainRebar_p1.X, 6), Math.Round(firstMainRebar_p1.Y, 6), Math.Round(firstMainRebar_p1.Z + columnLength, 6));
+                        XYZ firstMainRebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                        XYZ firstMainRebar_p2 = new XYZ(Math.Round(firstMainRebar_p1.X, 6), Math.Round(firstMainRebar_p1.Y, 6), Math.Round(firstMainRebar_p1.Z + deepeningBarsSize + columnLength, 6));
                         XYZ firstMainRebar_p3 = new XYZ(Math.Round(firstMainRebar_p2.X + firstMainRebarDiam, 6), Math.Round(firstMainRebar_p2.Y, 6), Math.Round(firstMainRebar_p2.Z + floorThicknessAboveColumn, 6));
                         XYZ firstMainRebar_p4 = new XYZ(Math.Round(firstMainRebar_p3.X, 6), Math.Round(firstMainRebar_p3.Y, 6), Math.Round(firstMainRebar_p3.Z + rebarOutletsLength, 6));
 
                         //Точки для построения кривых основных угловых стержней с одинарным нахлестом
-                        XYZ firstMainRebar_p1A = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z, 6));
-                        XYZ firstMainRebar_p2A = new XYZ(Math.Round(firstMainRebar_p1A.X, 6), Math.Round(firstMainRebar_p1A.Y, 6), Math.Round(firstMainRebar_p1A.Z + columnLength, 6));
+                        XYZ firstMainRebar_p1A = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                        XYZ firstMainRebar_p2A = new XYZ(Math.Round(firstMainRebar_p1A.X, 6), Math.Round(firstMainRebar_p1A.Y, 6), Math.Round(firstMainRebar_p1A.Z + deepeningBarsSize + columnLength, 6));
                         XYZ firstMainRebar_p3A = new XYZ(Math.Round(firstMainRebar_p2A.X + firstMainRebarDiam, 6), Math.Round(firstMainRebar_p2A.Y, 6), Math.Round(firstMainRebar_p2A.Z + floorThicknessAboveColumn, 6));
                         XYZ firstMainRebar_p4A = new XYZ(Math.Round(firstMainRebar_p3A.X, 6), Math.Round(firstMainRebar_p3A.Y, 6), Math.Round(firstMainRebar_p3A.Z + rebarSecondOutletsLength, 6));
 
                         //Точки для построения кривфх основных боковых стержней с двойным нахлестом
-                        XYZ secondMainRebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z, 6));
-                        XYZ secondMainRebar_p2 = new XYZ(Math.Round(secondMainRebar_p1.X, 6), Math.Round(secondMainRebar_p1.Y, 6), Math.Round(secondMainRebar_p1.Z + columnLength, 6));
+                        XYZ secondMainRebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                        XYZ secondMainRebar_p2 = new XYZ(Math.Round(secondMainRebar_p1.X, 6), Math.Round(secondMainRebar_p1.Y, 6), Math.Round(secondMainRebar_p1.Z + deepeningBarsSize + columnLength, 6));
                         XYZ secondMainRebar_p3 = new XYZ(Math.Round(secondMainRebar_p2.X + secondMainRebarDiam, 6), Math.Round(secondMainRebar_p2.Y, 6), Math.Round(secondMainRebar_p2.Z + floorThicknessAboveColumn, 6));
                         XYZ secondMainRebar_p4 = new XYZ(Math.Round(secondMainRebar_p3.X, 6), Math.Round(secondMainRebar_p3.Y, 6), Math.Round(secondMainRebar_p3.Z + rebarOutletsLength, 6));
 
                         //Точки для построения кривфх основных боковых стержней с одинарным нахлестом
-                        XYZ secondMainRebar_p1A = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z, 6));
-                        XYZ secondMainRebar_p2A = new XYZ(Math.Round(secondMainRebar_p1A.X, 6), Math.Round(secondMainRebar_p1A.Y, 6), Math.Round(secondMainRebar_p1A.Z + columnLength, 6));
+                        XYZ secondMainRebar_p1A = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                        XYZ secondMainRebar_p2A = new XYZ(Math.Round(secondMainRebar_p1A.X, 6), Math.Round(secondMainRebar_p1A.Y, 6), Math.Round(secondMainRebar_p1A.Z + deepeningBarsSize + columnLength, 6));
                         XYZ secondMainRebar_p3A = new XYZ(Math.Round(secondMainRebar_p2A.X + secondMainRebarDiam, 6), Math.Round(secondMainRebar_p2A.Y, 6), Math.Round(secondMainRebar_p2A.Z + floorThicknessAboveColumn, 6));
                         XYZ secondMainRebar_p4A = new XYZ(Math.Round(secondMainRebar_p3A.X, 6), Math.Round(secondMainRebar_p3A.Y, 6), Math.Round(secondMainRebar_p3A.Z + rebarSecondOutletsLength, 6));
 
@@ -989,29 +1001,29 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         //Если стыковка стержней в нахлест c изменением сечения колонны выше
                         //Точки для построения кривых основных угловых удлиненных стержней
 
-                        XYZ firstMainRebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z, 6));
-                        XYZ firstMainRebar_p2 = new XYZ(Math.Round(firstMainRebar_p1.X, 6), Math.Round(firstMainRebar_p1.Y, 6), Math.Round(firstMainRebar_p1.Z + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
+                        XYZ firstMainRebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                        XYZ firstMainRebar_p2 = new XYZ(Math.Round(firstMainRebar_p1.X, 6), Math.Round(firstMainRebar_p1.Y, 6), Math.Round(firstMainRebar_p1.Z + deepeningBarsSize + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                         XYZ firstMainRebar_p3 = new XYZ(Math.Round(firstMainRebar_p2.X + deltaXOverlapping, 6), Math.Round(firstMainRebar_p2.Y, 6), Math.Round(firstMainRebar_p2.Z + floorThicknessAboveColumn + (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                         XYZ firstMainRebar_p4 = new XYZ(Math.Round(firstMainRebar_p3.X, 6), Math.Round(firstMainRebar_p3.Y, 6), Math.Round(firstMainRebar_p3.Z + rebarOutletsLength, 6));
 
                         //Точки для построения кривых основных угловых укороченных стержней
 
-                        XYZ firstMainRebar_p1A = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z, 6));
-                        XYZ firstMainRebar_p2A = new XYZ(Math.Round(firstMainRebar_p1A.X, 6), Math.Round(firstMainRebar_p1A.Y, 6), Math.Round(firstMainRebar_p1A.Z + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
+                        XYZ firstMainRebar_p1A = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                        XYZ firstMainRebar_p2A = new XYZ(Math.Round(firstMainRebar_p1A.X, 6), Math.Round(firstMainRebar_p1A.Y, 6), Math.Round(firstMainRebar_p1A.Z + deepeningBarsSize + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                         XYZ firstMainRebar_p3A = new XYZ(Math.Round(firstMainRebar_p2A.X + deltaXOverlapping, 6), Math.Round(firstMainRebar_p2A.Y, 6), Math.Round(firstMainRebar_p2A.Z + floorThicknessAboveColumn + (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                         XYZ firstMainRebar_p4A = new XYZ(Math.Round(firstMainRebar_p3A.X, 6), Math.Round(firstMainRebar_p3A.Y, 6), Math.Round(firstMainRebar_p3A.Z + rebarSecondOutletsLength, 6));
 
                         //Точки для построения кривых основных боковых удлиненных стержней
 
-                        XYZ secondMainRebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z, 6));
-                        XYZ secondMainRebar_p2 = new XYZ(Math.Round(secondMainRebar_p1.X, 6), Math.Round(secondMainRebar_p1.Y, 6), Math.Round(secondMainRebar_p1.Z + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
+                        XYZ secondMainRebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                        XYZ secondMainRebar_p2 = new XYZ(Math.Round(secondMainRebar_p1.X, 6), Math.Round(secondMainRebar_p1.Y, 6), Math.Round(secondMainRebar_p1.Z + deepeningBarsSize + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                         XYZ secondMainRebar_p3 = new XYZ(Math.Round(secondMainRebar_p2.X + deltaXSecondOverlapping, 6), Math.Round(secondMainRebar_p2.Y, 6), Math.Round(secondMainRebar_p2.Z + floorThicknessAboveColumn + (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                         XYZ secondMainRebar_p4 = new XYZ(Math.Round(secondMainRebar_p3.X, 6), Math.Round(secondMainRebar_p3.Y, 6), Math.Round(secondMainRebar_p3.Z + rebarOutletsLength, 6));
 
                         //Точки для построения кривых основных боковых укороченных стержней
 
-                        XYZ secondMainRebar_p1A = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z, 6));
-                        XYZ secondMainRebar_p2A = new XYZ(Math.Round(secondMainRebar_p1A.X, 6), Math.Round(secondMainRebar_p1A.Y, 6), Math.Round(secondMainRebar_p1A.Z + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
+                        XYZ secondMainRebar_p1A = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                        XYZ secondMainRebar_p2A = new XYZ(Math.Round(secondMainRebar_p1A.X, 6), Math.Round(secondMainRebar_p1A.Y, 6), Math.Round(secondMainRebar_p1A.Z + deepeningBarsSize + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                         XYZ secondMainRebar_p3A = new XYZ(Math.Round(secondMainRebar_p2A.X + deltaXSecondOverlapping, 6), Math.Round(secondMainRebar_p2A.Y, 6), Math.Round(secondMainRebar_p2A.Z + floorThicknessAboveColumn + (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                         XYZ secondMainRebar_p4A = new XYZ(Math.Round(secondMainRebar_p3A.X, 6), Math.Round(secondMainRebar_p3A.Y, 6), Math.Round(secondMainRebar_p3A.Z + rebarSecondOutletsLength, 6));
 

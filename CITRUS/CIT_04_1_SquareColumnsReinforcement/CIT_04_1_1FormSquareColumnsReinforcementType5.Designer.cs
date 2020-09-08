@@ -57,6 +57,8 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.checkBox_TransitionToOverlap = new System.Windows.Forms.CheckBox();
+            this.textBox_DeepeningBars = new System.Windows.Forms.TextBox();
+            this.checkBox_DeepeningBars = new System.Windows.Forms.CheckBox();
             this.groupBox_RebarOutlets.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -182,13 +184,15 @@
             // 
             // groupBox_RebarOutlets
             // 
+            this.groupBox_RebarOutlets.Controls.Add(this.textBox_DeepeningBars);
             this.groupBox_RebarOutlets.Controls.Add(this.pictureBox4);
+            this.groupBox_RebarOutlets.Controls.Add(this.checkBox_DeepeningBars);
             this.groupBox_RebarOutlets.Controls.Add(this.pictureBox3);
             this.groupBox_RebarOutlets.Controls.Add(this.radioButton_MainWeldingRods);
             this.groupBox_RebarOutlets.Controls.Add(this.radioButton_MainOverlappingRods);
             this.groupBox_RebarOutlets.Location = new System.Drawing.Point(13, 307);
             this.groupBox_RebarOutlets.Name = "groupBox_RebarOutlets";
-            this.groupBox_RebarOutlets.Size = new System.Drawing.Size(397, 216);
+            this.groupBox_RebarOutlets.Size = new System.Drawing.Size(397, 245);
             this.groupBox_RebarOutlets.TabIndex = 17;
             this.groupBox_RebarOutlets.TabStop = false;
             this.groupBox_RebarOutlets.Text = "Тип выпусков:";
@@ -357,12 +361,31 @@
             // checkBox_TransitionToOverlap
             // 
             this.checkBox_TransitionToOverlap.AutoSize = true;
-            this.checkBox_TransitionToOverlap.Location = new System.Drawing.Point(233, 500);
+            this.checkBox_TransitionToOverlap.Location = new System.Drawing.Point(233, 506);
             this.checkBox_TransitionToOverlap.Name = "checkBox_TransitionToOverlap";
             this.checkBox_TransitionToOverlap.Size = new System.Drawing.Size(127, 17);
             this.checkBox_TransitionToOverlap.TabIndex = 29;
             this.checkBox_TransitionToOverlap.Text = "Переход на нахлест";
             this.checkBox_TransitionToOverlap.UseVisualStyleBackColor = true;
+            // 
+            // textBox_DeepeningBars
+            // 
+            this.textBox_DeepeningBars.Location = new System.Drawing.Point(77, 218);
+            this.textBox_DeepeningBars.Name = "textBox_DeepeningBars";
+            this.textBox_DeepeningBars.Size = new System.Drawing.Size(60, 20);
+            this.textBox_DeepeningBars.TabIndex = 31;
+            this.textBox_DeepeningBars.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_DeepeningBars.TextChanged += new System.EventHandler(this.textBox_DeepeningBars_TextChanged);
+            // 
+            // checkBox_DeepeningBars
+            // 
+            this.checkBox_DeepeningBars.AutoSize = true;
+            this.checkBox_DeepeningBars.Location = new System.Drawing.Point(35, 198);
+            this.checkBox_DeepeningBars.Name = "checkBox_DeepeningBars";
+            this.checkBox_DeepeningBars.Size = new System.Drawing.Size(143, 17);
+            this.checkBox_DeepeningBars.TabIndex = 30;
+            this.checkBox_DeepeningBars.Text = "Заглубление стержней";
+            this.checkBox_DeepeningBars.UseVisualStyleBackColor = true;
             // 
             // CIT_04_1_1FormSquareColumnsReinforcementType5
             // 
@@ -443,5 +466,7 @@
         private System.Windows.Forms.TextBox textBox_SecondLeftRebarOffset;
         private System.Windows.Forms.TextBox textBox_SecondRightRebarOffset;
         private System.Windows.Forms.CheckBox checkBox_TransitionToOverlap;
+        private System.Windows.Forms.TextBox textBox_DeepeningBars;
+        private System.Windows.Forms.CheckBox checkBox_DeepeningBars;
     }
 }

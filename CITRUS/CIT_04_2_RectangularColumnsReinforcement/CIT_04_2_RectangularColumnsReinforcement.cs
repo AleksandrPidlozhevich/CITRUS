@@ -215,7 +215,20 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
             //Изменение сечения колонны
             bool changeColumnSection = rectangularColumnsReinforcementForm.СhangeColumnSection;
             double sectionOffset = rectangularColumnsReinforcementForm.ColumnSectionOffset / 304.8;
-            #endregion
+
+            //Заглубление стержней
+            double deepeningBarsSize = 0;
+            bool deepeningBars = rectangularColumnsReinforcementForm.DeepeningBars;
+            if (deepeningBars == true)
+            {
+                deepeningBarsSize = rectangularColumnsReinforcementForm.DeepeningBarsSize / 304.8;
+            }
+            else
+            {
+                deepeningBarsSize = 0;
+            }
+
+#endregion
 
 #region Старт блока Получение типа элемента CIT_04_ВаннаДляСварки
             //Список семейств с именем CIT_04_ВаннаДляСварки
@@ -323,10 +336,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         //Точки для построения кривых стержня один длинного
                         XYZ mainRebarTypeOneLong_p1 = new XYZ(Math.Round(columnOrigin.X, 6)
                         , Math.Round(columnOrigin.Y, 6)
-                        , Math.Round(columnOrigin.Z, 6));
+                        , Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
                         XYZ mainRebarTypeOneLong_p2 = new XYZ(Math.Round(mainRebarTypeOneLong_p1.X, 6)
                             , Math.Round(mainRebarTypeOneLong_p1.Y, 6)
-                            , Math.Round(mainRebarTypeOneLong_p1.Z + columnLength, 6));
+                            , Math.Round(mainRebarTypeOneLong_p1.Z + deepeningBarsSize + columnLength, 6));
                         XYZ mainRebarTypeOneLong_p3 = new XYZ(Math.Round(mainRebarTypeOneLong_p2.X + mainRebarDiamTypeOne, 6)
                             , Math.Round(mainRebarTypeOneLong_p2.Y, 6)
                             , Math.Round(mainRebarTypeOneLong_p2.Z + floorThicknessAboveColumn, 6));
@@ -337,10 +350,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         //Точки для построения кривых стержня один короткого
                         XYZ mainRebarTypeOneShort_p1 = new XYZ(Math.Round(columnOrigin.X, 6)
                             , Math.Round(columnOrigin.Y, 6)
-                            , Math.Round(columnOrigin.Z, 6));
+                            , Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
                         XYZ mainRebarTypeOneShort_p2 = new XYZ(Math.Round(mainRebarTypeOneShort_p1.X, 6)
                             , Math.Round(mainRebarTypeOneShort_p1.Y, 6)
-                            , Math.Round(mainRebarTypeOneShort_p1.Z + columnLength, 6));
+                            , Math.Round(mainRebarTypeOneShort_p1.Z + deepeningBarsSize + columnLength, 6));
                         XYZ mainRebarTypeOneShort_p3 = new XYZ(Math.Round(mainRebarTypeOneShort_p2.X + mainRebarDiamTypeOne, 6)
                             , Math.Round(mainRebarTypeOneShort_p2.Y, 6)
                             , Math.Round(mainRebarTypeOneShort_p2.Z + floorThicknessAboveColumn, 6));
@@ -493,10 +506,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             //Точки для построения кривфх стержня два удлиненного
                             XYZ mainRebarTypeTwoLong_p1 = new XYZ(Math.Round(columnOrigin.X, 6)
                                 , Math.Round(columnOrigin.Y, 6)
-                                , Math.Round(columnOrigin.Z, 6));
+                                , Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
                             XYZ mainRebarTypeTwoLong_p2 = new XYZ(Math.Round(mainRebarTypeTwoLong_p1.X, 6)
                                 , Math.Round(mainRebarTypeTwoLong_p1.Y, 6)
-                                , Math.Round(mainRebarTypeTwoLong_p1.Z + columnLength, 6));
+                                , Math.Round(mainRebarTypeTwoLong_p1.Z + deepeningBarsSize + columnLength, 6));
                             XYZ mainRebarTypeTwoLong_p3 = new XYZ(Math.Round(mainRebarTypeTwoLong_p2.X + mainRebarDiamTypeTwo, 6)
                                 , Math.Round(mainRebarTypeTwoLong_p2.Y, 6)
                                 , Math.Round(mainRebarTypeTwoLong_p2.Z + floorThicknessAboveColumn, 6));
@@ -507,10 +520,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             //Точки для построения кривфх стержня два укороченного
                             XYZ mainRebarTypeTwoShort_p1 = new XYZ(Math.Round(columnOrigin.X, 6)
                                 , Math.Round(columnOrigin.Y, 6)
-                                , Math.Round(columnOrigin.Z, 6));
+                                , Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
                             XYZ mainRebarTypeTwoShort_p2 = new XYZ(Math.Round(mainRebarTypeTwoShort_p1.X, 6)
                                 , Math.Round(mainRebarTypeTwoShort_p1.Y, 6)
-                                , Math.Round(mainRebarTypeTwoShort_p1.Z + columnLength, 6));
+                                , Math.Round(mainRebarTypeTwoShort_p1.Z + deepeningBarsSize + columnLength, 6));
                             XYZ mainRebarTypeTwoShort_p3 = new XYZ(Math.Round(mainRebarTypeTwoShort_p2.X + mainRebarDiamTypeTwo, 6)
                                 , Math.Round(mainRebarTypeTwoShort_p2.Y, 6)
                                 , Math.Round(mainRebarTypeTwoShort_p2.Z + floorThicknessAboveColumn, 6));
@@ -679,10 +692,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             //Точки для построения кривых стержня три длинного
                             XYZ mainRebarTypeThreeLong_p1 = new XYZ(Math.Round(columnOrigin.X, 6)
                                 , Math.Round(columnOrigin.Y, 6)
-                                , Math.Round(columnOrigin.Z, 6));
+                                , Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
                             XYZ mainRebarTypeThreeLong_p2 = new XYZ(Math.Round(mainRebarTypeThreeLong_p1.X, 6)
                                 , Math.Round(mainRebarTypeThreeLong_p1.Y, 6)
-                                , Math.Round(mainRebarTypeThreeLong_p1.Z + columnLength, 6));
+                                , Math.Round(mainRebarTypeThreeLong_p1.Z + deepeningBarsSize + columnLength, 6));
                             XYZ mainRebarTypeThreeLong_p3 = new XYZ(Math.Round(mainRebarTypeThreeLong_p2.X, 6)
                                 , Math.Round(mainRebarTypeThreeLong_p2.Y + mainRebarDiamTypeThree, 6)
                                 , Math.Round(mainRebarTypeThreeLong_p2.Z + floorThicknessAboveColumn, 6));
@@ -693,10 +706,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             //Точки для построения кривфх стержня три короткого
                             XYZ mainRebarTypeThreeShort_p1 = new XYZ(Math.Round(columnOrigin.X, 6)
                                 , Math.Round(columnOrigin.Y, 6)
-                                , Math.Round(columnOrigin.Z, 6));
+                                , Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
                             XYZ mainRebarTypeThreeShort_p2 = new XYZ(Math.Round(mainRebarTypeThreeShort_p1.X, 6)
                                 , Math.Round(mainRebarTypeThreeShort_p1.Y, 6)
-                                , Math.Round(mainRebarTypeThreeShort_p1.Z + columnLength, 6));
+                                , Math.Round(mainRebarTypeThreeShort_p1.Z + deepeningBarsSize + columnLength, 6));
                             XYZ mainRebarTypeThreeShort_p3 = new XYZ(Math.Round(mainRebarTypeThreeShort_p2.X, 6)
                                 , Math.Round(mainRebarTypeThreeShort_p2.Y + mainRebarDiamTypeThree, 6)
                                 , Math.Round(mainRebarTypeThreeShort_p2.Z + floorThicknessAboveColumn, 6));
@@ -866,10 +879,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         //Точки для построения кривых стержня один длинного
                         XYZ mainRebarTypeOneLong_p1 = new XYZ(Math.Round(columnOrigin.X, 6)
                         , Math.Round(columnOrigin.Y, 6)
-                        , Math.Round(columnOrigin.Z, 6));
+                        , Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
                         XYZ mainRebarTypeOneLong_p2 = new XYZ(Math.Round(mainRebarTypeOneLong_p1.X, 6)
                             , Math.Round(mainRebarTypeOneLong_p1.Y, 6)
-                            , Math.Round(mainRebarTypeOneLong_p1.Z + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
+                            , Math.Round(mainRebarTypeOneLong_p1.Z + deepeningBarsSize + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                         XYZ mainRebarTypeOneLong_p3 = new XYZ(Math.Round(mainRebarTypeOneLong_p2.X + mainRebarDiamTypeOne + sectionOffset, 6)
                             , Math.Round(mainRebarTypeOneLong_p2.Y, 6)
                             , Math.Round(mainRebarTypeOneLong_p2.Z + floorThicknessAboveColumn + (sectionOffset * 6 - floorThicknessAboveColumn), 6));
@@ -880,10 +893,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         //Точки для построения кривых стержня один короткого
                         XYZ mainRebarTypeOneShort_p1 = new XYZ(Math.Round(columnOrigin.X, 6)
                             , Math.Round(columnOrigin.Y, 6)
-                            , Math.Round(columnOrigin.Z, 6));
+                            , Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
                         XYZ mainRebarTypeOneShort_p2 = new XYZ(Math.Round(mainRebarTypeOneShort_p1.X, 6)
                             , Math.Round(mainRebarTypeOneShort_p1.Y, 6)
-                            , Math.Round(mainRebarTypeOneShort_p1.Z + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
+                            , Math.Round(mainRebarTypeOneShort_p1.Z + deepeningBarsSize + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                         XYZ mainRebarTypeOneShort_p3 = new XYZ(Math.Round(mainRebarTypeOneShort_p2.X + mainRebarDiamTypeOne + sectionOffset, 6)
                             , Math.Round(mainRebarTypeOneShort_p2.Y, 6)
                             , Math.Round(mainRebarTypeOneShort_p2.Z + floorThicknessAboveColumn + (sectionOffset * 6 - floorThicknessAboveColumn), 6));
@@ -1036,10 +1049,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             //Точки для построения кривфх стержня два удлиненного
                             XYZ mainRebarTypeTwoLong_p1 = new XYZ(Math.Round(columnOrigin.X, 6)
                                 , Math.Round(columnOrigin.Y, 6)
-                                , Math.Round(columnOrigin.Z, 6));
+                                , Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
                             XYZ mainRebarTypeTwoLong_p2 = new XYZ(Math.Round(mainRebarTypeTwoLong_p1.X, 6)
                                 , Math.Round(mainRebarTypeTwoLong_p1.Y, 6)
-                                , Math.Round(mainRebarTypeTwoLong_p1.Z + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
+                                , Math.Round(mainRebarTypeTwoLong_p1.Z + deepeningBarsSize + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                             XYZ mainRebarTypeTwoLong_p3 = new XYZ(Math.Round(mainRebarTypeTwoLong_p2.X + mainRebarDiamTypeTwo + sectionOffset, 6)
                                 , Math.Round(mainRebarTypeTwoLong_p2.Y, 6)
                                 , Math.Round(mainRebarTypeTwoLong_p2.Z + floorThicknessAboveColumn + (sectionOffset * 6 - floorThicknessAboveColumn), 6));
@@ -1050,10 +1063,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             //Точки для построения кривфх стержня два укороченного
                             XYZ mainRebarTypeTwoShort_p1 = new XYZ(Math.Round(columnOrigin.X, 6)
                                 , Math.Round(columnOrigin.Y, 6)
-                                , Math.Round(columnOrigin.Z, 6));
+                                , Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
                             XYZ mainRebarTypeTwoShort_p2 = new XYZ(Math.Round(mainRebarTypeTwoShort_p1.X, 6)
                                 , Math.Round(mainRebarTypeTwoShort_p1.Y, 6)
-                                , Math.Round(mainRebarTypeTwoShort_p1.Z + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
+                                , Math.Round(mainRebarTypeTwoShort_p1.Z + deepeningBarsSize + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                             XYZ mainRebarTypeTwoShort_p3 = new XYZ(Math.Round(mainRebarTypeTwoShort_p2.X + mainRebarDiamTypeTwo + sectionOffset, 6)
                                 , Math.Round(mainRebarTypeTwoShort_p2.Y, 6)
                                 , Math.Round(mainRebarTypeTwoShort_p2.Z + floorThicknessAboveColumn + (sectionOffset * 6 - floorThicknessAboveColumn), 6));
@@ -1222,10 +1235,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             //Точки для построения кривых стержня три длинного
                             XYZ mainRebarTypeThreeLong_p1 = new XYZ(Math.Round(columnOrigin.X, 6)
                                 , Math.Round(columnOrigin.Y, 6)
-                                , Math.Round(columnOrigin.Z, 6));
+                                , Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
                             XYZ mainRebarTypeThreeLong_p2 = new XYZ(Math.Round(mainRebarTypeThreeLong_p1.X, 6)
                                 , Math.Round(mainRebarTypeThreeLong_p1.Y, 6)
-                                , Math.Round(mainRebarTypeThreeLong_p1.Z + columnLength, 6));
+                                , Math.Round(mainRebarTypeThreeLong_p1.Z + deepeningBarsSize + columnLength, 6));
                             XYZ mainRebarTypeThreeLong_p3 = new XYZ(Math.Round(mainRebarTypeThreeLong_p2.X, 6)
                                 , Math.Round(mainRebarTypeThreeLong_p2.Y + mainRebarDiamTypeThree, 6)
                                 , Math.Round(mainRebarTypeThreeLong_p2.Z + floorThicknessAboveColumn, 6));
@@ -1236,10 +1249,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             //Точки для построения кривфх стержня три короткого
                             XYZ mainRebarTypeThreeShort_p1 = new XYZ(Math.Round(columnOrigin.X, 6)
                                 , Math.Round(columnOrigin.Y, 6)
-                                , Math.Round(columnOrigin.Z, 6));
+                                , Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
                             XYZ mainRebarTypeThreeShort_p2 = new XYZ(Math.Round(mainRebarTypeThreeShort_p1.X, 6)
                                 , Math.Round(mainRebarTypeThreeShort_p1.Y, 6)
-                                , Math.Round(mainRebarTypeThreeShort_p1.Z + columnLength, 6));
+                                , Math.Round(mainRebarTypeThreeShort_p1.Z + deepeningBarsSize + columnLength, 6));
                             XYZ mainRebarTypeThreeShort_p3 = new XYZ(Math.Round(mainRebarTypeThreeShort_p2.X, 6)
                                 , Math.Round(mainRebarTypeThreeShort_p2.Y + mainRebarDiamTypeThree, 6)
                                 , Math.Round(mainRebarTypeThreeShort_p2.Z + floorThicknessAboveColumn, 6));

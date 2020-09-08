@@ -176,13 +176,24 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
             //Переход со сварки на нахлест
             bool transitionToOverlap = formSquareColumnsReinforcementType1.TransitionToOverlap;
 
+            //Заглубление стержней
+            double deepeningBarsSize = 0;
+            bool deepeningBars = formSquareColumnsReinforcementType1.DeepeningBars;
+            if (deepeningBars == true)
+            {
+                deepeningBarsSize = formSquareColumnsReinforcementType1.DeepeningBarsSize / 304.8;
+            }
+            else
+            {
+                deepeningBarsSize = 0;
+            }
 
             //Завершение блока Получение данных из формы   
             #endregion
             //Завершение блока использования формы
-#endregion
+            #endregion
 
- #region Старт блока Получение типа элемента CIT_04_ВаннаДляСварки
+            #region Старт блока Получение типа элемента CIT_04_ВаннаДляСварки
             //Список семейств с именем CIT_04_ВаннаДляСварки
             List<Family> familiesTubWelding = new FilteredElementCollector(doc).OfClass(typeof(Family)).Cast<Family>().Where(f => f.Name == "CIT_04_ВаннаДляСварки").ToList();
             if (familiesTubWelding.Count != 1) return Result.Failed;
@@ -296,8 +307,8 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     {
                         //Если стыковка стержней в нахлест без изменения сечения колонны выше
                         //Точки для построения кривфх стержня
-                        XYZ rebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z, 6));
-                        XYZ rebar_p2 = new XYZ(Math.Round(rebar_p1.X, 6), Math.Round(rebar_p1.Y, 6), Math.Round(rebar_p1.Z + columnLength, 6));
+                        XYZ rebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                        XYZ rebar_p2 = new XYZ(Math.Round(rebar_p1.X, 6), Math.Round(rebar_p1.Y, 6), Math.Round(rebar_p1.Z + deepeningBarsSize + columnLength, 6));
                         XYZ rebar_p3 = new XYZ(Math.Round(rebar_p2.X + mainRebarDiam, 6), Math.Round(rebar_p2.Y, 6), Math.Round(rebar_p2.Z + floorThicknessAboveColumn, 6));
                         XYZ rebar_p4 = new XYZ(Math.Round(rebar_p3.X, 6), Math.Round(rebar_p3.Y, 6), Math.Round(rebar_p3.Z + rebarOutletsLength, 6));
 
@@ -455,8 +466,8 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         //Если стыковка стержней в нахлест c изменением сечения колонны выше
                         //Точки для построения кривфх стержня
 
-                        XYZ rebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z, 6));
-                        XYZ rebar_p2 = new XYZ(Math.Round(rebar_p1.X, 6), Math.Round(rebar_p1.Y, 6), Math.Round(rebar_p1.Z + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
+                        XYZ rebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                        XYZ rebar_p2 = new XYZ(Math.Round(rebar_p1.X, 6), Math.Round(rebar_p1.Y, 6), Math.Round(rebar_p1.Z + deepeningBarsSize + columnLength - (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                         XYZ rebar_p3 = new XYZ(Math.Round(rebar_p2.X + deltaXOverlapping, 6), Math.Round(rebar_p2.Y, 6), Math.Round(rebar_p2.Z + floorThicknessAboveColumn + (sectionOffset * 6 - floorThicknessAboveColumn), 6));
                         XYZ rebar_p4 = new XYZ(Math.Round(rebar_p3.X, 6), Math.Round(rebar_p3.Y, 6), Math.Round(rebar_p3.Z + rebarOutletsLength, 6));
 

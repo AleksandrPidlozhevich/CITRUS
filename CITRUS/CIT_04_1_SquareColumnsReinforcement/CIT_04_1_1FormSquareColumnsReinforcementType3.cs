@@ -27,11 +27,13 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
         public double StandardStirrupSpacing;
         public double StirrupIncreasedPlacementHeight;
         public double ColumnSectionOffset;
+        public double DeepeningBarsSize;
 
         public string CheckedRebarOutletsButtonName;
 
         public bool СhangeColumnSection;
         public bool TransitionToOverlap;
+        public bool DeepeningBars;
 
         public CIT_04_1_1FormSquareColumnsReinforcementType3(List<RebarBarType> firstMainBarTapes
             , List<RebarBarType> secondMainBarTapes
@@ -66,6 +68,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
         {
             CheckedRebarOutletsButtonName = groupBox_RebarOutlets.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
             TransitionToOverlap = checkBox_TransitionToOverlap.Checked;
+            DeepeningBars = checkBox_DeepeningBars.Checked;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -147,5 +150,9 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
             double.TryParse(textBox_ColumnSectionOffset.Text, out ColumnSectionOffset);
         }
 
+        private void textBox_DeepeningBars_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_DeepeningBars.Text, out DeepeningBarsSize);
+        }
     }
 }

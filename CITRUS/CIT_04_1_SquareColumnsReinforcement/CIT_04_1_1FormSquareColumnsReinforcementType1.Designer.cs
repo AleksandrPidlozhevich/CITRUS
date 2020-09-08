@@ -40,6 +40,8 @@
             this.textBox_FirstStirrupOffset = new System.Windows.Forms.TextBox();
             this.textBox_IncreasedStirrupSpacing = new System.Windows.Forms.TextBox();
             this.groupBox_RebarOutlets = new System.Windows.Forms.GroupBox();
+            this.textBox_DeepeningBars = new System.Windows.Forms.TextBox();
+            this.checkBox_DeepeningBars = new System.Windows.Forms.CheckBox();
             this.checkBox_TransitionToOverlap = new System.Windows.Forms.CheckBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -175,6 +177,8 @@
             // 
             // groupBox_RebarOutlets
             // 
+            this.groupBox_RebarOutlets.Controls.Add(this.textBox_DeepeningBars);
+            this.groupBox_RebarOutlets.Controls.Add(this.checkBox_DeepeningBars);
             this.groupBox_RebarOutlets.Controls.Add(this.checkBox_TransitionToOverlap);
             this.groupBox_RebarOutlets.Controls.Add(this.pictureBox4);
             this.groupBox_RebarOutlets.Controls.Add(this.pictureBox3);
@@ -182,15 +186,34 @@
             this.groupBox_RebarOutlets.Controls.Add(this.radioButton_MainOverlappingRods);
             this.groupBox_RebarOutlets.Location = new System.Drawing.Point(13, 307);
             this.groupBox_RebarOutlets.Name = "groupBox_RebarOutlets";
-            this.groupBox_RebarOutlets.Size = new System.Drawing.Size(397, 216);
+            this.groupBox_RebarOutlets.Size = new System.Drawing.Size(397, 245);
             this.groupBox_RebarOutlets.TabIndex = 17;
             this.groupBox_RebarOutlets.TabStop = false;
             this.groupBox_RebarOutlets.Text = "Тип выпусков:";
             // 
+            // textBox_DeepeningBars
+            // 
+            this.textBox_DeepeningBars.Location = new System.Drawing.Point(77, 218);
+            this.textBox_DeepeningBars.Name = "textBox_DeepeningBars";
+            this.textBox_DeepeningBars.Size = new System.Drawing.Size(60, 20);
+            this.textBox_DeepeningBars.TabIndex = 23;
+            this.textBox_DeepeningBars.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_DeepeningBars.TextChanged += new System.EventHandler(this.textBox_DeepeningBars_TextChanged);
+            // 
+            // checkBox_DeepeningBars
+            // 
+            this.checkBox_DeepeningBars.AutoSize = true;
+            this.checkBox_DeepeningBars.Location = new System.Drawing.Point(35, 198);
+            this.checkBox_DeepeningBars.Name = "checkBox_DeepeningBars";
+            this.checkBox_DeepeningBars.Size = new System.Drawing.Size(143, 17);
+            this.checkBox_DeepeningBars.TabIndex = 22;
+            this.checkBox_DeepeningBars.Text = "Заглубление стержней";
+            this.checkBox_DeepeningBars.UseVisualStyleBackColor = true;
+            // 
             // checkBox_TransitionToOverlap
             // 
             this.checkBox_TransitionToOverlap.AutoSize = true;
-            this.checkBox_TransitionToOverlap.Location = new System.Drawing.Point(220, 194);
+            this.checkBox_TransitionToOverlap.Location = new System.Drawing.Point(220, 199);
             this.checkBox_TransitionToOverlap.Name = "checkBox_TransitionToOverlap";
             this.checkBox_TransitionToOverlap.Size = new System.Drawing.Size(127, 17);
             this.checkBox_TransitionToOverlap.TabIndex = 21;
@@ -355,5 +378,7 @@
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.TextBox textBox_ColumnSectionOffset;
         private System.Windows.Forms.CheckBox checkBox_TransitionToOverlap;
+        private System.Windows.Forms.TextBox textBox_DeepeningBars;
+        private System.Windows.Forms.CheckBox checkBox_DeepeningBars;
     }
 }

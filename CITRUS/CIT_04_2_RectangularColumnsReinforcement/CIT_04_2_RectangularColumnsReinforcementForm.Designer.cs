@@ -46,7 +46,9 @@
             this.textBox_StandardStirrupStep = new System.Windows.Forms.TextBox();
             this.textBox_IncreasedStirrupStep = new System.Windows.Forms.TextBox();
             this.groupBox_RebarOutlets = new System.Windows.Forms.GroupBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.checkBox_TransitionToOverlap = new System.Windows.Forms.CheckBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.radioButton_MainWeldingRods = new System.Windows.Forms.RadioButton();
             this.radioButton_MainOverlappingRods = new System.Windows.Forms.RadioButton();
             this.groupBox_StrappingType = new System.Windows.Forms.GroupBox();
@@ -55,15 +57,15 @@
             this.textBox_ColumnSectionOffset = new System.Windows.Forms.TextBox();
             this.checkBox_СhangeSection = new System.Windows.Forms.CheckBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.textBox_DeepeningBars = new System.Windows.Forms.TextBox();
+            this.checkBox_DeepeningBars = new System.Windows.Forms.CheckBox();
             this.groupBox_RebarOutlets.SuspendLayout();
-            this.groupBox_StrappingType.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.groupBox_StrappingType.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -231,27 +233,49 @@
             // 
             // groupBox_RebarOutlets
             // 
+            this.groupBox_RebarOutlets.Controls.Add(this.textBox_DeepeningBars);
             this.groupBox_RebarOutlets.Controls.Add(this.pictureBox4);
+            this.groupBox_RebarOutlets.Controls.Add(this.checkBox_DeepeningBars);
             this.groupBox_RebarOutlets.Controls.Add(this.checkBox_TransitionToOverlap);
             this.groupBox_RebarOutlets.Controls.Add(this.pictureBox3);
             this.groupBox_RebarOutlets.Controls.Add(this.radioButton_MainWeldingRods);
             this.groupBox_RebarOutlets.Controls.Add(this.radioButton_MainOverlappingRods);
             this.groupBox_RebarOutlets.Location = new System.Drawing.Point(12, 322);
             this.groupBox_RebarOutlets.Name = "groupBox_RebarOutlets";
-            this.groupBox_RebarOutlets.Size = new System.Drawing.Size(397, 216);
+            this.groupBox_RebarOutlets.Size = new System.Drawing.Size(397, 245);
             this.groupBox_RebarOutlets.TabIndex = 33;
             this.groupBox_RebarOutlets.TabStop = false;
             this.groupBox_RebarOutlets.Text = "Тип выпусков:";
             // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = global::CITRUS.Properties.Resources.formSquareColumnsReinforcementType1_MainWeldingRods;
+            this.pictureBox4.Location = new System.Drawing.Point(208, 41);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(150, 150);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 3;
+            this.pictureBox4.TabStop = false;
+            // 
             // checkBox_TransitionToOverlap
             // 
             this.checkBox_TransitionToOverlap.AutoSize = true;
-            this.checkBox_TransitionToOverlap.Location = new System.Drawing.Point(220, 194);
+            this.checkBox_TransitionToOverlap.Location = new System.Drawing.Point(220, 199);
             this.checkBox_TransitionToOverlap.Name = "checkBox_TransitionToOverlap";
             this.checkBox_TransitionToOverlap.Size = new System.Drawing.Size(127, 17);
             this.checkBox_TransitionToOverlap.TabIndex = 34;
             this.checkBox_TransitionToOverlap.Text = "Переход на нахлест";
             this.checkBox_TransitionToOverlap.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::CITRUS.Properties.Resources.formSquareColumnsReinforcementType1_MainOverlappingRods;
+            this.pictureBox3.Location = new System.Drawing.Point(32, 41);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(150, 150);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 2;
+            this.pictureBox3.TabStop = false;
             // 
             // radioButton_MainWeldingRods
             // 
@@ -341,26 +365,6 @@
             this.pictureBox5.TabIndex = 38;
             this.pictureBox5.TabStop = false;
             // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = global::CITRUS.Properties.Resources.formSquareColumnsReinforcementType1_MainWeldingRods;
-            this.pictureBox4.Location = new System.Drawing.Point(208, 41);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(150, 150);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 3;
-            this.pictureBox4.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::CITRUS.Properties.Resources.formSquareColumnsReinforcementType1_MainOverlappingRods;
-            this.pictureBox3.Location = new System.Drawing.Point(32, 41);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(150, 150);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 2;
-            this.pictureBox3.TabStop = false;
-            // 
             // pictureBox2
             // 
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -384,6 +388,25 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 35;
             this.pictureBox1.TabStop = false;
+            // 
+            // textBox_DeepeningBars
+            // 
+            this.textBox_DeepeningBars.Location = new System.Drawing.Point(77, 218);
+            this.textBox_DeepeningBars.Name = "textBox_DeepeningBars";
+            this.textBox_DeepeningBars.Size = new System.Drawing.Size(60, 20);
+            this.textBox_DeepeningBars.TabIndex = 41;
+            this.textBox_DeepeningBars.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_DeepeningBars.TextChanged += new System.EventHandler(this.textBox_DeepeningBars_TextChanged);
+            // 
+            // checkBox_DeepeningBars
+            // 
+            this.checkBox_DeepeningBars.AutoSize = true;
+            this.checkBox_DeepeningBars.Location = new System.Drawing.Point(35, 199);
+            this.checkBox_DeepeningBars.Name = "checkBox_DeepeningBars";
+            this.checkBox_DeepeningBars.Size = new System.Drawing.Size(143, 17);
+            this.checkBox_DeepeningBars.TabIndex = 40;
+            this.checkBox_DeepeningBars.Text = "Заглубление стержней";
+            this.checkBox_DeepeningBars.UseVisualStyleBackColor = true;
             // 
             // CIT_04_2_RectangularColumnsReinforcementForm
             // 
@@ -421,11 +444,11 @@
             this.Text = "Свойства армирования";
             this.groupBox_RebarOutlets.ResumeLayout(false);
             this.groupBox_RebarOutlets.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.groupBox_StrappingType.ResumeLayout(false);
             this.groupBox_StrappingType.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -466,5 +489,7 @@
         private System.Windows.Forms.TextBox textBox_ColumnSectionOffset;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.CheckBox checkBox_СhangeSection;
+        private System.Windows.Forms.TextBox textBox_DeepeningBars;
+        private System.Windows.Forms.CheckBox checkBox_DeepeningBars;
     }
 }
