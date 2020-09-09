@@ -40,7 +40,9 @@
             this.textBox_FirstStirrupOffset = new System.Windows.Forms.TextBox();
             this.textBox_IncreasedStirrupSpacing = new System.Windows.Forms.TextBox();
             this.groupBox_RebarOutlets = new System.Windows.Forms.GroupBox();
+            this.textBox_DeepeningBars = new System.Windows.Forms.TextBox();
             this.checkBox_TransitionToOverlap = new System.Windows.Forms.CheckBox();
+            this.checkBox_DeepeningBars = new System.Windows.Forms.CheckBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.radioButton_MainWeldingRods = new System.Windows.Forms.RadioButton();
@@ -53,8 +55,7 @@
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.textBox_DeepeningBars = new System.Windows.Forms.TextBox();
-            this.checkBox_DeepeningBars = new System.Windows.Forms.CheckBox();
+            this.checkBox_BendIntoASlab = new System.Windows.Forms.CheckBox();
             this.groupBox_RebarOutlets.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -194,6 +195,15 @@
             this.groupBox_RebarOutlets.TabStop = false;
             this.groupBox_RebarOutlets.Text = "Тип выпусков:";
             // 
+            // textBox_DeepeningBars
+            // 
+            this.textBox_DeepeningBars.Location = new System.Drawing.Point(77, 218);
+            this.textBox_DeepeningBars.Name = "textBox_DeepeningBars";
+            this.textBox_DeepeningBars.Size = new System.Drawing.Size(60, 20);
+            this.textBox_DeepeningBars.TabIndex = 27;
+            this.textBox_DeepeningBars.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_DeepeningBars.TextChanged += new System.EventHandler(this.textBox_DeepeningBars_TextChanged);
+            // 
             // checkBox_TransitionToOverlap
             // 
             this.checkBox_TransitionToOverlap.AutoSize = true;
@@ -203,6 +213,16 @@
             this.checkBox_TransitionToOverlap.TabIndex = 24;
             this.checkBox_TransitionToOverlap.Text = "Переход на нахлест";
             this.checkBox_TransitionToOverlap.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_DeepeningBars
+            // 
+            this.checkBox_DeepeningBars.AutoSize = true;
+            this.checkBox_DeepeningBars.Location = new System.Drawing.Point(35, 198);
+            this.checkBox_DeepeningBars.Name = "checkBox_DeepeningBars";
+            this.checkBox_DeepeningBars.Size = new System.Drawing.Size(143, 17);
+            this.checkBox_DeepeningBars.TabIndex = 26;
+            this.checkBox_DeepeningBars.Text = "Заглубление стержней";
+            this.checkBox_DeepeningBars.UseVisualStyleBackColor = true;
             // 
             // pictureBox4
             // 
@@ -250,7 +270,7 @@
             // 
             this.checkBox_СhangeSection.AutoSize = true;
             this.checkBox_СhangeSection.BackColor = System.Drawing.SystemColors.Window;
-            this.checkBox_СhangeSection.Location = new System.Drawing.Point(702, 21);
+            this.checkBox_СhangeSection.Location = new System.Drawing.Point(702, 20);
             this.checkBox_СhangeSection.Name = "checkBox_СhangeSection";
             this.checkBox_СhangeSection.Size = new System.Drawing.Size(128, 17);
             this.checkBox_СhangeSection.TabIndex = 18;
@@ -328,30 +348,23 @@
             this.pictureBox1.TabIndex = 16;
             this.pictureBox1.TabStop = false;
             // 
-            // textBox_DeepeningBars
+            // checkBox_BendIntoASlab
             // 
-            this.textBox_DeepeningBars.Location = new System.Drawing.Point(77, 218);
-            this.textBox_DeepeningBars.Name = "textBox_DeepeningBars";
-            this.textBox_DeepeningBars.Size = new System.Drawing.Size(60, 20);
-            this.textBox_DeepeningBars.TabIndex = 27;
-            this.textBox_DeepeningBars.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox_DeepeningBars.TextChanged += new System.EventHandler(this.textBox_DeepeningBars_TextChanged);
-            // 
-            // checkBox_DeepeningBars
-            // 
-            this.checkBox_DeepeningBars.AutoSize = true;
-            this.checkBox_DeepeningBars.Location = new System.Drawing.Point(35, 198);
-            this.checkBox_DeepeningBars.Name = "checkBox_DeepeningBars";
-            this.checkBox_DeepeningBars.Size = new System.Drawing.Size(143, 17);
-            this.checkBox_DeepeningBars.TabIndex = 26;
-            this.checkBox_DeepeningBars.Text = "Заглубление стержней";
-            this.checkBox_DeepeningBars.UseVisualStyleBackColor = true;
+            this.checkBox_BendIntoASlab.AutoSize = true;
+            this.checkBox_BendIntoASlab.BackColor = System.Drawing.SystemColors.Window;
+            this.checkBox_BendIntoASlab.Location = new System.Drawing.Point(445, 20);
+            this.checkBox_BendIntoASlab.Name = "checkBox_BendIntoASlab";
+            this.checkBox_BendIntoASlab.Size = new System.Drawing.Size(106, 17);
+            this.checkBox_BendIntoASlab.TabIndex = 24;
+            this.checkBox_BendIntoASlab.Text = "Загнуть в плиту";
+            this.checkBox_BendIntoASlab.UseVisualStyleBackColor = false;
             // 
             // CIT_04_1_1FormSquareColumnsReinforcementType3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(864, 601);
+            this.Controls.Add(this.checkBox_BendIntoASlab);
             this.Controls.Add(this.comboBox_SecondStirrupBarTapes);
             this.Controls.Add(this.textBox_RebarSecondOutletsLength);
             this.Controls.Add(this.comboBox_SecondMainBarTapes);
@@ -418,5 +431,6 @@
         private System.Windows.Forms.CheckBox checkBox_TransitionToOverlap;
         private System.Windows.Forms.TextBox textBox_DeepeningBars;
         private System.Windows.Forms.CheckBox checkBox_DeepeningBars;
+        private System.Windows.Forms.CheckBox checkBox_BendIntoASlab;
     }
 }

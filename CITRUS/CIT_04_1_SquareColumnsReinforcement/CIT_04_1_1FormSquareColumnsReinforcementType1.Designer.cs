@@ -52,6 +52,7 @@
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.checkBox_BendIntoASlab = new System.Windows.Forms.CheckBox();
             this.groupBox_RebarOutlets.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -266,7 +267,7 @@
             // 
             this.checkBox_СhangeSection.AutoSize = true;
             this.checkBox_СhangeSection.BackColor = System.Drawing.SystemColors.Window;
-            this.checkBox_СhangeSection.Location = new System.Drawing.Point(705, 21);
+            this.checkBox_СhangeSection.Location = new System.Drawing.Point(705, 20);
             this.checkBox_СhangeSection.Name = "checkBox_СhangeSection";
             this.checkBox_СhangeSection.Size = new System.Drawing.Size(128, 17);
             this.checkBox_СhangeSection.TabIndex = 18;
@@ -315,11 +316,23 @@
             this.pictureBox1.TabIndex = 16;
             this.pictureBox1.TabStop = false;
             // 
+            // checkBox_BendIntoASlab
+            // 
+            this.checkBox_BendIntoASlab.AutoSize = true;
+            this.checkBox_BendIntoASlab.BackColor = System.Drawing.SystemColors.Window;
+            this.checkBox_BendIntoASlab.Location = new System.Drawing.Point(445, 20);
+            this.checkBox_BendIntoASlab.Name = "checkBox_BendIntoASlab";
+            this.checkBox_BendIntoASlab.Size = new System.Drawing.Size(106, 17);
+            this.checkBox_BendIntoASlab.TabIndex = 21;
+            this.checkBox_BendIntoASlab.Text = "Загнуть в плиту";
+            this.checkBox_BendIntoASlab.UseVisualStyleBackColor = false;
+            // 
             // CIT_04_1_1FormSquareColumnsReinforcementType1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(864, 601);
+            this.Controls.Add(this.checkBox_BendIntoASlab);
             this.Controls.Add(this.textBox_ColumnSectionOffset);
             this.Controls.Add(this.pictureBox5);
             this.Controls.Add(this.checkBox_СhangeSection);
@@ -380,5 +393,6 @@
         private System.Windows.Forms.CheckBox checkBox_TransitionToOverlap;
         private System.Windows.Forms.TextBox textBox_DeepeningBars;
         private System.Windows.Forms.CheckBox checkBox_DeepeningBars;
+        private System.Windows.Forms.CheckBox checkBox_BendIntoASlab;
     }
 }

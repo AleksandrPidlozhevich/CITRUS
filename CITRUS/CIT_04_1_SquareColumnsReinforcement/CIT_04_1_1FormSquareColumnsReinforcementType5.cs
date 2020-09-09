@@ -39,6 +39,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
         public bool СhangeColumnSection;
         public bool TransitionToOverlap;
         public bool DeepeningBars;
+        public bool BendIntoASlab;
 
         public CIT_04_1_1FormSquareColumnsReinforcementType5(List<RebarBarType> firstMainBarTapes
             , List<RebarBarType> secondMainBarTapes
@@ -74,6 +75,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
             CheckedRebarOutletsButtonName = groupBox_RebarOutlets.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
             TransitionToOverlap = checkBox_TransitionToOverlap.Checked;
             DeepeningBars = checkBox_DeepeningBars.Checked;
+            BendIntoASlab = checkBox_BendIntoASlab.Checked;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
