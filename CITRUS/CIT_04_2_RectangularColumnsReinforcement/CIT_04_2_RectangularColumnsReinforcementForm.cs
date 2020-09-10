@@ -37,6 +37,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         public bool TransitionToOverlap;
         public bool СhangeColumnSection;
         public bool DeepeningBars;
+        public bool BendIntoASlab;
 
         public CIT_04_2_RectangularColumnsReinforcementForm(List<RebarBarType> mainBarTapesOne
             , List<RebarBarType> mainBarTapesTwo
@@ -79,6 +80,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
             TransitionToOverlap = checkBox_TransitionToOverlap.Checked;
             СhangeColumnSection = checkBox_СhangeSection.Checked;
             DeepeningBars = checkBox_DeepeningBars.Checked;
+            BendIntoASlab = checkBox_BendIntoASlab.Checked;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

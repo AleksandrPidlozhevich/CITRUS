@@ -58,6 +58,19 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
             }
             RebarShape myMainRebarShapeWeldingRods = rebarShapeMainWeldingRodsList.First();
 
+            //Выбор формы основной арматуры если загиб в плиту
+            List<RebarShape> rebarShapeMainRodsListBendIntoASlab = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarShape))
+                .Where(rs => rs.Name.ToString() == "11")
+                .Cast<RebarShape>()
+                .ToList();
+            if (rebarShapeMainRodsListBendIntoASlab == null)
+            {
+                TaskDialog.Show("Revit", "Форма 11 не найдена");
+                return Result.Failed;
+            }
+            RebarShape myMainRebarShapeRodsBendIntoASlab = rebarShapeMainRodsListBendIntoASlab.First();
+
             //Выбор формы хомута
             List<RebarShape> rebarStirrupShapeList = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarShape))
@@ -228,6 +241,9 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 deepeningBarsSize = 0;
             }
 
+            //Загнуть в плиту
+            bool bendIntoASlab = rectangularColumnsReinforcementForm.BendIntoASlab;
+
 #endregion
 
 #region Старт блока Получение типа элемента CIT_04_ВаннаДляСварки
@@ -330,7 +346,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                     ICollection<ElementId> rebarIdCollection = new List<ElementId>();
 
                     //Если стыковка стержней в нахлест без изменения сечения колонны выше
-                    if (checkedRebarOutletsButtonName == "radioButton_MainOverlappingRods" & changeColumnSection == false)
+                    if (checkedRebarOutletsButtonName == "radioButton_MainOverlappingRods" & changeColumnSection == false & bendIntoASlab == false)
                     {
 #region Угловые стержни
                         //Точки для построения кривых стержня один длинного
@@ -871,6 +887,448 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         }
 
 #endregion
+                    }
+                    //Если стыковка стержней в нахлест загиб в плиту
+                    else if (checkedRebarOutletsButtonName == "radioButton_MainOverlappingRods" & changeColumnSection == false & bendIntoASlab == true)
+                    {
+#region Угловые стержни
+                        //Точки для построения кривфх основных угловых стержней
+                        XYZ mainRebarTypeOneLong_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                        XYZ mainRebarTypeOneLong_p2 = new XYZ(Math.Round(mainRebarTypeOneLong_p1.X, 6), Math.Round(mainRebarTypeOneLong_p1.Y, 6), Math.Round(mainRebarTypeOneLong_p1.Z + deepeningBarsSize + columnLength + floorThicknessAboveColumn - 60 / 304.8, 6));
+                        XYZ mainRebarTypeOneLong_p3 = new XYZ(Math.Round(mainRebarTypeOneLong_p2.X + rebarOutletsLengthLong - (floorThicknessAboveColumn - 60 / 304.8), 6), Math.Round(mainRebarTypeOneLong_p2.Y, 6), Math.Round(mainRebarTypeOneLong_p2.Z, 6));
+
+                        //Кривые стержня один длинного
+                        List<Curve> myMainRebarTypeOneCurvesLong = new List<Curve>();
+
+                        Curve myMainRebarTypeOneLong_line1 = Line.CreateBound(mainRebarTypeOneLong_p1, mainRebarTypeOneLong_p2) as Curve;
+                        myMainRebarTypeOneCurvesLong.Add(myMainRebarTypeOneLong_line1);
+                        Curve myMainRebarTypeOneLong_line2 = Line.CreateBound(mainRebarTypeOneLong_p2, mainRebarTypeOneLong_p3) as Curve;
+                        myMainRebarTypeOneCurvesLong.Add(myMainRebarTypeOneLong_line2);
+
+                        //Нижний левый угол
+                        Rebar columnMainRebarLowerLeftСorner = Rebar.CreateFromCurvesAndShape(doc
+                        , myMainRebarShapeRodsBendIntoASlab
+                        , myMainRebarTypeOne
+                        , null
+                        , null
+                        , myColumn
+                        , mainRebarNormalMain
+                        , myMainRebarTypeOneCurvesLong
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
+
+                        XYZ rotate_p1 = new XYZ(mainRebarTypeOneLong_p1.X, mainRebarTypeOneLong_p1.Y, mainRebarTypeOneLong_p1.Z);
+                        XYZ rotate_p2 = new XYZ(mainRebarTypeOneLong_p1.X, mainRebarTypeOneLong_p1.Y, mainRebarTypeOneLong_p1.Z + 1);
+                        Line rotateLine = Line.CreateBound(rotate_p1, rotate_p2);
+                        ElementTransformUtils.RotateElement(doc, columnMainRebarLowerLeftСorner.Id, rotateLine, 180 * (Math.PI / 180));
+
+                        XYZ newPlaсeСolumnMainRebarLowerLeftСorner = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, 0);
+                        ElementTransformUtils.MoveElement(doc, columnMainRebarLowerLeftСorner.Id, newPlaсeСolumnMainRebarLowerLeftСorner);
+
+                        rebarIdCollection.Add(columnMainRebarLowerLeftСorner.Id);
+
+                        //Верхний левый угол
+                        if (numberOfBarsLRFaces % 2 != 0)
+                        {
+                            Rebar columnMainRebarUpperLeftСorner = Rebar.CreateFromCurvesAndShape(doc
+                            , myMainRebarShapeRodsBendIntoASlab
+                            , myMainRebarTypeOne
+                            , null
+                            , null
+                            , myColumn
+                            , mainRebarNormalMain
+                            , myMainRebarTypeOneCurvesLong
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            ElementTransformUtils.RotateElement(doc, columnMainRebarUpperLeftСorner.Id, rotateLine, 180 * (Math.PI / 180));
+                            XYZ newPlaсeСolumnMainRebarUpperLeftСorner = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarUpperLeftСorner.Id, newPlaсeСolumnMainRebarUpperLeftСorner);
+
+                            rebarIdCollection.Add(columnMainRebarUpperLeftСorner.Id);
+                        }
+                        else if (numberOfBarsLRFaces % 2 == 0)
+                        {
+                            Rebar columnMainRebarUpperLeftСorner = Rebar.CreateFromCurvesAndShape(doc
+                            , myMainRebarShapeRodsBendIntoASlab
+                            , myMainRebarTypeOne
+                            , null
+                            , null
+                            , myColumn
+                            , mainRebarNormalMain
+                            , myMainRebarTypeOneCurvesLong
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            ElementTransformUtils.RotateElement(doc, columnMainRebarUpperLeftСorner.Id, rotateLine, 180 * (Math.PI / 180));
+                            XYZ newPlaсeСolumnMainRebarUpperLeftСorner = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarUpperLeftСorner.Id, newPlaсeСolumnMainRebarUpperLeftСorner);
+
+                            rebarIdCollection.Add(columnMainRebarUpperLeftСorner.Id);
+                        }
+
+                        //Верхний правый угол
+                        Rebar columnMainRebarUpperRightСorner = Rebar.CreateFromCurvesAndShape(doc
+                        , myMainRebarShapeRodsBendIntoASlab
+                        , myMainRebarTypeOne
+                        , null
+                        , null
+                        , myColumn
+                        , mainRebarNormalMain
+                        , myMainRebarTypeOneCurvesLong
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
+
+                        XYZ newPlaсeColumnMainRebarUpperRightСorner = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, 0);
+                        ElementTransformUtils.MoveElement(doc, columnMainRebarUpperRightСorner.Id, newPlaсeColumnMainRebarUpperRightСorner);
+
+                        rebarIdCollection.Add(columnMainRebarUpperRightСorner.Id);
+
+                        if (numberOfBarsLRFaces % 2 != 0)
+                        {
+                            //Нижний правый угол
+                            Rebar columnMainRebarLowerRightСorner = Rebar.CreateFromCurvesAndShape(doc
+                                , myMainRebarShapeRodsBendIntoASlab
+                                , myMainRebarTypeOne
+                                , null
+                                , null
+                                , myColumn
+                                , mainRebarNormalMain
+                                , myMainRebarTypeOneCurvesLong
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            XYZ newPlaсeColumnMainRebarLowerRightСorner = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarLowerRightСorner.Id, newPlaсeColumnMainRebarLowerRightСorner);
+
+                            rebarIdCollection.Add(columnMainRebarLowerRightСorner.Id);
+                        }
+
+                        if (numberOfBarsLRFaces % 2 == 0)
+                        {
+                            //Нижний правый угол
+                            Rebar columnMainRebarLowerRightСorner = Rebar.CreateFromCurvesAndShape(doc
+                                , myMainRebarShapeRodsBendIntoASlab
+                                , myMainRebarTypeOne
+                                , null
+                                , null
+                                , myColumn
+                                , mainRebarNormalMain
+                                , myMainRebarTypeOneCurvesLong
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            XYZ newPlaсeColumnMainRebarLowerRightСorner = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarLowerRightСorner.Id, newPlaсeColumnMainRebarLowerRightСorner);
+
+                            rebarIdCollection.Add(columnMainRebarLowerRightСorner.Id);
+                        }
+                        #endregion
+
+ #region Стержни по левой и правой граням
+                        if (numberOfBarsLRFaces >= 3)
+                        {
+                            //Точки для построения кривфх основных угловых стержней
+                            XYZ mainRebarTypeTwoShort_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                            XYZ mainRebarTypeTwoShort_p2 = new XYZ(Math.Round(mainRebarTypeTwoShort_p1.X, 6), Math.Round(mainRebarTypeTwoShort_p1.Y, 6), Math.Round(mainRebarTypeTwoShort_p1.Z + deepeningBarsSize + columnLength + floorThicknessAboveColumn - 60 / 304.8, 6));
+                            XYZ mainRebarTypeTwoShort_p3 = new XYZ(Math.Round(mainRebarTypeTwoShort_p2.X + rebarOutletsLengthShort - (floorThicknessAboveColumn - 60 / 304.8), 6), Math.Round(mainRebarTypeTwoShort_p2.Y, 6), Math.Round(mainRebarTypeTwoShort_p2.Z, 6));
+
+                            //Кривые стержня один короткого
+                            List<Curve> myMainRebarTypeTwoCurvesShort = new List<Curve>();
+
+                            Curve myMainRebarTypeTwoShort_line1 = Line.CreateBound(mainRebarTypeTwoShort_p1, mainRebarTypeTwoShort_p2) as Curve;
+                            myMainRebarTypeTwoCurvesShort.Add(myMainRebarTypeTwoShort_line1);
+                            Curve myMainRebarTypeTwoShort_line2 = Line.CreateBound(mainRebarTypeTwoShort_p2, mainRebarTypeTwoShort_p3) as Curve;
+                            myMainRebarTypeTwoCurvesShort.Add(myMainRebarTypeTwoShort_line2);
+
+                            //Левая грань короткие
+                            Rebar columnMainRebarLeftFaceLong = Rebar.CreateFromCurvesAndShape(doc
+                            , myMainRebarShapeRodsBendIntoASlab
+                            , myMainRebarTypeTwo
+                            , null
+                            , null
+                            , myColumn
+                            , mainRebarNormalMain
+                            , myMainRebarTypeTwoCurvesShort
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            //Расчеты для размещения стержней
+                            int numberOfSpacesLRFaces = numberOfBarsLRFaces - 1;
+                            double residualSizeLRFaces = columnSectionHeight - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
+                            double stepBarsLRFaces = RoundUpToFive(Math.Round((residualSizeLRFaces / numberOfSpacesLRFaces) * 304.8)) / 304.8;
+                            stepBarsLRFacesForStirrup = stepBarsLRFaces;
+                            double residueForOffsetLR = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
+                            residueForOffsetForStirrupLR = residueForOffsetLR;
+
+                            ElementTransformUtils.RotateElement(doc, columnMainRebarLeftFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
+                            XYZ newPlaсeСolumnMainRebarLeftFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
+                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffsetLR
+                                , 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceLong.Id, newPlaсeСolumnMainRebarLeftFaceLong);
+                            columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            if (numberOfBarsLRFaces % 2 == 0)
+                            {
+                                columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsLRFaces - 2) / 2);
+                            }
+                            if (numberOfBarsLRFaces % 2 != 0)
+                            {
+                                columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsLRFaces - 2) / 2)) + 1);
+                            }
+                            columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
+
+                            rebarIdCollection.Add(columnMainRebarLeftFaceLong.Id);
+
+                            if (numberOfBarsLRFaces > 3)
+                            {
+                                //Левая грань длинные
+                                Rebar columnMainRebarLeftFaceShort = Rebar.CreateFromCurvesAndShape(doc
+                                , myMainRebarShapeRodsBendIntoASlab
+                                , myMainRebarTypeTwo
+                                , null
+                                , null
+                                , myColumn
+                                , mainRebarNormalMain
+                                , myMainRebarTypeTwoCurvesShort
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                                ElementTransformUtils.RotateElement(doc, columnMainRebarLeftFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
+                                XYZ newPlaсeСolumnMainRebarLeftFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
+                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffsetLR
+                                    , 0);
+                                ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceShort.Id, newPlaсeСolumnMainRebarLeftFaceShort);
+
+                                columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                if (numberOfBarsLRFaces % 2 == 0)
+                                {
+                                    columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsLRFaces - 2) / 2);
+                                }
+                                if (numberOfBarsLRFaces % 2 != 0)
+                                {
+                                    columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsLRFaces - 2) / 2)));
+                                }
+                                columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
+
+                                rebarIdCollection.Add(columnMainRebarLeftFaceShort.Id);
+                            }
+
+                            //Правая грань короткий
+                            Rebar columnMainRebarRightFaceShort = Rebar.CreateFromCurvesAndShape(doc
+                            , myMainRebarShapeRodsBendIntoASlab
+                            , myMainRebarTypeTwo
+                            , null
+                            , null
+                            , myColumn
+                            , mainRebarNormalMain
+                            , myMainRebarTypeTwoCurvesShort
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+                            
+                            XYZ newPlaсeColumnMainRebarRightFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
+                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffsetLR
+                                , 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceShort.Id, newPlaсeColumnMainRebarRightFaceShort);
+                            columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            if (numberOfBarsLRFaces % 2 == 0)
+                            {
+                                columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsLRFaces - 2) / 2);
+                            }
+                            if (numberOfBarsLRFaces % 2 != 0)
+                            {
+                                columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsLRFaces - 2) / 2)) + 1);
+                            }
+                            columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
+
+                            rebarIdCollection.Add(columnMainRebarRightFaceShort.Id);
+
+                            if (numberOfBarsLRFaces > 3)
+                            {
+                                //Правая грань длинный
+                                Rebar columnMainRebarRightFaceLong = Rebar.CreateFromCurvesAndShape(doc
+                                    , myMainRebarShapeRodsBendIntoASlab
+                                    , myMainRebarTypeTwo
+                                    , null
+                                    , null
+                                    , myColumn
+                                    , mainRebarNormalMain
+                                    , myMainRebarTypeTwoCurvesShort
+                                    , RebarHookOrientation.Right
+                                    , RebarHookOrientation.Right);
+
+                                
+                                XYZ newPlaсeColumnMainRebarRightFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
+                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffsetLR
+                                    , 0);
+                                ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceLong.Id, newPlaсeColumnMainRebarRightFaceLong);
+                                columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                if (numberOfBarsLRFaces % 2 == 0)
+                                {
+                                    columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsLRFaces - 2) / 2);
+                                }
+                                if (numberOfBarsLRFaces % 2 != 0)
+                                {
+                                    columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsLRFaces - 2) / 2)));
+                                }
+                                columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
+
+                                rebarIdCollection.Add(columnMainRebarRightFaceLong.Id);
+                            }
+                        }
+#endregion
+
+#region Стержни по нижней и верхней граням
+                        if (numberOfBarsTBFaces >= 3)
+                        {
+                            //Точки для построения кривфх основных угловых стержней
+                            XYZ mainRebarTypeThreeShort_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
+                            XYZ mainRebarTypeThreeShort_p2 = new XYZ(Math.Round(mainRebarTypeThreeShort_p1.X, 6), Math.Round(mainRebarTypeThreeShort_p1.Y, 6), Math.Round(mainRebarTypeThreeShort_p1.Z + deepeningBarsSize + columnLength + floorThicknessAboveColumn - 60 / 304.8, 6));
+                            XYZ mainRebarTypeThreeShort_p3 = new XYZ(Math.Round(mainRebarTypeThreeShort_p2.X , 6), Math.Round(mainRebarTypeThreeShort_p2.Y + rebarOutletsLengthShort - (floorThicknessAboveColumn - 60 / 304.8), 6), Math.Round(mainRebarTypeThreeShort_p2.Z, 6));
+
+                            //Кривые стержня один короткого
+                            List<Curve> myMainRebarTypeThreeCurvesShort = new List<Curve>();
+
+                            Curve myMainRebarTypeThreeShort_line1 = Line.CreateBound(mainRebarTypeThreeShort_p1, mainRebarTypeThreeShort_p2) as Curve;
+                            myMainRebarTypeThreeCurvesShort.Add(myMainRebarTypeThreeShort_line1);
+                            Curve myMainRebarTypeThreeShort_line2 = Line.CreateBound(mainRebarTypeThreeShort_p2, mainRebarTypeThreeShort_p3) as Curve;
+                            myMainRebarTypeThreeCurvesShort.Add(myMainRebarTypeThreeShort_line2);
+
+                            //Нижняя грань короткие
+                            Rebar columnMainRebarBottomFaceShort = Rebar.CreateFromCurvesAndShape(doc
+                            , myMainRebarShapeRodsBendIntoASlab
+                            , myMainRebarTypeThree
+                            , null
+                            , null
+                            , myColumn
+                            , mainRebarNormalAdditional
+                            , myMainRebarTypeThreeCurvesShort
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            //Cтержни нижняя и верхняя грани
+                            int numberOfSpacesTBFaces = numberOfBarsTBFaces - 1;
+                            double residualSizeTBFaces = columnSectionWidth - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
+                            double stepBarsTBFaces = RoundUpToFive(Math.Round((residualSizeTBFaces / numberOfSpacesTBFaces) * 304.8)) / 304.8;
+                            stepBarsTBFacesForStirrup = stepBarsTBFaces;
+                            double residueForOffsetTB = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            residueForOffsetForStirrupTB = residueForOffsetTB;
+
+                            ElementTransformUtils.RotateElement(doc, columnMainRebarBottomFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
+                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffsetTB
+                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
+                                , 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceShort.Id, newPlaсeСolumnMainRebarBottomFaceShort);
+                            columnMainRebarBottomFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            if (numberOfBarsTBFaces % 2 == 0)
+                            {
+                                columnMainRebarBottomFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsTBFaces - 2) / 2);
+                            }
+                            if (numberOfBarsTBFaces % 2 != 0)
+                            {
+                                columnMainRebarBottomFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsTBFaces - 2) / 2)) + 1);
+                            }
+                            columnMainRebarBottomFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
+
+                            rebarIdCollection.Add(columnMainRebarBottomFaceShort.Id);
+
+                            if (numberOfBarsTBFaces > 3)
+                            {
+                                //Нижняя грань длинные
+                                Rebar columnMainRebarBottomFaceLong = Rebar.CreateFromCurvesAndShape(doc
+                                    , myMainRebarShapeRodsBendIntoASlab
+                                    , myMainRebarTypeThree
+                                    , null
+                                    , null
+                                    , myColumn
+                                    , mainRebarNormalAdditional
+                                    , myMainRebarTypeThreeCurvesShort
+                                    , RebarHookOrientation.Right
+                                    , RebarHookOrientation.Right);
+
+                                ElementTransformUtils.RotateElement(doc, columnMainRebarBottomFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
+                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffsetTB
+                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
+                                    , 0);
+                                ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceLong.Id, newPlaсeСolumnMainRebarBottomFaceLong);
+                                columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                if (numberOfBarsTBFaces % 2 == 0)
+                                {
+                                    columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsTBFaces - 2) / 2);
+                                }
+                                if (numberOfBarsTBFaces % 2 != 0)
+                                {
+                                    columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsTBFaces - 2) / 2)));
+                                }
+                                columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
+
+                                rebarIdCollection.Add(columnMainRebarBottomFaceLong.Id);
+                            }
+
+                            //Верхняя грань короткие
+                            Rebar columnMainRebarTopFaceShort = Rebar.CreateFromCurvesAndShape(doc
+                            , myMainRebarShapeRodsBendIntoASlab
+                            , myMainRebarTypeThree
+                            , null
+                            , null
+                            , myColumn
+                            , mainRebarNormalAdditional
+                            , myMainRebarTypeThreeCurvesShort
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            
+                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffsetTB
+                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
+                                , 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceShort.Id, newPlaсeСolumnMainRebarTopFaceShort);
+                            columnMainRebarTopFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            if (numberOfBarsTBFaces % 2 == 0)
+                            {
+                                columnMainRebarTopFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsTBFaces - 2) / 2);
+                            }
+                            if (numberOfBarsTBFaces % 2 != 0)
+                            {
+                                columnMainRebarTopFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsTBFaces - 2) / 2)) + 1);
+                            }
+                            columnMainRebarTopFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
+
+                            rebarIdCollection.Add(columnMainRebarTopFaceShort.Id);
+
+                            if (numberOfBarsTBFaces > 3)
+                            {
+                                //Верхняя грань длинные
+                                Rebar columnMainRebarTopFaceLong = Rebar.CreateFromCurvesAndShape(doc
+                                    , myMainRebarShapeRodsBendIntoASlab
+                                    , myMainRebarTypeThree
+                                    , null
+                                    , null
+                                    , myColumn
+                                    , mainRebarNormalAdditional
+                                    , myMainRebarTypeThreeCurvesShort
+                                    , RebarHookOrientation.Right
+                                    , RebarHookOrientation.Right);
+
+                                
+                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffsetTB
+                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
+                                    , 0);
+                                ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceLong.Id, newPlaсeСolumnMainRebarTopFaceLong);
+                                columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                if (numberOfBarsTBFaces % 2 == 0)
+                                {
+                                    columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsTBFaces - 2) / 2);
+                                }
+                                if (numberOfBarsTBFaces % 2 != 0)
+                                {
+                                    columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsTBFaces - 2) / 2)));
+                                }
+                                columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
+
+                                rebarIdCollection.Add(columnMainRebarTopFaceLong.Id);
+                            }
+                        }
+
+                        #endregion
                     }
                     //Если стыковка стержней в нахлест с изменением сечения колонны выше
                     else if (checkedRebarOutletsButtonName == "radioButton_MainOverlappingRods" & changeColumnSection == true & sectionOffset <= 50 / 304.8)
@@ -1416,7 +1874,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 #endregion
                     }
                     //Если стыковка стержней на сварке без изменения сечения колонны выше
-                    else if (checkedRebarOutletsButtonName == "radioButton_MainWeldingRods" & transitionToOverlap == false & changeColumnSection == false)
+                    else if (checkedRebarOutletsButtonName == "radioButton_MainWeldingRods" & transitionToOverlap == false & changeColumnSection == false & bendIntoASlab == false)
                     {
 #region Угловые стержни
                         //Точки для построения кривых стержня один длинного
@@ -2119,6 +2577,497 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                         Element newTubWeldingTopFaceLong = doc.GetElement(newTubWeldingTopFaceLongIdList.First());
                                         rebarIdCollection.Add(newTubWeldingTopFaceLong.Id);
                                     }
+                                }
+                                if (columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
+                                {
+                                    columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
+                                }
+                                rebarIdCollection.Add(columnMainRebarTopFaceLong.Id);
+                            }
+                        }
+
+#endregion
+                    }
+                    //Если стыковка стержней на сварке без изменения сечения колонны выше
+                    else if (checkedRebarOutletsButtonName == "radioButton_MainWeldingRods" & transitionToOverlap == false & changeColumnSection == false & bendIntoASlab == true)
+                    {
+#region Угловые стержни
+
+                        //Точки для построения кривых удлиненных стержней (начало и конец удлиненные)
+                        XYZ mainRebarTypeOneLong_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z + rebarOutletsLengthLong, 6));
+                        XYZ mainRebarTypeOneLong_p2 = new XYZ(Math.Round(mainRebarTypeOneLong_p1.X, 6), Math.Round(mainRebarTypeOneLong_p1.Y, 6), Math.Round(mainRebarTypeOneLong_p1.Z - rebarOutletsLengthLong + columnLength + floorThicknessAboveColumn - 60 / 304.8, 6));
+                        XYZ mainRebarTypeOneLong_p3 = new XYZ(Math.Round(mainRebarTypeOneLong_p2.X + rebarOutletsLengthLong - (floorThicknessAboveColumn - 60 / 304.8), 6), Math.Round(mainRebarTypeOneLong_p2.Y, 6), Math.Round(mainRebarTypeOneLong_p2.Z, 6));
+
+                        //Точки для построения кривых удлиненных стержней (начало укороченное и конец удлиненный)
+                        XYZ mainRebarTypeOneShort_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z + rebarOutletsLengthShort, 6));
+                        XYZ mainRebarTypeOneShort_p2 = new XYZ(Math.Round(mainRebarTypeOneShort_p1.X, 6), Math.Round(mainRebarTypeOneShort_p1.Y, 6), Math.Round(mainRebarTypeOneShort_p1.Z - rebarOutletsLengthShort + columnLength + floorThicknessAboveColumn - 60 / 304.8, 6));
+                        XYZ mainRebarTypeOneShort_p3 = new XYZ(Math.Round(mainRebarTypeOneLong_p2.X + rebarOutletsLengthLong - (floorThicknessAboveColumn - 60 / 304.8), 6), Math.Round(mainRebarTypeOneShort_p2.Y, 6), Math.Round(mainRebarTypeOneShort_p2.Z, 6));
+
+                        //Кривые основных угловых стержней (начало и конец удлиненные)
+                        List<Curve> myMainRebarTypeOneCurvesLong = new List<Curve>();
+
+                        Curve firstMainLineLong1 = Line.CreateBound(mainRebarTypeOneLong_p1, mainRebarTypeOneLong_p2) as Curve;
+                        myMainRebarTypeOneCurvesLong.Add(firstMainLineLong1);
+                        Curve firstMainLineLong2 = Line.CreateBound(mainRebarTypeOneLong_p2, mainRebarTypeOneLong_p3) as Curve;
+                        myMainRebarTypeOneCurvesLong.Add(firstMainLineLong2);
+
+                        //Кривые основных угловых стержней (начало укороченное и конец удлиненный)
+                        List<Curve> myMainRebarTypeOneCurvesShort = new List<Curve>();
+
+                        Curve firstMainLineShort1 = Line.CreateBound(mainRebarTypeOneShort_p1, mainRebarTypeOneShort_p2) as Curve;
+                        myMainRebarTypeOneCurvesShort.Add(firstMainLineShort1);
+                        Curve firstMainLineShort2 = Line.CreateBound(mainRebarTypeOneShort_p2, mainRebarTypeOneShort_p3) as Curve;
+                        myMainRebarTypeOneCurvesShort.Add(firstMainLineShort2);
+
+                        //Нижний левый угол
+                        Rebar columnMainRebarLowerLeftСorner = Rebar.CreateFromCurvesAndShape(doc
+                        , myMainRebarShapeRodsBendIntoASlab
+                        , myMainRebarTypeOne
+                        , null
+                        , null
+                        , myColumn
+                        , mainRebarNormalMain
+                        , myMainRebarTypeOneCurvesLong
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
+
+                        XYZ rotate_p1 = new XYZ(mainRebarTypeOneLong_p1.X, mainRebarTypeOneLong_p1.Y, mainRebarTypeOneLong_p1.Z);
+                        XYZ rotate_p2 = new XYZ(mainRebarTypeOneLong_p1.X, mainRebarTypeOneLong_p1.Y, mainRebarTypeOneLong_p1.Z + 1);
+                        Line rotateLine = Line.CreateBound(rotate_p1, rotate_p2);
+                        ElementTransformUtils.RotateElement(doc, columnMainRebarLowerLeftСorner.Id, rotateLine, 180 * (Math.PI / 180));
+
+                        XYZ newPlaсeСolumnMainRebarLowerLeftСorner = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, 0);
+                        ElementTransformUtils.MoveElement(doc, columnMainRebarLowerLeftСorner.Id, newPlaсeСolumnMainRebarLowerLeftСorner);
+                        rebarIdCollection.Add(columnMainRebarLowerLeftСorner.Id);
+
+                        //Верхний левый угол
+                        if (numberOfBarsLRFaces % 2 != 0)
+                        {
+                            Rebar columnMainRebarUpperLeftСorner = Rebar.CreateFromCurvesAndShape(doc
+                            , myMainRebarShapeRodsBendIntoASlab
+                            , myMainRebarTypeOne
+                            , null
+                            , null
+                            , myColumn
+                            , mainRebarNormalMain
+                            , myMainRebarTypeOneCurvesLong
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            ElementTransformUtils.RotateElement(doc, columnMainRebarUpperLeftСorner.Id, rotateLine, 180 * (Math.PI / 180));
+                            XYZ newPlaсeСolumnMainRebarUpperLeftСorner = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarUpperLeftСorner.Id, newPlaсeСolumnMainRebarUpperLeftСorner);
+                            rebarIdCollection.Add(columnMainRebarUpperLeftСorner.Id);
+                        }
+                        else if (numberOfBarsLRFaces % 2 == 0)
+                        {
+                            Rebar columnMainRebarUpperLeftСorner = Rebar.CreateFromCurvesAndShape(doc
+                            , myMainRebarShapeRodsBendIntoASlab
+                            , myMainRebarTypeOne
+                            , null
+                            , null
+                            , myColumn
+                            , mainRebarNormalMain
+                            , myMainRebarTypeOneCurvesShort
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            ElementTransformUtils.RotateElement(doc, columnMainRebarUpperLeftСorner.Id, rotateLine, 180 * (Math.PI / 180));
+                            XYZ newPlaсeСolumnMainRebarUpperLeftСorner = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarUpperLeftСorner.Id, newPlaсeСolumnMainRebarUpperLeftСorner);
+                            rebarIdCollection.Add(columnMainRebarUpperLeftСorner.Id);
+                        }
+
+                        //Верхний правый угол
+                        Rebar columnMainRebarUpperRightСorner = Rebar.CreateFromCurvesAndShape(doc
+                        , myMainRebarShapeRodsBendIntoASlab
+                        , myMainRebarTypeOne
+                        , null
+                        , null
+                        , myColumn
+                        , mainRebarNormalMain
+                        , myMainRebarTypeOneCurvesLong
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
+
+                        XYZ newPlaсeColumnMainRebarUpperRightСorner = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, 0);
+                        ElementTransformUtils.MoveElement(doc, columnMainRebarUpperRightСorner.Id, newPlaсeColumnMainRebarUpperRightСorner);
+                        rebarIdCollection.Add(columnMainRebarUpperRightСorner.Id);
+
+                        if (numberOfBarsLRFaces % 2 != 0)
+                        {
+                            //Нижний правый угол
+                            Rebar columnMainRebarLowerRightСorner = Rebar.CreateFromCurvesAndShape(doc
+                                , myMainRebarShapeRodsBendIntoASlab
+                                , myMainRebarTypeOne
+                                , null
+                                , null
+                                , myColumn
+                                , mainRebarNormalMain
+                                , myMainRebarTypeOneCurvesLong
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            XYZ newPlaсeColumnMainRebarLowerRightСorner = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarLowerRightСorner.Id, newPlaсeColumnMainRebarLowerRightСorner);
+                            rebarIdCollection.Add(columnMainRebarLowerRightСorner.Id);
+                        }
+
+                        if (numberOfBarsLRFaces % 2 == 0)
+                        {
+                            //Нижний правый угол
+                            Rebar columnMainRebarLowerRightСorner = Rebar.CreateFromCurvesAndShape(doc
+                                , myMainRebarShapeRodsBendIntoASlab
+                                , myMainRebarTypeOne
+                                , null
+                                , null
+                                , myColumn
+                                , mainRebarNormalMain
+                                , myMainRebarTypeOneCurvesShort
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            XYZ newPlaсeColumnMainRebarLowerRightСorner = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2, -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2, 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarLowerRightСorner.Id, newPlaсeColumnMainRebarLowerRightСorner);
+                            rebarIdCollection.Add(columnMainRebarLowerRightСorner.Id);
+                        }
+                        #endregion
+
+#region Стержни по левой и правой граням
+                        if (numberOfBarsLRFaces >= 3)
+                        {
+                            //Точки для построения кривых удлиненных стержней (начало удлиненное и конец укороченный)
+                            XYZ mainRebarTypeTwoLong_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z + rebarOutletsLengthLong, 6));
+                            XYZ mainRebarTypeTwoLong_p2 = new XYZ(Math.Round(mainRebarTypeTwoLong_p1.X, 6), Math.Round(mainRebarTypeTwoLong_p1.Y, 6), Math.Round(mainRebarTypeTwoLong_p1.Z - rebarOutletsLengthLong + columnLength + floorThicknessAboveColumn - 60 / 304.8, 6));
+                            XYZ mainRebarTypeTwoLong_p3 = new XYZ(Math.Round(mainRebarTypeTwoLong_p2.X + rebarOutletsLengthShort - (floorThicknessAboveColumn - 60 / 304.8), 6), Math.Round(mainRebarTypeTwoLong_p2.Y, 6), Math.Round(mainRebarTypeTwoLong_p2.Z, 6));
+
+                            //Точки для построения кривых удлиненных стержней (начало и конец укороченные)
+                            XYZ mainRebarTypeTwoShort_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z + rebarOutletsLengthShort, 6));
+                            XYZ mainRebarTypeTwoShort_p2 = new XYZ(Math.Round(mainRebarTypeTwoShort_p1.X, 6), Math.Round(mainRebarTypeTwoShort_p1.Y, 6), Math.Round(mainRebarTypeTwoShort_p1.Z - rebarOutletsLengthShort + columnLength + floorThicknessAboveColumn - 60 / 304.8, 6));
+                            XYZ mainRebarTypeTwoShort_p3 = new XYZ(Math.Round(mainRebarTypeTwoLong_p2.X + rebarOutletsLengthShort - (floorThicknessAboveColumn - 60 / 304.8), 6), Math.Round(mainRebarTypeTwoShort_p2.Y, 6), Math.Round(mainRebarTypeTwoShort_p2.Z, 6));
+
+                            //Кривые основных угловых стержней (начало удлиненное и конец укороченный)
+                            List<Curve> myMainRebarTypeTwoCurvesLong = new List<Curve>();
+
+                            Curve secondMainLineLong1 = Line.CreateBound(mainRebarTypeTwoLong_p1, mainRebarTypeTwoLong_p2) as Curve;
+                            myMainRebarTypeTwoCurvesLong.Add(secondMainLineLong1);
+                            Curve secondMainLineLong2 = Line.CreateBound(mainRebarTypeTwoLong_p2, mainRebarTypeTwoLong_p3) as Curve;
+                            myMainRebarTypeTwoCurvesLong.Add(secondMainLineLong2);
+
+                            //Кривые основных угловых стержней (начало и конец укороченные)
+                            List<Curve> myMainRebarTypeTwoCurvesShort = new List<Curve>();
+
+                            Curve secondMainLineShort1 = Line.CreateBound(mainRebarTypeTwoShort_p1, mainRebarTypeTwoShort_p2) as Curve;
+                            myMainRebarTypeTwoCurvesShort.Add(secondMainLineShort1);
+                            Curve secondMainLineShort2 = Line.CreateBound(mainRebarTypeTwoShort_p2, mainRebarTypeTwoShort_p3) as Curve;
+                            myMainRebarTypeTwoCurvesShort.Add(secondMainLineShort2);
+
+                            //Левая грань короткие
+                            Rebar columnMainRebarLeftFaceShort = Rebar.CreateFromCurvesAndShape(doc
+                            , myMainRebarShapeRodsBendIntoASlab
+                            , myMainRebarTypeTwo
+                            , null
+                            , null
+                            , myColumn
+                            , mainRebarNormalMain
+                            , myMainRebarTypeTwoCurvesShort
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            //Расчеты для размещения стержней
+                            int numberOfSpacesLRFaces = numberOfBarsLRFaces - 1;
+                            double residualSizeLRFaces = columnSectionHeight - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
+                            double stepBarsLRFaces = RoundUpToFive(Math.Round((residualSizeLRFaces / numberOfSpacesLRFaces) * 304.8)) / 304.8;
+                            stepBarsLRFacesForStirrup = stepBarsLRFaces;
+                            double residueForOffsetLR = (residualSizeLRFaces - (stepBarsLRFaces * numberOfSpacesLRFaces)) / 2;
+                            residueForOffsetForStirrupLR = residueForOffsetLR;
+
+                            ElementTransformUtils.RotateElement(doc, columnMainRebarLeftFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
+                            XYZ newPlaсeСolumnMainRebarLeftFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
+                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces + residueForOffsetLR
+                                , 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceShort.Id, newPlaсeСolumnMainRebarLeftFaceShort);
+                            columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            if (numberOfBarsLRFaces % 2 == 0)
+                            {
+                                columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsLRFaces - 2) / 2);
+                            }
+                            if (numberOfBarsLRFaces % 2 != 0)
+                            {
+                                columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsLRFaces - 2) / 2)) + 1);
+                            }
+                            if (columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
+                            {
+                                columnMainRebarLeftFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
+                            }
+                            rebarIdCollection.Add(columnMainRebarLeftFaceShort.Id);
+
+                            if (numberOfBarsLRFaces > 3)
+                            {
+                                //Левая грань длинные
+                                Rebar columnMainRebarLeftFaceLong = Rebar.CreateFromCurvesAndShape(doc
+                                , myMainRebarShapeRodsBendIntoASlab
+                                , myMainRebarTypeTwo
+                                , null
+                                , null
+                                , myColumn
+                                , mainRebarNormalMain
+                                , myMainRebarTypeTwoCurvesLong
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                                ElementTransformUtils.RotateElement(doc, columnMainRebarLeftFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
+                                XYZ newPlaсeСolumnMainRebarLeftFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeTwo / 2
+                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsLRFaces * 2 + residueForOffsetLR
+                                    , 0);
+                                ElementTransformUtils.MoveElement(doc, columnMainRebarLeftFaceLong.Id, newPlaсeСolumnMainRebarLeftFaceLong);
+
+                                columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                if (numberOfBarsLRFaces % 2 == 0)
+                                {
+                                    columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsLRFaces - 2) / 2);
+                                }
+                                if (numberOfBarsLRFaces % 2 != 0)
+                                {
+                                    columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsLRFaces - 2) / 2)));
+                                
+                                }
+                                if (columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
+                                {
+                                    columnMainRebarLeftFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
+                                }
+                                rebarIdCollection.Add(columnMainRebarLeftFaceLong.Id);
+                            }
+
+                            //Правая грань короткий
+                            Rebar columnMainRebarRightFaceShort = Rebar.CreateFromCurvesAndShape(doc
+                            , myMainRebarShapeRodsBendIntoASlab
+                            , myMainRebarTypeTwo
+                            , null
+                            , null
+                            , myColumn
+                            , mainRebarNormalMain
+                            , myMainRebarTypeTwoCurvesShort
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            XYZ newPlaсeColumnMainRebarRightFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
+                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces - residueForOffsetLR
+                                , 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceShort.Id, newPlaсeColumnMainRebarRightFaceShort);
+                            columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            if (numberOfBarsLRFaces % 2 == 0)
+                            {
+                                columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsLRFaces - 2) / 2);
+                            }
+                            if (numberOfBarsLRFaces % 2 != 0)
+                            {
+                                columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsLRFaces - 2) / 2)) + 1);
+                            }
+                            if (columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
+                            {
+                                columnMainRebarRightFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
+                            }
+                            rebarIdCollection.Add(columnMainRebarRightFaceShort.Id);
+
+                            if (numberOfBarsLRFaces > 3)
+                            {
+                                //Правая грань длинный
+                                Rebar columnMainRebarRightFaceLong = Rebar.CreateFromCurvesAndShape(doc
+                                    , myMainRebarShapeRodsBendIntoASlab
+                                    , myMainRebarTypeTwo
+                                    , null
+                                    , null
+                                    , myColumn
+                                    , mainRebarNormalMain
+                                    , myMainRebarTypeTwoCurvesLong
+                                    , RebarHookOrientation.Right
+                                    , RebarHookOrientation.Right);
+
+                                XYZ newPlaсeColumnMainRebarRightFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeTwo / 2
+                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsLRFaces * 2 - residueForOffsetLR
+                                    , 0);
+                                ElementTransformUtils.MoveElement(doc, columnMainRebarRightFaceLong.Id, newPlaсeColumnMainRebarRightFaceLong);
+                                columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                if (numberOfBarsLRFaces % 2 == 0)
+                                {
+                                    columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsLRFaces - 2) / 2);
+                                }
+                                if (numberOfBarsLRFaces % 2 != 0)
+                                {
+                                    columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsLRFaces - 2) / 2)));
+                                }
+                                if (columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
+                                {
+                                    columnMainRebarRightFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsLRFaces * 2);
+                                }
+                                rebarIdCollection.Add(columnMainRebarRightFaceLong.Id);
+                            }
+                        }
+#endregion
+
+#region Стержни по нижней и верхней граням
+                        if (numberOfBarsTBFaces >= 3)
+                        {
+                            //Точки для построения кривых удлиненных стержней (начало удлиненное и конец укороченный)
+                            XYZ mainRebarTypeThreeLong_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z + rebarOutletsLengthLong, 6));
+                            XYZ mainRebarTypeThreeLong_p2 = new XYZ(Math.Round(mainRebarTypeThreeLong_p1.X, 6), Math.Round(mainRebarTypeThreeLong_p1.Y, 6), Math.Round(mainRebarTypeThreeLong_p1.Z - rebarOutletsLengthLong + columnLength + floorThicknessAboveColumn - 60 / 304.8, 6));
+                            XYZ mainRebarTypeThreeLong_p3 = new XYZ(Math.Round(mainRebarTypeThreeLong_p2.X , 6), Math.Round(mainRebarTypeThreeLong_p2.Y + rebarOutletsLengthShort - (floorThicknessAboveColumn - 60 / 304.8), 6), Math.Round(mainRebarTypeThreeLong_p2.Z, 6));
+
+                            //Точки для построения кривых удлиненных стержней (начало и конец укороченные)
+                            XYZ mainRebarTypeThreeShort_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z + rebarOutletsLengthShort, 6));
+                            XYZ mainRebarTypeThreeShort_p2 = new XYZ(Math.Round(mainRebarTypeThreeShort_p1.X, 6), Math.Round(mainRebarTypeThreeShort_p1.Y, 6), Math.Round(mainRebarTypeThreeShort_p1.Z - rebarOutletsLengthShort + columnLength + floorThicknessAboveColumn - 60 / 304.8, 6));
+                            XYZ mainRebarTypeThreeShort_p3 = new XYZ(Math.Round(mainRebarTypeThreeLong_p2.X , 6), Math.Round(mainRebarTypeThreeShort_p2.Y + rebarOutletsLengthShort - (floorThicknessAboveColumn - 60 / 304.8), 6), Math.Round(mainRebarTypeThreeShort_p2.Z, 6));
+
+                            //Кривые основных угловых стержней (начало удлиненное и конец укороченный)
+                            List<Curve> myMainRebarTypeThreeCurvesLong = new List<Curve>();
+
+                            Curve secondMainLineLong1 = Line.CreateBound(mainRebarTypeThreeLong_p1, mainRebarTypeThreeLong_p2) as Curve;
+                            myMainRebarTypeThreeCurvesLong.Add(secondMainLineLong1);
+                            Curve secondMainLineLong2 = Line.CreateBound(mainRebarTypeThreeLong_p2, mainRebarTypeThreeLong_p3) as Curve;
+                            myMainRebarTypeThreeCurvesLong.Add(secondMainLineLong2);
+
+                            //Кривые основных угловых стержней (начало и конец укороченные)
+                            List<Curve> myMainRebarTypeThreeCurvesShort = new List<Curve>();
+
+                            Curve secondMainLineShort1 = Line.CreateBound(mainRebarTypeThreeShort_p1, mainRebarTypeThreeShort_p2) as Curve;
+                            myMainRebarTypeThreeCurvesShort.Add(secondMainLineShort1);
+                            Curve secondMainLineShort2 = Line.CreateBound(mainRebarTypeThreeShort_p2, mainRebarTypeThreeShort_p3) as Curve;
+                            myMainRebarTypeThreeCurvesShort.Add(secondMainLineShort2);
+
+                            //Нижняя грань короткие
+                            Rebar columnMainRebarBottomFaceShort = Rebar.CreateFromCurvesAndShape(doc
+                            , myMainRebarShapeRodsBendIntoASlab
+                            , myMainRebarTypeThree
+                            , null
+                            , null
+                            , myColumn
+                            , mainRebarNormalAdditional
+                            , myMainRebarTypeThreeCurvesShort
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            //Cтержни нижняя и верхняя грани
+                            int numberOfSpacesTBFaces = numberOfBarsTBFaces - 1;
+                            double residualSizeTBFaces = columnSectionWidth - mainRebarCoverLayer * 2 - mainRebarDiamTypeOne;
+                            double stepBarsTBFaces = RoundUpToFive(Math.Round((residualSizeTBFaces / numberOfSpacesTBFaces) * 304.8)) / 304.8;
+                            stepBarsTBFacesForStirrup = stepBarsTBFaces;
+                            double residueForOffsetTB = (residualSizeTBFaces - (stepBarsTBFaces * numberOfSpacesTBFaces)) / 2;
+                            residueForOffsetForStirrupTB = residueForOffsetTB;
+
+                            ElementTransformUtils.RotateElement(doc, columnMainRebarBottomFaceShort.Id, rotateLine, 180 * (Math.PI / 180));
+                            XYZ newPlaсeСolumnMainRebarBottomFaceShort = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces + residueForOffsetTB
+                                , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
+                                , 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceShort.Id, newPlaсeСolumnMainRebarBottomFaceShort);
+                            columnMainRebarBottomFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            if (numberOfBarsTBFaces % 2 == 0)
+                            {
+                                columnMainRebarBottomFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsTBFaces - 2) / 2);
+                            }
+
+                            if (numberOfBarsTBFaces % 2 != 0)
+                            {
+                                columnMainRebarBottomFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsTBFaces - 2) / 2)) + 1);
+                            }
+                            if (columnMainRebarBottomFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
+                            {
+                                columnMainRebarBottomFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
+                            }
+                            rebarIdCollection.Add(columnMainRebarBottomFaceShort.Id);
+
+                            if (numberOfBarsTBFaces > 3)
+                            {
+                                //Нижняя грань длинные
+                                Rebar columnMainRebarBottomFaceLong = Rebar.CreateFromCurvesAndShape(doc
+                                    , myMainRebarShapeRodsBendIntoASlab
+                                    , myMainRebarTypeThree
+                                    , null
+                                    , null
+                                    , myColumn
+                                    , mainRebarNormalAdditional
+                                    , myMainRebarTypeThreeCurvesLong
+                                    , RebarHookOrientation.Right
+                                    , RebarHookOrientation.Right);
+
+                                ElementTransformUtils.RotateElement(doc, columnMainRebarBottomFaceLong.Id, rotateLine, 180 * (Math.PI / 180));
+                                XYZ newPlaсeСolumnMainRebarBottomFaceLong = new XYZ(-columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiamTypeOne / 2 + stepBarsTBFaces * 2 + residueForOffsetTB
+                                    , -columnSectionHeight / 2 + mainRebarCoverLayer + mainRebarDiamTypeThree / 2
+                                    , 0);
+                                ElementTransformUtils.MoveElement(doc, columnMainRebarBottomFaceLong.Id, newPlaсeСolumnMainRebarBottomFaceLong);
+                                columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                if (numberOfBarsTBFaces % 2 == 0)
+                                {
+                                    columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsTBFaces - 2) / 2);
+                                }
+                                if (numberOfBarsTBFaces % 2 != 0)
+                                {
+                                    columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsTBFaces - 2) / 2)));
+                                }
+                                if (columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
+                                {
+                                    columnMainRebarBottomFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
+                                }
+                                rebarIdCollection.Add(columnMainRebarBottomFaceLong.Id);
+                            }
+
+                            //Верхняя грань короткие
+                            Rebar columnMainRebarTopFaceShort = Rebar.CreateFromCurvesAndShape(doc
+                            , myMainRebarShapeRodsBendIntoASlab
+                            , myMainRebarTypeThree
+                            , null
+                            , null
+                            , myColumn
+                            , mainRebarNormalAdditional
+                            , myMainRebarTypeThreeCurvesShort
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            XYZ newPlaсeСolumnMainRebarTopFaceShort = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces - residueForOffsetTB
+                                , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
+                                , 0);
+                            ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceShort.Id, newPlaсeСolumnMainRebarTopFaceShort);
+                            columnMainRebarTopFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                            if (numberOfBarsTBFaces % 2 == 0)
+                            {
+                                columnMainRebarTopFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsTBFaces - 2) / 2);
+                            }
+                            if (numberOfBarsTBFaces % 2 != 0)
+                            {
+                                columnMainRebarTopFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsTBFaces - 2) / 2)) + 1);
+                            }
+                            if (columnMainRebarTopFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
+                            {
+                                columnMainRebarTopFaceShort.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepBarsTBFaces * 2);
+                            }
+                            rebarIdCollection.Add(columnMainRebarTopFaceShort.Id);
+
+                            if (numberOfBarsTBFaces > 3)
+                            {
+                                //Верхняя грань длинные
+                                Rebar columnMainRebarTopFaceLong = Rebar.CreateFromCurvesAndShape(doc
+                                    , myMainRebarShapeRodsBendIntoASlab
+                                    , myMainRebarTypeThree
+                                    , null
+                                    , null
+                                    , myColumn
+                                    , mainRebarNormalAdditional
+                                    , myMainRebarTypeThreeCurvesLong
+                                    , RebarHookOrientation.Right
+                                    , RebarHookOrientation.Right);
+
+                                XYZ newPlaсeСolumnMainRebarTopFaceLong = new XYZ(columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiamTypeOne / 2 - stepBarsTBFaces * 2 - residueForOffsetTB
+                                    , columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiamTypeThree / 2
+                                    , 0);
+                                ElementTransformUtils.MoveElement(doc, columnMainRebarTopFaceLong.Id, newPlaсeСolumnMainRebarTopFaceLong);
+                                columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                                if (numberOfBarsTBFaces % 2 == 0)
+                                {
+                                    columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set((numberOfBarsTBFaces - 2) / 2);
+                                }
+                                if (numberOfBarsTBFaces % 2 != 0)
+                                {
+                                    columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(Math.Round(Convert.ToDouble((numberOfBarsTBFaces - 2) / 2)));
                                 }
                                 if (columnMainRebarTopFaceLong.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).IsReadOnly == false)
                                 {

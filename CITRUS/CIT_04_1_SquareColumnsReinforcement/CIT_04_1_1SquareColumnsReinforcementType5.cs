@@ -520,7 +520,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         XYZ secondMainRebar_p2 = new XYZ(Math.Round(secondMainRebar_p1.X, 6), Math.Round(secondMainRebar_p1.Y, 6), Math.Round(secondMainRebar_p1.Z + deepeningBarsSize + columnLength + floorThicknessAboveColumn - 60 / 304.8, 6));
                         XYZ secondMainRebar_p3 = new XYZ(Math.Round(secondMainRebar_p2.X + rebarSecondOutletsLength - (floorThicknessAboveColumn - 60 / 304.8), 6), Math.Round(secondMainRebar_p2.Y, 6), Math.Round(secondMainRebar_p2.Z, 6));
 
-                        //Кривые основных угловых стержней с
+                        //Кривые основных угловых стержней
                         List<Curve> myFirstMainRebarCurves = new List<Curve>();
 
                         Curve firstMainLine1 = Line.CreateBound(firstMainRebar_p1, firstMainRebar_p2) as Curve;
