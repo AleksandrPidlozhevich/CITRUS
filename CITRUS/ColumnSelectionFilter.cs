@@ -11,12 +11,7 @@ namespace CITRUS
 		
 		public bool AllowElement(Autodesk.Revit.DB.Element elem)
 		{
-
-			if (elem is FamilyInstance)
-			{
-				return true;
-			}
-			return false;
+			return elem is FamilyInstance && null != elem.Category && elem.Category.Id.IntegerValue.Equals((int)BuiltInCategory.OST_StructuralColumns);
 		}
 
 		public bool AllowReference(Autodesk.Revit.DB.Reference reference, Autodesk.Revit.DB.XYZ position)

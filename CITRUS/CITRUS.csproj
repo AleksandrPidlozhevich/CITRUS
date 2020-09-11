@@ -80,6 +80,7 @@
     <Compile Include="CIT_04_2_RectangularColumnsReinforcement\CIT_04_2_RectangularColumnsReinforcementForm.Designer.cs">
       <DependentUpon>CIT_04_2_RectangularColumnsReinforcementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CIT_04_3_BeamReinforcement\CIT_04_3_BeamReinforcement.cs" />
     <Compile Include="FormRebarOutletsCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,6 +165,7 @@
       <DependentUpon>FloorTypeSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Sobirator.cs" />
+    <Compile Include="StructuralFramingSelectionFilter.cs" />
     <Compile Include="TXTExport.cs" />
     <Compile Include="TXTExportForm.cs">
       <SubType>Form</SubType>

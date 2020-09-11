@@ -102,7 +102,7 @@ namespace CITRUS
 			string result = "";
 			switch (width + "x" + height)
 			{
-				case "1680x1188": result = "A0x2А"; break;
+				case "1682x1189": result = "A0x2А"; break;
 				case "1188x841": result = "A0А"; break;
 				case "2520x1188": result = "A0x3А"; break;
 				case "841x594": result = "A1А"; break;

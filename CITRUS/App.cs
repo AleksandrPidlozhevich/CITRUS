@@ -192,13 +192,21 @@ namespace CITRUS
             pbdGloryHole.Image = GloryHole_imgStandart;
             panel_Other.AddItem(pbdGloryHole);
 
-            //Создание кнопки "MEPViewScheduleCreatorADM" в категории "ОВ"
+            //Создание кнопки "MEPViewScheduleCreatorADM" в категории "Другое"
             PushButtonData pbdMEPViewScheduleCreatorADM = new PushButtonData("MEPViewScheduleCreatorADM"
                     , "Создать\ncпецификации MEPADM"
                     , assemblyPach
                     , "CITRUS.MEPViewScheduleCreatorADM");
 
             panel_Other.AddItem(pbdMEPViewScheduleCreatorADM);
+
+            //Создание кнопки "BeamReinforcement" в категории "Другое"
+            PushButtonData pbdBeamReinforcement = new PushButtonData("BeamReinforcement"
+                    , "Арм.Балки"
+                    , assemblyPach
+                    , "CITRUS.CIT_04_3_BeamReinforcement.CIT_04_3_BeamReinforcement");
+
+            panel_Other.AddItem(pbdBeamReinforcement);
 
 
             return Result.Succeeded;
