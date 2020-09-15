@@ -208,6 +208,14 @@ namespace CITRUS
 
             panel_Other.AddItem(pbdBeamReinforcement);
 
+            // Создание кнопки "HeatLoss" в категории "Другое"
+            PushButtonData pbdHeatLoss = new PushButtonData("HeatLoss"
+                    , "Теплопотери"
+                    , assemblyPach
+                    , "CITRUS.HeatLoss");
+
+            panel_Other.AddItem(pbdHeatLoss);
+
 
             return Result.Succeeded;
             }

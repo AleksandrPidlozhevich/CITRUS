@@ -87,6 +87,7 @@
     <Compile Include="FormRebarOutletsCreator.Designer.cs">
       <DependentUpon>FormRebarOutletsCreator.cs</DependentUpon>
     </Compile>
+    <Compile Include="HeatLoss.cs" />
     <Compile Include="MEPViewScheduleCreatorADM.cs" />
     <Compile Include="MEPViewScheduleCreator.cs" />
     <Compile Include="MEPViewScheduleHost.cs" />
@@ -157,6 +158,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SpaceSelectionFilter.cs" />
     <Compile Include="RoomSelectionFilter.cs" />
     <Compile Include="FloorTypeSelector.cs">
       <SubType>Form</SubType>

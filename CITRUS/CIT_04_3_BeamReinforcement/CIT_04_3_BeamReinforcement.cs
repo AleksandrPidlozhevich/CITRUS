@@ -60,7 +60,24 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
             List<Curve> myMainRebarTypeCurves = new List<Curve>();
             myMainRebarTypeCurves.Add(myMainRebarTypeCurve);
 
-            XYZ normal = new XYZ(0, 1, 0);
+            XYZ normal = beamsList.First().FacingOrientation;
+
+
+            List<Solid> beamSolidList = new List<Solid>();
+            GeometryElement beamGeomElement = beamsList.First().get_Geometry(new Options());
+            foreach (GeometryObject geoObject in beamGeomElement)
+            {
+                Solid beamSolid = geoObject as Solid;
+                if (beamSolid!=null)
+                {
+                    if (beamSolid.Volume!=0)
+                    {
+                        beamSolidList.Add(beamSolid);
+                    }
+                }
+            }
+
+
 
             //Открытие транзакции
             using (Transaction t = new Transaction(doc))
