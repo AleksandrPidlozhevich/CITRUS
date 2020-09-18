@@ -93,9 +93,18 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     {
                         Line edgeLine = edge.AsCurve() as Line;
                         XYZ edgeLineDirectionVector = edgeLine.Direction;
-                        if (Math.Round(edgeLineDirectionVector.X, 6) == Math.Round(beamMainLineDirectionVector.X, 6) & Math.Round(edgeLineDirectionVector.Y, 6) == Math.Round(beamMainLineDirectionVector.Y, 6) & Math.Round(edgeLineDirectionVector.Z, 6) == Math.Round(beamMainLineDirectionVector.Z, 6))
+
+                        if (Math.Round(edgeLineDirectionVector.AngleTo(beamMainLineDirectionVector) * (180 / Math.PI)) == 0 || edgeLineDirectionVector.AngleTo(beamMainLineDirectionVector)*(180/Math.PI) == 180)
                         {
-                            linesInMainDirectionList.Add(edgeLine);
+                            if (edgeLineDirectionVector.AngleTo(beamMainLineDirectionVector) * (180 / Math.PI) == 180)
+                            {
+                                edgeLine = edgeLine.CreateReversed() as Line;
+                                linesInMainDirectionList.Add(edgeLine);
+                            }
+                            else
+                            {
+                                linesInMainDirectionList.Add(edgeLine);
+                            }
                         }
                     }
 
@@ -108,7 +117,10 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                         XYZ lineStartPoint = line.GetEndPoint(0);
                         XYZ lineEndPoint = line.GetEndPoint(1);
 
-                        if (lineMaxZ < lineStartPoint.Z || lineMaxZ < lineEndPoint.Z)
+                        XYZ sideVector = new XYZ(lineStartPoint.X - beamStartPoint.X, lineStartPoint.Y - beamStartPoint.Y, lineStartPoint.Z - beamStartPoint.Z);
+                        double side = beamMainLineDirectionVector.X * sideVector.Y - sideVector.X * beamMainLineDirectionVector.Y;
+
+                        if ((lineMaxZ < lineStartPoint.Z || lineMaxZ < lineEndPoint.Z) & side < 0)
                         {
                             if (lineStartPoint.Z > lineEndPoint.Z)
                             {
@@ -129,8 +141,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     XYZ normal = beam.FacingOrientation;
 
                     //Точки для построения стержней основной арматуры
-                    XYZ requiredLineStartPointToCenter = requiredLineStartPoint /*+ (beamWidth / 2 * normal)*/;
-                    XYZ requiredLineEndPointToCenter = requiredLineEndPoint /*+ (beamWidth / 2 * normal)*/;
+                    XYZ requiredLineStartPointToCenter = requiredLineStartPoint + (beamWidth / 2 * normal);
+                    XYZ requiredLineEndPointToCenter = requiredLineEndPoint + (beamWidth / 2 * normal);
 
                     //Точки для построения стержней основной арматуры
                     XYZ p1 = new XYZ(requiredLineStartPointToCenter.X, requiredLineStartPointToCenter.Y, beamStartPoint.Z) - (400 / 304.8 * beamMainLineDirectionVector);
