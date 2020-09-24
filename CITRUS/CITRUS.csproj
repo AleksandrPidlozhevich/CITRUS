@@ -81,6 +81,12 @@
       <DependentUpon>CIT_04_2_RectangularColumnsReinforcementForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CIT_04_3_BeamReinforcement\CIT_04_3_BeamReinforcement.cs" />
+    <Compile Include="CIT_04_3_BeamReinforcement\CIT_04_3_BeamReinforcementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CIT_04_3_BeamReinforcement\CIT_04_3_BeamReinforcementForm.Designer.cs">
+      <DependentUpon>CIT_04_3_BeamReinforcementForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormRebarOutletsCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CIT_04_2_RectangularColumnsReinforcement\CIT_04_2_RectangularColumnsReinforcementForm.resx">
       <DependentUpon>CIT_04_2_RectangularColumnsReinforcementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CIT_04_3_BeamReinforcement\CIT_04_3_BeamReinforcementForm.resx">
+      <DependentUpon>CIT_04_3_BeamReinforcementForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FloorTypeSelectorForCapitalMaker.resx">
       <DependentUpon>FloorTypeSelectorForCapitalMaker.cs</DependentUpon>
