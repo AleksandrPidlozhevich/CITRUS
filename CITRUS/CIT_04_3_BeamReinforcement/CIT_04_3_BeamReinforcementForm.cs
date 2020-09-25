@@ -16,6 +16,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
         public RebarBarType mySelectionMainBarT1;
         public RebarBarType mySelectionMainBarT2;
         public RebarBarType mySelectionMainBarT3;
+        public RebarBarType mySelectionStirrupT1;
+        public RebarBarType mySelectionStirrupC1;
 
         public RebarCoverType RebarTopCoverLayer;
         public RebarCoverType RebarBottomCoverLayer;
@@ -31,12 +33,20 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
         public double DeepeningIntoTheStructureR1;
         public double DeepeningIntoTheStructureR2;
 
+        public double StirrupIndentL1;
+        public double StirrupStepL1;
+        public double StirrupIndentR1;
+        public double StirrupStepR1;
+        public double StirrupStepC1;
+
         public int NumberOfBarsTopFaces = 0;
         public int NumberOfBarsBottomFaces = 0;
 
         public CIT_04_3_BeamReinforcementForm(List<RebarBarType> mainBarT1
             , List<RebarBarType> mainBarT2
             , List<RebarBarType> mainBarT3
+            , List<RebarBarType> stirrupT1
+            , List<RebarBarType> stirrupT2
             , List<RebarCoverType> topCoverLayerList
             , List<RebarCoverType> bottomCoverLayerList
             , List<RebarCoverType> LRCoverLayerList)
@@ -54,6 +64,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
             List<RebarBarType> mainBarT3ListForComboBox = mainBarT3;
             comboBox_MainBarT3.DataSource = mainBarT3ListForComboBox;
             comboBox_MainBarT3.DisplayMember = "Name";
+
+            List<RebarBarType> stirrupT1ListForComboBox = stirrupT1;
+            comboBox_StirrupT1.DataSource = stirrupT1ListForComboBox;
+            comboBox_StirrupT1.DisplayMember = "Name";
+
+            List<RebarBarType> stirrupT2ListForComboBox = stirrupT2;
+            comboBox_StirrupC1.DataSource = stirrupT2ListForComboBox;
+            comboBox_StirrupC1.DisplayMember = "Name";
 
             List<RebarCoverType> topCoverLayerListForComboBox = topCoverLayerList;
             comboBox_RebarTopCoverLayer.DataSource = topCoverLayerListForComboBox;
@@ -93,6 +111,15 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
         private void comboBox_MainBarT3_SelectedIndexChanged(object sender, EventArgs e)
         {
             mySelectionMainBarT3 = comboBox_MainBarT3.SelectedItem as RebarBarType;
+        }
+
+        private void comboBox_StirrupT1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            mySelectionStirrupT1 = comboBox_StirrupT1.SelectedItem as RebarBarType;
+        }
+        private void comboBox_StirrupC1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            mySelectionStirrupC1 = comboBox_StirrupC1.SelectedItem as RebarBarType;
         }
 
         private void textBox_ExtensionLeftLenghtL1_TextChanged(object sender, EventArgs e)
@@ -158,6 +185,27 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
         private void textBox_DeepeningIntoTheStructureR2_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_DeepeningIntoTheStructureR2.Text, out DeepeningIntoTheStructureR2);
+        }
+        private void textBox_StirrupIndentL1_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_StirrupIndentL1.Text, out StirrupIndentL1);
+        }
+        private void textBox_StirrupStepL1_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_StirrupStepL1.Text, out StirrupStepL1);
+        }
+        private void textBox_StirrupIndentR1_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_StirrupIndentR1.Text, out StirrupIndentR1);
+        }
+        private void textBox_StirrupStepR1_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_StirrupStepR1.Text, out StirrupStepR1);
+        }
+
+        private void textBox_StirrupStepC1_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_StirrupStepC1.Text, out StirrupStepC1);
         }
     }
 }

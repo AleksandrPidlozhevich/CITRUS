@@ -46,6 +46,13 @@
             this.textBox_DeepeningIntoTheStructureL2 = new System.Windows.Forms.TextBox();
             this.textBox_DeepeningIntoTheStructureR2 = new System.Windows.Forms.TextBox();
             this.textBox_DeepeningIntoTheStructureR1 = new System.Windows.Forms.TextBox();
+            this.comboBox_StirrupT1 = new System.Windows.Forms.ComboBox();
+            this.comboBox_StirrupC1 = new System.Windows.Forms.ComboBox();
+            this.textBox_StirrupIndentL1 = new System.Windows.Forms.TextBox();
+            this.textBox_StirrupStepL1 = new System.Windows.Forms.TextBox();
+            this.textBox_StirrupIndentR1 = new System.Windows.Forms.TextBox();
+            this.textBox_StirrupStepR1 = new System.Windows.Forms.TextBox();
+            this.textBox_StirrupStepC1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btn_Ok
@@ -139,7 +146,7 @@
             this.comboBox_RebarTopCoverLayer.FormattingEnabled = true;
             this.comboBox_RebarTopCoverLayer.Location = new System.Drawing.Point(579, 247);
             this.comboBox_RebarTopCoverLayer.Name = "comboBox_RebarTopCoverLayer";
-            this.comboBox_RebarTopCoverLayer.Size = new System.Drawing.Size(47, 21);
+            this.comboBox_RebarTopCoverLayer.Size = new System.Drawing.Size(55, 21);
             this.comboBox_RebarTopCoverLayer.Sorted = true;
             this.comboBox_RebarTopCoverLayer.TabIndex = 9;
             this.comboBox_RebarTopCoverLayer.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarTopCoverLayer_SelectedIndexChanged);
@@ -149,7 +156,7 @@
             this.comboBox_RebarBottomCoverLayer.FormattingEnabled = true;
             this.comboBox_RebarBottomCoverLayer.Location = new System.Drawing.Point(577, 337);
             this.comboBox_RebarBottomCoverLayer.Name = "comboBox_RebarBottomCoverLayer";
-            this.comboBox_RebarBottomCoverLayer.Size = new System.Drawing.Size(47, 21);
+            this.comboBox_RebarBottomCoverLayer.Size = new System.Drawing.Size(55, 21);
             this.comboBox_RebarBottomCoverLayer.Sorted = true;
             this.comboBox_RebarBottomCoverLayer.TabIndex = 10;
             this.comboBox_RebarBottomCoverLayer.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarBottomCoverLayer_SelectedIndexChanged);
@@ -157,9 +164,9 @@
             // comboBox_RebarLRCoverLayer
             // 
             this.comboBox_RebarLRCoverLayer.FormattingEnabled = true;
-            this.comboBox_RebarLRCoverLayer.Location = new System.Drawing.Point(720, 286);
+            this.comboBox_RebarLRCoverLayer.Location = new System.Drawing.Point(715, 283);
             this.comboBox_RebarLRCoverLayer.Name = "comboBox_RebarLRCoverLayer";
-            this.comboBox_RebarLRCoverLayer.Size = new System.Drawing.Size(47, 21);
+            this.comboBox_RebarLRCoverLayer.Size = new System.Drawing.Size(55, 21);
             this.comboBox_RebarLRCoverLayer.Sorted = true;
             this.comboBox_RebarLRCoverLayer.TabIndex = 11;
             this.comboBox_RebarLRCoverLayer.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarLRCoverLayer_SelectedIndexChanged);
@@ -218,11 +225,83 @@
             this.textBox_DeepeningIntoTheStructureR1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_DeepeningIntoTheStructureR1.TextChanged += new System.EventHandler(this.textBox_DeepeningIntoTheStructureR1_TextChanged);
             // 
+            // comboBox_StirrupT1
+            // 
+            this.comboBox_StirrupT1.FormattingEnabled = true;
+            this.comboBox_StirrupT1.Location = new System.Drawing.Point(211, 283);
+            this.comboBox_StirrupT1.Name = "comboBox_StirrupT1";
+            this.comboBox_StirrupT1.Size = new System.Drawing.Size(78, 21);
+            this.comboBox_StirrupT1.Sorted = true;
+            this.comboBox_StirrupT1.TabIndex = 22;
+            this.comboBox_StirrupT1.SelectedIndexChanged += new System.EventHandler(this.comboBox_StirrupT1_SelectedIndexChanged);
+            // 
+            // comboBox_StirrupC1
+            // 
+            this.comboBox_StirrupC1.FormattingEnabled = true;
+            this.comboBox_StirrupC1.Location = new System.Drawing.Point(211, 350);
+            this.comboBox_StirrupC1.Name = "comboBox_StirrupC1";
+            this.comboBox_StirrupC1.Size = new System.Drawing.Size(78, 21);
+            this.comboBox_StirrupC1.Sorted = true;
+            this.comboBox_StirrupC1.TabIndex = 23;
+            this.comboBox_StirrupC1.SelectedIndexChanged += new System.EventHandler(this.comboBox_StirrupC1_SelectedIndexChanged);
+            // 
+            // textBox_StirrupIndentL1
+            // 
+            this.textBox_StirrupIndentL1.Location = new System.Drawing.Point(74, 283);
+            this.textBox_StirrupIndentL1.Name = "textBox_StirrupIndentL1";
+            this.textBox_StirrupIndentL1.Size = new System.Drawing.Size(80, 20);
+            this.textBox_StirrupIndentL1.TabIndex = 24;
+            this.textBox_StirrupIndentL1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_StirrupIndentL1.TextChanged += new System.EventHandler(this.textBox_StirrupIndentL1_TextChanged);
+            // 
+            // textBox_StirrupStepL1
+            // 
+            this.textBox_StirrupStepL1.Location = new System.Drawing.Point(74, 309);
+            this.textBox_StirrupStepL1.Name = "textBox_StirrupStepL1";
+            this.textBox_StirrupStepL1.Size = new System.Drawing.Size(80, 20);
+            this.textBox_StirrupStepL1.TabIndex = 25;
+            this.textBox_StirrupStepL1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_StirrupStepL1.TextChanged += new System.EventHandler(this.textBox_StirrupStepL1_TextChanged);
+            // 
+            // textBox_StirrupIndentR1
+            // 
+            this.textBox_StirrupIndentR1.Location = new System.Drawing.Point(332, 284);
+            this.textBox_StirrupIndentR1.Name = "textBox_StirrupIndentR1";
+            this.textBox_StirrupIndentR1.Size = new System.Drawing.Size(80, 20);
+            this.textBox_StirrupIndentR1.TabIndex = 26;
+            this.textBox_StirrupIndentR1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_StirrupIndentR1.TextChanged += new System.EventHandler(this.textBox_StirrupIndentR1_TextChanged);
+            // 
+            // textBox_StirrupStepR1
+            // 
+            this.textBox_StirrupStepR1.Location = new System.Drawing.Point(332, 309);
+            this.textBox_StirrupStepR1.Name = "textBox_StirrupStepR1";
+            this.textBox_StirrupStepR1.Size = new System.Drawing.Size(80, 20);
+            this.textBox_StirrupStepR1.TabIndex = 27;
+            this.textBox_StirrupStepR1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_StirrupStepR1.TextChanged += new System.EventHandler(this.textBox_StirrupStepR1_TextChanged);
+            // 
+            // textBox_StirrupStepC1
+            // 
+            this.textBox_StirrupStepC1.Location = new System.Drawing.Point(211, 377);
+            this.textBox_StirrupStepC1.Name = "textBox_StirrupStepC1";
+            this.textBox_StirrupStepC1.Size = new System.Drawing.Size(80, 20);
+            this.textBox_StirrupStepC1.TabIndex = 28;
+            this.textBox_StirrupStepC1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_StirrupStepC1.TextChanged += new System.EventHandler(this.textBox_StirrupStepC1_TextChanged);
+            // 
             // CIT_04_3_BeamReinforcementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textBox_StirrupStepC1);
+            this.Controls.Add(this.textBox_StirrupStepR1);
+            this.Controls.Add(this.textBox_StirrupIndentR1);
+            this.Controls.Add(this.textBox_StirrupStepL1);
+            this.Controls.Add(this.textBox_StirrupIndentL1);
+            this.Controls.Add(this.comboBox_StirrupC1);
+            this.Controls.Add(this.comboBox_StirrupT1);
             this.Controls.Add(this.textBox_DeepeningIntoTheStructureR2);
             this.Controls.Add(this.textBox_DeepeningIntoTheStructureR1);
             this.Controls.Add(this.textBox_DeepeningIntoTheStructureL2);
@@ -268,5 +347,12 @@
         private System.Windows.Forms.TextBox textBox_DeepeningIntoTheStructureL2;
         private System.Windows.Forms.TextBox textBox_DeepeningIntoTheStructureR2;
         private System.Windows.Forms.TextBox textBox_DeepeningIntoTheStructureR1;
+        private System.Windows.Forms.ComboBox comboBox_StirrupT1;
+        private System.Windows.Forms.ComboBox comboBox_StirrupC1;
+        private System.Windows.Forms.TextBox textBox_StirrupIndentL1;
+        private System.Windows.Forms.TextBox textBox_StirrupStepL1;
+        private System.Windows.Forms.TextBox textBox_StirrupIndentR1;
+        private System.Windows.Forms.TextBox textBox_StirrupStepR1;
+        private System.Windows.Forms.TextBox textBox_StirrupStepC1;
     }
 }
