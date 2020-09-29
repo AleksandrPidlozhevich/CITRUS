@@ -357,7 +357,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     //Вектор перпендикулярный основному направлению балки по вертикали
                     XYZ verticalVectorFromBeamMainLine = 1 * normal.CrossProduct(beamMainLineDirectionVector).Normalize();
                     //Горизонтальный вектор по основному направлению балки
-                    XYZ horizontalVectorFromBeamMainLine = new XYZ (beamMainLineDirectionVector.X, beamMainLineDirectionVector.Y, 0).Normalize();
+                    XYZ horizontalVectorFromBeamMainLine = new XYZ(beamMainLineDirectionVector.X, beamMainLineDirectionVector.Y, 0).Normalize();
 
                     //Угол наклона балки к Z
                     double beamAngle = beamMainLineDirectionVector.AngleTo(XYZ.BasisZ) * (180 / Math.PI);
@@ -375,7 +375,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     double extensionRightBendLenghtR2 = extensionRightLenghtR2 - extensionRightLenghtR2Сalculated;
 
                     //Реальная длина балки
-                    List <Solid> beamSolidList = new List<Solid>();
+                    List<Solid> beamSolidList = new List<Solid>();
                     GeometryElement beamGeomElement = beam.get_Geometry(new Options());
                     foreach (GeometryObject geoObject in beamGeomElement)
                     {
@@ -397,7 +397,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                         Line edgeLine = edge.AsCurve() as Line;
                         XYZ edgeLineDirectionVector = edgeLine.Direction;
 
-                        if (Math.Round(edgeLineDirectionVector.AngleTo(beamMainLineDirectionVector) * (180 / Math.PI)) == 0 || edgeLineDirectionVector.AngleTo(beamMainLineDirectionVector)*(180/Math.PI) == 180)
+                        if (Math.Round(edgeLineDirectionVector.AngleTo(beamMainLineDirectionVector) * (180 / Math.PI)) == 0 || edgeLineDirectionVector.AngleTo(beamMainLineDirectionVector) * (180 / Math.PI) == 180)
                         {
                             if (edgeLineDirectionVector.AngleTo(beamMainLineDirectionVector) * (180 / Math.PI) == 180)
                             {
@@ -469,7 +469,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     XYZ requiredBottomLineEndPoint = new XYZ(0, 0, 0);
 
                     //Определение крайних точек геометрии балки
-                    if ((Math.Round(requiredTopLine.GetEndPoint(0).Z,6) != Math.Round(beamStartPoint.Z,6) || Math.Round(requiredTopLine.GetEndPoint(1).Z,6) != Math.Round(beamEndPoint.Z,6)) & beamAngle != 90)
+                    if ((Math.Round(requiredTopLine.GetEndPoint(0).Z, 6) != Math.Round(beamStartPoint.Z, 6) || Math.Round(requiredTopLine.GetEndPoint(1).Z, 6) != Math.Round(beamEndPoint.Z, 6)) & beamAngle != 90)
                     {
                         //Начальная и конечная точки верхней грани
                         requiredTopLineStartPoint = new XYZ(requiredTopLine.GetEndPoint(0).X, requiredTopLine.GetEndPoint(0).Y, beamStartPoint.Z)
@@ -722,7 +722,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (deepeningIntoTheStructureR1* beamMainLineDirectionVector);
+                            + (deepeningIntoTheStructureR1 * beamMainLineDirectionVector);
 
                         XYZ topL_p3 = topL_p2 - (extensionRightBendLenghtR1 * XYZ.BasisZ);
 
@@ -756,7 +756,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
-                            + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine); 
+                            + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine);
 
                         XYZ topU_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -1338,182 +1338,503 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                         }
                     }
 
-                    //Хомуты
-                    //Точки для построения хомута Тест1
+                    //Поперечный шаг основной арматуры для хомутов
+                    double topBarsStepForStirrup = ((beamWidth - rebarLRCoverLayerAsDouble * 2 - myMainRebarT1Diam) / (numberOfBarsTopFaces - 1));
 
-                    XYZ stirrupT1_p1 = requiredTopLineStartPoint
-                        + ((50/304.8) * beamMainLineDirectionVector)
-                        + (rebarLRCoverLayerAsDouble * normal)
-                        - (myStirrupT1Diam / 2 * normal)
-                        + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
-                        - (myStirrupT1Diam / 2 * verticalVectorFromBeamMainLine);
-                    XYZ stirrupT1_p2 = stirrupT1_p1 
-                        + (beamWidth * normal)
-                        - ((rebarLRCoverLayerAsDouble*2) * normal)
-                        + (myStirrupT1Diam * normal);
-                    XYZ stirrupT1_p3 = stirrupT1_p2 
-                        + (beamHeight * verticalVectorFromBeamMainLine)
-                        - (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
-                        - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
-                        + (myStirrupT1Diam * verticalVectorFromBeamMainLine);
-                    XYZ stirrupT1_p4 = stirrupT1_p3 
-                        - (beamWidth * normal)
-                        + ((rebarLRCoverLayerAsDouble * 2) * normal)
-                        - (myStirrupT1Diam * normal);
+                    //Хомуты при ширине балки меньше 350
+                    if (Math.Round(beamWidth * 304.8) < 350)
+                    {
+                        //Точки для построения хомута Тест1
+                        XYZ stirrupT1_p1 = requiredTopLineStartPoint
+                            + ((50 / 304.8) * beamMainLineDirectionVector)
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            - (myStirrupT1Diam / 2 * normal)
+                            + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myStirrupT1Diam / 2 * verticalVectorFromBeamMainLine);
+                        XYZ stirrupT1_p2 = stirrupT1_p1
+                            + (beamWidth * normal)
+                            - ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            + (myStirrupT1Diam * normal);
+                        XYZ stirrupT1_p3 = stirrupT1_p2
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            + (myStirrupT1Diam * verticalVectorFromBeamMainLine);
+                        XYZ stirrupT1_p4 = stirrupT1_p3
+                            - (beamWidth * normal)
+                            + ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            - (myStirrupT1Diam * normal);
 
-                    //Кривые стержня хомута Тест1
-                    List<Curve> myStirrupT1Curves = new List<Curve>();
-                    Curve stirrupT1Line1 = Line.CreateBound(stirrupT1_p1, stirrupT1_p2) as Curve;
-                    myStirrupT1Curves.Add(stirrupT1Line1);
-                    Curve stirrupT1Line2 = Line.CreateBound(stirrupT1_p2, stirrupT1_p3) as Curve;
-                    myStirrupT1Curves.Add(stirrupT1Line2);
-                    Curve stirrupT1Line3 = Line.CreateBound(stirrupT1_p3, stirrupT1_p4) as Curve;
-                    myStirrupT1Curves.Add(stirrupT1Line3);
-                    Curve stirrupT1Line4 = Line.CreateBound(stirrupT1_p4, stirrupT1_p1) as Curve;
-                    myStirrupT1Curves.Add(stirrupT1Line4);
+                        //Кривые стержня хомута Тест1
+                        List<Curve> myStirrupT1Curves = new List<Curve>();
+                        Curve stirrupT1Line1 = Line.CreateBound(stirrupT1_p1, stirrupT1_p2) as Curve;
+                        myStirrupT1Curves.Add(stirrupT1Line1);
+                        Curve stirrupT1Line2 = Line.CreateBound(stirrupT1_p2, stirrupT1_p3) as Curve;
+                        myStirrupT1Curves.Add(stirrupT1Line2);
+                        Curve stirrupT1Line3 = Line.CreateBound(stirrupT1_p3, stirrupT1_p4) as Curve;
+                        myStirrupT1Curves.Add(stirrupT1Line3);
+                        Curve stirrupT1Line4 = Line.CreateBound(stirrupT1_p4, stirrupT1_p1) as Curve;
+                        myStirrupT1Curves.Add(stirrupT1Line4);
 
-                    //Хомут Тест1
-                    Rebar stirrupT1 = Rebar.CreateFromCurvesAndShape(doc
-                    , myStirrupRebarShape
-                    , myStirrupT1
-                    , myRebarHookType
-                    , myRebarHookType
-                    , beam
-                    , beamMainLineDirectionVector
-                    , myStirrupT1Curves
-                    , RebarHookOrientation.Right
-                    , RebarHookOrientation.Right);
+                        //Хомут Тест1
+                        Rebar stirrupT1 = Rebar.CreateFromCurvesAndShape(doc
+                        , myStirrupRebarShape
+                        , myStirrupT1
+                        , myRebarHookType
+                        , myRebarHookType
+                        , beam
+                        , beamMainLineDirectionVector
+                        , myStirrupT1Curves
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
 
-                    stirrupT1.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
-                    stirrupT1.GetShapeDrivenAccessor().BarsOnNormalSide = true;
-                    stirrupT1.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupQuantityL1);
-                    stirrupT1.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stirrupStepL1);
+                        stirrupT1.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                        stirrupT1.GetShapeDrivenAccessor().BarsOnNormalSide = true;
+                        stirrupT1.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupQuantityL1);
+                        stirrupT1.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stirrupStepL1);
 
-                    //Точки для построения хомута Тест2
+                        //Точки для построения хомута Тест2
+                        XYZ stirrupT2_p1 = requiredTopLineEndPoint
+                            - ((50 / 304.8) * beamMainLineDirectionVector)
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            - (myStirrupT1Diam / 2 * normal)
+                            + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myStirrupT1Diam / 2 * verticalVectorFromBeamMainLine);
+                        XYZ stirrupT2_p2 = stirrupT2_p1
+                            + (beamWidth * normal)
+                            - ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            + (myStirrupT1Diam * normal);
+                        XYZ stirrupT2_p3 = stirrupT2_p2
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            + (myStirrupT1Diam * verticalVectorFromBeamMainLine);
+                        XYZ stirrupT2_p4 = stirrupT2_p3
+                            - (beamWidth * normal)
+                            + ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            - (myStirrupT1Diam * normal);
 
-                    XYZ stirrupT2_p1 = requiredTopLineEndPoint
-                        - ((50 / 304.8) * beamMainLineDirectionVector)
-                        + (rebarLRCoverLayerAsDouble * normal)
-                        - (myStirrupT1Diam / 2 * normal)
-                        + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
-                        - (myStirrupT1Diam / 2 * verticalVectorFromBeamMainLine);
-                    XYZ stirrupT2_p2 = stirrupT2_p1
-                        + (beamWidth * normal)
-                        - ((rebarLRCoverLayerAsDouble * 2) * normal)
-                        + (myStirrupT1Diam * normal);
-                    XYZ stirrupT2_p3 = stirrupT2_p2
-                        + (beamHeight * verticalVectorFromBeamMainLine)
-                        - (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
-                        - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
-                        + (myStirrupT1Diam * verticalVectorFromBeamMainLine);
-                    XYZ stirrupT2_p4 = stirrupT2_p3
-                        - (beamWidth * normal)
-                        + ((rebarLRCoverLayerAsDouble * 2) * normal)
-                        - (myStirrupT1Diam * normal);
+                        //Кривые стержня хомута Тест2
+                        List<Curve> myStirrupT2Curves = new List<Curve>();
+                        Curve stirrupT2Line1 = Line.CreateBound(stirrupT2_p1, stirrupT2_p2) as Curve;
+                        myStirrupT2Curves.Add(stirrupT2Line1);
+                        Curve stirrupT2Line2 = Line.CreateBound(stirrupT2_p2, stirrupT2_p3) as Curve;
+                        myStirrupT2Curves.Add(stirrupT2Line2);
+                        Curve stirrupT2Line3 = Line.CreateBound(stirrupT2_p3, stirrupT2_p4) as Curve;
+                        myStirrupT2Curves.Add(stirrupT2Line3);
+                        Curve stirrupT2Line4 = Line.CreateBound(stirrupT2_p4, stirrupT2_p1) as Curve;
+                        myStirrupT2Curves.Add(stirrupT2Line4);
 
-                    //Кривые стержня хомута Тест2
-                    List<Curve> myStirrupT2Curves = new List<Curve>();
-                    Curve stirrupT2Line1 = Line.CreateBound(stirrupT2_p1, stirrupT2_p2) as Curve;
-                    myStirrupT2Curves.Add(stirrupT2Line1);
-                    Curve stirrupT2Line2 = Line.CreateBound(stirrupT2_p2, stirrupT2_p3) as Curve;
-                    myStirrupT2Curves.Add(stirrupT2Line2);
-                    Curve stirrupT2Line3 = Line.CreateBound(stirrupT2_p3, stirrupT2_p4) as Curve;
-                    myStirrupT2Curves.Add(stirrupT2Line3);
-                    Curve stirrupT2Line4 = Line.CreateBound(stirrupT2_p4, stirrupT2_p1) as Curve;
-                    myStirrupT2Curves.Add(stirrupT2Line4);
+                        //Хомут Тест2
+                        Rebar stirrupT2 = Rebar.CreateFromCurvesAndShape(doc
+                        , myStirrupRebarShape
+                        , myStirrupT1
+                        , myRebarHookType
+                        , myRebarHookType
+                        , beam
+                        , beamMainLineDirectionVector
+                        , myStirrupT2Curves
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
 
-                    //Хомут Тест1
-                    Rebar stirrupT2 = Rebar.CreateFromCurvesAndShape(doc
-                    , myStirrupRebarShape
-                    , myStirrupT1
-                    , myRebarHookType
-                    , myRebarHookType
-                    , beam
-                    , beamMainLineDirectionVector
-                    , myStirrupT2Curves
-                    , RebarHookOrientation.Right
-                    , RebarHookOrientation.Right);
-
-                    stirrupT2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
-                    stirrupT2.GetShapeDrivenAccessor().BarsOnNormalSide = false;
-                    stirrupT2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupQuantityR1);
-                    stirrupT2.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stirrupStepR1);
-
-
-                    double stirrupPlacementLengthC1 = Math.Round((beamLength*304.8) - 100 - stirrupIndentL1 - stirrupIndentR1);
-                    int stirrupQuantityC1 = (int)(stirrupPlacementLengthC1 / (stirrupStepC1 * 304.8));
-                    double x = stirrupPlacementLengthC1 - ((stirrupQuantityC1 - 1) * (stirrupStepC1*304.8));
-                    double stirrupIndentC1 = stirrupIndentL1/304.8 + ((x/2)/304.8);
-
-                    //Точки для построения хомута Тест3
-
-                    XYZ stirrupC1_p1 = requiredTopLineStartPoint
-                        + ((50 / 304.8) * beamMainLineDirectionVector)
-                        + (stirrupIndentC1 * beamMainLineDirectionVector)
-                        + (rebarLRCoverLayerAsDouble * normal)
-                        - (myStirrupT1Diam / 2 * normal)
-                        + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
-                        - (myStirrupT1Diam / 2 * verticalVectorFromBeamMainLine);
-                    XYZ stirrupC1_p2 = stirrupC1_p1
-                        + (beamWidth * normal)
-                        - ((rebarLRCoverLayerAsDouble * 2) * normal)
-                        + (myStirrupT1Diam * normal);
-                    XYZ stirrupC1_p3 = stirrupC1_p2
-                        + (beamHeight * verticalVectorFromBeamMainLine)
-                        - (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
-                        - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
-                        + (myStirrupT1Diam * verticalVectorFromBeamMainLine);
-                    XYZ stirrupC1_p4 = stirrupC1_p3
-                        - (beamWidth * normal)
-                        + ((rebarLRCoverLayerAsDouble * 2) * normal)
-                        - (myStirrupT1Diam * normal);
+                        stirrupT2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                        stirrupT2.GetShapeDrivenAccessor().BarsOnNormalSide = false;
+                        stirrupT2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupQuantityR1);
+                        stirrupT2.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stirrupStepR1);
 
 
+                        double stirrupPlacementLengthC1 = Math.Round((beamLength * 304.8) - 100 - stirrupIndentL1 - stirrupIndentR1);
+                        int stirrupQuantityC1 = (int)(stirrupPlacementLengthC1 / (stirrupStepC1 * 304.8));
+                        double x = stirrupPlacementLengthC1 - ((stirrupQuantityC1 - 1) * (stirrupStepC1 * 304.8));
+                        double stirrupIndentC1 = stirrupIndentL1 / 304.8 + ((x / 2) / 304.8);
 
-                    //Кривые стержня хомута Тест3
-                    List<Curve> myStirrupC1Curves = new List<Curve>();
-                    Curve stirrupC1Line1 = Line.CreateBound(stirrupC1_p1, stirrupC1_p2) as Curve;
-                    myStirrupC1Curves.Add(stirrupC1Line1);
-                    Curve stirrupC1Line2 = Line.CreateBound(stirrupC1_p2, stirrupC1_p3) as Curve;
-                    myStirrupC1Curves.Add(stirrupC1Line2);
-                    Curve stirrupC1Line3 = Line.CreateBound(stirrupC1_p3, stirrupC1_p4) as Curve;
-                    myStirrupC1Curves.Add(stirrupC1Line3);
-                    Curve stirrupC1Line4 = Line.CreateBound(stirrupC1_p4, stirrupC1_p1) as Curve;
-                    myStirrupC1Curves.Add(stirrupC1Line4);
+                        //Точки для построения хомута Тест3
+                        XYZ stirrupC1_p1 = requiredTopLineStartPoint
+                            + ((50 / 304.8) * beamMainLineDirectionVector)
+                            + (stirrupIndentC1 * beamMainLineDirectionVector)
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            - (myStirrupT1Diam / 2 * normal)
+                            + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myStirrupT1Diam / 2 * verticalVectorFromBeamMainLine);
+                        XYZ stirrupC1_p2 = stirrupC1_p1
+                            + (beamWidth * normal)
+                            - ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            + (myStirrupT1Diam * normal);
+                        XYZ stirrupC1_p3 = stirrupC1_p2
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            + (myStirrupT1Diam * verticalVectorFromBeamMainLine);
+                        XYZ stirrupC1_p4 = stirrupC1_p3
+                            - (beamWidth * normal)
+                            + ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            - (myStirrupT1Diam * normal);
 
-                    //Хомут Тест3
-                    Rebar stirrupC1 = Rebar.CreateFromCurvesAndShape(doc
-                    , myStirrupRebarShape
-                    , myStirrupC1
-                    , myRebarHookType
-                    , myRebarHookType
-                    , beam
-                    , beamMainLineDirectionVector
-                    , myStirrupC1Curves
-                    , RebarHookOrientation.Right
-                    , RebarHookOrientation.Right);
+                        //Кривые стержня хомута Тест3
+                        List<Curve> myStirrupC1Curves = new List<Curve>();
+                        Curve stirrupC1Line1 = Line.CreateBound(stirrupC1_p1, stirrupC1_p2) as Curve;
+                        myStirrupC1Curves.Add(stirrupC1Line1);
+                        Curve stirrupC1Line2 = Line.CreateBound(stirrupC1_p2, stirrupC1_p3) as Curve;
+                        myStirrupC1Curves.Add(stirrupC1Line2);
+                        Curve stirrupC1Line3 = Line.CreateBound(stirrupC1_p3, stirrupC1_p4) as Curve;
+                        myStirrupC1Curves.Add(stirrupC1Line3);
+                        Curve stirrupC1Line4 = Line.CreateBound(stirrupC1_p4, stirrupC1_p1) as Curve;
+                        myStirrupC1Curves.Add(stirrupC1Line4);
 
-                    stirrupC1.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
-                    stirrupC1.GetShapeDrivenAccessor().BarsOnNormalSide = true;
-                    stirrupC1.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupQuantityC1);
-                    stirrupC1.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stirrupStepC1);
+                        //Хомут Тест3
+                        Rebar stirrupC1 = Rebar.CreateFromCurvesAndShape(doc
+                        , myStirrupRebarShape
+                        , myStirrupC1
+                        , myRebarHookType
+                        , myRebarHookType
+                        , beam
+                        , beamMainLineDirectionVector
+                        , myStirrupC1Curves
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
 
-                    //// Шаг хомутов и длинф размещения
-                    //double stirrupIndentL1 = beamReinforcementForm.StirrupIndentL1;
-                    //double stirrupStepL1 = beamReinforcementForm.StirrupStepL1;
-                    //int stirrupQuantityL1 = (int)(stirrupIndentL1 / stirrupStepL1) + 1;
+                        stirrupC1.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                        stirrupC1.GetShapeDrivenAccessor().BarsOnNormalSide = true;
+                        stirrupC1.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupQuantityC1);
+                        stirrupC1.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stirrupStepC1);
+                    }
+
+                    //Хомуты при ширине балки больше или равной 350
+                    else if (Math.Round(beamWidth * 304.8) >= 350)
+                    {
+                        //Точки для построения хомута Тест1
+                        XYZ stirrupT1_p1 = requiredTopLineStartPoint
+                            + ((50 / 304.8) * beamMainLineDirectionVector)
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            - (myStirrupT1Diam / 2 * normal)
+                            + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myStirrupT1Diam / 2 * verticalVectorFromBeamMainLine);
+                        XYZ stirrupT1_p2 = stirrupT1_p1
+                            + (beamWidth * normal)
+                            - ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            + (myStirrupT1Diam * normal)
+                            - (topBarsStepForStirrup * normal)
+                            - (myStirrupT1Diam/2 * normal);
+                        XYZ stirrupT1_p3 = stirrupT1_p2
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            + (myStirrupT1Diam * verticalVectorFromBeamMainLine);
+                        XYZ stirrupT1_p4 = stirrupT1_p3
+                            - (beamWidth * normal)
+                            + ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            - (myStirrupT1Diam * normal)
+                            + (topBarsStepForStirrup * normal)
+                            + (myStirrupT1Diam/2 * normal);
+
+                        //Точки для построения хомута Тест1A
+                        XYZ stirrupT1A_p1 = requiredTopLineStartPoint
+                            + ((50 / 304.8) * beamMainLineDirectionVector)
+                            + (myStirrupT1Diam * beamMainLineDirectionVector)
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            - (myStirrupT1Diam * normal)
+                            + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myStirrupT1Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (topBarsStepForStirrup * normal);
+                        XYZ stirrupT1A_p2 = stirrupT1A_p1
+                            + (beamWidth * normal)
+                            - ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            + (myStirrupT1Diam * normal)
+                            - (topBarsStepForStirrup * normal)
+                            + (myStirrupT1Diam /2 * normal);
+                        XYZ stirrupT1A_p3 = stirrupT1A_p2
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            + (myStirrupT1Diam * verticalVectorFromBeamMainLine);
+                        XYZ stirrupT1A_p4 = stirrupT1A_p3
+                            - (beamWidth * normal)
+                            + ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            - (myStirrupT1Diam * normal)
+                            + (topBarsStepForStirrup * normal)
+                            - (myStirrupT1Diam / 2 * normal);
 
 
-                    //double stirrupIndentR1 = beamReinforcementForm.StirrupIndentR1;
-                    //double stirrupStepR1 = beamReinforcementForm.StirrupStepR1;
-                    //int stirrupQuantityR1 = (int)(stirrupIndentR1 / stirrupStepR1) + 1;
+                        //Кривые стержня хомута Тест1
+                        List<Curve> myStirrupT1Curves = new List<Curve>();
+                        Curve stirrupT1Line1 = Line.CreateBound(stirrupT1_p1, stirrupT1_p2) as Curve;
+                        myStirrupT1Curves.Add(stirrupT1Line1);
+                        Curve stirrupT1Line2 = Line.CreateBound(stirrupT1_p2, stirrupT1_p3) as Curve;
+                        myStirrupT1Curves.Add(stirrupT1Line2);
+                        Curve stirrupT1Line3 = Line.CreateBound(stirrupT1_p3, stirrupT1_p4) as Curve;
+                        myStirrupT1Curves.Add(stirrupT1Line3);
+                        Curve stirrupT1Line4 = Line.CreateBound(stirrupT1_p4, stirrupT1_p1) as Curve;
+                        myStirrupT1Curves.Add(stirrupT1Line4);
 
-                    //double stirrupStepC1 = beamReinforcementForm.StirrupStepC1;
+                        //Кривые стержня хомута Тест1A
+                        List<Curve> myStirrupT1ACurves = new List<Curve>();
+                        Curve stirrupT1ALine1 = Line.CreateBound(stirrupT1A_p1, stirrupT1A_p2) as Curve;
+                        myStirrupT1ACurves.Add(stirrupT1ALine1);
+                        Curve stirrupT1ALine2 = Line.CreateBound(stirrupT1A_p2, stirrupT1A_p3) as Curve;
+                        myStirrupT1ACurves.Add(stirrupT1ALine2);
+                        Curve stirrupT1ALine3 = Line.CreateBound(stirrupT1A_p3, stirrupT1A_p4) as Curve;
+                        myStirrupT1ACurves.Add(stirrupT1ALine3);
+                        Curve stirrupT1ALine4 = Line.CreateBound(stirrupT1A_p4, stirrupT1A_p1) as Curve;
+                        myStirrupT1ACurves.Add(stirrupT1ALine4);
 
-                    //stirrupStepL1 = stirrupStepL1 / 304.8;
-                    //stirrupStepR1 = stirrupStepR1 / 304.8;
-                    //stirrupStepC1 = stirrupStepC1 / 304.8;
+                        //Хомут Тест1
+                        Rebar stirrupT1 = Rebar.CreateFromCurvesAndShape(doc
+                        , myStirrupRebarShape
+                        , myStirrupT1
+                        , myRebarHookType
+                        , myRebarHookType
+                        , beam
+                        , beamMainLineDirectionVector
+                        , myStirrupT1Curves
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
 
+                        stirrupT1.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                        stirrupT1.GetShapeDrivenAccessor().BarsOnNormalSide = true;
+                        stirrupT1.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupQuantityL1);
+                        stirrupT1.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stirrupStepL1);
+
+                        //Хомут Тест1A
+                        Rebar stirrupT1A = Rebar.CreateFromCurvesAndShape(doc
+                        , myStirrupRebarShape
+                        , myStirrupT1
+                        , myRebarHookType
+                        , myRebarHookType
+                        , beam
+                        , beamMainLineDirectionVector
+                        , myStirrupT1ACurves
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
+
+                        stirrupT1A.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                        stirrupT1A.GetShapeDrivenAccessor().BarsOnNormalSide = true;
+                        stirrupT1A.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupQuantityL1);
+                        stirrupT1A.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stirrupStepL1);
+
+
+                        // Точки для построения хомута Тест2
+                        XYZ stirrupT2_p1 = requiredTopLineEndPoint
+                            - ((50 / 304.8) * beamMainLineDirectionVector)
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            - (myStirrupT1Diam / 2 * normal)
+                            + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myStirrupT1Diam / 2 * verticalVectorFromBeamMainLine);
+                        XYZ stirrupT2_p2 = stirrupT2_p1
+                            + (beamWidth * normal)
+                            - ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            + (myStirrupT1Diam * normal)
+                            - (topBarsStepForStirrup * normal)
+                            - (myStirrupT1Diam / 2 * normal);
+                        XYZ stirrupT2_p3 = stirrupT2_p2
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            + (myStirrupT1Diam * verticalVectorFromBeamMainLine);
+                        XYZ stirrupT2_p4 = stirrupT2_p3
+                            - (beamWidth * normal)
+                            + ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            - (myStirrupT1Diam * normal)
+                            + (topBarsStepForStirrup * normal)
+                            + (myStirrupT1Diam / 2 * normal);
+
+                        // Точки для построения хомута Тест2A
+                        XYZ stirrupT2A_p1 = requiredTopLineEndPoint
+                            - ((50 / 304.8) * beamMainLineDirectionVector)
+                            - (myStirrupT1Diam * beamMainLineDirectionVector)
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            - (myStirrupT1Diam * normal)
+                            + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myStirrupT1Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (topBarsStepForStirrup * normal);
+                        XYZ stirrupT2A_p2 = stirrupT2A_p1
+                            + (beamWidth * normal)
+                            - ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            + (myStirrupT1Diam * normal)
+                            - (topBarsStepForStirrup * normal)
+                            + (myStirrupT1Diam / 2 * normal);
+                        XYZ stirrupT2A_p3 = stirrupT2A_p2
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            + (myStirrupT1Diam * verticalVectorFromBeamMainLine);
+                        XYZ stirrupT2A_p4 = stirrupT2A_p3
+                            - (beamWidth * normal)
+                            + ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            - (myStirrupT1Diam * normal)
+                            + (topBarsStepForStirrup * normal)
+                            - (myStirrupT1Diam / 2 * normal);
+
+                        //Кривые стержня хомута Тест2
+                        List<Curve> myStirrupT2Curves = new List<Curve>();
+                        Curve stirrupT2Line1 = Line.CreateBound(stirrupT2_p1, stirrupT2_p2) as Curve;
+                        myStirrupT2Curves.Add(stirrupT2Line1);
+                        Curve stirrupT2Line2 = Line.CreateBound(stirrupT2_p2, stirrupT2_p3) as Curve;
+                        myStirrupT2Curves.Add(stirrupT2Line2);
+                        Curve stirrupT2Line3 = Line.CreateBound(stirrupT2_p3, stirrupT2_p4) as Curve;
+                        myStirrupT2Curves.Add(stirrupT2Line3);
+                        Curve stirrupT2Line4 = Line.CreateBound(stirrupT2_p4, stirrupT2_p1) as Curve;
+                        myStirrupT2Curves.Add(stirrupT2Line4);
+
+                        //Кривые стержня хомута Тест2A
+                        List<Curve> myStirrupT2ACurves = new List<Curve>();
+                        Curve stirrupT2ALine1 = Line.CreateBound(stirrupT2A_p1, stirrupT2A_p2) as Curve;
+                        myStirrupT2ACurves.Add(stirrupT2ALine1);
+                        Curve stirrupT2ALine2 = Line.CreateBound(stirrupT2A_p2, stirrupT2A_p3) as Curve;
+                        myStirrupT2ACurves.Add(stirrupT2ALine2);
+                        Curve stirrupT2ALine3 = Line.CreateBound(stirrupT2A_p3, stirrupT2A_p4) as Curve;
+                        myStirrupT2ACurves.Add(stirrupT2ALine3);
+                        Curve stirrupT2ALine4 = Line.CreateBound(stirrupT2A_p4, stirrupT2A_p1) as Curve;
+                        myStirrupT2ACurves.Add(stirrupT2ALine4);
+
+                        //Хомут Тест2
+                        Rebar stirrupT2 = Rebar.CreateFromCurvesAndShape(doc
+                        , myStirrupRebarShape
+                        , myStirrupT1
+                        , myRebarHookType
+                        , myRebarHookType
+                        , beam
+                        , beamMainLineDirectionVector
+                        , myStirrupT2Curves
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
+
+                        stirrupT2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                        stirrupT2.GetShapeDrivenAccessor().BarsOnNormalSide = false;
+                        stirrupT2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupQuantityR1);
+                        stirrupT2.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stirrupStepR1);
+
+                        //Хомут Тест2A
+                        Rebar stirrupT2A = Rebar.CreateFromCurvesAndShape(doc
+                        , myStirrupRebarShape
+                        , myStirrupT1
+                        , myRebarHookType
+                        , myRebarHookType
+                        , beam
+                        , beamMainLineDirectionVector
+                        , myStirrupT2ACurves
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
+
+                        stirrupT2A.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                        stirrupT2A.GetShapeDrivenAccessor().BarsOnNormalSide = false;
+                        stirrupT2A.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupQuantityR1);
+                        stirrupT2A.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stirrupStepR1);
+
+                        double stirrupPlacementLengthC1 = Math.Round((beamLength * 304.8) - 100 - stirrupIndentL1 - stirrupIndentR1);
+                        int stirrupQuantityC1 = (int)(stirrupPlacementLengthC1 / (stirrupStepC1 * 304.8));
+                        double x = stirrupPlacementLengthC1 - ((stirrupQuantityC1 - 1) * (stirrupStepC1 * 304.8));
+                        double stirrupIndentC1 = stirrupIndentL1 / 304.8 + ((x / 2) / 304.8);
+
+                        //Точки для построения хомута Тест3
+                        XYZ stirrupC1_p1 = requiredTopLineStartPoint
+                            + ((50 / 304.8) * beamMainLineDirectionVector)
+                            + (stirrupIndentC1 * beamMainLineDirectionVector)
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            - (myStirrupC1Diam / 2 * normal)
+                            + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myStirrupC1Diam / 2 * verticalVectorFromBeamMainLine);
+                        XYZ stirrupC1_p2 = stirrupC1_p1
+                            + (beamWidth * normal)
+                            - ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            + (myStirrupC1Diam * normal)
+                            - (topBarsStepForStirrup * normal)
+                            - (myStirrupC1Diam / 2 * normal);
+                        XYZ stirrupC1_p3 = stirrupC1_p2
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            + (myStirrupC1Diam * verticalVectorFromBeamMainLine);
+                        XYZ stirrupC1_p4 = stirrupC1_p3
+                            - (beamWidth * normal)
+                            + ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            - (myStirrupC1Diam * normal)
+                            + (topBarsStepForStirrup * normal)
+                            + (myStirrupC1Diam / 2 * normal);
+
+                        //Точки для построения хомута Тест3A
+                        XYZ stirrupC1A_p1 = requiredTopLineStartPoint
+                            + ((50 / 304.8) * beamMainLineDirectionVector)
+                            + (stirrupIndentC1 * beamMainLineDirectionVector)
+                            + (myStirrupC1Diam * beamMainLineDirectionVector)
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            - (myStirrupC1Diam * normal)
+                            + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myStirrupC1Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (topBarsStepForStirrup * normal); ;
+                        XYZ stirrupC1A_p2 = stirrupC1A_p1
+                            + (beamWidth * normal)
+                            - ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            + (myStirrupC1Diam * normal)
+                            - (topBarsStepForStirrup * normal)
+                            + (myStirrupC1Diam / 2 * normal); ;
+                        XYZ stirrupC1A_p3 = stirrupC1A_p2
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            + (myStirrupC1Diam * verticalVectorFromBeamMainLine);
+                        XYZ stirrupC1A_p4 = stirrupC1A_p3
+                            - (beamWidth * normal)
+                            + ((rebarLRCoverLayerAsDouble * 2) * normal)
+                            - (myStirrupC1Diam * normal)
+                            + (topBarsStepForStirrup * normal)
+                            - (myStirrupC1Diam / 2 * normal); ;
+
+                        //Кривые стержня хомута Тест3
+                        List<Curve> myStirrupC1Curves = new List<Curve>();
+                        Curve stirrupC1Line1 = Line.CreateBound(stirrupC1_p1, stirrupC1_p2) as Curve;
+                        myStirrupC1Curves.Add(stirrupC1Line1);
+                        Curve stirrupC1Line2 = Line.CreateBound(stirrupC1_p2, stirrupC1_p3) as Curve;
+                        myStirrupC1Curves.Add(stirrupC1Line2);
+                        Curve stirrupC1Line3 = Line.CreateBound(stirrupC1_p3, stirrupC1_p4) as Curve;
+                        myStirrupC1Curves.Add(stirrupC1Line3);
+                        Curve stirrupC1Line4 = Line.CreateBound(stirrupC1_p4, stirrupC1_p1) as Curve;
+                        myStirrupC1Curves.Add(stirrupC1Line4);
+
+                        //Кривые стержня хомута Тест3A
+                        List<Curve> myStirrupC1ACurves = new List<Curve>();
+                        Curve stirrupC1ALine1 = Line.CreateBound(stirrupC1A_p1, stirrupC1A_p2) as Curve;
+                        myStirrupC1ACurves.Add(stirrupC1ALine1);
+                        Curve stirrupC1ALine2 = Line.CreateBound(stirrupC1A_p2, stirrupC1A_p3) as Curve;
+                        myStirrupC1ACurves.Add(stirrupC1ALine2);
+                        Curve stirrupC1ALine3 = Line.CreateBound(stirrupC1A_p3, stirrupC1A_p4) as Curve;
+                        myStirrupC1ACurves.Add(stirrupC1ALine3);
+                        Curve stirrupC1ALine4 = Line.CreateBound(stirrupC1A_p4, stirrupC1A_p1) as Curve;
+                        myStirrupC1ACurves.Add(stirrupC1ALine4);
+
+                        //Хомут Тест3
+                        Rebar stirrupC1 = Rebar.CreateFromCurvesAndShape(doc
+                        , myStirrupRebarShape
+                        , myStirrupC1
+                        , myRebarHookType
+                        , myRebarHookType
+                        , beam
+                        , beamMainLineDirectionVector
+                        , myStirrupC1Curves
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
+
+                        stirrupC1.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                        stirrupC1.GetShapeDrivenAccessor().BarsOnNormalSide = true;
+                        stirrupC1.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupQuantityC1);
+                        stirrupC1.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stirrupStepC1);
+
+                        //Хомут Тест3
+                        Rebar stirrupC1A = Rebar.CreateFromCurvesAndShape(doc
+                        , myStirrupRebarShape
+                        , myStirrupC1
+                        , myRebarHookType
+                        , myRebarHookType
+                        , beam
+                        , beamMainLineDirectionVector
+                        , myStirrupC1ACurves
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
+
+                        stirrupC1A.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                        stirrupC1A.GetShapeDrivenAccessor().BarsOnNormalSide = true;
+                        stirrupC1A.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stirrupQuantityC1);
+                        stirrupC1A.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stirrupStepC1);
+                    }
                 }
                 t.Commit();
             }
