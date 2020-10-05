@@ -530,14 +530,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL1 <= 0 & extensionRightBendLenghtR1 <= 0 & beamRoundAngle == 90)
                     {
                         //Точки для построения стержней основной верхней арматуры
-                        XYZ topStraight_p1 = requiredTopLineStartPoint
+                        XYZ mainTopRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL1 * beamMainLineDirectionVector);
 
-                        XYZ topStraight_p2 = requiredTopLineEndPoint
+                        XYZ mainTopRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -546,7 +546,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         //Кривые стержня основной верхней арматуры
                         List<Curve> myMainTopRebarCurves = new List<Curve>();
-                        Curve topLine1 = Line.CreateBound(topStraight_p1, topStraight_p2) as Curve;
+                        Curve topLine1 = Line.CreateBound(mainTopRebar_p1, mainTopRebar_p2) as Curve;
                         myMainTopRebarCurves.Add(topLine1);
 
                         //Стержни по верхней грани
@@ -568,28 +568,28 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL1 <= 0 & extensionRightBendLenghtR1 <= 0 & beamRoundAngle != 90)
                     {
                         //Точки для построения стержней основной верхней арматуры
-                        XYZ topZ_p1 = requiredTopLineStartPoint
+                        XYZ mainTopRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ topZ_p2 = requiredTopLineEndPoint
+                        XYZ mainTopRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ topZ_p3 = topZ_p1 - extensionLeftLenghtL1 * horizontalVectorFromBeamMainLine;
-                        XYZ topZ_p4 = topZ_p2 + extensionRightLenghtR1 * horizontalVectorFromBeamMainLine;
+                        XYZ mainTopRebar_p3 = mainTopRebar_p1 - extensionLeftLenghtL1 * horizontalVectorFromBeamMainLine;
+                        XYZ mainTopRebar_p4 = mainTopRebar_p2 + extensionRightLenghtR1 * horizontalVectorFromBeamMainLine;
 
                         //Кривые стержня основной верхней арматуры
                         List<Curve> myMainTopRebarCurves = new List<Curve>();
-                        Curve topLine1 = Line.CreateBound(topZ_p3, topZ_p1) as Curve;
+                        Curve topLine1 = Line.CreateBound(mainTopRebar_p3, mainTopRebar_p1) as Curve;
                         myMainTopRebarCurves.Add(topLine1);
-                        Curve topLine2 = Line.CreateBound(topZ_p1, topZ_p2) as Curve;
+                        Curve topLine2 = Line.CreateBound(mainTopRebar_p1, mainTopRebar_p2) as Curve;
                         myMainTopRebarCurves.Add(topLine2);
-                        Curve topLine3 = Line.CreateBound(topZ_p2, topZ_p4) as Curve;
+                        Curve topLine3 = Line.CreateBound(mainTopRebar_p2, mainTopRebar_p4) as Curve;
                         myMainTopRebarCurves.Add(topLine3);
 
                         //Стержни по верхней грани
@@ -611,27 +611,27 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL1 > 0 & extensionRightBendLenghtR1 <= 0 & beamRoundAngle == 90)
                     {
                         //Точки для построения стержней основной верхней арматуры
-                        XYZ topL_p1 = requiredTopLineStartPoint
+                        XYZ mainTopRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine)
                             - (deepeningIntoTheStructureL1 * beamMainLineDirectionVector);
 
-                        XYZ topL_p2 = requiredTopLineEndPoint
+                        XYZ mainTopRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR1 * beamMainLineDirectionVector);
 
-                        XYZ topL_p3 = topL_p1 - (extensionLeftBendLenghtL1 * XYZ.BasisZ);
+                        XYZ mainTopRebar_p3 = mainTopRebar_p1 - (extensionLeftBendLenghtL1 * XYZ.BasisZ);
 
                         //Кривые стержня основной верхней арматуры
                         List<Curve> myMainTopRebarCurves = new List<Curve>();
-                        Curve topLine1 = Line.CreateBound(topL_p3, topL_p1) as Curve;
+                        Curve topLine1 = Line.CreateBound(mainTopRebar_p3, mainTopRebar_p1) as Curve;
                         myMainTopRebarCurves.Add(topLine1);
-                        Curve topLine2 = Line.CreateBound(topL_p1, topL_p2) as Curve;
+                        Curve topLine2 = Line.CreateBound(mainTopRebar_p1, mainTopRebar_p2) as Curve;
                         myMainTopRebarCurves.Add(topLine2);
 
                         //Стержни по верхней грани
@@ -653,29 +653,29 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL1 > 0 & extensionRightBendLenghtR1 <= 0 & beamRoundAngle != 90)
                     {
                         //Точки для построения стержней основной верхней арматуры
-                        XYZ topU_p1 = requiredTopLineStartPoint
+                        XYZ mainTopRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL1Сalculated * beamMainLineDirectionVector);
 
-                        XYZ topU_p2 = requiredTopLineEndPoint
+                        XYZ mainTopRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ topU_p3 = topU_p1 - (extensionLeftBendLenghtL1 * XYZ.BasisZ);
-                        XYZ topU_p4 = topU_p2 + (extensionRightLenghtR1 * horizontalVectorFromBeamMainLine);
+                        XYZ mainTopRebar_p3 = mainTopRebar_p1 - (extensionLeftBendLenghtL1 * XYZ.BasisZ);
+                        XYZ mainTopRebar_p4 = mainTopRebar_p2 + (extensionRightLenghtR1 * horizontalVectorFromBeamMainLine);
 
                         //Кривые стержня основной верхней арматуры
                         List<Curve> myMainTopRebarCurves = new List<Curve>();
-                        Curve topLine1 = Line.CreateBound(topU_p3, topU_p1) as Curve;
+                        Curve topLine1 = Line.CreateBound(mainTopRebar_p3, mainTopRebar_p1) as Curve;
                         myMainTopRebarCurves.Add(topLine1);
-                        Curve topLine2 = Line.CreateBound(topU_p1, topU_p2) as Curve;
+                        Curve topLine2 = Line.CreateBound(mainTopRebar_p1, mainTopRebar_p2) as Curve;
                         myMainTopRebarCurves.Add(topLine2);
-                        Curve topLine3 = Line.CreateBound(topU_p2, topU_p4) as Curve;
+                        Curve topLine3 = Line.CreateBound(mainTopRebar_p2, mainTopRebar_p4) as Curve;
                         myMainTopRebarCurves.Add(topLine3);
 
                         if (beamRoundAngle < 90)
@@ -719,27 +719,27 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL1 <= 0 & extensionRightBendLenghtR1 > 0 & beamRoundAngle == 90)
                     {
                         //Точки для построения стержней основной верхней арматуры
-                        XYZ topL_p1 = requiredTopLineStartPoint
+                        XYZ mainTopRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL1 * beamMainLineDirectionVector);
 
-                        XYZ topL_p2 = requiredTopLineEndPoint
+                        XYZ mainTopRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine)
                             + (deepeningIntoTheStructureR1 * beamMainLineDirectionVector);
 
-                        XYZ topL_p3 = topL_p2 - (extensionRightBendLenghtR1 * XYZ.BasisZ);
+                        XYZ mainTopRebar_p3 = mainTopRebar_p2 - (extensionRightBendLenghtR1 * XYZ.BasisZ);
 
                         //Кривые стержня основной верхней арматуры
                         List<Curve> myMainTopRebarCurves = new List<Curve>();
-                        Curve topLine1 = Line.CreateBound(topL_p1, topL_p2) as Curve;
+                        Curve topLine1 = Line.CreateBound(mainTopRebar_p1, mainTopRebar_p2) as Curve;
                         myMainTopRebarCurves.Add(topLine1);
-                        Curve topLine2 = Line.CreateBound(topL_p2, topL_p3) as Curve;
+                        Curve topLine2 = Line.CreateBound(mainTopRebar_p2, mainTopRebar_p3) as Curve;
                         myMainTopRebarCurves.Add(topLine2);
 
                         //Стержни по верхней грани
@@ -761,29 +761,29 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL1 <= 0 & extensionRightBendLenghtR1 > 0 & beamRoundAngle != 90)
                     {
                         //Точки для построения стержней основной верхней арматуры
-                        XYZ topU_p1 = requiredTopLineStartPoint
+                        XYZ mainTopRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ topU_p2 = requiredTopLineEndPoint
+                        XYZ mainTopRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR1Сalculated * beamMainLineDirectionVector);
 
-                        XYZ topU_p3 = topU_p1 - (extensionLeftLenghtL1 * horizontalVectorFromBeamMainLine);
-                        XYZ topU_p4 = topU_p2 - (extensionRightBendLenghtR1 * XYZ.BasisZ);
+                        XYZ mainTopRebar_p3 = mainTopRebar_p1 - (extensionLeftLenghtL1 * horizontalVectorFromBeamMainLine);
+                        XYZ mainTopRebar_p4 = mainTopRebar_p2 - (extensionRightBendLenghtR1 * XYZ.BasisZ);
 
                         //Кривые стержня основной верхней арматуры
                         List<Curve> myMainTopRebarCurves = new List<Curve>();
-                        Curve topLine1 = Line.CreateBound(topU_p3, topU_p1) as Curve;
+                        Curve topLine1 = Line.CreateBound(mainTopRebar_p3, mainTopRebar_p1) as Curve;
                         myMainTopRebarCurves.Add(topLine1);
-                        Curve topLine2 = Line.CreateBound(topU_p1, topU_p2) as Curve;
+                        Curve topLine2 = Line.CreateBound(mainTopRebar_p1, mainTopRebar_p2) as Curve;
                         myMainTopRebarCurves.Add(topLine2);
-                        Curve topLine3 = Line.CreateBound(topU_p2, topU_p4) as Curve;
+                        Curve topLine3 = Line.CreateBound(mainTopRebar_p2, mainTopRebar_p4) as Curve;
                         myMainTopRebarCurves.Add(topLine3);
 
                         if (beamRoundAngle < 90)
@@ -825,45 +825,45 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL1 > 0 & extensionRightBendLenghtR1 > 0 & beamRoundAngle == 90)
                     {
                         //Точки для построения стержней основной верхней арматуры
-                        XYZ topU_p1 = requiredTopLineStartPoint
+                        XYZ mainTopRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL1Сalculated * beamMainLineDirectionVector);
 
-                        XYZ topU_p2 = requiredTopLineEndPoint
+                        XYZ mainTopRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR1Сalculated * beamMainLineDirectionVector);
 
-                        XYZ topU_p3 = topU_p1
+                        XYZ mainTopRebar_p3 = mainTopRebar_p1
                             - (extensionLeftBendLenghtL1 * XYZ.BasisZ);
-                        XYZ topU_p4 = topU_p2
+                        XYZ mainTopRebar_p4 = mainTopRebar_p2
                             - (extensionRightBendLenghtR1 * XYZ.BasisZ);
 
                         //Кривые стержня основной верхней арматуры
                         List<Curve> myMainTopRebarCurves = new List<Curve>();
-                        Curve topLine1 = Line.CreateBound(topU_p3, topU_p1) as Curve;
+                        Curve topLine1 = Line.CreateBound(mainTopRebar_p3, mainTopRebar_p1) as Curve;
                         myMainTopRebarCurves.Add(topLine1);
-                        Curve topLine2 = Line.CreateBound(topU_p1, topU_p2) as Curve;
+                        Curve topLine2 = Line.CreateBound(mainTopRebar_p1, mainTopRebar_p2) as Curve;
                         myMainTopRebarCurves.Add(topLine2);
-                        Curve topLine3 = Line.CreateBound(topU_p2, topU_p4) as Curve;
+                        Curve topLine3 = Line.CreateBound(mainTopRebar_p2, mainTopRebar_p4) as Curve;
                         myMainTopRebarCurves.Add(topLine3);
 
                         //Стержни по верхней грани
                         Rebar mainTopRebar = Rebar.CreateFromCurvesAndShape(doc
-                                , UBarShape
-                                , myMainRebarT1
-                                , null
-                                , null
-                                , beam
-                                , normal
-                                , myMainTopRebarCurves
-                                , RebarHookOrientation.Right
-                                , RebarHookOrientation.Right);
+                            , UBarShape
+                            , myMainRebarT1
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainTopRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
 
                         mainTopRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                         mainTopRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsTopFaces);
@@ -872,30 +872,30 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL1 > 0 & extensionRightBendLenghtR1 > 0 & beamRoundAngle != 90)
                     {
                         //Точки для построения стержней основной верхней арматуры
-                        XYZ topU_p1 = requiredTopLineStartPoint
+                        XYZ mainTopRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL1Сalculated * beamMainLineDirectionVector);
 
-                        XYZ topU_p2 = requiredTopLineEndPoint
+                        XYZ mainTopRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT1Diam / 2 * normal)
                             + (rebarTopCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             + (myMainRebarT1Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR1Сalculated * beamMainLineDirectionVector);
 
-                        XYZ topU_p3 = topU_p1 - (extensionLeftBendLenghtL1 * XYZ.BasisZ);
-                        XYZ topU_p4 = topU_p2 - (extensionRightBendLenghtR1 * XYZ.BasisZ);
+                        XYZ mainTopRebar_p3 = mainTopRebar_p1 - (extensionLeftBendLenghtL1 * XYZ.BasisZ);
+                        XYZ mainTopRebar_p4 = mainTopRebar_p2 - (extensionRightBendLenghtR1 * XYZ.BasisZ);
 
                         //Кривые стержня основной верхней арматуры
                         List<Curve> myMainTopRebarCurves = new List<Curve>();
-                        Curve topLine1 = Line.CreateBound(topU_p3, topU_p1) as Curve;
+                        Curve topLine1 = Line.CreateBound(mainTopRebar_p3, mainTopRebar_p1) as Curve;
                         myMainTopRebarCurves.Add(topLine1);
-                        Curve topLine2 = Line.CreateBound(topU_p1, topU_p2) as Curve;
+                        Curve topLine2 = Line.CreateBound(mainTopRebar_p1, mainTopRebar_p2) as Curve;
                         myMainTopRebarCurves.Add(topLine2);
-                        Curve topLine3 = Line.CreateBound(topU_p2, topU_p4) as Curve;
+                        Curve topLine3 = Line.CreateBound(mainTopRebar_p2, mainTopRebar_p4) as Curve;
                         myMainTopRebarCurves.Add(topLine3);
 
                         if (beamRoundAngle < 90)
@@ -938,14 +938,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -954,7 +954,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
 
                         //Стержни по нижней грани
@@ -976,13 +976,13 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -990,7 +990,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (extensionRightLenghtR2 * beamMainLineDirectionVector);
 
                         //Точки для построения добавочных стержней нижней арматуры
-                        XYZ bottomAddStraight_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -998,7 +998,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraight_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1009,12 +1009,12 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
 
                         //Кривые дополнительных стержней нижней арматуры
                         List<Curve> myMainBottomAddRebarCurves = new List<Curve>();
-                        Curve bottomAddLine1 = Line.CreateBound(bottomAddStraight_p1, bottomAddStraight_p2) as Curve;
+                        Curve bottomAddLine1 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurves.Add(bottomAddLine1);
 
                         //Стержни по нижней грани
@@ -1052,21 +1052,21 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры
-                        XYZ bottomAddStraight_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1074,7 +1074,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraight_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1085,12 +1085,12 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
 
                         //Кривые дополнительных стержней нижней арматуры
                         List<Curve> myMainBottomAddRebarCurves = new List<Curve>();
-                        Curve bottomAddLine1 = Line.CreateBound(bottomAddStraight_p1, bottomAddStraight_p2) as Curve;
+                        Curve bottomAddLine1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurves.Add(bottomAddLine1);
 
                         //Стержни по нижней грани
@@ -1128,13 +1128,13 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1142,7 +1142,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1150,7 +1150,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1160,7 +1160,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
 
                         //Точки для построения добавочных стержней нижней арматуры
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1168,7 +1168,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1179,17 +1179,17 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
 
                         //Стержни по нижней грани
@@ -1242,28 +1242,28 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomZ_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomZ_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomZ_p3 = bottomZ_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
-                        XYZ bottomZ_p4 = bottomZ_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainBottomRebar_p4 = mainBottomRebar_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomZ_p3, bottomZ_p1) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p3, mainBottomRebar_p1) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomZ_p1, bottomZ_p2) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
-                        Curve bottomLine3 = Line.CreateBound(bottomZ_p2, bottomZ_p4) as Curve;
+                        Curve bottomLine3 = Line.CreateBound(mainBottomRebar_p2, mainBottomRebar_p4) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine3);
 
                         //Стержни по нижней грани
@@ -1285,29 +1285,29 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p3 = bottomStraight_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1315,20 +1315,20 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomStraight_p2, bottomStraight_p3) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p2, mainBottomRebar_p3) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p3, mainAddBottomRebarL2_p1) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
-                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_2 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
 
                         //Стержни по нижней грани
@@ -1365,22 +1365,22 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p3 = bottomStraight_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1388,27 +1388,27 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2* beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p3, bottomStraight_p1) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p3, mainBottomRebar_p1) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
-                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        Curve bottomAddLineR2_2 = Line.CreateBound(mainAddBottomRebarR2_p2, mainAddBottomRebarR2_p3) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
 
                         //Стержни по нижней грани
@@ -1445,27 +1445,27 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1473,10 +1473,10 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1484,32 +1484,32 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p3, mainAddBottomRebarL2_p1) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
-                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_2 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
-                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        Curve bottomAddLineR2_2 = Line.CreateBound(mainAddBottomRebarR2_p2, mainAddBottomRebarR2_p3) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
 
                         //Стержни по нижней грани
@@ -1561,7 +1561,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredTopLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
@@ -1569,7 +1569,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             - (deepeningIntoTheStructureL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomL_p2 = requiredTopLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
@@ -1577,13 +1577,13 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomL_p3 = bottomL_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p3, bottomL_p1) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p3, mainBottomRebar_p1) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Стержни по нижней грани
@@ -1605,14 +1605,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraightBarShape_p1 = requiredTopLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraightBarShape_p2 = requiredTopLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
@@ -1621,7 +1621,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (extensionRightLenghtR2 * beamMainLineDirectionVector);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1629,7 +1629,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (deepeningIntoTheStructureL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1637,18 +1637,18 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomStraightBarShapeine1 = Line.CreateBound(bottomStraightBarShape_p1, bottomStraightBarShape_p2) as Curve;
+                        Curve bottomStraightBarShapeine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomStraightBarShapeine1);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p3, mainAddBottomRebarL2_p1) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
-                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_2 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
 
                         //Стержни по нижней грани
@@ -1685,7 +1685,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredTopLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
@@ -1693,17 +1693,17 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             - (deepeningIntoTheStructureL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomL_p2 = requiredTopLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p3 = bottomL_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1711,7 +1711,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1721,14 +1721,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p3, bottomL_p1) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p3, mainBottomRebar_p1) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
 
                         //Стержни по нижней грани
@@ -1765,14 +1765,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredTopLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p2 = requiredTopLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
@@ -1780,7 +1780,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1788,7 +1788,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (deepeningIntoTheStructureL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1796,10 +1796,10 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1807,7 +1807,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1817,19 +1817,19 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p3, mainAddBottomRebarL2_p1) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
-                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_2 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
 
                         //Стержни по нижней грани
@@ -1881,29 +1881,29 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomU_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomU_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomU_p3 = bottomU_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
-                        XYZ bottomU_p4 = bottomU_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainBottomRebar_p4 = mainBottomRebar_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomU_p3, bottomU_p1) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p3, mainBottomRebar_p1) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomU_p1, bottomU_p2) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
-                        Curve bottomLine3 = Line.CreateBound(bottomU_p2, bottomU_p4) as Curve;
+                        Curve bottomLine3 = Line.CreateBound(mainBottomRebar_p2, mainBottomRebar_p4) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine3);
 
                         if (beamRoundAngle < 90)
@@ -1945,22 +1945,22 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p3 = bottomL_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1968,7 +1968,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -1976,20 +1976,20 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomL_p2, bottomL_p3) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p2, mainBottomRebar_p3) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p3, mainAddBottomRebarL2_p1) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
-                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_2 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
 
                         //Стержни по нижней грани
@@ -2048,23 +2048,23 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p3 = bottomL_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2072,27 +2072,27 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p3, bottomL_p1) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p3, mainBottomRebar_p1) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
-                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        Curve bottomAddLineR2_2 = Line.CreateBound(mainAddBottomRebarR2_p2, mainAddBottomRebarR2_p3) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
 
                        
@@ -2152,20 +2152,20 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2173,7 +2173,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2181,10 +2181,10 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2192,32 +2192,32 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p3, mainAddBottomRebarL2_p1) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
-                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_2 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
-                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        Curve bottomAddLineR2_2 = Line.CreateBound(mainAddBottomRebarR2_p2, mainAddBottomRebarR2_p3) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
 
                         //Стержни по нижней грани
@@ -2290,7 +2290,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredTopLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
@@ -2298,7 +2298,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomL_p2 = requiredTopLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
@@ -2306,13 +2306,13 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             + (deepeningIntoTheStructureR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomL_p3 = bottomL_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomL_p2, bottomL_p3) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p2, mainBottomRebar_p3) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Стержни по нижней грани
@@ -2334,14 +2334,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredTopLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p2 = requiredTopLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
@@ -2349,10 +2349,10 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             + (deepeningIntoTheStructureR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomL_p3 = bottomL_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2360,7 +2360,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2370,14 +2370,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomL_p2, bottomL_p3) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p2, mainBottomRebar_p3) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
 
                         //Стержни по нижней грани
@@ -2414,7 +2414,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredTopLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
@@ -2422,7 +2422,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p2 = requiredTopLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
@@ -2430,7 +2430,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2438,7 +2438,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2* beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2446,18 +2446,18 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (deepeningIntoTheStructureR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
-                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        Curve bottomAddLineR2_2 = Line.CreateBound(mainAddBottomRebarR2_p2, mainAddBottomRebarR2_p3) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
 
                         //Стержни по нижней грани
@@ -2494,14 +2494,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredTopLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredTopLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p2 = requiredTopLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredTopLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             + (beamHeight * verticalVectorFromBeamMainLine)
@@ -2509,7 +2509,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2517,7 +2517,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2526,7 +2526,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2534,7 +2534,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2542,23 +2542,23 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (deepeningIntoTheStructureR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
-                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        Curve bottomAddLineR2_2 = Line.CreateBound(mainAddBottomRebarR2_p2, mainAddBottomRebarR2_p3) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
 
                         //Стержни по нижней грани
@@ -2610,29 +2610,29 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomU_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                              + (rebarLRCoverLayerAsDouble * normal)
                              + (myMainRebarT2Diam / 2 * normal)
                              - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                              - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomU_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomU_p3 = bottomU_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
-                        XYZ bottomU_p4 = bottomU_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainBottomRebar_p4 = mainBottomRebar_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomU_p3, bottomU_p1) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p3, mainBottomRebar_p1) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomU_p1, bottomU_p2) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
-                        Curve bottomLine3 = Line.CreateBound(bottomU_p2, bottomU_p4) as Curve;
+                        Curve bottomLine3 = Line.CreateBound(mainBottomRebar_p2, mainBottomRebar_p4) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine3);
 
                         if (beamRoundAngle < 90)
@@ -2675,30 +2675,30 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                              + (rebarLRCoverLayerAsDouble * normal)
                              + (myMainRebarT2Diam / 2 * normal)
                              - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                              - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
                         
-                        XYZ bottomL_p3 = bottomL_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2706,20 +2706,20 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomL_p2, bottomL_p3) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p2, mainBottomRebar_p3) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p3, mainAddBottomRebarL2_p1) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
-                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_2 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
 
                         if (beamRoundAngle < 90)
@@ -2777,22 +2777,22 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                              + (rebarLRCoverLayerAsDouble * normal)
                              + (myMainRebarT2Diam / 2 * normal)
                              - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                              - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p3 = bottomL_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2800,7 +2800,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2808,21 +2808,21 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p3, bottomL_p1) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p3, mainBottomRebar_p1) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
-                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        Curve bottomAddLineR2_2 = Line.CreateBound(mainAddBottomRebarR2_p2, mainAddBottomRebarR2_p3) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
 
                         //Стержни по нижней грани
@@ -2882,27 +2882,27 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                              + (rebarLRCoverLayerAsDouble * normal)
                              + (myMainRebarT2Diam / 2 * normal)
                              - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                              - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2910,10 +2910,10 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2921,7 +2921,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -2929,26 +2929,26 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p3, mainAddBottomRebarL2_p1) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
-                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_2 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
-                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        Curve bottomAddLineR2_2 = Line.CreateBound(mainAddBottomRebarR2_p2, mainAddBottomRebarR2_p3) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
 
                         //Стержни по нижней грани
@@ -3021,33 +3021,33 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomU_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomU_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomU_p3 = bottomU_p1
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p1
                             + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
-                        XYZ bottomU_p4 = bottomU_p2
+                        XYZ mainBottomRebar_p4 = mainBottomRebar_p2
                             + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomU_p3, bottomU_p1) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p3, mainBottomRebar_p1) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomU_p1, bottomU_p2) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
-                        Curve bottomLine3 = Line.CreateBound(bottomU_p2, bottomU_p4) as Curve;
+                        Curve bottomLine3 = Line.CreateBound(mainBottomRebar_p2, mainBottomRebar_p4) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine3);
 
                         //Стержни по нижней грани
@@ -3069,24 +3069,24 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomL_p3 = bottomL_p2
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p2
                             + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3094,7 +3094,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3102,20 +3102,20 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomL_p2, bottomL_p3) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p2, mainBottomRebar_p3) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p3, mainAddBottomRebarL2_p1) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
-                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_2 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
 
                         //Стержни по нижней грани
@@ -3152,24 +3152,24 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p3 = bottomL_p1
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p1
                             + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3177,7 +3177,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector); ;
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3185,20 +3185,20 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p3, bottomL_p1) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p3, mainBottomRebar_p1) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
-                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        Curve bottomAddLineR2_2 = Line.CreateBound(mainAddBottomRebarR2_p2, mainAddBottomRebarR2_p3) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
 
                         //Стержни по нижней грани
@@ -3218,15 +3218,15 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         //Дополнительные стержни по нижней грани справа
                         Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
-                        , LBarShape
-                        , myMainRebarT3
-                        , null
-                        , null
-                        , beam
-                        , normal
-                        , myMainBottomAddRebarCurvesR2
-                        , RebarHookOrientation.Right
-                        , RebarHookOrientation.Right);
+                            , LBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
 
                         mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                         mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
@@ -3235,20 +3235,20 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3256,7 +3256,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3264,10 +3264,10 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3275,7 +3275,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector); ;
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3283,25 +3283,25 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p3, mainAddBottomRebarL2_p1) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
-                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_2 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
-                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        Curve bottomAddLineR2_2 = Line.CreateBound(mainAddBottomRebarR2_p2, mainAddBottomRebarR2_p3) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
 
                         //Стержни по нижней грани
@@ -3353,30 +3353,30 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomU_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomU_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomU_p3 = bottomU_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
-                        XYZ bottomU_p4 = bottomU_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainBottomRebar_p4 = mainBottomRebar_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomU_p3, bottomU_p1) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p3, mainBottomRebar_p1) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomU_p1, bottomU_p2) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
-                        Curve bottomLine3 = Line.CreateBound(bottomU_p2, bottomU_p4) as Curve;
+                        Curve bottomLine3 = Line.CreateBound(mainBottomRebar_p2, mainBottomRebar_p4) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine3);
 
                         if (beamRoundAngle < 90)
@@ -3419,23 +3419,23 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomL_p3 = bottomL_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3443,7 +3443,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3451,20 +3451,20 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomL_p2, bottomL_p3) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p2, mainBottomRebar_p3) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p3, mainAddBottomRebarL2_p1) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
-                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_2 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
 
                         if (beamRoundAngle < 90)
@@ -3537,23 +3537,23 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomL_p3 = bottomL_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainBottomRebar_p3 = mainBottomRebar_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3561,7 +3561,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector); ;
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3569,20 +3569,20 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomL_p3, bottomL_p1) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p3, mainBottomRebar_p1) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
-                        Curve bottomLine2 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        Curve bottomLine2 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine2);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
-                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        Curve bottomAddLineR2_2 = Line.CreateBound(mainAddBottomRebarR2_p2, mainAddBottomRebarR2_p3) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
 
                         if (beamRoundAngle < 90)
@@ -3655,20 +3655,20 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == true)
                     {
                         //Точки для построения стержней основной нижней арматуры
-                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                        XYZ mainBottomRebar_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
-                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                        XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
-                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3676,7 +3676,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                        XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3684,10 +3684,10 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
-                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3695,7 +3695,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             - (extensionAddBarR2 * beamMainLineDirectionVector); ;
 
-                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                        XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
@@ -3703,25 +3703,25 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
 
-                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
-                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        Curve bottomLine1 = Line.CreateBound(mainBottomRebar_p1, mainBottomRebar_p2) as Curve;
                         myMainBottomRebarCurves.Add(bottomLine1);
 
                         //Кривые дополнительных стержней нижней арматуры слева
                         List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
-                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        Curve bottomAddLineL2_1 = Line.CreateBound(mainAddBottomRebarL2_p3, mainAddBottomRebarL2_p1) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
-                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        Curve bottomAddLineL2_2 = Line.CreateBound(mainAddBottomRebarL2_p1, mainAddBottomRebarL2_p2) as Curve;
                         myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
 
                         //Кривые дополнительных стержней нижней арматуры справа
                         List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
-                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        Curve bottomAddLineR2_1 = Line.CreateBound(mainAddBottomRebarR2_p1, mainAddBottomRebarR2_p2) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
-                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        Curve bottomAddLineR2_2 = Line.CreateBound(mainAddBottomRebarR2_p2, mainAddBottomRebarR2_p3) as Curve;
                         myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
 
                         //Стержни по нижней грани
