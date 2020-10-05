@@ -310,6 +310,15 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
             stirrupStepR1 = stirrupStepR1 / 304.8;
             stirrupStepC1 = stirrupStepC1 / 304.8;
 
+            bool addBarL2 = beamReinforcementForm.AddBarL2;
+            bool addBarR2 = beamReinforcementForm.AddBarR2;
+
+            double extensionAddBarL2 = 0;
+            double extensionAddBarR2 = 0;
+
+            extensionAddBarL2 = beamReinforcementForm.ExtensionAddBarL2 / 304.8;
+            extensionAddBarR2 = beamReinforcementForm.ExtensionAddBarR2 / 304.8;
+
             //Открытие транзакции
             using (Transaction t = new Transaction(doc))
             {
@@ -926,7 +935,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                         }
                     }
 
-                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90)
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
                         XYZ bottomStraight_p1 = requiredBottomLineStartPoint
@@ -964,7 +973,273 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                         mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
                     }
 
-                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90)
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == false)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2 * beamMainLineDirectionVector);
+
+                        //Точки для построения добавочных стержней нижней арматуры
+                        XYZ bottomAddStraight_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraight_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+
+                        //Кривые дополнительных стержней нижней арматуры
+                        List<Curve> myMainBottomAddRebarCurves = new List<Curve>();
+                        Curve bottomAddLine1 = Line.CreateBound(bottomAddStraight_p1, bottomAddStraight_p2) as Curve;
+                        myMainBottomAddRebarCurves.Add(bottomAddLine1);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани
+                        Rebar mainAddBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                    }
+
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры
+                        XYZ bottomAddStraight_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraight_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2 * beamMainLineDirectionVector);
+
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+
+                        //Кривые дополнительных стержней нижней арматуры
+                        List<Curve> myMainBottomAddRebarCurves = new List<Curve>();
+                        Curve bottomAddLine1 = Line.CreateBound(bottomAddStraight_p1, bottomAddStraight_p2) as Curve;
+                        myMainBottomAddRebarCurves.Add(bottomAddLine1);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани
+                        Rebar mainAddBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                    }
+
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+
+                        //Точки для построения добавочных стержней нижней арматуры
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2 * beamMainLineDirectionVector);
+
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани слева
+                        Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesL2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани справа
+                        Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                    }
+
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
                         XYZ bottomZ_p1 = requiredBottomLineStartPoint
@@ -1007,7 +1282,283 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                         mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
                     }
 
-                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90)
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == false)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p3 = bottomStraight_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+                        Curve bottomLine2 = Line.CreateBound(bottomStraight_p2, bottomStraight_p3) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine2);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани слева
+                        Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesL2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p3 = bottomStraight_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2* beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p3, bottomStraight_p1) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+                        Curve bottomLine2 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine2);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани справа
+                        Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани слева
+                        Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesL2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани справа
+                        Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
                         XYZ bottomL_p1 = requiredTopLineStartPoint
@@ -1051,7 +1602,283 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                         mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
                     }
 
-                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90)
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == false)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraightBarShape_p1 = requiredTopLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraightBarShape_p2 = requiredTopLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2 * beamMainLineDirectionVector);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (deepeningIntoTheStructureL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomStraightBarShapeine1 = Line.CreateBound(bottomStraightBarShape_p1, bottomStraightBarShape_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomStraightBarShapeine1);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани слева
+                        Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesL2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomL_p1 = requiredTopLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (deepeningIntoTheStructureL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomL_p2 = requiredTopLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p3 = bottomL_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2 * beamMainLineDirectionVector);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomL_p3, bottomL_p1) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+                        Curve bottomLine2 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine2);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани справа
+                        Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraight_p1 = requiredTopLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p2 = requiredTopLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (deepeningIntoTheStructureL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2 * beamMainLineDirectionVector);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани слева
+                        Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesL2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани слева
+                        Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
                         XYZ bottomU_p1 = requiredBottomLineStartPoint
@@ -1115,7 +1942,352 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                         }
                     }
 
-                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90)
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == false)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p3 = bottomL_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+                        Curve bottomLine2 = Line.CreateBound(bottomL_p2, bottomL_p3) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine2);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        if (beamRoundAngle < 90)
+                        {
+                            //Дополнительные стержни по нижней грани слева
+                            Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                                , LBarShapeSharpAngle
+                                , myMainRebarT3
+                                , null
+                                , null
+                                , beam
+                                , normal
+                                , myMainBottomAddRebarCurvesL2
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+                        if (beamRoundAngle > 90)
+                        {
+                            //Дополнительные стержни по нижней грани слева
+                            Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                                , LBarShapeAngle
+                                , myMainRebarT3
+                                , null
+                                , null
+                                , beam
+                                , normal
+                                , myMainBottomAddRebarCurvesL2
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p3 = bottomL_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomL_p3, bottomL_p1) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+                        Curve bottomLine2 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine2);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
+
+                       
+
+                        if (beamRoundAngle < 90)
+                        {
+                            //Стержни по нижней грани
+                            Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                                , LBarShapeSharpAngle
+                                , myMainRebarT2
+                                , null
+                                , null
+                                , beam
+                                , normal
+                                , myMainBottomRebarCurves
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+                        if (beamRoundAngle > 90)
+                        {
+                            //Стержни по нижней грани
+                            Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                                , LBarShapeAngle
+                                , myMainRebarT2
+                                , null
+                                , null
+                                , beam
+                                , normal
+                                , myMainBottomRebarCurves
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+                        //Дополнительные стержни по нижней грани справа
+                        Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 <= 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightLenghtR2 * horizontalVectorFromBeamMainLine);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        if (beamRoundAngle < 90)
+                        {
+                            //Дополнительные стержни по нижней грани слева
+                            Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                                , LBarShapeSharpAngle
+                                , myMainRebarT3
+                                , null
+                                , null
+                                , beam
+                                , normal
+                                , myMainBottomAddRebarCurvesL2
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+                        if (beamRoundAngle > 90)
+                        {
+                            //Дополнительные стержни по нижней грани слева
+                            Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                                , LBarShapeAngle
+                                , myMainRebarT3
+                                , null
+                                , null
+                                , beam
+                                , normal
+                                , myMainBottomAddRebarCurvesL2
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+                        //Дополнительные стержни по нижней грани справа
+                        Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
                         XYZ bottomL_p1 = requiredTopLineStartPoint
@@ -1159,7 +2331,283 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                         mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
                     }
 
-                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90)
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == false)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomL_p1 = requiredTopLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p2 = requiredTopLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (deepeningIntoTheStructureR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomL_p3 = bottomL_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+                        Curve bottomLine2 = Line.CreateBound(bottomL_p2, bottomL_p3) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine2);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани слева
+                        Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesL2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraight_p1 = requiredTopLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p2 = requiredTopLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2* beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (deepeningIntoTheStructureR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани саправа
+                        Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraight_p1 = requiredTopLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p2 = requiredTopLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            + (beamHeight * verticalVectorFromBeamMainLine)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (deepeningIntoTheStructureR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани слева
+                        Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesL2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани саправа
+                        Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
                         XYZ bottomU_p1 = requiredBottomLineStartPoint
@@ -1224,7 +2672,353 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                         }
                     }
 
-                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90)
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == false)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                             + (rebarLRCoverLayerAsDouble * normal)
+                             + (myMainRebarT2Diam / 2 * normal)
+                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+                        
+                        XYZ bottomL_p3 = bottomL_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+                        Curve bottomLine2 = Line.CreateBound(bottomL_p2, bottomL_p3) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine2);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
+
+                        if (beamRoundAngle < 90)
+                        {
+                            //Стержни по нижней грани
+                            Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+                        if (beamRoundAngle > 90)
+                        {
+                            //Стержни по нижней грани
+                            Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeSharpAngle
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+                        //Дополнительные стержни по нижней грани слева
+                        Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesL2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                             + (rebarLRCoverLayerAsDouble * normal)
+                             + (myMainRebarT2Diam / 2 * normal)
+                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p3 = bottomL_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomL_p3, bottomL_p1) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+                        Curve bottomLine2 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine2);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+
+                        if (beamRoundAngle > 90)
+                        {
+                            //Дополнительные стержни по нижней грани справа
+                            Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeSharpAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+
+                        if (beamRoundAngle < 90)
+                        {
+                            //Дополнительные стержни по нижней грани справа
+                            Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+                    }
+
+                    if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                             + (rebarLRCoverLayerAsDouble * normal)
+                             + (myMainRebarT2Diam / 2 * normal)
+                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани слева
+                        Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesL2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        if (beamRoundAngle > 90)
+                        {
+                            //Дополнительные стержни по нижней грани справа
+                            Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeSharpAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+                        if (beamRoundAngle < 90)
+                        {
+                            //Дополнительные стержни по нижней грани справа
+                            Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
                         XYZ bottomU_p1 = requiredBottomLineStartPoint
@@ -1272,7 +3066,291 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                         mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
                     }
 
-                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90)
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == false)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomL_p3 = bottomL_p2
+                            + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+                        Curve bottomLine2 = Line.CreateBound(bottomL_p2, bottomL_p3) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine2);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани слева
+                        Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesL2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p3 = bottomL_p1
+                            + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector); ;
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomL_p3, bottomL_p1) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+                        Curve bottomLine2 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine2);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани справа
+                        Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                        , LBarShape
+                        , myMainRebarT3
+                        , null
+                        , null
+                        , beam
+                        , normal
+                        , myMainBottomAddRebarCurvesR2
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector); ;
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани слева
+                        Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShape
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesL2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        //Дополнительные стержни по нижней грани справа
+                        Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                        , LBarShape
+                        , myMainRebarT3
+                        , null
+                        , null
+                        , beam
+                        , normal
+                        , myMainBottomAddRebarCurvesR2
+                        , RebarHookOrientation.Right
+                        , RebarHookOrientation.Right);
+
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == false)
                     {
                         //Точки для построения стержней основной нижней арматуры
                         XYZ bottomU_p1 = requiredBottomLineStartPoint
@@ -1335,6 +3413,396 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                             mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                             mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == false)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomL_p3 = bottomL_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+                        Curve bottomLine2 = Line.CreateBound(bottomL_p2, bottomL_p3) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine2);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
+
+                        if (beamRoundAngle < 90)
+                        {
+                            //Стержни по нижней грани
+                            Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                            //Дополнительные стержни по нижней грани слева
+                            Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                                , LBarShapeSharpAngle
+                                , myMainRebarT3
+                                , null
+                                , null
+                                , beam
+                                , normal
+                                , myMainBottomAddRebarCurvesL2
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+                        if (beamRoundAngle > 90)
+                        {
+                            //Стержни по нижней грани
+                            Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeSharpAngle
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                            //Дополнительные стержни по нижней грани слева
+                            Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                                , LBarShapeAngle
+                                , myMainRebarT3
+                                , null
+                                , null
+                                , beam
+                                , normal
+                                , myMainBottomAddRebarCurvesL2
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomL_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomL_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomL_p3 = bottomL_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector); ;
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomL_p3, bottomL_p1) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+                        Curve bottomLine2 = Line.CreateBound(bottomL_p1, bottomL_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine2);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
+
+                        if (beamRoundAngle < 90)
+                        {
+                            //Стержни по нижней грани
+                            Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeSharpAngle
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                            //Дополнительные стержни по нижней грани справа
+                            Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+                        if (beamRoundAngle > 90)
+                        {
+                            //Стержни по нижней грани
+                            Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeAngle
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                            //Дополнительные стержни по нижней грани справа
+                            Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                            , LBarShapeSharpAngle
+                            , myMainRebarT3
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomAddRebarCurvesR2
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+                    }
+
+                    if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == true)
+                    {
+                        //Точки для построения стержней основной нижней арматуры
+                        XYZ bottomStraight_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        XYZ bottomStraight_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
+
+                        //Точки для построения добавочных стержней нижней арматуры слева
+                        XYZ bottomAddStraightL2_p1 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p2 = requiredBottomLineStartPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightL2_p3 = bottomAddStraightL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+
+                        //Точки для построения добавочных стержней нижней арматуры справа
+                        XYZ bottomAddStraightR2_p1 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (extensionAddBarR2 * beamMainLineDirectionVector); ;
+
+                        XYZ bottomAddStraightR2_p2 = requiredBottomLineEndPoint
+                            + (rebarLRCoverLayerAsDouble * normal)
+                            + (myMainRebarT2Diam / 2 * normal)
+                            - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+
+                        XYZ bottomAddStraightR2_p3 = bottomAddStraightR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+
+                        //Кривые стержня основной нижней арматуры
+                        List<Curve> myMainBottomRebarCurves = new List<Curve>();
+                        Curve bottomLine1 = Line.CreateBound(bottomStraight_p1, bottomStraight_p2) as Curve;
+                        myMainBottomRebarCurves.Add(bottomLine1);
+
+                        //Кривые дополнительных стержней нижней арматуры слева
+                        List<Curve> myMainBottomAddRebarCurvesL2 = new List<Curve>();
+                        Curve bottomAddLineL2_1 = Line.CreateBound(bottomAddStraightL2_p3, bottomAddStraightL2_p1) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_1);
+                        Curve bottomAddLineL2_2 = Line.CreateBound(bottomAddStraightL2_p1, bottomAddStraightL2_p2) as Curve;
+                        myMainBottomAddRebarCurvesL2.Add(bottomAddLineL2_2);
+
+                        //Кривые дополнительных стержней нижней арматуры справа
+                        List<Curve> myMainBottomAddRebarCurvesR2 = new List<Curve>();
+                        Curve bottomAddLineR2_1 = Line.CreateBound(bottomAddStraightR2_p1, bottomAddStraightR2_p2) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_1);
+                        Curve bottomAddLineR2_2 = Line.CreateBound(bottomAddStraightR2_p2, bottomAddStraightR2_p3) as Curve;
+                        myMainBottomAddRebarCurvesR2.Add(bottomAddLineR2_2);
+
+                        //Стержни по нижней грани
+                        Rebar mainBottomRebar = Rebar.CreateFromCurvesAndShape(doc
+                            , straightBarShape
+                            , myMainRebarT2
+                            , null
+                            , null
+                            , beam
+                            , normal
+                            , myMainBottomRebarCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                        mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                        if (beamRoundAngle < 90)
+                        {
+                            //Дополнительные стержни по нижней грани слева
+                            Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                                , LBarShapeSharpAngle
+                                , myMainRebarT3
+                                , null
+                                , null
+                                , beam
+                                , normal
+                                , myMainBottomAddRebarCurvesL2
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                            //Дополнительные стержни по нижней грани справа
+                            Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                                , LBarShapeAngle
+                                , myMainRebarT3
+                                , null
+                                , null
+                                , beam
+                                , normal
+                                , myMainBottomAddRebarCurvesR2
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+                        }
+
+                        if (beamRoundAngle > 90)
+                        {
+                            //Дополнительные стержни по нижней грани слева
+                            Rebar mainAddBottomRebarL2 = Rebar.CreateFromCurvesAndShape(doc
+                                , LBarShapeAngle
+                                , myMainRebarT3
+                                , null
+                                , null
+                                , beam
+                                , normal
+                                , myMainBottomAddRebarCurvesL2
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
+
+                            //Дополнительные стержни по нижней грани справа
+                            Rebar mainAddBottomRebarR2 = Rebar.CreateFromCurvesAndShape(doc
+                                , LBarShapeSharpAngle
+                                , myMainRebarT3
+                                , null
+                                , null
+                                , beam
+                                , normal
+                                , myMainBottomAddRebarCurvesR2
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
+                            mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
                         }
                     }
 

@@ -53,6 +53,10 @@
             this.textBox_StirrupIndentR1 = new System.Windows.Forms.TextBox();
             this.textBox_StirrupStepR1 = new System.Windows.Forms.TextBox();
             this.textBox_StirrupStepC1 = new System.Windows.Forms.TextBox();
+            this.checkBox_AddBarL2 = new System.Windows.Forms.CheckBox();
+            this.checkBox_AddBarR2 = new System.Windows.Forms.CheckBox();
+            this.textBox_ExtensionAddBarL2 = new System.Windows.Forms.TextBox();
+            this.textBox_ExtensionAddBarR2 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btn_Ok
@@ -144,7 +148,7 @@
             // comboBox_RebarTopCoverLayer
             // 
             this.comboBox_RebarTopCoverLayer.FormattingEnabled = true;
-            this.comboBox_RebarTopCoverLayer.Location = new System.Drawing.Point(579, 247);
+            this.comboBox_RebarTopCoverLayer.Location = new System.Drawing.Point(579, 266);
             this.comboBox_RebarTopCoverLayer.Name = "comboBox_RebarTopCoverLayer";
             this.comboBox_RebarTopCoverLayer.Size = new System.Drawing.Size(55, 21);
             this.comboBox_RebarTopCoverLayer.Sorted = true;
@@ -154,7 +158,7 @@
             // comboBox_RebarBottomCoverLayer
             // 
             this.comboBox_RebarBottomCoverLayer.FormattingEnabled = true;
-            this.comboBox_RebarBottomCoverLayer.Location = new System.Drawing.Point(577, 337);
+            this.comboBox_RebarBottomCoverLayer.Location = new System.Drawing.Point(577, 356);
             this.comboBox_RebarBottomCoverLayer.Name = "comboBox_RebarBottomCoverLayer";
             this.comboBox_RebarBottomCoverLayer.Size = new System.Drawing.Size(55, 21);
             this.comboBox_RebarBottomCoverLayer.Sorted = true;
@@ -164,7 +168,7 @@
             // comboBox_RebarLRCoverLayer
             // 
             this.comboBox_RebarLRCoverLayer.FormattingEnabled = true;
-            this.comboBox_RebarLRCoverLayer.Location = new System.Drawing.Point(715, 283);
+            this.comboBox_RebarLRCoverLayer.Location = new System.Drawing.Point(715, 302);
             this.comboBox_RebarLRCoverLayer.Name = "comboBox_RebarLRCoverLayer";
             this.comboBox_RebarLRCoverLayer.Size = new System.Drawing.Size(55, 21);
             this.comboBox_RebarLRCoverLayer.Sorted = true;
@@ -173,7 +177,7 @@
             // 
             // textBox_NumberOfBarsTopFaces
             // 
-            this.textBox_NumberOfBarsTopFaces.Location = new System.Drawing.Point(652, 247);
+            this.textBox_NumberOfBarsTopFaces.Location = new System.Drawing.Point(652, 266);
             this.textBox_NumberOfBarsTopFaces.Name = "textBox_NumberOfBarsTopFaces";
             this.textBox_NumberOfBarsTopFaces.Size = new System.Drawing.Size(45, 20);
             this.textBox_NumberOfBarsTopFaces.TabIndex = 12;
@@ -182,7 +186,7 @@
             // 
             // textBox_NumberOfBarsBottomFaces
             // 
-            this.textBox_NumberOfBarsBottomFaces.Location = new System.Drawing.Point(650, 350);
+            this.textBox_NumberOfBarsBottomFaces.Location = new System.Drawing.Point(650, 369);
             this.textBox_NumberOfBarsBottomFaces.Name = "textBox_NumberOfBarsBottomFaces";
             this.textBox_NumberOfBarsBottomFaces.Size = new System.Drawing.Size(45, 20);
             this.textBox_NumberOfBarsBottomFaces.TabIndex = 13;
@@ -290,11 +294,53 @@
             this.textBox_StirrupStepC1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_StirrupStepC1.TextChanged += new System.EventHandler(this.textBox_StirrupStepC1_TextChanged);
             // 
+            // checkBox_AddBarL2
+            // 
+            this.checkBox_AddBarL2.AutoSize = true;
+            this.checkBox_AddBarL2.Location = new System.Drawing.Point(46, 205);
+            this.checkBox_AddBarL2.Name = "checkBox_AddBarL2";
+            this.checkBox_AddBarL2.Size = new System.Drawing.Size(128, 17);
+            this.checkBox_AddBarL2.TabIndex = 29;
+            this.checkBox_AddBarL2.Text = "Добавить стержень";
+            this.checkBox_AddBarL2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_AddBarR2
+            // 
+            this.checkBox_AddBarR2.AutoSize = true;
+            this.checkBox_AddBarR2.Location = new System.Drawing.Point(603, 205);
+            this.checkBox_AddBarR2.Name = "checkBox_AddBarR2";
+            this.checkBox_AddBarR2.Size = new System.Drawing.Size(128, 17);
+            this.checkBox_AddBarR2.TabIndex = 30;
+            this.checkBox_AddBarR2.Text = "Добавить стержень";
+            this.checkBox_AddBarR2.UseVisualStyleBackColor = true;
+            // 
+            // textBox_ExtensionAddBarL2
+            // 
+            this.textBox_ExtensionAddBarL2.Location = new System.Drawing.Point(110, 228);
+            this.textBox_ExtensionAddBarL2.Name = "textBox_ExtensionAddBarL2";
+            this.textBox_ExtensionAddBarL2.Size = new System.Drawing.Size(64, 20);
+            this.textBox_ExtensionAddBarL2.TabIndex = 31;
+            this.textBox_ExtensionAddBarL2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_ExtensionAddBarL2.TextChanged += new System.EventHandler(this.textBox_ExtensionAddBarL2_TextChanged);
+            // 
+            // textBox_ExtensionAddBarR2
+            // 
+            this.textBox_ExtensionAddBarR2.Location = new System.Drawing.Point(603, 228);
+            this.textBox_ExtensionAddBarR2.Name = "textBox_ExtensionAddBarR2";
+            this.textBox_ExtensionAddBarR2.Size = new System.Drawing.Size(64, 20);
+            this.textBox_ExtensionAddBarR2.TabIndex = 32;
+            this.textBox_ExtensionAddBarR2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_ExtensionAddBarR2.TextChanged += new System.EventHandler(this.textBox_ExtensionAddBarR2_TextChanged);
+            // 
             // CIT_04_3_BeamReinforcementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textBox_ExtensionAddBarR2);
+            this.Controls.Add(this.textBox_ExtensionAddBarL2);
+            this.Controls.Add(this.checkBox_AddBarR2);
+            this.Controls.Add(this.checkBox_AddBarL2);
             this.Controls.Add(this.textBox_StirrupStepC1);
             this.Controls.Add(this.textBox_StirrupStepR1);
             this.Controls.Add(this.textBox_StirrupIndentR1);
@@ -354,5 +400,9 @@
         private System.Windows.Forms.TextBox textBox_StirrupIndentR1;
         private System.Windows.Forms.TextBox textBox_StirrupStepR1;
         private System.Windows.Forms.TextBox textBox_StirrupStepC1;
+        private System.Windows.Forms.CheckBox checkBox_AddBarL2;
+        private System.Windows.Forms.CheckBox checkBox_AddBarR2;
+        private System.Windows.Forms.TextBox textBox_ExtensionAddBarL2;
+        private System.Windows.Forms.TextBox textBox_ExtensionAddBarR2;
     }
 }

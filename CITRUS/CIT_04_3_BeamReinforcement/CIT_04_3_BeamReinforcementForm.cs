@@ -39,8 +39,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
         public double StirrupStepR1;
         public double StirrupStepC1;
 
+        public double ExtensionAddBarL2;
+        public double ExtensionAddBarR2;
+
         public int NumberOfBarsTopFaces = 0;
         public int NumberOfBarsBottomFaces = 0;
+
+        public bool AddBarL2;
+        public bool AddBarR2;
 
         public CIT_04_3_BeamReinforcementForm(List<RebarBarType> mainBarT1
             , List<RebarBarType> mainBarT2
@@ -88,6 +94,9 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
         private void btn_Ok_Click(object sender, EventArgs e)
         {
+
+            AddBarL2 = checkBox_AddBarL2.Checked;
+            AddBarR2 = checkBox_AddBarR2.Checked;
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -206,6 +215,16 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
         private void textBox_StirrupStepC1_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_StirrupStepC1.Text, out StirrupStepC1);
+        }
+
+        private void textBox_ExtensionAddBarL2_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_ExtensionAddBarL2.Text, out ExtensionAddBarL2);
+        }
+
+        private void textBox_ExtensionAddBarR2_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_ExtensionAddBarR2.Text, out ExtensionAddBarR2);
         }
     }
 }
