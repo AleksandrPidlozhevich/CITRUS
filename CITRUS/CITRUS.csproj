@@ -396,5 +396,11 @@
   <ItemGroup>
     <None Include="Resources\GloryHole_Large.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\formBeamReinforcement.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\formBeamReinforcement_Section.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
