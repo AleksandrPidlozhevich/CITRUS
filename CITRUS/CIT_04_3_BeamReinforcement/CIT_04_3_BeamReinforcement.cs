@@ -398,6 +398,27 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                         }
                     }
 
+                    if (beamSolidList.Count == 0)
+                    {
+                        
+                        foreach (GeometryObject geoObject in beamGeomElement)
+                        {
+                            GeometryInstance instance = geoObject as GeometryInstance;
+                            foreach (GeometryObject instObj in instance.GetInstanceGeometry())
+                            {
+                                Solid beamSolidForList = instObj as Solid;
+                                if (beamSolidForList != null)
+                                {
+                                    if (beamSolidForList.Volume != 0)
+                                    {
+                                        beamSolidList.Add(beamSolidForList);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+
                     List<Line> linesInMainDirectionList = new List<Line>();
                     Solid beamSolid = beamSolidList.First();
                     EdgeArray beamEdgesArray = beamSolid.Edges;
