@@ -2015,7 +2015,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector)
-                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector); ;
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
@@ -2737,7 +2737,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+                            + ((extensionRightLenghtR2Сalculated - ((myMainRebarT2Diam / 2) / (Math.Cos(beamAngleToX * (Math.PI / 180))))) * beamMainLineDirectionVector);
                         
                         XYZ mainBottomRebar_p3 = mainBottomRebar_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
@@ -2747,7 +2747,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
-                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -2755,7 +2756,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+                            + (extensionAddBarL2 * beamMainLineDirectionVector)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
 
@@ -2823,7 +2825,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                         mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
-                    }
+                    } // почти Ok
 
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == true)
                     {
@@ -2849,7 +2851,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionAddBarR2 * beamMainLineDirectionVector);
+                            - (extensionAddBarR2 * beamMainLineDirectionVector)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -2857,7 +2860,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+                            + ((extensionRightLenghtR2Сalculated - ((myMainRebarT3Diam / 2) / (Math.Cos(beamAngleToX * (Math.PI / 180))))) * beamMainLineDirectionVector)
+                            -(((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
@@ -2928,7 +2932,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                             mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
                         }
-                    }
+                    } // почти Ok
 
                     if (extensionLeftBendLenghtL2 <= 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == true)
                     {
@@ -2951,7 +2955,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
-                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine);
+                            - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -2959,7 +2964,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+                            + (extensionAddBarL2 * beamMainLineDirectionVector)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 - (extensionLeftLenghtL2 * horizontalVectorFromBeamMainLine);
 
@@ -2970,7 +2976,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionAddBarR2 * beamMainLineDirectionVector);
+                            - (extensionAddBarR2 * beamMainLineDirectionVector)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -2978,7 +2985,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+                            + ((extensionRightLenghtR2Сalculated - ((myMainRebarT3Diam / 2) / (Math.Cos(beamAngleToX * (Math.PI / 180))))) * beamMainLineDirectionVector)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
@@ -3067,7 +3075,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                             mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
                         }
-                    }
+                    } // почти Ok
 
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == false)
                     {
@@ -3077,20 +3085,24 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector)
+                            + (myMainRebarT2Diam / 2 * beamMainLineDirectionVector);
 
                         XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector)
+                            - (myMainRebarT2Diam / 2 * beamMainLineDirectionVector);
 
                         XYZ mainBottomRebar_p3 = mainBottomRebar_p1
-                            + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                            + (extensionLeftBendLenghtL2 * XYZ.BasisZ)
+                            - (myMainRebarT2Diam / 2 * XYZ.BasisZ);
 
                         XYZ mainBottomRebar_p4 = mainBottomRebar_p2
-                            + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                            + (extensionRightBendLenghtR2 * XYZ.BasisZ)
+                            - (myMainRebarT2Diam / 2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
@@ -3115,7 +3127,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                         mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
-                    }
+                    } // Ok
 
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == false)
                     {
@@ -3131,10 +3143,12 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector)
+                            - (myMainRebarT2Diam / 2 * beamMainLineDirectionVector);
 
                         XYZ mainBottomRebar_p3 = mainBottomRebar_p2
-                            + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                            + (extensionRightBendLenghtR2 * XYZ.BasisZ)
+                            - (myMainRebarT2Diam / 2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры слева
                         XYZ mainAddBottomRebarL2_p1 = requiredBottomLineStartPoint
@@ -3143,7 +3157,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector)
+                            + (myMainRebarT3Diam / 2 * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -3153,7 +3168,9 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 
+                            + (extensionLeftBendLenghtL2 * XYZ.BasisZ)
+                            - (myMainRebarT3Diam / 2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
@@ -3198,7 +3215,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                         mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
-                    }
+                    } // Ok
 
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == false & addBarR2 == true)
                     {
@@ -3208,7 +3225,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector)
+                            + (myMainRebarT2Diam / 2 * beamMainLineDirectionVector);
 
                         XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -3217,7 +3235,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine);
 
                         XYZ mainBottomRebar_p3 = mainBottomRebar_p1
-                            + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                            + (extensionLeftBendLenghtL2 * XYZ.BasisZ)
+                            - (myMainRebarT2Diam / 2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
                         XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
@@ -3226,7 +3245,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionAddBarR2 * beamMainLineDirectionVector); ;
+                            - (extensionAddBarR2 * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -3234,9 +3253,12 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector)
+                            - (myMainRebarT3Diam / 2 * beamMainLineDirectionVector);
 
-                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 
+                            + (extensionRightBendLenghtR2 * XYZ.BasisZ)
+                            -(myMainRebarT3Diam / 2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
@@ -3281,7 +3303,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                         mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
-                    }
+                    } // Ok
 
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle == 90 & addBarL2 == true & addBarR2 == true)
                     {
@@ -3305,7 +3327,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector)
+                            + (myMainRebarT3Diam / 2 * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -3315,7 +3338,9 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
                             + (extensionAddBarL2 * beamMainLineDirectionVector);
 
-                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1
+                            + (extensionLeftBendLenghtL2 * XYZ.BasisZ)
+                            - (myMainRebarT3Diam / 2 * XYZ.BasisZ);
 
                         //Точки для построения добавочных стержней нижней арматуры справа
                         XYZ mainAddBottomRebarR2_p1 = requiredBottomLineEndPoint
@@ -3324,7 +3349,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionAddBarR2 * beamMainLineDirectionVector); ;
+                            - (extensionAddBarR2 * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -3332,9 +3357,12 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector)
+                            - (myMainRebarT3Diam / 2 * beamMainLineDirectionVector);
 
-                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
+                        XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2
+                            + (extensionRightBendLenghtR2 * XYZ.BasisZ)
+                            - (myMainRebarT3Diam / 2 * XYZ.BasisZ);
 
                         //Кривые стержня основной нижней арматуры
                         List<Curve> myMainBottomRebarCurves = new List<Curve>();
@@ -3399,7 +3427,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
                         mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                         mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
-                    }
+                    } // Ok
 
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == false)
                     {
@@ -3409,14 +3437,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+                            - ((extensionLeftLenghtL2Сalculated - ((myMainRebarT2Diam / 2) / (Math.Cos(beamAngleToX * (Math.PI / 180))))) * beamMainLineDirectionVector);
 
                         XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+                            + ((extensionRightLenghtR2Сalculated - ((myMainRebarT2Diam / 2) / (Math.Cos(beamAngleToX * (Math.PI / 180))))) * beamMainLineDirectionVector);
 
                         XYZ mainBottomRebar_p3 = mainBottomRebar_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
                         XYZ mainBottomRebar_p4 = mainBottomRebar_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
@@ -3465,7 +3493,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                             mainBottomRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
                         }
-                    }
+                    } // почти Ok
 
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == false)
                     {
@@ -3481,7 +3509,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+                            + ((extensionRightLenghtR2Сalculated - ((myMainRebarT2Diam / 2) / (Math.Cos(beamAngleToX * (Math.PI / 180))))) * beamMainLineDirectionVector);
 
                         XYZ mainBottomRebar_p3 = mainBottomRebar_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
@@ -3492,7 +3520,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+                            - ((extensionLeftLenghtL2Сalculated - ((myMainRebarT3Diam / 2) / (Math.Cos(beamAngleToX * (Math.PI / 180))))) * beamMainLineDirectionVector)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -3500,7 +3529,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+                            + (extensionAddBarL2 * beamMainLineDirectionVector)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
@@ -3583,7 +3613,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                             mainAddBottomRebarL2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
                         }
-                    }
+                    } // почти Ok
 
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == false & addBarR2 == true)
                     {
@@ -3593,7 +3623,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             + (myMainRebarT2Diam / 2 * normal)
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+                            - ((extensionLeftLenghtL2Сalculated - ((myMainRebarT2Diam / 2) / (Math.Cos(beamAngleToX * (Math.PI / 180))))) * beamMainLineDirectionVector);
 
                         XYZ mainBottomRebar_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -3610,7 +3640,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionAddBarR2 * beamMainLineDirectionVector); ;
+                            - (extensionAddBarR2 * beamMainLineDirectionVector)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -3618,7 +3649,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+                            + ((extensionRightLenghtR2Сalculated - ((myMainRebarT3Diam / 2) / (Math.Cos(beamAngleToX * (Math.PI / 180))))) * beamMainLineDirectionVector)
+                            -(((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
@@ -3701,7 +3733,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                             mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
                         }
-                    }
+                    } // почти Ok
 
                     if (extensionLeftBendLenghtL2 > 0 & extensionRightBendLenghtR2 > 0 & beamRoundAngle != 90 & addBarL2 == true & addBarR2 == true)
                     {
@@ -3725,7 +3757,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionLeftLenghtL2Сalculated * beamMainLineDirectionVector);
+                            - ((extensionLeftLenghtL2Сalculated - ((myMainRebarT3Diam / 2) / (Math.Cos(beamAngleToX * (Math.PI / 180))))) * beamMainLineDirectionVector)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarL2_p2 = requiredBottomLineStartPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -3733,7 +3766,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionAddBarL2 * beamMainLineDirectionVector);
+                            + (extensionAddBarL2 * beamMainLineDirectionVector)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarL2_p3 = mainAddBottomRebarL2_p1 + (extensionLeftBendLenghtL2 * XYZ.BasisZ);
 
@@ -3744,7 +3778,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            - (extensionAddBarR2 * beamMainLineDirectionVector); ;
+                            - (extensionAddBarR2 * beamMainLineDirectionVector)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarR2_p2 = requiredBottomLineEndPoint
                             + (rebarLRCoverLayerAsDouble * normal)
@@ -3752,7 +3787,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             - (rebarBottomCoverLayerAsDouble * verticalVectorFromBeamMainLine)
                             - (myMainRebarT2Diam * verticalVectorFromBeamMainLine)
                             - (myMainRebarT3Diam / 2 * verticalVectorFromBeamMainLine)
-                            + (extensionRightLenghtR2Сalculated * beamMainLineDirectionVector);
+                            + ((extensionRightLenghtR2Сalculated - ((myMainRebarT3Diam / 2) / (Math.Cos(beamAngleToX * (Math.PI / 180))))) * beamMainLineDirectionVector)
+                            - (((myMainRebarT3Diam / 2 + myMainRebarT2Diam / 2) * (Math.Tan(beamAngleToX * (Math.PI / 180)))) * beamMainLineDirectionVector);
 
                         XYZ mainAddBottomRebarR2_p3 = mainAddBottomRebarR2_p2 + (extensionRightBendLenghtR2 * XYZ.BasisZ);
 
@@ -3855,7 +3891,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                             mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(1);
                             mainAddBottomRebarR2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(numberOfBarsBottomFaces);
                         }
-                    }
+                    } // почти Ok
 
                     //Поперечный шаг основной арматуры для хомутов
                     double topBarsStepForStirrup = ((beamWidth - rebarLRCoverLayerAsDouble * 2 - myMainRebarT1Diam) / (numberOfBarsTopFaces - 1));
