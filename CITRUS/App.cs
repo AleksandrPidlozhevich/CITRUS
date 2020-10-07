@@ -143,6 +143,21 @@ namespace CITRUS
             pbdRebarGroupCopier.Image = RebarGroupCopier_imgStandart;
             panel_KR.AddItem(pbdRebarGroupCopier);
 
+            //Создание кнопки "BeamReinforcement" в категории "КР"
+            PushButtonData pbdBeamReinforcement = new PushButtonData("BeamReinforcement"
+                    , "Арм.Балки"
+                    , assemblyPach
+                    , "CITRUS.CIT_04_3_BeamReinforcement.CIT_04_3_BeamReinforcement");
+
+            Image BeamReinforcement_img1 = Properties.Resources.BeamReinforcement_Large;
+            ImageSource BeamReinforcement_imgLarge = GetImageSourse(BeamReinforcement_img1);
+            Image BeamReinforcement_img2 = Properties.Resources.BeamReinforcement;
+            ImageSource BeamReinforcement_imgStandart = GetImageSourse(BeamReinforcement_img2);
+
+            pbdBeamReinforcement.LargeImage = BeamReinforcement_imgLarge;
+            pbdBeamReinforcement.Image = BeamReinforcement_imgStandart;
+            panel_KR.AddItem(pbdBeamReinforcement);
+
             //Создание категории кнопок "ОВ"
             RibbonPanel panel_OV = application.CreateRibbonPanel(tabName, "ОВ");
             //Создание кнопки "MEPViewScheduleCreator" в категории "ОВ"
@@ -199,14 +214,6 @@ namespace CITRUS
                     , "CITRUS.MEPViewScheduleCreatorADM");
 
             panel_Other.AddItem(pbdMEPViewScheduleCreatorADM);
-
-            //Создание кнопки "BeamReinforcement" в категории "Другое"
-            PushButtonData pbdBeamReinforcement = new PushButtonData("BeamReinforcement"
-                    , "Арм.Балки"
-                    , assemblyPach
-                    , "CITRUS.CIT_04_3_BeamReinforcement.CIT_04_3_BeamReinforcement");
-
-            panel_Other.AddItem(pbdBeamReinforcement);
 
             // Создание кнопки "HeatLoss" в категории "Другое"
             PushButtonData pbdHeatLoss = new PushButtonData("HeatLoss"

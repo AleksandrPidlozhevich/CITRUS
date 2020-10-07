@@ -402,5 +402,11 @@
   <ItemGroup>
     <None Include="Resources\formBeamReinforcement_Section.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BeamReinforcement.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BeamReinforcement_Large.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
