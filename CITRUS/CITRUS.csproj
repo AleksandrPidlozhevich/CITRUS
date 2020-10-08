@@ -87,6 +87,7 @@
     <Compile Include="CIT_04_3_BeamReinforcement\CIT_04_3_BeamReinforcementForm.Designer.cs">
       <DependentUpon>CIT_04_3_BeamReinforcementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Draftsman.cs" />
     <Compile Include="FormRebarOutletsCreator.cs">
       <SubType>Form</SubType>
     </Compile>

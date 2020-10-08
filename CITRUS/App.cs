@@ -223,7 +223,14 @@ namespace CITRUS
 
             panel_Other.AddItem(pbdHeatLoss);
 
+            // Создание кнопки "Draftsman" в категории "Другое"
+            PushButtonData pbdDraftsman = new PushButtonData("Draftsman"
+                    , "Чертило"
+                    , assemblyPach
+                    , "CITRUS.Draftsman");
 
+            panel_Other.AddItem(pbdDraftsman);
+            
             return Result.Succeeded;
             }
             // Конвертер изображения
