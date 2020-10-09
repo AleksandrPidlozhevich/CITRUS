@@ -38,7 +38,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .Where(rs => rs.Name.ToString() == "26")
                 .Cast<RebarShape>()
                 .ToList();
-            if (rebarShapeMainOverlappingRodsList == null)
+            if (rebarShapeMainOverlappingRodsList.Count == 0)
             {
                 TaskDialog.Show("Revit", "Форма 26 не найдена");
                 return Result.Failed;
@@ -51,7 +51,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .Where(rs => rs.Name.ToString() == "01")
                 .Cast<RebarShape>()
                 .ToList();
-            if (rebarShapeMainWeldingRodsList == null)
+            if (rebarShapeMainWeldingRodsList.Count == 0)
             {
                 TaskDialog.Show("Revit", "Форма 01 не найдена");
                 return Result.Failed;
@@ -64,7 +64,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .Where(rs => rs.Name.ToString() == "11")
                 .Cast<RebarShape>()
                 .ToList();
-            if (rebarShapeMainRodsListBendIntoASlab == null)
+            if (rebarShapeMainRodsListBendIntoASlab.Count == 0)
             {
                 TaskDialog.Show("Revit", "Форма 11 не найдена");
                 return Result.Failed;
@@ -77,7 +77,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .Where(rs => rs.Name.ToString() == "51")
                 .Cast<RebarShape>()
                 .ToList();
-            if (rebarStirrupShapeList == null)
+            if (rebarStirrupShapeList.Count == 0)
             {
                 TaskDialog.Show("Revit", "Форма 51 не найдена");
                 return Result.Failed;
@@ -90,7 +90,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .Where(rs => rs.Name.ToString() == "02")
                 .Cast<RebarShape>()
                 .ToList();
-            if (rebarPinShapeList == null)
+            if (rebarPinShapeList.Count == 0)
             {
                 TaskDialog.Show("Revit", "Форма 02 не найдена");
                 return Result.Failed;
@@ -103,7 +103,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .Where(rs => rs.Name.ToString() == "Сейсмическая поперечная арматура - 135 градусов")
                 .Cast<RebarHookType>()
                 .ToList();
-            if (rebarHookTypeList == null)
+            if (rebarHookTypeList.Count == 0)
             {
                 TaskDialog.Show("Revit", "Форма загиба Сейсмическая поперечная арматура - 135 градусов не найдена");
                 return Result.Failed;
@@ -116,7 +116,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .Where(rs => rs.Name.ToString() == "Стандартный - 180 градусов")
                 .Cast<RebarHookType>()
                 .ToList();
-            if (rebarPinHookTypeList == null)
+            if (rebarPinHookTypeList.Count == 0)
             {
                 TaskDialog.Show("Revit", "Форма загиба Стандартный - 180 градусов не найдена");
                 return Result.Failed;

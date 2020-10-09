@@ -38,12 +38,59 @@ namespace CITRUS
                 .FirstOrDefault<ViewFamilyType>(x =>
                  ViewFamily.Section == x.ViewFamily);
 
-            BoundingBoxXYZ bb = columnsList.First().get_BoundingBox(null);
             //Открытие транзакции
             using (Transaction t = new Transaction(doc))
             {
                 t.Start("Создание разрезов");
-                ViewSection.CreateSection(doc, vft.Id, bb);
+
+                foreach (FamilyInstance column in columnsList)
+                {
+                    //Марка колонны
+                    string columnMark = column.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString();
+
+                    //Получение нижней точки геометрии колонны
+                    LocationPoint columnOriginLocationPoint = column.Location as LocationPoint;
+                    XYZ columnOriginBase = columnOriginLocationPoint.Point;
+                    //Ширина сечения колонны
+                    double columnSectionWidth = column.Symbol.LookupParameter("Рзм.Ширина").AsDouble();
+                    //Высота сечения колонны
+                    double columnSectionHeight = column.Symbol.LookupParameter("Рзм.Высота").AsDouble();
+
+                    //Ось вращения
+                    XYZ rotationPoint1 = new XYZ(columnOriginBase.X, columnOriginBase.Y, columnOriginBase.Z);
+                    XYZ rotationPoint2 = new XYZ(columnOriginBase.X, columnOriginBase.Y, columnOriginBase.Z + 1);
+                    Line rotationAxis = Line.CreateBound(rotationPoint1, rotationPoint2);
+                    //Угол поворота колонны
+                    double columnRotation = columnOriginLocationPoint.Rotation;
+
+                    // BoundingBox для колонны
+                    BoundingBoxXYZ columnBoundingBox = column.get_BoundingBox(null);
+                    double columnBoundingBoxMinZ = columnBoundingBox.Min.Z;
+                    double columnBoundingBoxMaxZ = columnBoundingBox.Max.Z;
+                    double columnHeight = columnBoundingBoxMaxZ - columnBoundingBoxMinZ;
+
+                    XYZ min = new XYZ(-columnSectionHeight/2 - 300/304.8, -300 / 304.8, -columnSectionWidth-50/304.8);
+                    XYZ max = new XYZ(columnSectionHeight / 2 + 300 / 304.8, columnHeight + 300/304.8, columnSectionWidth + 50/304.8);
+
+                    Transform transform = Transform.Identity;
+                    transform.Origin = columnOriginBase;
+                    transform.BasisX = XYZ.BasisY;
+                    transform.BasisY = XYZ.BasisZ;
+                    transform.BasisZ = XYZ.BasisX;
+
+                    BoundingBoxXYZ sectionBox = new BoundingBoxXYZ();
+                    sectionBox.Transform = transform;
+                    sectionBox.Min = min;
+                    sectionBox.Max = max;
+                    ViewSection viewSection = ViewSection.CreateSection(doc, vft.Id, sectionBox);
+                    viewSection.Name = "Колонна " + columnMark;
+
+                    if (columnOriginLocationPoint.Rotation != 0)
+                    {
+                        ElementTransformUtils.RotateElement(doc, viewSection.Id, rotationAxis, columnRotation);
+                    }
+                }
+
                 t.Commit();
             }
 
