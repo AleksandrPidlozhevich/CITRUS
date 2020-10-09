@@ -40,8 +40,16 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .ToList();
             if (rebarShapeMainOverlappingRodsList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма 26 не найдена");
-                return Result.Failed;
+                rebarShapeMainOverlappingRodsList = new FilteredElementCollector(doc)
+               .OfClass(typeof(RebarShape))
+               .Where(rs => rs.Name.ToString() == "О_26(α»90)")
+               .Cast<RebarShape>()
+               .ToList();
+                if (rebarShapeMainOverlappingRodsList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма 26 или О_26(α»90) не найдена");
+                    return Result.Failed;
+                }
             }
             RebarShape myMainRebarShapeOverlappingRods = rebarShapeMainOverlappingRodsList.First();
 
@@ -53,8 +61,16 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .ToList();
             if (rebarShapeMainWeldingRodsList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма 01 не найдена");
-                return Result.Failed;
+                rebarShapeMainWeldingRodsList = new FilteredElementCollector(doc)
+               .OfClass(typeof(RebarShape))
+               .Where(rs => rs.Name.ToString() == "О_1")
+               .Cast<RebarShape>()
+               .ToList();
+                if (rebarShapeMainWeldingRodsList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма 01 или О_1 не найдена");
+                    return Result.Failed;
+                }
             }
             RebarShape myMainRebarShapeWeldingRods = rebarShapeMainWeldingRodsList.First();
 
@@ -66,8 +82,16 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .ToList();
             if (rebarShapeMainRodsListBendIntoASlab.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма 11 не найдена");
-                return Result.Failed;
+                rebarShapeMainRodsListBendIntoASlab = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarShape))
+                .Where(rs => rs.Name.ToString() == "О_11")
+                .Cast<RebarShape>()
+                .ToList();
+                if (rebarShapeMainRodsListBendIntoASlab.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма 11 или О_11 не найдена");
+                    return Result.Failed;
+                }
             }
             RebarShape myMainRebarShapeRodsBendIntoASlab = rebarShapeMainRodsListBendIntoASlab.First();
 
@@ -79,12 +103,20 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .ToList();
             if (rebarStirrupShapeList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма 51 не найдена");
-                return Result.Failed;
+                rebarStirrupShapeList = new FilteredElementCollector(doc)
+               .OfClass(typeof(RebarShape))
+               .Where(rs => rs.Name.ToString() == "Х_51")
+               .Cast<RebarShape>()
+               .ToList();
+                if (rebarStirrupShapeList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма 51 или Х_51 не найдена");
+                    return Result.Failed;
+                }
             }
             RebarShape myStirrupRebarShape = rebarStirrupShapeList.First();
 
-            //Выбор формы шпильки
+            //Выбор формы шпильки 
             List<RebarShape> rebarPinShapeList = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarShape))
                 .Where(rs => rs.Name.ToString() == "02")
@@ -92,8 +124,16 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .ToList();
             if (rebarPinShapeList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма 02 не найдена");
-                return Result.Failed;
+                rebarPinShapeList = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarShape))
+                .Where(rs => rs.Name.ToString() == "Х_(22)")
+                .Cast<RebarShape>()
+                .ToList();
+                if (rebarPinShapeList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма 02 или Х_(22) не найдена");
+                    return Result.Failed;
+                }
             }
             RebarShape myPinRebarShape = rebarPinShapeList.First();
 
@@ -105,8 +145,16 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .ToList();
             if (rebarHookTypeList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма загиба Сейсмическая поперечная арматура - 135 градусов не найдена");
-                return Result.Failed;
+                rebarHookTypeList = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarHookType))
+                .Where(rs => rs.Name.ToString() == "Хомут/стяжка_135°")
+                .Cast<RebarHookType>()
+                .ToList();
+                if (rebarHookTypeList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма загиба Сейсмическая поперечная арматура - 135 градусов или Хомут/стяжка_135° не найдена");
+                    return Result.Failed;
+                }
             }
             RebarHookType myRebarHookType = rebarHookTypeList.First();
 
@@ -118,8 +166,16 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                 .ToList();
             if (rebarPinHookTypeList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма загиба Стандартный - 180 градусов не найдена");
-                return Result.Failed;
+                rebarPinHookTypeList = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarHookType))
+                .Where(rs => rs.Name.ToString() == "Хомут/стяжка_180°")
+                .Cast<RebarHookType>()
+                .ToList();
+                if (rebarPinHookTypeList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма загиба Стандартный - 180 градусов или Хомут/стяжка_180° не найдена");
+                    return Result.Failed;
+                }
             }
             RebarHookType myRebarPinHookType = rebarPinHookTypeList.First();
             //Завершение блока выбора форм арматурных стержней
@@ -244,12 +300,16 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
             //Загнуть в плиту
             bool bendIntoASlab = rectangularColumnsReinforcementForm.BendIntoASlab;
 
-#endregion
+            #endregion
 
 #region Старт блока Получение типа элемента CIT_04_ВаннаДляСварки
             //Список семейств с именем CIT_04_ВаннаДляСварки
             List<Family> familiesTubWelding = new FilteredElementCollector(doc).OfClass(typeof(Family)).Cast<Family>().Where(f => f.Name == "CIT_04_ВаннаДляСварки").ToList();
-            if (familiesTubWelding.Count != 1) return Result.Failed;
+            if (familiesTubWelding.Count == 0)
+            {
+                TaskDialog.Show("Revit", "Семейство CIT_04_ВаннаДляСварки не найдено");
+                return Result.Failed;
+            }
             Family familieTubWelding = familiesTubWelding.First();
 
             //CIT_04_ВаннаДляСварки
@@ -258,10 +318,14 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
             //Тип элемента(FamilySymbol) CIT_04_ВаннаДляСварки
             FamilySymbol myTubWeldingSymbol = doc.GetElement(firstSymbolTubWeldingId) as FamilySymbol;
-            if (myTubWeldingSymbol == null) return Result.Failed;
+            if (myTubWeldingSymbol == null)
+            {
+                TaskDialog.Show("Revit", "Семейство CIT_04_ВаннаДляСварки не найдено");
+                return Result.Failed;
+            }
 
             //Завершение блока Получение типа элемента CIT_04_ВаннаДляСварки
-#endregion
+            #endregion
 
             //Нормаль для построения стержней основной арматуры
             XYZ mainRebarNormalMain = new XYZ(0, 1, 0);
@@ -308,10 +372,26 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                     double columnLength = ((topLevelElevation + topLevelOffset) - (baseLevelElevation + baseLevelOffset));
 
                     //Ширина сечения колонны
-                    double columnSectionWidth = myColumn.Symbol.LookupParameter("Рзм.Ширина").AsDouble();
+                    double columnSectionWidth = 0;
+                    if (myColumn.Symbol.LookupParameter("Рзм.Ширина") != null)
+                    {
+                        columnSectionWidth = myColumn.Symbol.LookupParameter("Рзм.Ширина").AsDouble();
+                    }
+                    else
+                    {
+                        columnSectionWidth = myColumn.Symbol.LookupParameter("ADSK_Размер_Ширина").AsDouble();
+                    }
 
                     //Высота сечения колонны
-                    double columnSectionHeight = myColumn.Symbol.LookupParameter("Рзм.Высота").AsDouble();
+                    double columnSectionHeight = 0;
+                    if (myColumn.Symbol.LookupParameter("Рзм.Высота") != null)
+                    {
+                        columnSectionHeight = myColumn.Symbol.LookupParameter("Рзм.Высота").AsDouble();
+                    }
+                    else
+                    {
+                        columnSectionHeight = myColumn.Symbol.LookupParameter("ADSK_Размер_Высота").AsDouble();
+                    }
 
                     if (columnSectionWidth == columnSectionHeight)
                     {
