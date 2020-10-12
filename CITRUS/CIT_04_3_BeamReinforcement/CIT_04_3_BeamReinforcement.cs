@@ -29,8 +29,16 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                 .ToList();
             if (straightBarShapeList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма 01 не найдена");
-                return Result.Failed;
+                straightBarShapeList = new FilteredElementCollector(doc)
+               .OfClass(typeof(RebarShape))
+               .Where(rs => rs.Name.ToString() == "О_1")
+               .Cast<RebarShape>()
+               .ToList();
+                if (straightBarShapeList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма 01 или О_1 не найдена");
+                    return Result.Failed;
+                }
             }
             RebarShape straightBarShape = straightBarShapeList.First();
 
@@ -42,12 +50,20 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                 .ToList();
             if (LBarShapeList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма 11 не найдена");
-                return Result.Failed;
+                LBarShapeList = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarShape))
+                .Where(rs => rs.Name.ToString() == "О_11")
+                .Cast<RebarShape>()
+                .ToList();
+                if (LBarShapeList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма 11 или О_11 не найдена");
+                    return Result.Failed;
+                }
             }
             RebarShape LBarShape = LBarShapeList.First();
 
-            //Выбор формы основной арматуры Г-образный стержень под углом
+            //Выбор формы основной арматуры Г-образный стержень под углом 
             List<RebarShape> LBarShapeAngleList = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarShape))
                 .Where(rs => rs.Name.ToString() == "15")
@@ -55,8 +71,16 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                 .ToList();
             if (LBarShapeAngleList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма 15 не найдена");
-                return Result.Failed;
+                LBarShapeAngleList = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarShape))
+                .Where(rs => rs.Name.ToString() == "О_15")
+                .Cast<RebarShape>()
+                .ToList();
+                if (LBarShapeAngleList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма 15 или О_15 не найдена");
+                    return Result.Failed;
+                }
             }
             RebarShape LBarShapeAngle = LBarShapeAngleList.First();
 
@@ -68,13 +92,21 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                 .ToList();
             if (LBarShapeSharpAngleList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма 15a не найдена");
-                return Result.Failed;
+                LBarShapeSharpAngleList = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarShape))
+                .Where(rs => rs.Name.ToString() == "О_14")
+                .Cast<RebarShape>()
+                .ToList();
+                if (LBarShapeSharpAngleList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма 15a или О_14 не найдена");
+                    return Result.Failed;
+                }
             }
             RebarShape LBarShapeSharpAngle = LBarShapeSharpAngleList.First();
-            
 
-            //Выбор формы основной арматуры П-образный стержень
+
+            //Выбор формы основной арматуры П-образный стержень 
             List<RebarShape> UBarShapeList = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarShape))
                 .Where(rs => rs.Name.ToString() == "21 отгибы разной длины")
@@ -82,8 +114,16 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                 .ToList();
             if (UBarShapeList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма 21 отгибы разной длины не найдена");
-                return Result.Failed;
+                UBarShapeList = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarShape))
+                .Where(rs => rs.Name.ToString() == "О_21")
+                .Cast<RebarShape>()
+                .ToList();
+                if (UBarShapeList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма 21 отгибы разной длины или О_21 не найдена");
+                    return Result.Failed;
+                }
             }
             RebarShape UBarShape = UBarShapeList.First();
 
@@ -126,7 +166,7 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
             }
             RebarShape UBarShape2Angle = UBarShapeAngle2List.First();
 
-            //Выбор формы основной арматуры Z-образный стержень
+            //Выбор формы основной арматуры Z-образный стержень 
             List<RebarShape> ZBarShapeList = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarShape))
                 .Where(rs => rs.Name.ToString() == "26")
@@ -134,8 +174,16 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                 .ToList();
             if (ZBarShapeList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма 26 не найдена");
-                return Result.Failed;
+                ZBarShapeList = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarShape))
+                .Where(rs => rs.Name.ToString() == "О_26(α»90)")
+                .Cast<RebarShape>()
+                .ToList();
+                if (ZBarShapeList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма 26 или О_26(α»90) не найдена");
+                    return Result.Failed;
+                }
             }
             RebarShape ZBarShape = ZBarShapeList.First();
 
@@ -147,8 +195,16 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                 .ToList();
             if (rebarStirrupShapeList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма 51 не найдена");
-                return Result.Failed;
+                rebarStirrupShapeList = new FilteredElementCollector(doc)
+               .OfClass(typeof(RebarShape))
+               .Where(rs => rs.Name.ToString() == "Х_51")
+               .Cast<RebarShape>()
+               .ToList();
+                if (rebarStirrupShapeList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма 51 или Х_51 не найдена");
+                    return Result.Failed;
+                }
             }
             RebarShape myStirrupRebarShape = rebarStirrupShapeList.First();
 
@@ -166,8 +222,16 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                 .ToList();
             if (rebarHookTypeList.Count == 0)
             {
-                TaskDialog.Show("Revit", "Форма загиба Сейсмическая поперечная арматура - 135 градусов не найдена");
-                return Result.Failed;
+                rebarHookTypeList = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarHookType))
+                .Where(rs => rs.Name.ToString() == "Хомут/стяжка_135°")
+                .Cast<RebarHookType>()
+                .ToList();
+                if (rebarHookTypeList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Форма загиба Сейсмическая поперечная арматура - 135 градусов или Хомут/стяжка_135° не найдена");
+                    return Result.Failed;
+                }
             }
             RebarHookType myRebarHookType = rebarHookTypeList.First();
 
@@ -345,9 +409,27 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
                     }
 
                     //Ширина балки
-                    double beamWidth = beam.Symbol.LookupParameter("Рзм.Ширина").AsDouble();
+                    double beamWidth = 0;
+                    if (beam.Symbol.LookupParameter("Рзм.Ширина") != null)
+                    {
+                        beamWidth = beam.Symbol.LookupParameter("Рзм.Ширина").AsDouble();
+                    }
+                    else
+                    {
+                        beamWidth = beam.Symbol.LookupParameter("ADSK_Размер_Ширина").AsDouble();
+                    }
+
                     //Высота балки
-                    double beamHeight = beam.Symbol.LookupParameter("Рзм.Высота").AsDouble();
+                    double beamHeight = 0;
+                    if (beam.Symbol.LookupParameter("Рзм.Высота") != null)
+                    {
+                        beamHeight = beam.Symbol.LookupParameter("Рзм.Высота").AsDouble();
+                    }
+                    else
+                    {
+                        beamHeight = beam.Symbol.LookupParameter("ADSK_Размер_Высота").AsDouble();
+                    }
+
 
                     //Получаем основную кривую балки
                     LocationCurve myMainBeamLocationCurves = beam.Location as LocationCurve;
