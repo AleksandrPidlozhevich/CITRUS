@@ -206,9 +206,10 @@ namespace CITRUS
                 foreach (FamilyInstance column in columnsList)
                 {
                     //Материал колонны
-                    ElementId columnMaterialId = column.Symbol.GetMaterialIds(false).First();
-                    Material columnMaterial = doc.GetElement(columnMaterialId) as Material;
-                    string columnMaterialName = columnMaterial.Name.Split(' ').ToArray()[0].ToString();
+                    ElementId columnMaterialId = column.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_MATERIAL_PARAM).AsElementId();
+                    Material columnMaterial = doc2.GetElement(columnMaterialId) as Material;
+                    string columnMaterialNameAsString = columnMaterial.Name + " AddSimbol";
+                    string columnMaterialName = columnMaterialNameAsString.Split(' ').ToArray()[0].ToString();
                     LocationPoint columnLocationPoint = column.Location as LocationPoint;
                     XYZ columnLocationPointXYZ = new XYZ(columnLocationPoint.Point.X, columnLocationPoint.Point.Y, columnLocationPoint.Point.Z);
                     //Защитный слой колонны
