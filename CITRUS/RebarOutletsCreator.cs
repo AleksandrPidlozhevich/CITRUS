@@ -252,12 +252,20 @@ namespace CITRUS
                         .WherePasses(new BoundingBoxIntersectsFilter(myColumnOutLn) )
                         .Cast<Rebar>()
                         //.Where(r => r.GetHostId() == column.Id) //Подумать, может вернуть обратно этот элемент
-                        .Where(r => r.Name.Split(' ').ToArray().Contains("A500") || r.Name.Split(' ').ToArray().Contains("А500"))
+                        .Where(r => r.Name.Split(' ').ToArray().Contains("A500") || r.Name.Split(' ').ToArray().Contains("А500")
+                        || r.Name.Split(' ').ToArray().Contains("A500C") || r.Name.Split(' ').ToArray().Contains("А500С")
+                        || r.Name.Split(' ').ToArray().Contains("A500СП") || r.Name.Split(' ').ToArray().Contains("А500СП"))
                         .Where(r => r.get_Parameter(BuiltInParameter.REBAR_SHAPE).AsValueString() != "51" &
                         r.get_Parameter(BuiltInParameter.REBAR_SHAPE).AsValueString() != "Х_51")
                         .Where(r => r.get_Parameter(BuiltInParameter.REBAR_SHAPE).AsValueString() != "02" &
                         r.get_Parameter(BuiltInParameter.REBAR_SHAPE).AsValueString() != "Х_(22)")
                         .ToList();
+                    if (columnRebarList.Count == 0)
+                    {
+                        TaskDialog.Show("Revit", "Арматура в колонне не найдена!" +
+                            "");
+                        return Result.Failed;
+                    }
 
                     //Получение ID стержня с мин Х и мин Y из списка
                     ElementId minXminY = GetMinXMinYRebar(columnRebarList, columnSectionWidth, columnSectionHeight, mainRebarCoverLayer, columnOrigin, linkOrigin);
@@ -2297,6 +2305,12 @@ namespace CITRUS
                         rebarIdCollection.Add(outletsStirrup_1.Id);
                         rebarIdCollection.Add(outletsStirrup_2.First());
                         rebarIdCollection.Add(outletsStirrup_3.First());
+                    }
+
+                    if (rebarIdCollection.Count == 0)
+                    {
+                        TaskDialog.Show("Revit", "Группа выпусков не содержит ни одного стержня!");
+                        return Result.Failed;
                     }
 
                     List<Group> projectGroupList = new FilteredElementCollector(doc).OfClass(typeof(Group)).Cast<Group>().ToList();
