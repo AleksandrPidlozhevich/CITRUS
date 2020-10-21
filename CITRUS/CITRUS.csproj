@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Speech\v11.0\Assembly\Microsoft.Speech.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data, Version=8.0.22.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.22\Assemblies\v4.5.2\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
@@ -58,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Blocker.cs" />
     <Compile Include="CapitalMaker.cs" />
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\CIT_04_1_1FormSquareColumnsReinforcementType6.cs">
       <SubType>Form</SubType>
@@ -104,6 +109,7 @@
     <Compile Include="MEPViewScheduleHostStartForm.Designer.cs">
       <DependentUpon>MEPViewScheduleHostStartForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MySQL_Test.cs" />
     <Compile Include="RebarGroupCopier\RebarGroupCopierForm.cs">
       <SubType>Form</SubType>
     </Compile>

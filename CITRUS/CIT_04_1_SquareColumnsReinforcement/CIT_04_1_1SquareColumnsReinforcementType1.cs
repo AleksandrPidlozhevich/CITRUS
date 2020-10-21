@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.ApplicationServices;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
@@ -20,6 +21,9 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
 
         public Result Execute(UIApplication uiapp)
         {
+            string versString = uiapp.Application.VersionNumber;
+            int versNumber = 0;
+            Int32.TryParse(versString, out versNumber);
             //Получение текущего документа
             Document doc = uiapp.ActiveUIDocument.Document;
 
@@ -438,7 +442,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         //Если стыковка стержней в нахлест загиб в плиту
                         //Точки для построения кривфх стержня
                         XYZ rebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z - deepeningBarsSize, 6));
-                        XYZ rebar_p2 = new XYZ(Math.Round(rebar_p1.X, 6), Math.Round(rebar_p1.Y, 6), Math.Round(rebar_p1.Z + deepeningBarsSize + columnLength + floorThicknessAboveColumn - 60/304.8, 6));
+                        XYZ rebar_p2 = new XYZ(Math.Round(rebar_p1.X, 6), Math.Round(rebar_p1.Y, 6), Math.Round(rebar_p1.Z + deepeningBarsSize + columnLength + floorThicknessAboveColumn - 60 / 304.8, 6));
                         XYZ rebar_p3 = new XYZ(Math.Round(rebar_p2.X + rebarOutletsLength - (floorThicknessAboveColumn - 60 / 304.8), 6), Math.Round(rebar_p2.Y, 6), Math.Round(rebar_p2.Z, 6));
 
                         //Кривые стержня
@@ -497,7 +501,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                             , myMainRebarCurves
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
-                        
+
                         XYZ newPlaсeСolumnRebar_3 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiam / 2, columnSectionWidth / 2 - mainRebarCoverLayer - mainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnRebar_3);
                         rebarIdCollection.Add(columnMainRebar_3.Id);
@@ -513,13 +517,13 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                             , myMainRebarCurves
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
-                        
+
                         XYZ newPlaсeСolumnRebar_4 = new XYZ(columnSectionHeight / 2 - mainRebarCoverLayer - mainRebarDiam / 2, -columnSectionWidth / 2 + mainRebarCoverLayer + mainRebarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnRebar_4);
                         rebarIdCollection.Add(columnMainRebar_4.Id);
                     }
 
-                    else if (checkedRebarOutletsButtonName == "radioButton_MainWeldingRods" & changeColumnSection == false & transitionToOverlap==false & bendIntoASlab == false)
+                    else if (checkedRebarOutletsButtonName == "radioButton_MainWeldingRods" & changeColumnSection == false & transitionToOverlap == false & bendIntoASlab == false)
                     {
                         //Если стыковка стержней на сварке без изменения сечения колонны выше
                         //Точки для построения кривфх стержня
@@ -671,7 +675,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         //Если стыковка стержней в нахлест без изменения сечения колонны выше
                         //Точки для построения кривфх стержня
                         XYZ rebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z + rebarOutletsLength, 6));
-                        XYZ rebar_p2 = new XYZ(Math.Round(rebar_p1.X, 6), Math.Round(rebar_p1.Y, 6), Math.Round(rebar_p1.Z + columnLength- + rebarOutletsLength, 6));
+                        XYZ rebar_p2 = new XYZ(Math.Round(rebar_p1.X, 6), Math.Round(rebar_p1.Y, 6), Math.Round(rebar_p1.Z + columnLength - +rebarOutletsLength, 6));
                         XYZ rebar_p3 = new XYZ(Math.Round(rebar_p2.X + mainRebarDiam, 6), Math.Round(rebar_p2.Y, 6), Math.Round(rebar_p2.Z + floorThicknessAboveColumn, 6));
                         XYZ rebar_p4 = new XYZ(Math.Round(rebar_p3.X, 6), Math.Round(rebar_p3.Y, 6), Math.Round(rebar_p3.Z + rebarOutletsLength, 6));
 
@@ -916,7 +920,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     XYZ narmalStirrup = new XYZ(0, 0, 1);
 
                     //Точки для построения кривых стержня хомута
-                    XYZ rebarStirrup_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionHeight / 2 + mainRebarCoverLayer - stirrupRebarDiam / 2, 6)
+                    XYZ rebarStirrup_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionHeight / 2 + mainRebarCoverLayer - stirrupRebarDiam, 6)
                         , Math.Round(columnOrigin.Y + columnSectionWidth / 2 - mainRebarCoverLayer + stirrupRebarDiam / 2, 6)
                         , Math.Round(columnOrigin.Z + firstStirrupOffset, 6));
 
@@ -925,24 +929,24 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         , Math.Round(rebarStirrup_p1.Z, 6));
 
                     XYZ rebarStirrup_p3 = new XYZ(Math.Round(rebarStirrup_p2.X, 6)
-                        , Math.Round(rebarStirrup_p2.Y - columnSectionWidth + mainRebarCoverLayer * 2 - stirrupRebarDiam, 6)
+                        , Math.Round(rebarStirrup_p2.Y - columnSectionWidth + mainRebarCoverLayer * 2 - stirrupRebarDiam - stirrupRebarDiam/2, 6)
                         , Math.Round(rebarStirrup_p2.Z, 6));
 
                     XYZ rebarStirrup_p4 = new XYZ(Math.Round(rebarStirrup_p3.X - columnSectionHeight + mainRebarCoverLayer * 2 - stirrupRebarDiam, 6)
                         , Math.Round(rebarStirrup_p3.Y, 6)
                         , Math.Round(rebarStirrup_p3.Z, 6));
 
-                   //Кривые хомута
-                   List<Curve> myStirrupCurves = new List<Curve>();
+                    //Кривые хомута
+                    List<Curve> myStirrupCurves = new List<Curve>();
 
-                   Curve Stirrup_line1 = Line.CreateBound(rebarStirrup_p1, rebarStirrup_p2) as Curve;
-                   myStirrupCurves.Add(Stirrup_line1);
-                   Curve Stirrup_line2 = Line.CreateBound(rebarStirrup_p2, rebarStirrup_p3) as Curve;
-                   myStirrupCurves.Add(Stirrup_line2);
-                   Curve Stirrup_line3 = Line.CreateBound(rebarStirrup_p3, rebarStirrup_p4) as Curve;
-                   myStirrupCurves.Add(Stirrup_line3);
-                   Curve Stirrup_line4 = Line.CreateBound(rebarStirrup_p4, rebarStirrup_p1) as Curve;
-                   myStirrupCurves.Add(Stirrup_line4);
+                    Curve Stirrup_line1 = Line.CreateBound(rebarStirrup_p1, rebarStirrup_p2) as Curve;
+                    myStirrupCurves.Add(Stirrup_line1);
+                    Curve Stirrup_line2 = Line.CreateBound(rebarStirrup_p2, rebarStirrup_p3) as Curve;
+                    myStirrupCurves.Add(Stirrup_line2);
+                    Curve Stirrup_line3 = Line.CreateBound(rebarStirrup_p3, rebarStirrup_p4) as Curve;
+                    myStirrupCurves.Add(Stirrup_line3);
+                    Curve Stirrup_line4 = Line.CreateBound(rebarStirrup_p4, rebarStirrup_p1) as Curve;
+                    myStirrupCurves.Add(Stirrup_line4);
 
                     //Построение нижнего хомута
                     Rebar columnRebarDownStirrup = Rebar.CreateFromCurvesAndShape(doc, myStirrupRebarShape, myStirrupBarTape, myRebarHookType, myRebarHookType, myColumn, narmalStirrup, myStirrupCurves, RebarHookOrientation.Right, RebarHookOrientation.Right);

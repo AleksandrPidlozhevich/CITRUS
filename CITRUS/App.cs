@@ -230,7 +230,24 @@ namespace CITRUS
                     , "CITRUS.Draftsman");
 
             panel_Other.AddItem(pbdDraftsman);
+
+            // Создание кнопки "MySQL_Test" в категории "Другое"
+            PushButtonData pbdMySQLTest = new PushButtonData("MySQLTest"
+                    , "MySQLTest"
+                    , assemblyPach
+                    , "CITRUS.MySQL_Test");
+
+            panel_Other.AddItem(pbdMySQLTest);
+
+            // Создание кнопки "Blocker" в категории "Другое"
+            PushButtonData pbdBlocker = new PushButtonData("Blocker"
+                    , "Blocker"
+                    , assemblyPach
+                    , "CITRUS.Blocker");
+
+            panel_Other.AddItem(pbdBlocker);
             
+
             return Result.Succeeded;
             }
             // Конвертер изображения

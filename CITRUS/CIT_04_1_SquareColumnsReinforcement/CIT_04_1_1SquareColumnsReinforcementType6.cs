@@ -2656,7 +2656,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     XYZ narmalStirrup = new XYZ(0, 0, 1);
 
                     //Точки для построения кривых стержня хомута опоясывающего
-                    XYZ firstRebarStirrup_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionHeight / 2 + mainRebarCoverLayer - firstStirrupRebarDiam / 2, 6)
+                    XYZ firstRebarStirrup_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionHeight / 2 + mainRebarCoverLayer - firstStirrupRebarDiam, 6)
                         , Math.Round(columnOrigin.Y + columnSectionWidth / 2 - mainRebarCoverLayer + firstStirrupRebarDiam / 2, 6)
                         , Math.Round(columnOrigin.Z + firstStirrupOffset, 6));
 
@@ -2665,7 +2665,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         , Math.Round(firstRebarStirrup_p1.Z, 6));
 
                     XYZ firstRebarStirrup_p3 = new XYZ(Math.Round(firstRebarStirrup_p2.X, 6)
-                        , Math.Round(firstRebarStirrup_p2.Y - columnSectionWidth + mainRebarCoverLayer * 2 - firstStirrupRebarDiam, 6)
+                        , Math.Round(firstRebarStirrup_p2.Y - columnSectionWidth + mainRebarCoverLayer * 2 - firstStirrupRebarDiam - firstStirrupRebarDiam/2, 6)
                         , Math.Round(firstRebarStirrup_p2.Z, 6));
 
                     XYZ firstRebarStirrup_p4 = new XYZ(Math.Round(firstRebarStirrup_p3.X - columnSectionHeight + mainRebarCoverLayer * 2 - firstStirrupRebarDiam, 6)
@@ -2675,11 +2675,11 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
 
                     //Точки для построения кривых стержня хомута дополнительного
                     XYZ secondRebarStirrup_p1 = new XYZ(Math.Round(columnOrigin.X - secondLeftRebarOffset1-secondMainRebarDiam/2-secondStirrupRebarDiam, 6)
-                        , Math.Round(columnOrigin.Y+columnSectionWidth/2 - mainRebarCoverLayer+secondStirrupRebarDiam, 6)
+                        , Math.Round(columnOrigin.Y+columnSectionWidth/2 - mainRebarCoverLayer+secondStirrupRebarDiam/2, 6)
                         , Math.Round(columnOrigin.Z + firstStirrupOffset + firstStirrupRebarDiam / 2 + secondStirrupRebarDiam / 2, 6));
 
                     XYZ secondRebarStirrup_p2 = new XYZ(Math.Round(columnOrigin.X + secondRightRebarOffset1 + secondMainRebarDiam / 2 , 6)
-                        , Math.Round(columnOrigin.Y + columnSectionWidth/2 - mainRebarCoverLayer + secondStirrupRebarDiam, 6)
+                        , Math.Round(columnOrigin.Y + columnSectionWidth/2 - mainRebarCoverLayer + secondStirrupRebarDiam/2, 6)
                         , Math.Round(secondRebarStirrup_p1.Z, 6));
 
                     XYZ secondRebarStirrup_p3 = new XYZ(Math.Round(columnOrigin.X + secondRightRebarOffset1 + secondMainRebarDiam / 2 , 6)
@@ -2692,11 +2692,11 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
 
 
                     //Точки для построения кривых стержня хомута дополнительного 90 град
-                    XYZ thirdRebarStirrup_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionHeight / 2 + mainRebarCoverLayer - secondStirrupRebarDiam, 6)
+                    XYZ thirdRebarStirrup_p1 = new XYZ(Math.Round(columnOrigin.X - columnSectionHeight / 2 + mainRebarCoverLayer - secondStirrupRebarDiam/2, 6)
                         , Math.Round(columnOrigin.Y - secondLowerRebarOffset1 - secondMainRebarDiam / 2 - secondStirrupRebarDiam, 6)
                         , Math.Round(columnOrigin.Z + firstStirrupOffset + firstStirrupRebarDiam / 2 + secondStirrupRebarDiam / 2+ secondStirrupRebarDiam, 6));
 
-                    XYZ thirdRebarStirrup_p2 = new XYZ(Math.Round(columnOrigin.X - columnSectionHeight / 2 + mainRebarCoverLayer - secondStirrupRebarDiam, 6)
+                    XYZ thirdRebarStirrup_p2 = new XYZ(Math.Round(columnOrigin.X - columnSectionHeight / 2 + mainRebarCoverLayer - secondStirrupRebarDiam/2, 6)
                         , Math.Round(columnOrigin.Y + secondTopRebarOffset1 + secondMainRebarDiam / 2, 6)
                         , Math.Round(thirdRebarStirrup_p1.Z, 6));
 
