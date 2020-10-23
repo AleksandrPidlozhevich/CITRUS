@@ -181,7 +181,7 @@
       <DependentUpon>FloorTypeSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Sobirator.cs" />
-    <Compile Include="StairsReinforcement.cs" />
+    <Compile Include="StairFlightReinforcement.cs" />
     <Compile Include="StructuralFramingSelectionFilter.cs" />
     <Compile Include="TXTExport.cs" />
     <Compile Include="TXTExportForm.cs">

@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.UI;
 using MySql.Data.MySqlClient;
 using System;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace CITRUS
 {
@@ -28,15 +30,22 @@ namespace CITRUS
                 return Result.Cancelled;
             }
 
+            List<Rebar> rebars = new FilteredElementCollector(doc).OfClass(typeof(Rebar)).Cast<Rebar>().ToList();
+            if (rebars.Count == 0)
+            {
+                TaskDialog.Show("Revit", "Арматура не найдена");
+                return Result.Cancelled;
+            }
+
             MySqlDataAdapter adapter = new MySqlDataAdapter();
 
+            openConnection();
             foreach (FamilyInstance column in columns)
             {
                 int columnIdFromRevit = 0;
                 Int32.TryParse(column.Id.ToString(), out columnIdFromRevit);
                 string columnMarkFromRevit = column.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString();
                 double columnVolumeFromRevit = column.get_Parameter(BuiltInParameter.HOST_VOLUME_COMPUTED).AsDouble() * 0.0283168;
-                
 
                 MySqlCommand comand = new MySqlCommand("INSERT INTO `structural_columns`(`id`,`mark`,`volume`) VALUES(@columnId, @columnMark,@columnVolume);", getConnection());
                 comand.Parameters.Add("@columnId", MySqlDbType.Int32).Value = columnIdFromRevit;
@@ -44,13 +53,37 @@ namespace CITRUS
                 comand.Parameters.Add("@columnVolume", MySqlDbType.Double).Value = columnVolumeFromRevit;
                 adapter.SelectCommand = comand;
 
-                openConnection();
                 if (comand.ExecuteNonQuery() == 0)
                 {
-                    TaskDialog.Show("RevitDB", "Выгрузка данных не успешна");
+                    TaskDialog.Show("RevitDB", "Выгрузка данных колонн не успешна");
+                    return Result.Failed;
                 }
-                closeConnection();
             }
+
+            foreach (Rebar reb in rebars)
+            {
+                int rebarIdFromRevit = 0;
+                Int32.TryParse(reb.Id.ToString(), out rebarIdFromRevit);
+                int rebarHostIdFromRevit = 0;
+                Int32.TryParse(reb.GetHostId().ToString(), out rebarHostIdFromRevit);
+                string rebarBarTypeName = doc.GetElement(reb.GetTypeId()).Name;
+                double rebarTotalLight = Math.Round(reb.TotalLength*304.8,3);
+
+                MySqlCommand comand = new MySqlCommand("INSERT INTO `rebar` (`id`,`host_id`,`rebar_bar_type_name`,`rebar_total_light`) VALUES (@rebarIdFromRevit,@rebarHostIdFromRevit,@rebarBarTypeName,@rebarTotalLight);", getConnection());
+                comand.Parameters.Add("@rebarIdFromRevit", MySqlDbType.Int32).Value = rebarIdFromRevit;
+                comand.Parameters.Add("@rebarHostIdFromRevit", MySqlDbType.Int32).Value = rebarHostIdFromRevit;
+                comand.Parameters.Add("@rebarBarTypeName", MySqlDbType.VarChar).Value = rebarBarTypeName;
+                comand.Parameters.Add("@rebarTotalLight", MySqlDbType.Double).Value = rebarTotalLight;
+                adapter.SelectCommand = comand;
+
+                if (comand.ExecuteNonQuery() == 0)
+                {
+                    TaskDialog.Show("RevitDB", "Выгрузка данных арматуры не успешна");
+                    return Result.Failed;
+                }
+            }
+
+            closeConnection();
 
             TaskDialog.Show("RevitDB", "Выгрузка завершена");
             return Result.Succeeded;
