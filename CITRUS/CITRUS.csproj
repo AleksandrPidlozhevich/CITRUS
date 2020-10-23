@@ -93,6 +93,13 @@
     <Compile Include="CIT_04_3_BeamReinforcement\CIT_04_3_BeamReinforcementForm.Designer.cs">
       <DependentUpon>CIT_04_3_BeamReinforcementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CIT_04_5_StairFlightReinforcement\CIT_04_5_StairFlightReinforcement.cs" />
+    <Compile Include="CIT_04_5_StairFlightReinforcement\CIT_04_5_StairFlightReinforcementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CIT_04_5_StairFlightReinforcement\CIT_04_5_StairFlightReinforcementForm.Designer.cs">
+      <DependentUpon>CIT_04_5_StairFlightReinforcementForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Draftsman.cs" />
     <Compile Include="FormRebarOutletsCreator.cs">
       <SubType>Form</SubType>
@@ -181,7 +188,6 @@
       <DependentUpon>FloorTypeSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Sobirator.cs" />
-    <Compile Include="StairFlightReinforcement.cs" />
     <Compile Include="StructuralFramingSelectionFilter.cs" />
     <Compile Include="TXTExport.cs" />
     <Compile Include="TXTExportForm.cs">
@@ -225,6 +231,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CIT_04_3_BeamReinforcement\CIT_04_3_BeamReinforcementForm.resx">
       <DependentUpon>CIT_04_3_BeamReinforcementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CIT_04_5_StairFlightReinforcement\CIT_04_5_StairFlightReinforcementForm.resx">
+      <DependentUpon>CIT_04_5_StairFlightReinforcementForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FloorTypeSelectorForCapitalMaker.resx">
       <DependentUpon>FloorTypeSelectorForCapitalMaker.cs</DependentUpon>

@@ -251,7 +251,7 @@ namespace CITRUS
             PushButtonData pbdStairFlightReinforcement = new PushButtonData("StairFlightReinforcement"
                     , "StairFlightReinforcement"
                     , assemblyPach
-                    , "CITRUS.StairFlightReinforcement");
+                    , "CITRUS.CIT_04_5_StairFlightReinforcement.CIT_04_5_StairFlightReinforcement");
 
             panel_Other.AddItem(pbdStairFlightReinforcement);
             
