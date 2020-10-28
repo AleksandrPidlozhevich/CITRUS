@@ -248,12 +248,12 @@ namespace CITRUS
             panel_Other.AddItem(pbdBlocker);
 
             // Создание кнопки "StairFlightReinforcement" в категории "Другое"
-            PushButtonData pbdStairFlightReinforcement = new PushButtonData("StairFlightReinforcement"
+            PushButtonData pbdStaircaseReinforcement = new PushButtonData("StairFlightReinforcement"
                     , "StairFlightReinforcement"
                     , assemblyPach
                     , "CITRUS.CIT_04_5_StairFlightReinforcement.CIT_04_5_StairFlightReinforcement");
 
-            panel_Other.AddItem(pbdStairFlightReinforcement);
+            panel_Other.AddItem(pbdStaircaseReinforcement);
             
 
             return Result.Succeeded;
