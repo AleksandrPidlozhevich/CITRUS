@@ -583,6 +583,36 @@ namespace CITRUS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap staircaseReinforcement_MainSection {
+            get {
+                object obj = ResourceManager.GetObject("staircaseReinforcement_MainSection", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap staircaseReinforcement_Node1 {
+            get {
+                object obj = ResourceManager.GetObject("staircaseReinforcement_Node1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap staircaseReinforcement_Node2 {
+            get {
+                object obj = ResourceManager.GetObject("staircaseReinforcement_Node2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap VoiceRecognition {
             get {
                 object obj = ResourceManager.GetObject("VoiceRecognition", resourceCulture);

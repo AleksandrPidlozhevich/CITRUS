@@ -426,5 +426,14 @@
   <ItemGroup>
     <None Include="Resources\BeamReinforcement_Large.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\staircaseReinforcement_MainSection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\staircaseReinforcement_Node1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\staircaseReinforcement_Node2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

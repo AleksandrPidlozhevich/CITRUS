@@ -44,12 +44,18 @@
             this.textBox_TopExtensionHeightStaircase = new System.Windows.Forms.TextBox();
             this.textBox_BottomExtensionHeightStaircase = new System.Windows.Forms.TextBox();
             this.textBox_AdditionalBarMeshName_1 = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_Cancel
             // 
             this.btn_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Cancel.Location = new System.Drawing.Point(686, 413);
+            this.btn_Cancel.Location = new System.Drawing.Point(920, 674);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(100, 25);
             this.btn_Cancel.TabIndex = 3;
@@ -60,7 +66,7 @@
             // btn_Ok
             // 
             this.btn_Ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Ok.Location = new System.Drawing.Point(557, 413);
+            this.btn_Ok.Location = new System.Drawing.Point(791, 674);
             this.btn_Ok.Name = "btn_Ok";
             this.btn_Ok.Size = new System.Drawing.Size(100, 25);
             this.btn_Ok.TabIndex = 2;
@@ -71,73 +77,80 @@
             // comboBox_stepRebarType
             // 
             this.comboBox_stepRebarType.FormattingEnabled = true;
-            this.comboBox_stepRebarType.Location = new System.Drawing.Point(30, 31);
+            this.comboBox_stepRebarType.Location = new System.Drawing.Point(35, 72);
             this.comboBox_stepRebarType.Name = "comboBox_stepRebarType";
-            this.comboBox_stepRebarType.Size = new System.Drawing.Size(91, 21);
+            this.comboBox_stepRebarType.Size = new System.Drawing.Size(100, 21);
             this.comboBox_stepRebarType.Sorted = true;
             this.comboBox_stepRebarType.TabIndex = 4;
             this.comboBox_stepRebarType.SelectedIndexChanged += new System.EventHandler(this.comboBox_stepRebarType_SelectedIndexChanged);
             // 
             // textBox_StepRebarCoverLayer
             // 
-            this.textBox_StepRebarCoverLayer.Location = new System.Drawing.Point(30, 265);
+            this.textBox_StepRebarCoverLayer.Location = new System.Drawing.Point(322, 46);
             this.textBox_StepRebarCoverLayer.Name = "textBox_StepRebarCoverLayer";
-            this.textBox_StepRebarCoverLayer.Size = new System.Drawing.Size(100, 20);
+            this.textBox_StepRebarCoverLayer.Size = new System.Drawing.Size(50, 20);
             this.textBox_StepRebarCoverLayer.TabIndex = 5;
+            this.textBox_StepRebarCoverLayer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_StepRebarCoverLayer.TextChanged += new System.EventHandler(this.textBox_StepRebarCoverLayer_TextChanged);
             // 
             // textBox_StepLength
             // 
-            this.textBox_StepLength.Location = new System.Drawing.Point(30, 213);
+            this.textBox_StepLength.Location = new System.Drawing.Point(221, 72);
             this.textBox_StepLength.Name = "textBox_StepLength";
-            this.textBox_StepLength.Size = new System.Drawing.Size(100, 20);
+            this.textBox_StepLength.Size = new System.Drawing.Size(50, 20);
             this.textBox_StepLength.TabIndex = 6;
+            this.textBox_StepLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_StepLength.TextChanged += new System.EventHandler(this.textBox_StepLength_TextChanged);
             // 
             // textBox_StepHeight
             // 
-            this.textBox_StepHeight.Location = new System.Drawing.Point(30, 239);
+            this.textBox_StepHeight.Location = new System.Drawing.Point(61, 161);
             this.textBox_StepHeight.Name = "textBox_StepHeight";
-            this.textBox_StepHeight.Size = new System.Drawing.Size(100, 20);
+            this.textBox_StepHeight.Size = new System.Drawing.Size(50, 20);
             this.textBox_StepHeight.TabIndex = 7;
+            this.textBox_StepHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_StepHeight.TextChanged += new System.EventHandler(this.textBox_StepHeight_TextChanged);
             // 
             // textBox_StaircaseSlabThickness
             // 
-            this.textBox_StaircaseSlabThickness.Location = new System.Drawing.Point(485, 213);
+            this.textBox_StaircaseSlabThickness.Location = new System.Drawing.Point(146, 381);
             this.textBox_StaircaseSlabThickness.Name = "textBox_StaircaseSlabThickness";
-            this.textBox_StaircaseSlabThickness.Size = new System.Drawing.Size(100, 20);
+            this.textBox_StaircaseSlabThickness.Size = new System.Drawing.Size(50, 20);
             this.textBox_StaircaseSlabThickness.TabIndex = 8;
+            this.textBox_StaircaseSlabThickness.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_StaircaseSlabThickness.TextChanged += new System.EventHandler(this.textBox_StaircaseSlabThickness_TextChanged);
             // 
             // textBox_StairCoverLayer
             // 
-            this.textBox_StairCoverLayer.Location = new System.Drawing.Point(485, 239);
+            this.textBox_StairCoverLayer.Location = new System.Drawing.Point(271, 316);
             this.textBox_StairCoverLayer.Name = "textBox_StairCoverLayer";
-            this.textBox_StairCoverLayer.Size = new System.Drawing.Size(100, 20);
+            this.textBox_StairCoverLayer.Size = new System.Drawing.Size(50, 20);
             this.textBox_StairCoverLayer.TabIndex = 9;
+            this.textBox_StairCoverLayer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_StairCoverLayer.TextChanged += new System.EventHandler(this.textBox_StairCoverLayer_TextChanged);
             // 
             // textBox_StepRebarStep
             // 
-            this.textBox_StepRebarStep.Location = new System.Drawing.Point(30, 70);
+            this.textBox_StepRebarStep.Location = new System.Drawing.Point(61, 101);
             this.textBox_StepRebarStep.Name = "textBox_StepRebarStep";
-            this.textBox_StepRebarStep.Size = new System.Drawing.Size(91, 20);
+            this.textBox_StepRebarStep.Size = new System.Drawing.Size(50, 20);
             this.textBox_StepRebarStep.TabIndex = 10;
+            this.textBox_StepRebarStep.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_StepRebarStep.TextChanged += new System.EventHandler(this.textBox_StepRebarStep_TextChanged);
             // 
             // textBox_FirstBarMeshName
             // 
-            this.textBox_FirstBarMeshName.Location = new System.Drawing.Point(668, 42);
+            this.textBox_FirstBarMeshName.Location = new System.Drawing.Point(61, 47);
             this.textBox_FirstBarMeshName.Name = "textBox_FirstBarMeshName";
-            this.textBox_FirstBarMeshName.Size = new System.Drawing.Size(100, 20);
+            this.textBox_FirstBarMeshName.Size = new System.Drawing.Size(50, 20);
             this.textBox_FirstBarMeshName.TabIndex = 11;
+            this.textBox_FirstBarMeshName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_FirstBarMeshName.TextChanged += new System.EventHandler(this.textBox_FirstBarMeshName_TextChanged);
             // 
             // comboBox_staircaseRebarType
             // 
             this.comboBox_staircaseRebarType.FormattingEnabled = true;
-            this.comboBox_staircaseRebarType.Location = new System.Drawing.Point(485, 129);
+            this.comboBox_staircaseRebarType.Location = new System.Drawing.Point(509, 226);
             this.comboBox_staircaseRebarType.Name = "comboBox_staircaseRebarType";
             this.comboBox_staircaseRebarType.Size = new System.Drawing.Size(100, 21);
             this.comboBox_staircaseRebarType.Sorted = true;
@@ -146,49 +159,87 @@
             // 
             // textBox_StaircaseRebarStep
             // 
-            this.textBox_StaircaseRebarStep.Location = new System.Drawing.Point(485, 156);
+            this.textBox_StaircaseRebarStep.Location = new System.Drawing.Point(534, 255);
             this.textBox_StaircaseRebarStep.Name = "textBox_StaircaseRebarStep";
-            this.textBox_StaircaseRebarStep.Size = new System.Drawing.Size(100, 20);
+            this.textBox_StaircaseRebarStep.Size = new System.Drawing.Size(50, 20);
             this.textBox_StaircaseRebarStep.TabIndex = 13;
+            this.textBox_StaircaseRebarStep.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_StaircaseRebarStep.TextChanged += new System.EventHandler(this.textBox_StaircaseRebarStep_TextChanged);
             // 
             // textBox_TopExtensionStaircase
             // 
-            this.textBox_TopExtensionStaircase.Location = new System.Drawing.Point(327, 337);
+            this.textBox_TopExtensionStaircase.Location = new System.Drawing.Point(809, 25);
             this.textBox_TopExtensionStaircase.Name = "textBox_TopExtensionStaircase";
-            this.textBox_TopExtensionStaircase.Size = new System.Drawing.Size(100, 20);
+            this.textBox_TopExtensionStaircase.Size = new System.Drawing.Size(50, 20);
             this.textBox_TopExtensionStaircase.TabIndex = 14;
+            this.textBox_TopExtensionStaircase.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_TopExtensionStaircase.TextChanged += new System.EventHandler(this.textBox_TopExtensionStaircase_TextChanged);
             // 
             // textBox_TopExtensionHeightStaircase
             // 
-            this.textBox_TopExtensionHeightStaircase.Location = new System.Drawing.Point(327, 372);
+            this.textBox_TopExtensionHeightStaircase.Location = new System.Drawing.Point(924, 105);
             this.textBox_TopExtensionHeightStaircase.Name = "textBox_TopExtensionHeightStaircase";
-            this.textBox_TopExtensionHeightStaircase.Size = new System.Drawing.Size(100, 20);
+            this.textBox_TopExtensionHeightStaircase.Size = new System.Drawing.Size(50, 20);
             this.textBox_TopExtensionHeightStaircase.TabIndex = 15;
+            this.textBox_TopExtensionHeightStaircase.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_TopExtensionHeightStaircase.TextChanged += new System.EventHandler(this.textBox_TopExtensionHeightStaircase_TextChanged);
             // 
             // textBox_BottomExtensionHeightStaircase
             // 
-            this.textBox_BottomExtensionHeightStaircase.Location = new System.Drawing.Point(181, 372);
+            this.textBox_BottomExtensionHeightStaircase.Location = new System.Drawing.Point(22, 557);
             this.textBox_BottomExtensionHeightStaircase.Name = "textBox_BottomExtensionHeightStaircase";
-            this.textBox_BottomExtensionHeightStaircase.Size = new System.Drawing.Size(100, 20);
+            this.textBox_BottomExtensionHeightStaircase.Size = new System.Drawing.Size(50, 20);
             this.textBox_BottomExtensionHeightStaircase.TabIndex = 16;
+            this.textBox_BottomExtensionHeightStaircase.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_BottomExtensionHeightStaircase.TextChanged += new System.EventHandler(this.textBox_BottomExtensionHeightStaircase_TextChanged);
             // 
             // textBox_AdditionalBarMeshName_1
             // 
-            this.textBox_AdditionalBarMeshName_1.Location = new System.Drawing.Point(668, 70);
+            this.textBox_AdditionalBarMeshName_1.Location = new System.Drawing.Point(676, 25);
             this.textBox_AdditionalBarMeshName_1.Name = "textBox_AdditionalBarMeshName_1";
-            this.textBox_AdditionalBarMeshName_1.Size = new System.Drawing.Size(100, 20);
+            this.textBox_AdditionalBarMeshName_1.Size = new System.Drawing.Size(50, 20);
             this.textBox_AdditionalBarMeshName_1.TabIndex = 17;
+            this.textBox_AdditionalBarMeshName_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_AdditionalBarMeshName_1.TextChanged += new System.EventHandler(this.textBox_AdditionalBarMeshName_1_TextChanged);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_MainSection;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(620, 420);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 18;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox2.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_Node1;
+            this.pictureBox2.Location = new System.Drawing.Point(12, 459);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(309, 185);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 19;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox3.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_Node2;
+            this.pictureBox3.Location = new System.Drawing.Point(660, 12);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(321, 207);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 20;
+            this.pictureBox3.TabStop = false;
             // 
             // CIT_04_5_StairFlightReinforcementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1034, 711);
             this.Controls.Add(this.textBox_AdditionalBarMeshName_1);
             this.Controls.Add(this.textBox_BottomExtensionHeightStaircase);
             this.Controls.Add(this.textBox_TopExtensionHeightStaircase);
@@ -205,8 +256,15 @@
             this.Controls.Add(this.comboBox_stepRebarType);
             this.Controls.Add(this.btn_Cancel);
             this.Controls.Add(this.btn_Ok);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.pictureBox3);
             this.Name = "CIT_04_5_StairFlightReinforcementForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CIT_04_5_StairFlightReinforcementForm";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -230,5 +288,8 @@
         private System.Windows.Forms.TextBox textBox_TopExtensionHeightStaircase;
         private System.Windows.Forms.TextBox textBox_BottomExtensionHeightStaircase;
         private System.Windows.Forms.TextBox textBox_AdditionalBarMeshName_1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }

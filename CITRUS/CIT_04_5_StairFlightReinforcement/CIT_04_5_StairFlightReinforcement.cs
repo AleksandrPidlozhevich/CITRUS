@@ -409,8 +409,9 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
                     double deltaTop_6 = (verticalStairThickness - verticalStairCoverLayerAndHalfStaircaseRebarDiam + stepHeight - (topExtensionHeightStaircase - staircaseCoverLayer - staircaseRebarDiam / 2)) / Math.Tan((90 - angle) * (Math.PI / 180));
                     double deltaTop_7 = topExtensionStaircase + stepLength - deltaTop_6;
 
-                    double deltaBottom_1 = (bottomExtensionHeightStaircase - staircaseCoverLayer - staircaseRebarDiam / 2) / Math.Sin((90 - angle) * (Math.PI / 180));
-                    double deltaBottom_2 = (bottomExtensionHeightStaircase - staircaseCoverLayer - staircaseRebarDiam / 2) / Math.Tan((90 - angle) * (Math.PI / 180));
+                    double deltaBottom_1 = verticalStairThickness - verticalStairCoverLayerAndHalfStaircaseRebarDiam - (bottomExtensionHeightStaircase - stepHeight - staircaseCoverLayer - staircaseRebarDiam / 2);
+                    double deltaBottom_2 = deltaBottom_1 / Math.Sin((90 - angle) * (Math.PI / 180));
+                    double deltaBottom_3 = deltaBottom_1 / Math.Tan((90 - angle) * (Math.PI / 180));
 
                     //Ширина установки арматуры плиты марша за вычетом защитных слоев и диаметров арматуры ступеней
                     double staircaseRebarPlacementWidth = (staircaseWidth - staircaseCoverLayer * 2 - staircaseRebarDiam) * 304.8;
@@ -458,11 +459,11 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
 
                     XYZ staircaseBottomZRebar_p3 = thirdPoint
                         - (bottomExtensionHeightStaircase - staircaseCoverLayer - staircaseRebarDiam / 2) * XYZ.BasisZ
-                        - deltaBottom_2 * horisontalLengthwiseVector
+                        - deltaBottom_3 * horisontalLengthwiseVector
                         + staircaseCoverLayer * horisontalСrossVector
                         + (staircaseRebarDiam / 2) * horisontalСrossVector;
 
-                    XYZ staircaseBottomZRebar_p4 = staircaseBottomZRebar_p3 + deltaBottom_2 * horisontalLengthwiseVector;
+                    XYZ staircaseBottomZRebar_p4 = staircaseBottomZRebar_p3 + deltaBottom_3 * horisontalLengthwiseVector;
 
                     //Кривые верхнего продольного стержня
                     List<Curve> staircaseTopZRebarCurves = new List<Curve>();
