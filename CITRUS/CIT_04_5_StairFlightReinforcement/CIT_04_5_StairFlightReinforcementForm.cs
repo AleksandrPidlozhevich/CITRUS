@@ -29,6 +29,9 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
         public string FirstBarMeshName = "";
         public string AdditionalBarMeshName_1 = "";
 
+        public string CheckedBottomConnectionNodeName;
+        public string CheckedTopConnectionNodeName;
+
         public CIT_04_5_StairFlightReinforcementForm(List<RebarBarType> stepRebarType, List<RebarBarType> staircaseRebarType)
         {
             InitializeComponent();
@@ -44,6 +47,9 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
 
         private void btn_Ok_Click(object sender, EventArgs e)
         {
+            CheckedBottomConnectionNodeName = groupBox_BottomConnectionNode.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
+            CheckedTopConnectionNodeName = groupBox_TopConnectionNode.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
