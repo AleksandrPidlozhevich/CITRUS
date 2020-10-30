@@ -26,6 +26,7 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
         public double TopExtensionStaircase;
         public double TopExtensionHeightStaircase;
         public double BottomExtensionHeightStaircase;
+        public double BottomExtensionHeightStaircaseNodeA2;
         public string FirstBarMeshName = "";
         public string AdditionalBarMeshName_1 = "";
 
@@ -117,6 +118,11 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
             double.TryParse(textBox_BottomExtensionHeightStaircase.Text, out BottomExtensionHeightStaircase);
         }
 
+        private void textBox_BottomExtensionHeightStaircaseNodeA2_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_BottomExtensionHeightStaircaseNodeA2.Text, out BottomExtensionHeightStaircaseNodeA2);
+        }
+
         private void textBox_FirstBarMeshName_TextChanged(object sender, EventArgs e)
         {
             FirstBarMeshName = textBox_FirstBarMeshName.Text;
@@ -126,5 +132,7 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
         {
             AdditionalBarMeshName_1 = textBox_AdditionalBarMeshName_1.Text;
         }
+
+
     }
 }

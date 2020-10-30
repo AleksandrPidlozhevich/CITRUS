@@ -65,6 +65,19 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
             }
             RebarShape rebarLShape = rebarLShapeList.First();
 
+            //Выбор формы основной арматуры П-образный стержень под углом
+            List<RebarShape> rebarUShapeAngleList = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarShape))
+                .Where(rs => rs.Name.ToString() == "25a")
+                .Cast<RebarShape>()
+                .ToList();
+            if (rebarUShapeAngleList.Count == 0)
+            {
+                TaskDialog.Show("Revit", "Форма 25a не найдена");
+                return Result.Failed;
+            }
+            RebarShape rebarUShapeAngle = rebarUShapeAngleList.First();
+
             //Выбор формы Z-образных стержней
             List<RebarShape> rebarZShapeList = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarShape))
@@ -208,7 +221,8 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
             // Высота удлиннения марша сверху
             double topExtensionHeightStaircase = stairFlightReinforcementForm.TopExtensionHeightStaircase / 304.8;
             // Высота последней ступени марша снизу
-            double bottomExtensionHeightStaircase = stairFlightReinforcementForm.BottomExtensionHeightStaircase / 304.8;
+            double bottomExtensionHeightStaircaseNodeA1 = stairFlightReinforcementForm.BottomExtensionHeightStaircase / 304.8;
+            double bottomExtensionHeightStaircaseNodeA2 = stairFlightReinforcementForm.BottomExtensionHeightStaircaseNodeA2 / 304.8;
 
             //Расчет длины вертикального участка стержня ступени
             //Угол наклона лестницы к вертикальной оси
@@ -419,7 +433,7 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
                     double deltaTop_6 = (verticalStairThickness - verticalStairCoverLayerAndHalfStaircaseRebarDiam + stepHeight - (topExtensionHeightStaircase - staircaseCoverLayer - staircaseRebarDiam / 2)) / Math.Tan((90 - angle) * (Math.PI / 180));
                     double deltaTop_7 = topExtensionStaircase + stepLength - deltaTop_6;
 
-                    double deltaBottom_1 = verticalStairThickness - verticalStairCoverLayerAndHalfStaircaseRebarDiam - (bottomExtensionHeightStaircase - stepHeight - staircaseCoverLayer - staircaseRebarDiam / 2);
+                    double deltaBottom_1 = verticalStairThickness - verticalStairCoverLayerAndHalfStaircaseRebarDiam - (bottomExtensionHeightStaircaseNodeA1 - stepHeight - staircaseCoverLayer - staircaseRebarDiam / 2);
                     double deltaBottom_2 = deltaBottom_1 / Math.Sin((90 - angle) * (Math.PI / 180));
                     double deltaBottom_3 = deltaBottom_1 / Math.Tan((90 - angle) * (Math.PI / 180));
 
@@ -469,7 +483,7 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
                     XYZ staircaseBottomZRebar_p2 = staircaseBottomZRebar_p1 - deltaTop_7 * horisontalLengthwiseVector;
 
                     XYZ staircaseBottomZRebar_p3 = thirdPoint
-                        - (bottomExtensionHeightStaircase - staircaseCoverLayer - staircaseRebarDiam / 2) * XYZ.BasisZ
+                        - (bottomExtensionHeightStaircaseNodeA1 - staircaseCoverLayer - staircaseRebarDiam / 2) * XYZ.BasisZ
                         - deltaBottom_3 * horisontalLengthwiseVector
                         + staircaseCoverLayer * horisontalСrossVector
                         + (staircaseRebarDiam / 2) * horisontalСrossVector;
@@ -553,7 +567,7 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
                     Curve staircaseTopStraightRebar_Line1 = Line.CreateBound(staircaseTopStraightRebar_p1, staircaseTopStraightRebar_p2) as Curve;
                     staircaseTopStraightRebarCurves.Add(staircaseTopStraightRebar_Line1);
 
-                    //Прямой стержень ступени по вертикали
+                    //Поперечный стержень
                     Rebar staircaseTopStraightRebar = Rebar.CreateFromCurvesAndShape(doc,
                     rebarStraightShape,
                     staircaseRebarType,
@@ -640,7 +654,7 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
                     staircaseAdditionalBottomStraightRebar_1.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(2);
                     staircaseAdditionalBottomStraightRebar_1.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepLength - (staircaseCoverLayer * 2 + staircaseRebarDiam));
 
-                    List<ElementId> staircaseAdditionalBottomStraightRebar_2IdList = ElementTransformUtils.CopyElement(doc, staircaseAdditionalBottomStraightRebar_1.Id, (bottomExtensionHeightStaircase - staircaseCoverLayer*2 - staircaseRebarDiam * 2) * XYZ.BasisZ.Negate()) as List<ElementId>;
+                    List<ElementId> staircaseAdditionalBottomStraightRebar_2IdList = ElementTransformUtils.CopyElement(doc, staircaseAdditionalBottomStraightRebar_1.Id, (bottomExtensionHeightStaircaseNodeA1 - staircaseCoverLayer*2 - staircaseRebarDiam * 2) * XYZ.BasisZ.Negate()) as List<ElementId>;
                     Element staircaseAdditionalBottomStraightRebar_2 = doc.GetElement(staircaseAdditionalBottomStraightRebar_2IdList.First());
 
                     //Дополнительное армирование верхней ступени лестницы
@@ -784,7 +798,367 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
                     additionalStepBarMeshAssemblyInstance.AssemblyTypeName = "Сетка " + additionalBarMeshName_1;
                     t.Commit();
                 }
-              
+
+                if (checkedBottomConnectionNodeName == "radioButton_NodeA2" & checkedTopConnectionNodeName == "radioButton_NodeB1")
+                {
+                    //Универсальная коллекция для формирования группы дополнительной ступени
+                    ICollection<ElementId> additionalStepRebarIdCollection_1 = new List<ElementId>();
+
+                    //Предворительные вычисления
+                    //Толщина защитного слоя плиты марша плюс 1,5 диаметра арматуры плиты по вертикали
+                    double verticalStairCoverLayerOneAndHalfStaircaseRebarDiam = ((staircaseCoverLayer + staircaseRebarDiam + staircaseRebarDiam / 2) / Math.Cos((90 - angle) * (Math.PI / 180)));
+                    //Толщина защитного слоя плиты марша плюс 0,5 диаметра арматуры плиты по вертикали
+                    double verticalStairCoverLayerAndHalfStaircaseRebarDiam = ((staircaseCoverLayer + staircaseRebarDiam / 2) / Math.Cos((90 - angle) * (Math.PI / 180)));
+                    //Рассчет дополнительных смещений для построения основной продольной арматуры
+                    double deltaTop_1 = (stepHeight - staircaseCoverLayer - staircaseRebarDiam - staircaseRebarDiam / 2) + verticalStairCoverLayerOneAndHalfStaircaseRebarDiam;
+                    double deltaTop_2 = deltaTop_1 / Math.Sin((90 - angle) * (Math.PI / 180));
+                    double deltaTop_3 = deltaTop_1 / Math.Tan((90 - angle) * (Math.PI / 180));
+                    double deltaTop_4 = topExtensionStaircase + stepLength - deltaTop_3;
+
+                    double deltaTop_5 = (verticalStairThickness - verticalStairCoverLayerAndHalfStaircaseRebarDiam + stepHeight - (topExtensionHeightStaircase - staircaseCoverLayer - staircaseRebarDiam / 2)) / Math.Sin((90 - angle) * (Math.PI / 180));
+                    double deltaTop_6 = (verticalStairThickness - verticalStairCoverLayerAndHalfStaircaseRebarDiam + stepHeight - (topExtensionHeightStaircase - staircaseCoverLayer - staircaseRebarDiam / 2)) / Math.Tan((90 - angle) * (Math.PI / 180));
+                    double deltaTop_7 = topExtensionStaircase + stepLength - deltaTop_6;
+
+                    double deltaBottom_1 = (staircaseCoverLayer + staircaseRebarDiam / 2) * Math.Tan((90 - angle) * (Math.PI / 180));
+                    double deltaBottom_2 = (stepLength - staircaseCoverLayer - staircaseRebarDiam / 2) / Math.Cos((90 - angle) * (Math.PI / 180));
+
+                    //Ширина установки арматуры плиты марша за вычетом защитных слоев и диаметров арматуры ступеней
+                    double staircaseRebarPlacementWidth = (staircaseWidth - staircaseCoverLayer * 2 - staircaseRebarDiam) * 304.8;
+                    //Колличество стержней в поперечном направлении
+                    int staircaseCrossBarsQuantity = (int)(staircaseRebarPlacementWidth / (staircaseRebarStep * 304.8));
+                    //Остаток ширины при размещении стержней для ступени
+                    double staircaseRemainderWidth = (staircaseRebarPlacementWidth - staircaseCrossBarsQuantity * (staircaseRebarStep * 304.8)) / 304.8;
+                    //Колличество стержней в продольном направлении
+                    int staircaseLengthwiseBarsQuantity = (int)(staircaseLength / staircaseRebarStep);
+
+                    t.Start("Основное армирование марша");
+                    //Армирование плиты лестницы
+                    //Точки для построения кривых верхнего продольного стержня
+                    XYZ staircaseTopURebar_p1 = firstPoint
+                        - stepHeight * XYZ.BasisZ
+                        - verticalStairCoverLayerOneAndHalfStaircaseRebarDiam * XYZ.BasisZ
+                        - deltaTop_2 * mainLengthwiseVector
+                        + staircaseCoverLayer * horisontalСrossVector
+                        + (staircaseRebarDiam / 2) * horisontalСrossVector;
+
+                    XYZ staircaseTopURebar_p2 = staircaseTopURebar_p1 - deltaTop_4 * horisontalLengthwiseVector;
+
+                    XYZ staircaseTopURebar_p3 = thirdPoint
+                        - (stepHeight + verticalStairCoverLayerOneAndHalfStaircaseRebarDiam - deltaBottom_1) * XYZ.BasisZ
+                        - (staircaseCoverLayer + staircaseRebarDiam / 2) * horisontalLengthwiseVector
+                        + staircaseCoverLayer * horisontalСrossVector
+                        + (staircaseRebarDiam / 2) * horisontalСrossVector;
+
+                    XYZ staircaseTopURebar_p4 = thirdPoint
+                        - bottomExtensionHeightStaircaseNodeA2 * XYZ.BasisZ
+                        - (staircaseCoverLayer + staircaseRebarDiam / 2) * horisontalLengthwiseVector
+                        + staircaseCoverLayer * horisontalСrossVector
+                        + (staircaseRebarDiam / 2) * horisontalСrossVector;
+
+                    //Точки для построения кривых нижнего продольного стержня
+                    XYZ staircaseBottomURebar_p1 = firstPoint
+                        - stepHeight * XYZ.BasisZ
+                        - verticalStairThickness * XYZ.BasisZ
+                        + verticalStairCoverLayerAndHalfStaircaseRebarDiam * XYZ.BasisZ
+                        - deltaTop_5 * mainLengthwiseVector
+                        + staircaseCoverLayer * horisontalСrossVector
+                        + (staircaseRebarDiam / 2) * horisontalСrossVector;
+
+                    XYZ staircaseBottomURebar_p2 = staircaseBottomURebar_p1 - deltaTop_7 * horisontalLengthwiseVector;
+
+                    XYZ staircaseBottomURebar_p3 = thirdPoint
+                        - (stepHeight + verticalStairThickness - verticalStairCoverLayerAndHalfStaircaseRebarDiam) * XYZ.BasisZ
+                        - deltaBottom_2 * mainLengthwiseVector
+                        + staircaseCoverLayer * horisontalСrossVector
+                        + (staircaseRebarDiam / 2) * horisontalСrossVector;
+
+                    XYZ staircaseBottomURebar_p4 = thirdPoint
+                        - bottomExtensionHeightStaircaseNodeA2 * XYZ.BasisZ
+                        - (stepLength - (staircaseCoverLayer + staircaseRebarDiam / 2)) * horisontalLengthwiseVector
+                        + staircaseCoverLayer * horisontalСrossVector
+                        + (staircaseRebarDiam / 2) * horisontalСrossVector;
+
+                    //Кривые верхнего продольного стержня
+                    List<Curve> staircaseTopURebarCurves = new List<Curve>();
+
+                    Curve staircaseTopURebar_Line1 = Line.CreateBound(staircaseTopURebar_p4, staircaseTopURebar_p3) as Curve;
+                    staircaseTopURebarCurves.Add(staircaseTopURebar_Line1);
+                    Curve staircaseTopURebar_Line2 = Line.CreateBound(staircaseTopURebar_p3, staircaseTopURebar_p1) as Curve;
+                    staircaseTopURebarCurves.Add(staircaseTopURebar_Line2);
+                    Curve staircaseTopURebar_Line3 = Line.CreateBound(staircaseTopURebar_p1, staircaseTopURebar_p2) as Curve;
+                    staircaseTopURebarCurves.Add(staircaseTopURebar_Line3);
+
+                    //Кривые нижнего продольного стержня
+                    List<Curve> staircaseBottomURebarCurves = new List<Curve>();
+
+                    Curve staircaseBottomURebar_Line1 = Line.CreateBound(staircaseBottomURebar_p4, staircaseBottomURebar_p3) as Curve;
+                    staircaseBottomURebarCurves.Add(staircaseBottomURebar_Line1);
+                    Curve staircaseBottomURebar_Line2 = Line.CreateBound(staircaseBottomURebar_p3, staircaseBottomURebar_p1) as Curve;
+                    staircaseBottomURebarCurves.Add(staircaseBottomURebar_Line2);
+                    Curve staircaseBottomURebar_Line3 = Line.CreateBound(staircaseBottomURebar_p1, staircaseBottomURebar_p2) as Curve;
+                    staircaseBottomURebarCurves.Add(staircaseBottomURebar_Line3);
+
+                    Rebar startStaircaseTopURebar = Rebar.CreateFromCurvesAndShape(doc,
+                        rebarUShapeAngle,
+                        staircaseRebarType,
+                        null,
+                        null,
+                        stairFlight,
+                        horisontalСrossVector,
+                        staircaseTopURebarCurves,
+                        RebarHookOrientation.Right,
+                        RebarHookOrientation.Right);
+
+                    List<ElementId> endStaircaseTopURebarIdList = ElementTransformUtils.CopyElement(doc, startStaircaseTopURebar.Id, (staircaseWidth - (staircaseCoverLayer * 2 + staircaseRebarDiam)) * horisontalСrossVector) as List<ElementId>;
+                    Element endStaircaseTopURebar = doc.GetElement(endStaircaseTopURebarIdList.First());
+
+                    List<ElementId> middleStaircaseTopURebarIdList = ElementTransformUtils.CopyElement(doc, startStaircaseTopURebar.Id, (staircaseRemainderWidth / 2 + staircaseRebarStep) * horisontalСrossVector) as List<ElementId>;
+                    Element middleStaircaseTopURebar = doc.GetElement(middleStaircaseTopURebarIdList.First());
+
+                    middleStaircaseTopURebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                    middleStaircaseTopURebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(staircaseCrossBarsQuantity - 1);
+                    middleStaircaseTopURebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(staircaseRebarStep);
+
+                    Rebar startStaircaseBottomURebar = Rebar.CreateFromCurvesAndShape(doc,
+                        rebarUShapeAngle,
+                        staircaseRebarType,
+                        null,
+                        null,
+                        stairFlight,
+                        horisontalСrossVector,
+                        staircaseBottomURebarCurves,
+                        RebarHookOrientation.Right,
+                        RebarHookOrientation.Right);
+
+                    List<ElementId> endStaircaseBottomURebarIdList = ElementTransformUtils.CopyElement(doc, startStaircaseBottomURebar.Id, (staircaseWidth - (staircaseCoverLayer * 2 + staircaseRebarDiam)) * horisontalСrossVector) as List<ElementId>;
+                    Element endStaircaseBottomURebar = doc.GetElement(endStaircaseBottomURebarIdList.First());
+
+                    List<ElementId> middleStaircaseBottomURebarIdList = ElementTransformUtils.CopyElement(doc, startStaircaseBottomURebar.Id, (staircaseRemainderWidth / 2 + staircaseRebarStep) * horisontalСrossVector) as List<ElementId>;
+                    Element middleStaircaseBottomURebar = doc.GetElement(middleStaircaseBottomURebarIdList.First());
+
+                    middleStaircaseBottomURebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                    middleStaircaseBottomURebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(staircaseCrossBarsQuantity - 1);
+                    middleStaircaseBottomURebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(staircaseRebarStep);
+
+                    //Точки для построения кривых верхнего поперечного стержня
+                    XYZ staircaseTopStraightRebar_p1 = firstPoint
+                        - stepHeight * XYZ.BasisZ
+                        - verticalStairCoverLayerAndHalfStaircaseRebarDiam * XYZ.BasisZ
+                        - (deltaTop_2 - 20 / 304.8) * mainLengthwiseVector
+                        + (10 / 304.8) * horisontalСrossVector;
+
+                    XYZ staircaseTopStraightRebar_p2 = staircaseTopStraightRebar_p1 + ((staircaseWidth - (20 / 304.8)) * horisontalСrossVector);
+
+                    //Кривые верхнего поперечного стержня
+                    List<Curve> staircaseTopStraightRebarCurves = new List<Curve>();
+
+                    Curve staircaseTopStraightRebar_Line1 = Line.CreateBound(staircaseTopStraightRebar_p1, staircaseTopStraightRebar_p2) as Curve;
+                    staircaseTopStraightRebarCurves.Add(staircaseTopStraightRebar_Line1);
+
+                    //Поперечный стержень
+                    Rebar staircaseTopStraightRebar = Rebar.CreateFromCurvesAndShape(doc,
+                    rebarStraightShape,
+                    staircaseRebarType,
+                    null,
+                    null,
+                    stairFlight,
+                    mainLengthwiseVector,
+                    staircaseTopStraightRebarCurves,
+                    RebarHookOrientation.Right,
+                    RebarHookOrientation.Right);
+
+                    staircaseTopStraightRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                    staircaseTopStraightRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(staircaseLengthwiseBarsQuantity + 3);
+                    staircaseTopStraightRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(staircaseRebarStep);
+
+                    List<ElementId> staircaseBottomStraightRebarIdList = ElementTransformUtils.CopyElement(doc, staircaseTopStraightRebar.Id, (mainLengthwiseVector.CrossProduct(horisontalСrossVector)).Normalize().Negate() * (staircaseSlabThickness - staircaseCoverLayer * 2 - staircaseRebarDiam * 2)) as List<ElementId>;
+                    Element staircaseBottomStraightRebar = doc.GetElement(staircaseBottomStraightRebarIdList.First());
+
+                    staircaseBottomStraightRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                    staircaseBottomStraightRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(staircaseLengthwiseBarsQuantity + 2);
+                    staircaseBottomStraightRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(staircaseRebarStep);
+
+                    //Дополнительные поперечные стержни в примыканиях
+                    //Точки для построения кривых верхнего дополнительного поперечного стержня в примыкании
+                    XYZ staircaseAdditionalTopStraightRebar_p1 = firstPoint
+                        - (stepLength + topExtensionStaircase - staircaseCoverLayer - staircaseRebarDiam / 2) * horisontalLengthwiseVector
+                        - (staircaseCoverLayer + staircaseRebarDiam / 2) * XYZ.BasisZ
+                        + (10 / 304.8) * horisontalСrossVector;
+
+                    XYZ staircaseAdditionalTopStraightRebar_p2 = staircaseAdditionalTopStraightRebar_p1 + ((staircaseWidth - (20 / 304.8)) * horisontalСrossVector);
+
+                    //Кривые верхнего дополнительного поперечного стержня
+                    List<Curve> staircaseAdditionalTopStraightRebarCurves = new List<Curve>();
+
+                    Curve staircaseAdditionalTopStraightRebar_Line1 = Line.CreateBound(staircaseAdditionalTopStraightRebar_p1, staircaseAdditionalTopStraightRebar_p2) as Curve;
+                    staircaseAdditionalTopStraightRebarCurves.Add(staircaseAdditionalTopStraightRebar_Line1);
+
+                    //Дополнительный поперечный стержень в верхнем примыкании
+                    Rebar staircaseAdditionalTopStraightRebar_1 = Rebar.CreateFromCurvesAndShape(doc,
+                    rebarStraightShape,
+                    staircaseRebarType,
+                    null,
+                    null,
+                    stairFlight,
+                    horisontalLengthwiseVector,
+                    staircaseAdditionalTopStraightRebarCurves,
+                    RebarHookOrientation.Right,
+                    RebarHookOrientation.Right);
+
+                    staircaseAdditionalTopStraightRebar_1.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                    staircaseAdditionalTopStraightRebar_1.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(2);
+                    staircaseAdditionalTopStraightRebar_1.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(topExtensionStaircase - (staircaseCoverLayer * 2 + staircaseRebarDiam));
+
+                    List<ElementId> staircaseAdditionalTopStraightRebar_2IdList = ElementTransformUtils.CopyElement(doc, staircaseAdditionalTopStraightRebar_1.Id, (topExtensionHeightStaircase - staircaseCoverLayer * 2 - staircaseRebarDiam * 2) * XYZ.BasisZ.Negate()) as List<ElementId>;
+                    Element staircaseAdditionalTopStraightRebar_2 = doc.GetElement(staircaseAdditionalTopStraightRebar_2IdList.First());
+
+                    staircaseAdditionalTopStraightRebar_2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                    staircaseAdditionalTopStraightRebar_2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(2);
+                    staircaseAdditionalTopStraightRebar_2.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(topExtensionStaircase - (staircaseCoverLayer * 2 + staircaseRebarDiam + 50 / 304.8));
+
+                    //Дополнительное армирование верхней ступени лестницы
+                    //Точки для построения кривых Г-стержня дополнительного армирования
+                    XYZ additionalStepLRebar_p1 = firstPoint
+                        - (stepRebarCoverLayer + stepRebarDiam / 2) * XYZ.BasisZ
+                        - (stepRebarCoverLayer + stepRebarDiam / 2) * horisontalLengthwiseVector
+                        + (stepRebarCoverLayer + stepRebarDiam / 2) * horisontalСrossVector;
+
+                    XYZ additionalStepLRebar_p2 = additionalStepLRebar_p1
+                        - (stepLength + topExtensionStaircase - staircaseCoverLayer - staircaseRebarDiam / 2) * horisontalLengthwiseVector;
+
+                    XYZ additionalStepLRebar_p3 = additionalStepLRebar_p1 - stepRebarVerticalLength * XYZ.BasisZ;
+
+                    //Точки для построения кривых  прямого стержня дополнительного армирования
+                    XYZ additionalStepStraightRebar_p1 = firstPoint
+                        - (stepRebarCoverLayer + stepRebarDiam) * XYZ.BasisZ
+                        - (stepRebarCoverLayer + stepRebarDiam / 2 + stepRebarDiam) * horisontalLengthwiseVector
+                        + (10 / 304.8) * horisontalСrossVector;
+
+                    XYZ additionalStepStraightRebar_p2 = additionalStepStraightRebar_p1 + ((staircaseWidth - (20 / 304.8)) * horisontalСrossVector);
+
+                    //Кривые Г-стержня дополнительного армирования
+                    List<Curve> additionalStepLRebarCurves = new List<Curve>();
+
+                    Curve additionalStepLRebar_Line1 = Line.CreateBound(additionalStepLRebar_p2, additionalStepLRebar_p1) as Curve;
+                    additionalStepLRebarCurves.Add(additionalStepLRebar_Line1);
+                    Curve additionalStepLRebar_Line2 = Line.CreateBound(additionalStepLRebar_p1, additionalStepLRebar_p3) as Curve;
+                    additionalStepLRebarCurves.Add(additionalStepLRebar_Line2);
+
+                    //Кривые прямого стержня дополнительного армирования
+                    List<Curve> additionalStepStraightRebarCurves = new List<Curve>();
+
+                    Curve additionalStepStraightRebar_Line1 = Line.CreateBound(additionalStepStraightRebar_p1, additionalStepStraightRebar_p2) as Curve;
+                    additionalStepStraightRebarCurves.Add(additionalStepStraightRebar_Line1);
+
+                    //Г-стержень ступени дополнительного армирования
+                    Rebar startAdditionalStepLRebar = Rebar.CreateFromCurvesAndShape(doc,
+                    rebarLShape,
+                    stepRebarType,
+                    null,
+                    null,
+                    stairFlight,
+                    horisontalСrossVector,
+                    additionalStepLRebarCurves,
+                    RebarHookOrientation.Right,
+                    RebarHookOrientation.Right);
+                    if (startAdditionalStepLRebar.LookupParameter("Орг.ГлавнаяДетальСборки") != null)
+                    {
+                        startAdditionalStepLRebar.LookupParameter("Орг.ГлавнаяДетальСборки").Set(1);
+                    }
+                    additionalStepRebarIdCollection_1.Add(startAdditionalStepLRebar.Id);
+
+                    List<ElementId> endAdditionalStepLRebarIdList = ElementTransformUtils.CopyElement(doc, startAdditionalStepLRebar.Id, (staircaseWidth - (stepRebarCoverLayer * 2 + stepRebarDiam)) * horisontalСrossVector) as List<ElementId>;
+                    Element endAdditionalStepLRebar = doc.GetElement(endAdditionalStepLRebarIdList.First());
+                    if (endAdditionalStepLRebar.LookupParameter("Орг.ГлавнаяДетальСборки") != null)
+                    {
+                        endAdditionalStepLRebar.LookupParameter("Орг.ГлавнаяДетальСборки").Set(0);
+                    }
+                    additionalStepRebarIdCollection_1.Add(endAdditionalStepLRebar.Id);
+
+                    List<ElementId> middleAdditionalStepLRebarIdList = ElementTransformUtils.CopyElement(doc, startAdditionalStepLRebar.Id, (remainderStaircaseWidth / 2 + stepRebarStep) * horisontalСrossVector) as List<ElementId>;
+                    Element middleAdditionalStepLRebar = doc.GetElement(middleAdditionalStepLRebarIdList.First());
+
+                    middleAdditionalStepLRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                    middleAdditionalStepLRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(stepBarsQuantity - 1);
+                    middleAdditionalStepLRebar.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(stepRebarStep);
+                    if (middleAdditionalStepLRebar.LookupParameter("Орг.ГлавнаяДетальСборки") != null)
+                    {
+                        middleAdditionalStepLRebar.LookupParameter("Орг.ГлавнаяДетальСборки").Set(0);
+                    }
+                    additionalStepRebarIdCollection_1.Add(middleAdditionalStepLRebar.Id);
+
+                    //Прямой стержень ступени по вертикали
+                    Rebar additionalStepStraightRebar_1 = Rebar.CreateFromCurvesAndShape(doc,
+                    rebarStraightShape,
+                    stepRebarType,
+                    null,
+                    null,
+                    stairFlight,
+                    XYZ.BasisZ,
+                    additionalStepStraightRebarCurves,
+                    RebarHookOrientation.Right,
+                    RebarHookOrientation.Right);
+
+                    ElementTransformUtils.MoveElement(doc, additionalStepStraightRebar_1.Id, (-10 / 304.8) * XYZ.BasisZ);
+                    additionalStepStraightRebar_1.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                    additionalStepStraightRebar_1.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(2);
+                    additionalStepStraightRebar_1.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(100 / 304.8);
+                    if (additionalStepStraightRebar_1.LookupParameter("Орг.ГлавнаяДетальСборки") != null)
+                    {
+                        additionalStepStraightRebar_1.LookupParameter("Орг.ГлавнаяДетальСборки").Set(0);
+                    }
+                    additionalStepRebarIdCollection_1.Add(additionalStepStraightRebar_1.Id);
+
+                    //Прямой стержень ступени по горизонтали
+                    Rebar additionalStepStraightRebar_2 = Rebar.CreateFromCurvesAndShape(doc,
+                    rebarStraightShape,
+                    stepRebarType,
+                    null,
+                    null,
+                    stairFlight,
+                    horisontalLengthwiseVector,
+                    additionalStepStraightRebarCurves,
+                    RebarHookOrientation.Right,
+                    RebarHookOrientation.Right);
+
+                    ElementTransformUtils.MoveElement(doc, additionalStepStraightRebar_2.Id, (-90 / 304.8) * horisontalLengthwiseVector - (stepRebarDiam / 2) * XYZ.BasisZ);
+                    additionalStepStraightRebar_2.get_Parameter(BuiltInParameter.REBAR_ELEM_LAYOUT_RULE).Set(3);
+                    additionalStepStraightRebar_2.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(2);
+                    additionalStepStraightRebar_2.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(100 / 304.8);
+                    if (additionalStepStraightRebar_2.LookupParameter("Орг.ГлавнаяДетальСборки") != null)
+                    {
+                        additionalStepStraightRebar_2.LookupParameter("Орг.ГлавнаяДетальСборки").Set(0);
+                    }
+                    additionalStepRebarIdCollection_1.Add(additionalStepStraightRebar_2.Id);
+
+                    if (doc.GetElement(additionalStepRebarIdCollection_1.First()).LookupParameter("Мрк.МаркаИзделия") != null)
+                    {
+                        foreach (ElementId barId in additionalStepRebarIdCollection_1)
+                        {
+                            doc.GetElement(barId).LookupParameter("Мрк.МаркаИзделия").Set(additionalBarMeshName_1);
+                        }
+                    }
+
+                    ElementId additionalCategoryId_1 = doc.GetElement(additionalStepRebarIdCollection_1.First()).Category.Id;
+
+                    projectGroupList = new FilteredElementCollector(doc).OfClass(typeof(Group)).Cast<Group>().ToList();
+                    if (projectGroupList.Any(g => g.GroupType.Name == "Сетка " + additionalBarMeshName_1))
+                    {
+                        TaskDialog.Show("Revit", "Группа с имененм Сетка " + additionalBarMeshName_1
+                            + " уже существует!\nБыла создана группа с именем Сетка " + additionalBarMeshName_1 + "B");
+                        additionalBarMeshName_1 = additionalBarMeshName_1 + "B";
+                    }
+                    Group additionalStepBarMeshGroup_1 = doc.Create.NewGroup(additionalStepRebarIdCollection_1);
+                    additionalStepBarMeshGroup_1.GroupType.Name = "Сетка " + additionalBarMeshName_1;
+                    AssemblyInstance additionalStepBarMeshAssemblyInstance = AssemblyInstance.Create(doc, additionalStepRebarIdCollection_1, additionalCategoryId_1) as AssemblyInstance;
+                    t.Commit();
+
+                    t.Start("Назначение имени сборки");
+                    additionalStepBarMeshAssemblyInstance.AssemblyTypeName = "Сетка " + additionalBarMeshName_1;
+                    t.Commit();
+
+                }
+
             }
 
             return Result.Succeeded;

@@ -51,6 +51,8 @@
             this.groupBox_TopConnectionNode = new System.Windows.Forms.GroupBox();
             this.radioButton_NodeA1 = new System.Windows.Forms.RadioButton();
             this.radioButton_NodeB1 = new System.Windows.Forms.RadioButton();
+            this.radioButton_NodeA2 = new System.Windows.Forms.RadioButton();
+            this.textBox_BottomExtensionHeightStaircaseNodeA2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -246,6 +248,8 @@
             // 
             // groupBox_BottomConnectionNode
             // 
+            this.groupBox_BottomConnectionNode.Controls.Add(this.textBox_BottomExtensionHeightStaircaseNodeA2);
+            this.groupBox_BottomConnectionNode.Controls.Add(this.radioButton_NodeA2);
             this.groupBox_BottomConnectionNode.Controls.Add(this.radioButton_NodeA1);
             this.groupBox_BottomConnectionNode.Controls.Add(this.textBox_BottomExtensionHeightStaircase);
             this.groupBox_BottomConnectionNode.Controls.Add(this.pictureBox2);
@@ -278,7 +282,6 @@
             this.radioButton_NodeA1.Name = "radioButton_NodeA1";
             this.radioButton_NodeA1.Size = new System.Drawing.Size(67, 17);
             this.radioButton_NodeA1.TabIndex = 0;
-            this.radioButton_NodeA1.TabStop = true;
             this.radioButton_NodeA1.Text = "Узел А1";
             this.radioButton_NodeA1.UseVisualStyleBackColor = true;
             // 
@@ -293,6 +296,24 @@
             this.radioButton_NodeB1.TabStop = true;
             this.radioButton_NodeB1.Text = "Узел Б1";
             this.radioButton_NodeB1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_NodeA2
+            // 
+            this.radioButton_NodeA2.AutoSize = true;
+            this.radioButton_NodeA2.Location = new System.Drawing.Point(461, 19);
+            this.radioButton_NodeA2.Name = "radioButton_NodeA2";
+            this.radioButton_NodeA2.Size = new System.Drawing.Size(67, 17);
+            this.radioButton_NodeA2.TabIndex = 20;
+            this.radioButton_NodeA2.Text = "Узел А2";
+            this.radioButton_NodeA2.UseVisualStyleBackColor = true;
+            // 
+            // textBox_BottomExtensionHeightStaircaseNodeA2
+            // 
+            this.textBox_BottomExtensionHeightStaircaseNodeA2.Location = new System.Drawing.Point(410, 140);
+            this.textBox_BottomExtensionHeightStaircaseNodeA2.Name = "textBox_BottomExtensionHeightStaircaseNodeA2";
+            this.textBox_BottomExtensionHeightStaircaseNodeA2.Size = new System.Drawing.Size(50, 20);
+            this.textBox_BottomExtensionHeightStaircaseNodeA2.TabIndex = 21;
+            this.textBox_BottomExtensionHeightStaircaseNodeA2.TextChanged += new System.EventHandler(this.textBox_BottomExtensionHeightStaircaseNodeA2_TextChanged);
             // 
             // CIT_04_5_StairFlightReinforcementForm
             // 
@@ -354,5 +375,7 @@
         private System.Windows.Forms.RadioButton radioButton_NodeA1;
         private System.Windows.Forms.GroupBox groupBox_TopConnectionNode;
         private System.Windows.Forms.RadioButton radioButton_NodeB1;
+        private System.Windows.Forms.RadioButton radioButton_NodeA2;
+        private System.Windows.Forms.TextBox textBox_BottomExtensionHeightStaircaseNodeA2;
     }
 }
