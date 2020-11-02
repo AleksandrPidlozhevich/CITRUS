@@ -158,6 +158,22 @@ namespace CITRUS
             pbdBeamReinforcement.Image = BeamReinforcement_imgStandart;
             panel_KR.AddItem(pbdBeamReinforcement);
 
+            // Создание кнопки "StaircaseReinforcement" в категории "Другое"
+            PushButtonData pbdStaircaseReinforcement = new PushButtonData("StairFlightReinforcement"
+                    , "Арм.Марш"
+                    , assemblyPach
+                    , "CITRUS.CIT_04_5_StairFlightReinforcement.CIT_04_5_StairFlightReinforcement");
+
+            Image StaircaseReinforcement_img1 = Properties.Resources.StaircaseReinforcement_Large;
+            ImageSource StaircaseReinforcement_imgLarge = GetImageSourse(StaircaseReinforcement_img1);
+            Image StaircaseReinforcement_img2 = Properties.Resources.StaircaseReinforcement;
+            ImageSource StaircaseReinforcement_imgStandart = GetImageSourse(StaircaseReinforcement_img2);
+
+            pbdStaircaseReinforcement.LargeImage = StaircaseReinforcement_imgLarge;
+            pbdStaircaseReinforcement.Image = StaircaseReinforcement_imgStandart;
+
+            panel_KR.AddItem(pbdStaircaseReinforcement);
+
             //Создание категории кнопок "ОВ"
             RibbonPanel panel_OV = application.CreateRibbonPanel(tabName, "ОВ");
             //Создание кнопки "MEPViewScheduleCreator" в категории "ОВ"
@@ -246,14 +262,7 @@ namespace CITRUS
                     , "CITRUS.Blocker");
 
             panel_Other.AddItem(pbdBlocker);
-
-            // Создание кнопки "StairFlightReinforcement" в категории "Другое"
-            PushButtonData pbdStaircaseReinforcement = new PushButtonData("StairFlightReinforcement"
-                    , "StairFlightReinforcement"
-                    , assemblyPach
-                    , "CITRUS.CIT_04_5_StairFlightReinforcement.CIT_04_5_StairFlightReinforcement");
-
-            panel_Other.AddItem(pbdStaircaseReinforcement);
+                     
             
 
             return Result.Succeeded;

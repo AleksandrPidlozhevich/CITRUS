@@ -43,21 +43,24 @@
             this.textBox_TopExtensionStaircase = new System.Windows.Forms.TextBox();
             this.textBox_TopExtensionHeightStaircase = new System.Windows.Forms.TextBox();
             this.textBox_AdditionalBarMeshName_1 = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.textBox_BottomExtensionHeightStaircase = new System.Windows.Forms.TextBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.groupBox_BottomConnectionNode = new System.Windows.Forms.GroupBox();
-            this.groupBox_TopConnectionNode = new System.Windows.Forms.GroupBox();
-            this.radioButton_NodeA1 = new System.Windows.Forms.RadioButton();
-            this.radioButton_NodeB1 = new System.Windows.Forms.RadioButton();
-            this.radioButton_NodeA2 = new System.Windows.Forms.RadioButton();
+            this.textBox_AdditionalBarMeshName_2 = new System.Windows.Forms.TextBox();
             this.textBox_BottomExtensionHeightStaircaseNodeA2 = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.radioButton_NodeA2 = new System.Windows.Forms.RadioButton();
+            this.radioButton_NodeA1 = new System.Windows.Forms.RadioButton();
+            this.groupBox_TopConnectionNode = new System.Windows.Forms.GroupBox();
+            this.radioButton_NodeB1 = new System.Windows.Forms.RadioButton();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox_BottomConnectionNode.SuspendLayout();
             this.groupBox_TopConnectionNode.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_Cancel
@@ -201,30 +204,6 @@
             this.textBox_AdditionalBarMeshName_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_AdditionalBarMeshName_1.TextChanged += new System.EventHandler(this.textBox_AdditionalBarMeshName_1_TextChanged);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_MainSection;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(620, 420);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 18;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.BackColor = System.Drawing.SystemColors.Window;
-            this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox3.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_Node2;
-            this.pictureBox3.Location = new System.Drawing.Point(6, 42);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(321, 207);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 20;
-            this.pictureBox3.TabStop = false;
-            // 
             // textBox_BottomExtensionHeightStaircase
             // 
             this.textBox_BottomExtensionHeightStaircase.Location = new System.Drawing.Point(20, 140);
@@ -234,24 +213,14 @@
             this.textBox_BottomExtensionHeightStaircase.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_BottomExtensionHeightStaircase.TextChanged += new System.EventHandler(this.textBox_BottomExtensionHeightStaircase_TextChanged);
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.SystemColors.Window;
-            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox2.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_Node1;
-            this.pictureBox2.Location = new System.Drawing.Point(6, 42);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(309, 185);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 19;
-            this.pictureBox2.TabStop = false;
-            // 
             // groupBox_BottomConnectionNode
             // 
+            this.groupBox_BottomConnectionNode.Controls.Add(this.textBox_AdditionalBarMeshName_2);
             this.groupBox_BottomConnectionNode.Controls.Add(this.textBox_BottomExtensionHeightStaircaseNodeA2);
             this.groupBox_BottomConnectionNode.Controls.Add(this.radioButton_NodeA2);
             this.groupBox_BottomConnectionNode.Controls.Add(this.radioButton_NodeA1);
             this.groupBox_BottomConnectionNode.Controls.Add(this.textBox_BottomExtensionHeightStaircase);
+            this.groupBox_BottomConnectionNode.Controls.Add(this.pictureBox4);
             this.groupBox_BottomConnectionNode.Controls.Add(this.pictureBox2);
             this.groupBox_BottomConnectionNode.Location = new System.Drawing.Point(12, 436);
             this.groupBox_BottomConnectionNode.Name = "groupBox_BottomConnectionNode";
@@ -259,6 +228,46 @@
             this.groupBox_BottomConnectionNode.TabIndex = 21;
             this.groupBox_BottomConnectionNode.TabStop = false;
             this.groupBox_BottomConnectionNode.Text = "Нижний узел примыкания";
+            // 
+            // textBox_AdditionalBarMeshName_2
+            // 
+            this.textBox_AdditionalBarMeshName_2.Location = new System.Drawing.Point(424, 52);
+            this.textBox_AdditionalBarMeshName_2.Name = "textBox_AdditionalBarMeshName_2";
+            this.textBox_AdditionalBarMeshName_2.Size = new System.Drawing.Size(50, 20);
+            this.textBox_AdditionalBarMeshName_2.TabIndex = 21;
+            this.textBox_AdditionalBarMeshName_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_AdditionalBarMeshName_2.TextChanged += new System.EventHandler(this.textBox_AdditionalBarMeshName_2_TextChanged);
+            // 
+            // textBox_BottomExtensionHeightStaircaseNodeA2
+            // 
+            this.textBox_BottomExtensionHeightStaircaseNodeA2.Location = new System.Drawing.Point(346, 148);
+            this.textBox_BottomExtensionHeightStaircaseNodeA2.Name = "textBox_BottomExtensionHeightStaircaseNodeA2";
+            this.textBox_BottomExtensionHeightStaircaseNodeA2.Size = new System.Drawing.Size(50, 20);
+            this.textBox_BottomExtensionHeightStaircaseNodeA2.TabIndex = 21;
+            this.textBox_BottomExtensionHeightStaircaseNodeA2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_BottomExtensionHeightStaircaseNodeA2.TextChanged += new System.EventHandler(this.textBox_BottomExtensionHeightStaircaseNodeA2_TextChanged);
+            // 
+            // radioButton_NodeA2
+            // 
+            this.radioButton_NodeA2.AutoSize = true;
+            this.radioButton_NodeA2.Location = new System.Drawing.Point(444, 19);
+            this.radioButton_NodeA2.Name = "radioButton_NodeA2";
+            this.radioButton_NodeA2.Size = new System.Drawing.Size(67, 17);
+            this.radioButton_NodeA2.TabIndex = 20;
+            this.radioButton_NodeA2.Text = "Узел А2";
+            this.radioButton_NodeA2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_NodeA1
+            // 
+            this.radioButton_NodeA1.AutoSize = true;
+            this.radioButton_NodeA1.Checked = true;
+            this.radioButton_NodeA1.Location = new System.Drawing.Point(134, 19);
+            this.radioButton_NodeA1.Name = "radioButton_NodeA1";
+            this.radioButton_NodeA1.Size = new System.Drawing.Size(67, 17);
+            this.radioButton_NodeA1.TabIndex = 0;
+            this.radioButton_NodeA1.TabStop = true;
+            this.radioButton_NodeA1.Text = "Узел А1";
+            this.radioButton_NodeA1.UseVisualStyleBackColor = true;
             // 
             // groupBox_TopConnectionNode
             // 
@@ -269,21 +278,10 @@
             this.groupBox_TopConnectionNode.Controls.Add(this.pictureBox3);
             this.groupBox_TopConnectionNode.Location = new System.Drawing.Point(638, 12);
             this.groupBox_TopConnectionNode.Name = "groupBox_TopConnectionNode";
-            this.groupBox_TopConnectionNode.Size = new System.Drawing.Size(333, 420);
+            this.groupBox_TopConnectionNode.Size = new System.Drawing.Size(333, 260);
             this.groupBox_TopConnectionNode.TabIndex = 22;
             this.groupBox_TopConnectionNode.TabStop = false;
             this.groupBox_TopConnectionNode.Text = "Верхний узел примыкания";
-            // 
-            // radioButton_NodeA1
-            // 
-            this.radioButton_NodeA1.AutoSize = true;
-            this.radioButton_NodeA1.Checked = true;
-            this.radioButton_NodeA1.Location = new System.Drawing.Point(134, 19);
-            this.radioButton_NodeA1.Name = "radioButton_NodeA1";
-            this.radioButton_NodeA1.Size = new System.Drawing.Size(67, 17);
-            this.radioButton_NodeA1.TabIndex = 0;
-            this.radioButton_NodeA1.Text = "Узел А1";
-            this.radioButton_NodeA1.UseVisualStyleBackColor = true;
             // 
             // radioButton_NodeB1
             // 
@@ -297,23 +295,53 @@
             this.radioButton_NodeB1.Text = "Узел Б1";
             this.radioButton_NodeB1.UseVisualStyleBackColor = true;
             // 
-            // radioButton_NodeA2
+            // pictureBox3
             // 
-            this.radioButton_NodeA2.AutoSize = true;
-            this.radioButton_NodeA2.Location = new System.Drawing.Point(461, 19);
-            this.radioButton_NodeA2.Name = "radioButton_NodeA2";
-            this.radioButton_NodeA2.Size = new System.Drawing.Size(67, 17);
-            this.radioButton_NodeA2.TabIndex = 20;
-            this.radioButton_NodeA2.Text = "Узел А2";
-            this.radioButton_NodeA2.UseVisualStyleBackColor = true;
+            this.pictureBox3.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox3.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_Node2;
+            this.pictureBox3.Location = new System.Drawing.Point(6, 42);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(321, 207);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 20;
+            this.pictureBox3.TabStop = false;
             // 
-            // textBox_BottomExtensionHeightStaircaseNodeA2
+            // pictureBox4
             // 
-            this.textBox_BottomExtensionHeightStaircaseNodeA2.Location = new System.Drawing.Point(410, 140);
-            this.textBox_BottomExtensionHeightStaircaseNodeA2.Name = "textBox_BottomExtensionHeightStaircaseNodeA2";
-            this.textBox_BottomExtensionHeightStaircaseNodeA2.Size = new System.Drawing.Size(50, 20);
-            this.textBox_BottomExtensionHeightStaircaseNodeA2.TabIndex = 21;
-            this.textBox_BottomExtensionHeightStaircaseNodeA2.TextChanged += new System.EventHandler(this.textBox_BottomExtensionHeightStaircaseNodeA2_TextChanged);
+            this.pictureBox4.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox4.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_Node3;
+            this.pictureBox4.Location = new System.Drawing.Point(321, 42);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(293, 185);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 19;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox2.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_Node1;
+            this.pictureBox2.Location = new System.Drawing.Point(6, 42);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(309, 185);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 19;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_MainSection;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(620, 420);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 18;
+            this.pictureBox1.TabStop = false;
             // 
             // CIT_04_5_StairFlightReinforcementForm
             // 
@@ -337,14 +365,15 @@
             this.Controls.Add(this.pictureBox1);
             this.Name = "CIT_04_5_StairFlightReinforcementForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CIT_04_5_StairFlightReinforcementForm";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.Text = "Свойства армирования";
             this.groupBox_BottomConnectionNode.ResumeLayout(false);
             this.groupBox_BottomConnectionNode.PerformLayout();
             this.groupBox_TopConnectionNode.ResumeLayout(false);
             this.groupBox_TopConnectionNode.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -377,5 +406,7 @@
         private System.Windows.Forms.RadioButton radioButton_NodeB1;
         private System.Windows.Forms.RadioButton radioButton_NodeA2;
         private System.Windows.Forms.TextBox textBox_BottomExtensionHeightStaircaseNodeA2;
+        private System.Windows.Forms.TextBox textBox_AdditionalBarMeshName_2;
+        private System.Windows.Forms.PictureBox pictureBox4;
     }
 }

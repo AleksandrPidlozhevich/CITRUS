@@ -583,6 +583,26 @@ namespace CITRUS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap StaircaseReinforcement {
+            get {
+                object obj = ResourceManager.GetObject("StaircaseReinforcement", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap StaircaseReinforcement_Large {
+            get {
+                object obj = ResourceManager.GetObject("StaircaseReinforcement_Large", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap staircaseReinforcement_MainSection {
             get {
                 object obj = ResourceManager.GetObject("staircaseReinforcement_MainSection", resourceCulture);
@@ -606,6 +626,16 @@ namespace CITRUS.Properties {
         internal static System.Drawing.Bitmap staircaseReinforcement_Node2 {
             get {
                 object obj = ResourceManager.GetObject("staircaseReinforcement_Node2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap staircaseReinforcement_Node3 {
+            get {
+                object obj = ResourceManager.GetObject("staircaseReinforcement_Node3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

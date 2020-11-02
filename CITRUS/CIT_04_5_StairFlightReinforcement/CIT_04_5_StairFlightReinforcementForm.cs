@@ -29,6 +29,7 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
         public double BottomExtensionHeightStaircaseNodeA2;
         public string FirstBarMeshName = "";
         public string AdditionalBarMeshName_1 = "";
+        public string AdditionalBarMeshName_2 = "";
 
         public string CheckedBottomConnectionNodeName;
         public string CheckedTopConnectionNodeName;
@@ -133,6 +134,9 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
             AdditionalBarMeshName_1 = textBox_AdditionalBarMeshName_1.Text;
         }
 
-
+        private void textBox_AdditionalBarMeshName_2_TextChanged(object sender, EventArgs e)
+        {
+            AdditionalBarMeshName_2 = textBox_AdditionalBarMeshName_2.Text;
+        }
     }
 }

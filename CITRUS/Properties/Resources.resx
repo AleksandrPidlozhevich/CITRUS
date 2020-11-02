@@ -292,4 +292,13 @@
   <data name="staircaseReinforcement_Node2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\staircaseReinforcement_Node2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="staircaseReinforcement_Node3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\staircaseReinforcement_Node3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StaircaseReinforcement" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StaircaseReinforcement.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StaircaseReinforcement_Large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StaircaseReinforcement_Large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
