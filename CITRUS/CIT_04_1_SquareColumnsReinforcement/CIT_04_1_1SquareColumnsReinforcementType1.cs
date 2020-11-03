@@ -1,13 +1,10 @@
-﻿using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
 {
@@ -30,6 +27,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
             //Получение доступа к Selection
             Selection sel = uiapp.ActiveUIDocument.Selection;
 #region Старт блока Получение списка колонн
+
             //Выбор колонн
             ColumnSelectionFilter columnSelFilter = new ColumnSelectionFilter(); //Вызов фильтра выбора
             IList<Reference> selColumns = sel.PickObjects(ObjectType.Element, columnSelFilter, "Выберите колонны!");//Получение списка ссылок на выбранные колонны
@@ -171,9 +169,11 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                 .ToList();
 
             //Завершение блока создания списков типов для 
-            #endregion
+#endregion
 
 #region Старт блока использования формы
+
+            
 
             //Вызов формы
             CIT_04_1_1FormSquareColumnsReinforcementType1 formSquareColumnsReinforcementType1 = new CIT_04_1_1FormSquareColumnsReinforcementType1(mainRebarTapesList, stirrupRebarTapesList, rebarCoverTypesList);

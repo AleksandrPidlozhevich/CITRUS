@@ -1,4 +1,6 @@
-﻿namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
+﻿using System.Runtime.Serialization;
+
+namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
 {
     partial class   CIT_04_1_1FormSquareColumnsReinforcementType1
     {

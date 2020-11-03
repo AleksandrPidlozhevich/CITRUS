@@ -1,18 +1,15 @@
 ﻿using Autodesk.Revit.DB.Structure;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.Serialization;
 
 namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
 {
     public partial class CIT_04_1_1FormSquareColumnsReinforcementType1 : Form
     {
+        
         public RebarBarType mySelectionMainBarTape;
         public RebarBarType mySelectionStirrupBarTape;
         public RebarCoverType mySelectionRebarCoverType;
@@ -25,9 +22,8 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
         public double StirrupIncreasedPlacementHeight;
         public double ColumnSectionOffset;
         public double DeepeningBarsSize;
-
         public string CheckedRebarOutletsButtonName;
-        
+
         public bool СhangeColumnSection;
         public bool TransitionToOverlap;
         public bool DeepeningBars;
