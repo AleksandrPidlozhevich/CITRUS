@@ -479,7 +479,6 @@
             this.Name = "CIT_04_1_1FormSquareColumnsReinforcementType6";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Свойства армирования";
-            this.Load += new System.EventHandler(this.CIT_04_1_1FormSquareColumnsReinforcementType4_Load);
             this.groupBox_RebarOutlets.ResumeLayout(false);
             this.groupBox_RebarOutlets.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CITRUS.Properties;
 
 namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
 {
@@ -53,6 +54,24 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
             , List<RebarCoverType> rebarCoverTypes)
         {
             InitializeComponent();
+            textBox_FloorThicknessAboveColumn.Text = Settings.Default["FSCRT6_FloorThickness"].ToString();
+            textBox_RebarOutletsLength.Text = Settings.Default["FSCRT6_RebarOutlets"].ToString();
+            textBox_RebarSecondOutletsLength.Text = Settings.Default["FSCRT6_RebarSecondOutlets"].ToString();
+            textBox_FirstStirrupOffset.Text = Settings.Default["FSCRT6_FirstStirrupOffset"].ToString();
+            textBox_IncreasedStirrupSpacing.Text = Settings.Default["FSCRT6_IncreasedStirrupSpacing"].ToString();
+            textBox_StandardStirrupSpacing.Text = Settings.Default["FSCRT6_StandardStirrupSpacing"].ToString();
+            textBox_StirrupIncreasedPlacementHeight.Text = Settings.Default["FSCRT6_StirrupIncreasedPlacementHeight"].ToString();
+            textBox_ColumnSectionOffset.Text = Settings.Default["FSCRT6_ColumnSectionOffset"].ToString();
+            textBox_DeepeningBars.Text = Settings.Default["FSCRT6_DeepeningBarsSize"].ToString();
+            textBox_SecondLowerRebarOffset1.Text = Settings.Default["FSCRT6_SecondLowerRebarOffset1"].ToString();
+            textBox_SecondTopRebarOffset1.Text = Settings.Default["FSCRT6_SecondTopRebarOffset1"].ToString();
+            textBox_SecondLeftRebarOffset1.Text = Settings.Default["FSCRT6_SecondLeftRebarOffset1"].ToString();
+            textBox_SecondRightRebarOffset1.Text = Settings.Default["FSCRT6_SecondRightRebarOffset1"].ToString();
+            textBox_SecondLowerRebarOffset2.Text = Settings.Default["FSCRT6_SecondLowerRebarOffset2"].ToString();
+            textBox_SecondTopRebarOffset2.Text = Settings.Default["FSCRT6_SecondTopRebarOffset2"].ToString();
+            textBox_SecondLeftRebarOffset2.Text = Settings.Default["FSCRT6_SecondLeftRebarOffset2"].ToString();
+            textBox_SecondRightRebarOffset2.Text = Settings.Default["FSCRT6_SecondRightRebarOffset2"].ToString();
+
 
             List<RebarBarType> firstMainBarTapesListForComboBox = firstMainBarTapes;
             comboBox_FirstMainBarTapes.DataSource = firstMainBarTapesListForComboBox;
@@ -82,6 +101,25 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
             DeepeningBars = checkBox_DeepeningBars.Checked;
             BendIntoASlab = checkBox_BendIntoASlab.Checked;
 
+            Settings.Default["FSCRT6_FloorThickness"] = textBox_FloorThicknessAboveColumn.Text;
+            Settings.Default["FSCRT6_RebarOutlets"] = textBox_RebarOutletsLength.Text;
+            Settings.Default["FSCRT6_RebarSecondOutlets"] = textBox_RebarSecondOutletsLength.Text;
+            Settings.Default["FSCRT6_FirstStirrupOffset"] = textBox_FirstStirrupOffset.Text;
+            Settings.Default["FSCRT6_IncreasedStirrupSpacing"] = textBox_IncreasedStirrupSpacing.Text;
+            Settings.Default["FSCRT6_StandardStirrupSpacing"] = textBox_StandardStirrupSpacing.Text;
+            Settings.Default["FSCRT6_StirrupIncreasedPlacementHeight"] = textBox_StirrupIncreasedPlacementHeight.Text;
+            Settings.Default["FSCRT6_ColumnSectionOffset"] = textBox_ColumnSectionOffset.Text;
+            Settings.Default["FSCRT6_DeepeningBarsSize"] = textBox_DeepeningBars.Text;
+            Settings.Default["FSCRT6_SecondLowerRebarOffset1"] = textBox_SecondLowerRebarOffset1.Text;
+            Settings.Default["FSCRT6_SecondTopRebarOffset1"] = textBox_SecondTopRebarOffset1.Text;
+            Settings.Default["FSCRT6_SecondLeftRebarOffset1"] = textBox_SecondLeftRebarOffset1.Text;
+            Settings.Default["FSCRT6_SecondRightRebarOffset1"] = textBox_SecondRightRebarOffset1.Text;
+            Settings.Default["FSCRT6_SecondLowerRebarOffset2"] = textBox_SecondLowerRebarOffset2.Text;
+            Settings.Default["FSCRT6_SecondTopRebarOffset2"] = textBox_SecondTopRebarOffset2.Text;
+            Settings.Default["FSCRT6_SecondLeftRebarOffset2"] = textBox_SecondLeftRebarOffset2.Text;
+            Settings.Default["FSCRT6_SecondRightRebarOffset2"] = textBox_SecondRightRebarOffset2.Text;
+            Settings.Default.Save();
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -100,17 +138,14 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
         {
             mySelectionSecondMainBarTape = comboBox_SecondMainBarTapes.SelectedItem as RebarBarType;
         }
-
         private void comboBox_StirrupBarTapes_SelectedIndexChanged(object sender, EventArgs e)
         {
             mySelectionFirstStirrupBarTape = comboBox_StirrupBarTapes.SelectedItem as RebarBarType;
         }
-
         private void comboBox_SecondStirrupBarTapes_SelectedIndexChanged(object sender, EventArgs e)
         {
             mySelectionSecondStirrupBarTape = comboBox_SecondStirrupBarTapes.SelectedItem as RebarBarType;
         }
-
         private void comboBox_RebarCoverTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
             mySelectionRebarCoverType = comboBox_RebarCoverTypes.SelectedItem as RebarCoverType;
@@ -119,98 +154,75 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
         private void textBox_FloorThicknessAboveColumn_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_FloorThicknessAboveColumn.Text, out FloorThickness);
-
         }
-
         private void textBox_RebarOutletsLength_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_RebarOutletsLength.Text, out RebarOutlets);
         }
-
         private void textBox_RebarSecondOutletsLength_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_RebarSecondOutletsLength.Text, out RebarSecondOutlets);
         }
-
         private void textBox_FirstStirrupOffset_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_FirstStirrupOffset.Text, out FirstStirrupOffset);
         }
-
         private void textBox_IncreasedStirrupSpacing_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_IncreasedStirrupSpacing.Text, out IncreasedStirrupSpacing);
         }
-
         private void textBox_StandardStirrupSpacing_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_StandardStirrupSpacing.Text, out StandardStirrupSpacing);
         }
-
         private void textBox_StirrupIncreasedPlacementHeight_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_StirrupIncreasedPlacementHeight.Text, out StirrupIncreasedPlacementHeight);
+        }
+        private void textBox_ColumnSectionOffset_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_ColumnSectionOffset.Text, out ColumnSectionOffset);
+        }
+        private void textBox_SecondLowerRebarOffset1_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_SecondLowerRebarOffset1.Text, out SecondLowerRebarOffset1);
+        }
+        private void textBox_SecondTopRebarOffset1_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_SecondTopRebarOffset1.Text, out SecondTopRebarOffset1);
+        }
+        private void textBox_SecondLeftRebarOffset1_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_SecondLeftRebarOffset1.Text, out SecondLeftRebarOffset1);
+        }
+        private void textBox_SecondRightRebarOffset1_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_SecondRightRebarOffset1.Text, out SecondRightRebarOffset1);
+        }
+        private void textBox_SecondLowerRebarOffset2_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_SecondLowerRebarOffset2.Text, out SecondLowerRebarOffset2);
+        }
+        private void textBox_SecondTopRebarOffset2_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_SecondTopRebarOffset2.Text, out SecondTopRebarOffset2);
+        }
+        private void textBox_SecondLeftRebarOffset2_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_SecondLeftRebarOffset2.Text, out SecondLeftRebarOffset2);
+        }
+        private void textBox_SecondRightRebarOffset2_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_SecondRightRebarOffset2.Text, out SecondRightRebarOffset2);
+        }
+        private void textBox_DeepeningBars_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_DeepeningBars.Text, out DeepeningBarsSize);
         }
 
         private void checkBox_СhangeSection_CheckedChanged(object sender, EventArgs e)
         {
             СhangeColumnSection = checkBox_СhangeSection.Checked;
-        }
-
-        private void textBox_ColumnSectionOffset_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_ColumnSectionOffset.Text, out ColumnSectionOffset);
-        }
-
-
-        private void CIT_04_1_1FormSquareColumnsReinforcementType4_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox_SecondLowerRebarOffset1_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_SecondLowerRebarOffset1.Text, out SecondLowerRebarOffset1);
-        }
-
-        private void textBox_SecondTopRebarOffset1_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_SecondTopRebarOffset1.Text, out SecondTopRebarOffset1);
-        }
-
-        private void textBox_SecondLeftRebarOffset1_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_SecondLeftRebarOffset1.Text, out SecondLeftRebarOffset1);
-        }
-
-        private void textBox_SecondRightRebarOffset1_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_SecondRightRebarOffset1.Text, out SecondRightRebarOffset1);
-        }
-
-        private void textBox_SecondLowerRebarOffset2_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_SecondLowerRebarOffset2.Text, out SecondLowerRebarOffset2);
-        }
-
-        private void textBox_SecondTopRebarOffset2_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_SecondTopRebarOffset2.Text, out SecondTopRebarOffset2);
-        }
-
-        private void textBox_SecondLeftRebarOffset2_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_SecondLeftRebarOffset2.Text, out SecondLeftRebarOffset2);
-        }
-
-        private void textBox_SecondRightRebarOffset2_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_SecondRightRebarOffset2.Text, out SecondRightRebarOffset2);
-        }
-
-        private void textBox_DeepeningBars_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_DeepeningBars.Text, out DeepeningBarsSize);
         }
     }
 }
