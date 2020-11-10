@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CITRUS.Properties;
 
 namespace CITRUS.CIT_04_3_BeamReinforcement
 {
@@ -58,6 +59,23 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
             , List<RebarCoverType> LRCoverLayerList)
         {
             InitializeComponent();
+            textBox_ExtensionLeftLenghtL1.Text = Settings.Default["BRF_ExtensionLeftLenghtL1"].ToString();
+            textBox_ExtensionLeftLenghtL2.Text = Settings.Default["BRF_ExtensionLeftLenghtL2"].ToString();
+            textBox_ExtensionRightLenghtR1.Text = Settings.Default["BRF_ExtensionRightLenghtR1"].ToString();
+            textBox_ExtensionRightLenghtR2.Text = Settings.Default["BRF_ExtensionRightLenghtR2"].ToString();
+            textBox_DeepeningIntoTheStructureL1.Text = Settings.Default["BRF_DeepeningIntoTheStructureL1"].ToString();
+            textBox_DeepeningIntoTheStructureL2.Text = Settings.Default["BRF_DeepeningIntoTheStructureL2"].ToString();
+            textBox_DeepeningIntoTheStructureR1.Text = Settings.Default["BRF_DeepeningIntoTheStructureR1"].ToString();
+            textBox_DeepeningIntoTheStructureR2.Text = Settings.Default["BRF_DeepeningIntoTheStructureR2"].ToString();
+            textBox_StirrupIndentL1.Text = Settings.Default["BRF_StirrupIndentL1"].ToString();
+            textBox_StirrupStepL1.Text = Settings.Default["BRF_StirrupStepL1"].ToString();
+            textBox_StirrupIndentR1.Text = Settings.Default["BRF_StirrupIndentR1"].ToString();
+            textBox_StirrupStepR1.Text = Settings.Default["BRF_StirrupStepR1"].ToString();
+            textBox_StirrupStepC1.Text = Settings.Default["BRF_StirrupStepC1"].ToString();
+            textBox_ExtensionAddBarL2.Text = Settings.Default["BRF_ExtensionAddBarL2"].ToString();
+            textBox_ExtensionAddBarR2.Text = Settings.Default["BRF_ExtensionAddBarR2"].ToString();
+            textBox_NumberOfBarsTopFaces.Text = Settings.Default["BRF_NumberOfBarsTopFaces"].ToString();
+            textBox_NumberOfBarsBottomFaces.Text = Settings.Default["BRF_NumberOfBarsBottomFaces"].ToString();
 
             List<RebarBarType> mainBarT1ListForComboBox = mainBarT1;
             comboBox_MainBarT1.DataSource = mainBarT1ListForComboBox;
@@ -94,13 +112,30 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
 
         private void btn_Ok_Click(object sender, EventArgs e)
         {
+            Settings.Default["BRF_ExtensionLeftLenghtL1"] = textBox_ExtensionLeftLenghtL1.Text;
+            Settings.Default["BRF_ExtensionLeftLenghtL2"] = textBox_ExtensionLeftLenghtL2.Text;
+            Settings.Default["BRF_ExtensionRightLenghtR1"] = textBox_ExtensionRightLenghtR1.Text;
+            Settings.Default["BRF_ExtensionRightLenghtR2"] = textBox_ExtensionRightLenghtR2.Text;
+            Settings.Default["BRF_DeepeningIntoTheStructureL1"] = textBox_DeepeningIntoTheStructureL1.Text;
+            Settings.Default["BRF_DeepeningIntoTheStructureL2"] = textBox_DeepeningIntoTheStructureL2.Text;
+            Settings.Default["BRF_DeepeningIntoTheStructureR1"] = textBox_DeepeningIntoTheStructureR1.Text;
+            Settings.Default["BRF_DeepeningIntoTheStructureR2"] = textBox_DeepeningIntoTheStructureR2.Text;
+            Settings.Default["BRF_StirrupIndentL1"] = textBox_StirrupIndentL1.Text;
+            Settings.Default["BRF_StirrupStepL1"] = textBox_StirrupStepL1.Text;
+            Settings.Default["BRF_StirrupIndentR1"] = textBox_StirrupIndentR1.Text;
+            Settings.Default["BRF_StirrupStepR1"] = textBox_StirrupStepR1.Text;
+            Settings.Default["BRF_StirrupStepC1"] = textBox_StirrupStepC1.Text;
+            Settings.Default["BRF_ExtensionAddBarL2"] = textBox_ExtensionAddBarL2.Text;
+            Settings.Default["BRF_ExtensionAddBarR2"] = textBox_ExtensionAddBarR2.Text;
+            Settings.Default["BRF_NumberOfBarsTopFaces"] = textBox_NumberOfBarsTopFaces.Text;
+            Settings.Default["BRF_NumberOfBarsBottomFaces"] = textBox_NumberOfBarsBottomFaces.Text;
+            Settings.Default.Save();
 
             AddBarL2 = checkBox_AddBarL2.Checked;
             AddBarR2 = checkBox_AddBarR2.Checked;
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
-
         private void btn_Cancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
@@ -111,17 +146,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
         {
             mySelectionMainBarT1 = comboBox_MainBarT1.SelectedItem as RebarBarType;
         }
-
         private void comboBox_MainBarT2_SelectedIndexChanged(object sender, EventArgs e)
         {
             mySelectionMainBarT2 = comboBox_MainBarT2.SelectedItem as RebarBarType;
         }
-
         private void comboBox_MainBarT3_SelectedIndexChanged(object sender, EventArgs e)
         {
             mySelectionMainBarT3 = comboBox_MainBarT3.SelectedItem as RebarBarType;
         }
-
         private void comboBox_StirrupT1_SelectedIndexChanged(object sender, EventArgs e)
         {
             mySelectionStirrupT1 = comboBox_StirrupT1.SelectedItem as RebarBarType;
@@ -130,67 +162,55 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
         {
             mySelectionStirrupC1 = comboBox_StirrupC1.SelectedItem as RebarBarType;
         }
-
-        private void textBox_ExtensionLeftLenghtL1_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_ExtensionLeftLenghtL1.Text, out ExtensionLeftLenghtL1);
-        }
-
-        private void textBox_ExtensionLeftLenghtL2_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_ExtensionLeftLenghtL2.Text, out ExtensionLeftLenghtL2);
-        }
-
-        private void textBox_ExtensionRightLenghtR1_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_ExtensionRightLenghtR1.Text, out ExtensionRightLenghtR1);
-        }
-
-        private void textBox_ExtensionRightLenghtR2_TextChanged(object sender, EventArgs e)
-        {
-            double.TryParse(textBox_ExtensionRightLenghtR2.Text, out ExtensionRightLenghtR2);
-        }
-
         private void comboBox_RebarTopCoverLayer_SelectedIndexChanged(object sender, EventArgs e)
         {
             RebarTopCoverLayer = comboBox_RebarTopCoverLayer.SelectedItem as RebarCoverType;
         }
-
         private void comboBox_RebarBottomCoverLayer_SelectedIndexChanged(object sender, EventArgs e)
         {
             RebarBottomCoverLayer = comboBox_RebarBottomCoverLayer.SelectedItem as RebarCoverType;
         }
-
         private void comboBox_RebarLRCoverLayer_SelectedIndexChanged(object sender, EventArgs e)
         {
             RebarLRCoverLayer = comboBox_RebarLRCoverLayer.SelectedItem as RebarCoverType;
         }
 
+        private void textBox_ExtensionLeftLenghtL1_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_ExtensionLeftLenghtL1.Text, out ExtensionLeftLenghtL1);
+        }
+        private void textBox_ExtensionLeftLenghtL2_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_ExtensionLeftLenghtL2.Text, out ExtensionLeftLenghtL2);
+        }
+        private void textBox_ExtensionRightLenghtR1_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_ExtensionRightLenghtR1.Text, out ExtensionRightLenghtR1);
+        }
+        private void textBox_ExtensionRightLenghtR2_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_ExtensionRightLenghtR2.Text, out ExtensionRightLenghtR2);
+        }
         private void textBox_NumberOfBarsTopFaces_TextChanged(object sender, EventArgs e)
         {
             Int32.TryParse(textBox_NumberOfBarsTopFaces.Text, out NumberOfBarsTopFaces);
         }
-
         private void textBox_NumberOfBarsBottomFaces_TextChanged(object sender, EventArgs e)
         {
             Int32.TryParse(textBox_NumberOfBarsBottomFaces.Text, out NumberOfBarsBottomFaces);
         }
-
         private void textBox_DeepeningIntoTheStructureL1_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_DeepeningIntoTheStructureL1.Text, out DeepeningIntoTheStructureL1);
         }
-
         private void textBox_DeepeningIntoTheStructureL2_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_DeepeningIntoTheStructureL2.Text, out DeepeningIntoTheStructureL2);
         }
-
         private void textBox_DeepeningIntoTheStructureR1_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_DeepeningIntoTheStructureR1.Text, out DeepeningIntoTheStructureR1);
         }
-
         private void textBox_DeepeningIntoTheStructureR2_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_DeepeningIntoTheStructureR2.Text, out DeepeningIntoTheStructureR2);
@@ -211,17 +231,14 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
         {
             double.TryParse(textBox_StirrupStepR1.Text, out StirrupStepR1);
         }
-
         private void textBox_StirrupStepC1_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_StirrupStepC1.Text, out StirrupStepC1);
         }
-
         private void textBox_ExtensionAddBarL2_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_ExtensionAddBarL2.Text, out ExtensionAddBarL2);
         }
-
         private void textBox_ExtensionAddBarR2_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_ExtensionAddBarR2.Text, out ExtensionAddBarR2);

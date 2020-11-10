@@ -850,5 +850,509 @@ namespace CITRUS.Properties {
                 this["FSCRT6_SecondRightRebarOffset2"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RCRF_NumberOfBarsLRFaces {
+            get {
+                return ((string)(this["RCRF_NumberOfBarsLRFaces"]));
+            }
+            set {
+                this["RCRF_NumberOfBarsLRFaces"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RCRF_NumberOfBarsTBFaces {
+            get {
+                return ((string)(this["RCRF_NumberOfBarsTBFaces"]));
+            }
+            set {
+                this["RCRF_NumberOfBarsTBFaces"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RCRF_RebarOutletsLengthLong {
+            get {
+                return ((string)(this["RCRF_RebarOutletsLengthLong"]));
+            }
+            set {
+                this["RCRF_RebarOutletsLengthLong"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RCRF_RebarOutletsLengthShort {
+            get {
+                return ((string)(this["RCRF_RebarOutletsLengthShort"]));
+            }
+            set {
+                this["RCRF_RebarOutletsLengthShort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RCRF_FloorThicknessAboveColumn {
+            get {
+                return ((string)(this["RCRF_FloorThicknessAboveColumn"]));
+            }
+            set {
+                this["RCRF_FloorThicknessAboveColumn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RCRF_StandardStirrupStep {
+            get {
+                return ((string)(this["RCRF_StandardStirrupStep"]));
+            }
+            set {
+                this["RCRF_StandardStirrupStep"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RCRF_IncreasedStirrupStep {
+            get {
+                return ((string)(this["RCRF_IncreasedStirrupStep"]));
+            }
+            set {
+                this["RCRF_IncreasedStirrupStep"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RCRF_FirstStirrupOffset {
+            get {
+                return ((string)(this["RCRF_FirstStirrupOffset"]));
+            }
+            set {
+                this["RCRF_FirstStirrupOffset"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RCRF_StirrupIncreasedPlacementHeight {
+            get {
+                return ((string)(this["RCRF_StirrupIncreasedPlacementHeight"]));
+            }
+            set {
+                this["RCRF_StirrupIncreasedPlacementHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RCRF_ColumnSectionOffset {
+            get {
+                return ((string)(this["RCRF_ColumnSectionOffset"]));
+            }
+            set {
+                this["RCRF_ColumnSectionOffset"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RCRF_DeepeningBarsSize {
+            get {
+                return ((string)(this["RCRF_DeepeningBarsSize"]));
+            }
+            set {
+                this["RCRF_DeepeningBarsSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_ExtensionLeftLenghtL1 {
+            get {
+                return ((string)(this["BRF_ExtensionLeftLenghtL1"]));
+            }
+            set {
+                this["BRF_ExtensionLeftLenghtL1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_ExtensionLeftLenghtL2 {
+            get {
+                return ((string)(this["BRF_ExtensionLeftLenghtL2"]));
+            }
+            set {
+                this["BRF_ExtensionLeftLenghtL2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_ExtensionRightLenghtR1 {
+            get {
+                return ((string)(this["BRF_ExtensionRightLenghtR1"]));
+            }
+            set {
+                this["BRF_ExtensionRightLenghtR1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_ExtensionRightLenghtR2 {
+            get {
+                return ((string)(this["BRF_ExtensionRightLenghtR2"]));
+            }
+            set {
+                this["BRF_ExtensionRightLenghtR2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_DeepeningIntoTheStructureL1 {
+            get {
+                return ((string)(this["BRF_DeepeningIntoTheStructureL1"]));
+            }
+            set {
+                this["BRF_DeepeningIntoTheStructureL1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_DeepeningIntoTheStructureL2 {
+            get {
+                return ((string)(this["BRF_DeepeningIntoTheStructureL2"]));
+            }
+            set {
+                this["BRF_DeepeningIntoTheStructureL2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_DeepeningIntoTheStructureR1 {
+            get {
+                return ((string)(this["BRF_DeepeningIntoTheStructureR1"]));
+            }
+            set {
+                this["BRF_DeepeningIntoTheStructureR1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_DeepeningIntoTheStructureR2 {
+            get {
+                return ((string)(this["BRF_DeepeningIntoTheStructureR2"]));
+            }
+            set {
+                this["BRF_DeepeningIntoTheStructureR2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_StirrupIndentL1 {
+            get {
+                return ((string)(this["BRF_StirrupIndentL1"]));
+            }
+            set {
+                this["BRF_StirrupIndentL1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_StirrupStepL1 {
+            get {
+                return ((string)(this["BRF_StirrupStepL1"]));
+            }
+            set {
+                this["BRF_StirrupStepL1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_StirrupIndentR1 {
+            get {
+                return ((string)(this["BRF_StirrupIndentR1"]));
+            }
+            set {
+                this["BRF_StirrupIndentR1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_StirrupStepR1 {
+            get {
+                return ((string)(this["BRF_StirrupStepR1"]));
+            }
+            set {
+                this["BRF_StirrupStepR1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_StirrupStepC1 {
+            get {
+                return ((string)(this["BRF_StirrupStepC1"]));
+            }
+            set {
+                this["BRF_StirrupStepC1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_ExtensionAddBarL2 {
+            get {
+                return ((string)(this["BRF_ExtensionAddBarL2"]));
+            }
+            set {
+                this["BRF_ExtensionAddBarL2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_ExtensionAddBarR2 {
+            get {
+                return ((string)(this["BRF_ExtensionAddBarR2"]));
+            }
+            set {
+                this["BRF_ExtensionAddBarR2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_NumberOfBarsTopFaces {
+            get {
+                return ((string)(this["BRF_NumberOfBarsTopFaces"]));
+            }
+            set {
+                this["BRF_NumberOfBarsTopFaces"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BRF_NumberOfBarsBottomFaces {
+            get {
+                return ((string)(this["BRF_NumberOfBarsBottomFaces"]));
+            }
+            set {
+                this["BRF_NumberOfBarsBottomFaces"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_StepRebarCoverLayer {
+            get {
+                return ((string)(this["SFRF_StepRebarCoverLayer"]));
+            }
+            set {
+                this["SFRF_StepRebarCoverLayer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_StepLength {
+            get {
+                return ((string)(this["SFRF_StepLength"]));
+            }
+            set {
+                this["SFRF_StepLength"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_StepHeight {
+            get {
+                return ((string)(this["SFRF_StepHeight"]));
+            }
+            set {
+                this["SFRF_StepHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_StaircaseSlabThickness {
+            get {
+                return ((string)(this["SFRF_StaircaseSlabThickness"]));
+            }
+            set {
+                this["SFRF_StaircaseSlabThickness"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_StairCoverLayer {
+            get {
+                return ((string)(this["SFRF_StairCoverLayer"]));
+            }
+            set {
+                this["SFRF_StairCoverLayer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_StepRebarStep {
+            get {
+                return ((string)(this["SFRF_StepRebarStep"]));
+            }
+            set {
+                this["SFRF_StepRebarStep"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_StaircaseRebarStep {
+            get {
+                return ((string)(this["SFRF_StaircaseRebarStep"]));
+            }
+            set {
+                this["SFRF_StaircaseRebarStep"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_TopExtensionStaircase {
+            get {
+                return ((string)(this["SFRF_TopExtensionStaircase"]));
+            }
+            set {
+                this["SFRF_TopExtensionStaircase"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_TopExtensionHeightStaircase {
+            get {
+                return ((string)(this["SFRF_TopExtensionHeightStaircase"]));
+            }
+            set {
+                this["SFRF_TopExtensionHeightStaircase"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_BottomExtensionHeightStaircase {
+            get {
+                return ((string)(this["SFRF_BottomExtensionHeightStaircase"]));
+            }
+            set {
+                this["SFRF_BottomExtensionHeightStaircase"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_BottomExtensionHeightStaircaseNodeA2 {
+            get {
+                return ((string)(this["SFRF_BottomExtensionHeightStaircaseNodeA2"]));
+            }
+            set {
+                this["SFRF_BottomExtensionHeightStaircaseNodeA2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_FirstBarMeshName {
+            get {
+                return ((string)(this["SFRF_FirstBarMeshName"]));
+            }
+            set {
+                this["SFRF_FirstBarMeshName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_AdditionalBarMeshName_1 {
+            get {
+                return ((string)(this["SFRF_AdditionalBarMeshName_1"]));
+            }
+            set {
+                this["SFRF_AdditionalBarMeshName_1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SFRF_AdditionalBarMeshName_2 {
+            get {
+                return ((string)(this["SFRF_AdditionalBarMeshName_2"]));
+            }
+            set {
+                this["SFRF_AdditionalBarMeshName_2"] = value;
+            }
+        }
     }
 }

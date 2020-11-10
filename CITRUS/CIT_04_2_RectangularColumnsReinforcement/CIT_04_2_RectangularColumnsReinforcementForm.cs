@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CITRUS.Properties;
 
 namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 {
@@ -22,6 +23,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 
         public string CheckedRebarOutletsButtonName = "";
         public string CheckedRebarStrappingTypeButtonName = "";
+
         public int NumberOfBarsLRFaces = 0;
         public int NumberOfBarsTBFaces = 0;
         public double RebarOutletsLengthLong = 0;
@@ -47,6 +49,17 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
             , List<RebarCoverType> rebarCoverTypes)
         {
             InitializeComponent();
+            textBox_NumberOfBarsLRFaces.Text = Settings.Default["RCRF_NumberOfBarsLRFaces"].ToString();
+            textBox_NumberOfBarsTBFaces.Text = Settings.Default["RCRF_NumberOfBarsTBFaces"].ToString();
+            textBox_RebarOutletsLengthLong.Text = Settings.Default["RCRF_RebarOutletsLengthLong"].ToString();
+            textBox_RebarOutletsLengthShort.Text = Settings.Default["RCRF_RebarOutletsLengthShort"].ToString();
+            textBox_FloorThicknessAboveColumn.Text = Settings.Default["RCRF_FloorThicknessAboveColumn"].ToString();
+            textBox_StandardStirrupStep.Text = Settings.Default["RCRF_StandardStirrupStep"].ToString();
+            textBox_IncreasedStirrupStep.Text = Settings.Default["RCRF_IncreasedStirrupStep"].ToString();
+            textBox_FirstStirrupOffset.Text = Settings.Default["RCRF_FirstStirrupOffset"].ToString();
+            textBox_StirrupIncreasedPlacementHeight.Text = Settings.Default["RCRF_StirrupIncreasedPlacementHeight"].ToString();
+            textBox_ColumnSectionOffset.Text = Settings.Default["RCRF_ColumnSectionOffset"].ToString();
+            textBox_DeepeningBars.Text = Settings.Default["RCRF_DeepeningBarsSize"].ToString();
 
             List<RebarBarType> mainBarTapesOneListForComboBox = mainBarTapesOne;
             comboBox_MainBarTapesOne.DataSource = mainBarTapesOneListForComboBox;
@@ -82,6 +95,19 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
             DeepeningBars = checkBox_DeepeningBars.Checked;
             BendIntoASlab = checkBox_BendIntoASlab.Checked;
 
+            Settings.Default["RCRF_NumberOfBarsLRFaces"] = textBox_NumberOfBarsLRFaces.Text;
+            Settings.Default["RCRF_NumberOfBarsTBFaces"] = textBox_NumberOfBarsTBFaces.Text;
+            Settings.Default["RCRF_RebarOutletsLengthLong"] = textBox_RebarOutletsLengthLong.Text;
+            Settings.Default["RCRF_RebarOutletsLengthShort"] = textBox_RebarOutletsLengthShort.Text;
+            Settings.Default["RCRF_FloorThicknessAboveColumn"] = textBox_FloorThicknessAboveColumn.Text;
+            Settings.Default["RCRF_StandardStirrupStep"] = textBox_StandardStirrupStep.Text;
+            Settings.Default["RCRF_IncreasedStirrupStep"] = textBox_IncreasedStirrupStep.Text;
+            Settings.Default["RCRF_FirstStirrupOffset"] = textBox_FirstStirrupOffset.Text;
+            Settings.Default["RCRF_StirrupIncreasedPlacementHeight"] = textBox_StirrupIncreasedPlacementHeight.Text;
+            Settings.Default["RCRF_ColumnSectionOffset"] = textBox_ColumnSectionOffset.Text;
+            Settings.Default["RCRF_DeepeningBarsSize"] = textBox_DeepeningBars.Text;
+            Settings.Default.Save();
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -102,7 +128,6 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         {
             mySelectionMainBarTapeThree = comboBox_MainBarTapesThree.SelectedItem as RebarBarType;
         }
-
         private void comboBox_StirrupBarTapes_SelectedIndexChanged(object sender, EventArgs e)
         {
             mySelectionStirrupBarTape = comboBox_StirrupBarTapes.SelectedItem as RebarBarType;
@@ -115,6 +140,7 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         {
             mySelectionRebarCoverType = comboBox_RebarCoverTypes.SelectedItem as RebarCoverType;
         }
+
         private void textBox_NumberOfBarsLRFaces_TextChanged(object sender, EventArgs e)
         {
             Int32.TryParse(textBox_NumberOfBarsLRFaces.Text, out NumberOfBarsLRFaces);
@@ -151,12 +177,10 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         {
             double.TryParse(textBox_StirrupIncreasedPlacementHeight.Text, out StirrupIncreasedPlacementHeight);
         }
-
         private void textBox_ColumnSectionOffset_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_ColumnSectionOffset.Text, out ColumnSectionOffset);
         }
-
         private void textBox_DeepeningBars_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_DeepeningBars.Text, out DeepeningBarsSize);
