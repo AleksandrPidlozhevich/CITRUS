@@ -17,7 +17,7 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
             //Получение текущего документа
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
-            //Получение всех вентиляционных систем в проекте
+            //Получение всех вентиляционных систем в проекте (возможно не пригодится)
             List<MechanicalSystem> mechanicalSystemList = new FilteredElementCollector(doc)
                 .OfClass(typeof(MechanicalSystem))
                 .Cast<MechanicalSystem>()
@@ -26,6 +26,7 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
             //Пустой список спецификаций
             List<ViewSchedule> viewScheduleList = new List<ViewSchedule>();
 
+            //Получение шаблонной спецификации для оборудования
             List<ViewSchedule> viewScheduleMEPVSCEquipmentList = new FilteredElementCollector(doc)
                 .OfClass(typeof(ViewSchedule))
                 .Cast<ViewSchedule>()
@@ -37,8 +38,10 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                 return Result.Cancelled;
             }
             ViewSchedule viewScheduleMEPVSCEquipment = viewScheduleMEPVSCEquipmentList.First();
+            //Добавляем ее в список спецификаций
             viewScheduleList.Add(viewScheduleMEPVSCEquipment);
 
+            //Получение шиблонной спецификации Общеобменных круглых воздуховодов
             List<ViewSchedule> viewScheduleMEPVSCGeneralRoundDuctsList = new FilteredElementCollector(doc)
                 .OfClass(typeof(ViewSchedule))
                 .Cast<ViewSchedule>()
@@ -50,8 +53,10 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                 return Result.Cancelled;
             }
             ViewSchedule viewScheduleMEPVSCGeneralRoundDucts = viewScheduleMEPVSCGeneralRoundDuctsList.First();
+            //Добавляем ее в список спецификаций
             viewScheduleList.Add(viewScheduleMEPVSCGeneralRoundDucts);
 
+            //Получение шаблонной спецификации Общеобменных прямоугольных воздуховодов
             List<ViewSchedule> viewScheduleMEPVSCGeneralRectangularDuctsList = new FilteredElementCollector(doc)
                 .OfClass(typeof(ViewSchedule))
                 .Cast<ViewSchedule>().Where(vs => vs.Name == "MEPVSC_Общеобменная_Воздуховоды прямоугольные")
@@ -62,8 +67,10 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                 return Result.Cancelled;
             }
             ViewSchedule viewScheduleMEPVSCGeneralRectangularDucts = viewScheduleMEPVSCGeneralRectangularDuctsList.First();
+            //Добавляем ее в список спецификаций
             viewScheduleList.Add(viewScheduleMEPVSCGeneralRectangularDucts);
 
+            //Получение шаблонной спецификации круглых воздуховодов Дымоудаления
             List<ViewSchedule> viewScheduleMEPVSCSmokeRoundDuctsList = new FilteredElementCollector(doc)
                 .OfClass(typeof(ViewSchedule)).Cast<ViewSchedule>()
                 .Where(vs => vs.Name == "MEPVSC_Дымоудаление_Воздуховоды круглые")
@@ -74,8 +81,10 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                 return Result.Cancelled;
             }
             ViewSchedule viewScheduleMEPVSCSmokeRoundDucts = viewScheduleMEPVSCSmokeRoundDuctsList.First();
+            //Добавляем ее в список спецификаций
             viewScheduleList.Add(viewScheduleMEPVSCSmokeRoundDucts);
 
+            //Получени шаблонной спецификации прямоугольных воздуховодов Дымоудаления
             List<ViewSchedule> viewScheduleMEPVSCSmokeRectangularDuctsList = new FilteredElementCollector(doc)
                 .OfClass(typeof(ViewSchedule))
                 .Cast<ViewSchedule>()
@@ -87,8 +96,10 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                 return Result.Cancelled;
             }
             ViewSchedule viewScheduleMEPVSCSmokeRectangularDucts = viewScheduleMEPVSCSmokeRectangularDuctsList.First();
+            //Добавляем ее в список спецификаций
             viewScheduleList.Add(viewScheduleMEPVSCSmokeRectangularDucts);
 
+            //Получение шаблонной спецификации Изоляции воздуховодов
             List<ViewSchedule> viewScheduleMEPVSCInsulationList = new FilteredElementCollector(doc)
                 .OfClass(typeof(ViewSchedule))
                 .Cast<ViewSchedule>().Where(vs => vs.Name == "MEPVSC_Изоляция воздуховодов")
@@ -99,8 +110,10 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                 return Result.Cancelled;
             }
             ViewSchedule viewScheduleMEPVSCInsulation = viewScheduleMEPVSCInsulationList.First();
+            //Добавляем ее в список спецификаций
             viewScheduleList.Add(viewScheduleMEPVSCInsulation);
 
+            //Получение штампа для 1-го листа
             List<FamilySymbol> firstTitleBlockList = new FilteredElementCollector(doc)
                 .OfClass(typeof(FamilySymbol))
                 .OfCategory(BuiltInCategory.OST_TitleBlocks)
@@ -115,6 +128,7 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
             }
             FamilySymbol firstTitleBlock = firstTitleBlockList.First();
 
+            //Получение штампа для последующих листов
             List<FamilySymbol> secondTitleBlockList = new FilteredElementCollector(doc)
                 .OfClass(typeof(FamilySymbol))
                 .OfCategory(BuiltInCategory.OST_TitleBlocks)
@@ -129,6 +143,7 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
             }
             FamilySymbol secondTitleBlock = secondTitleBlockList.First();
 
+            //Номер листа (запилить форму с указанием номера)
             int sheetNumber = 101;
             int startSheetNumber = sheetNumber;
 
@@ -200,21 +215,32 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                     element.get_Parameter(rovenEmptyLineGuidForCleaning).Set(0);
                 }
                 t.Commit();
+
+                //Старт блока создания и размещения спецификаций
                 t.Start("Создание спецификаций");
+                //Сщздание 1-го листа
                 ViewSheet firstViewSheet = ViewSheet.Create(doc, firstTitleBlock.Id);
+                //Выбор рамки на 1-ом листе
                 FamilyInstance firstViewSheetFrame = new FilteredElementCollector(doc)
                     .OfClass(typeof(FamilyInstance))
                     .Cast<FamilyInstance>()
                     .Where(fi => fi.OwnerViewId == firstViewSheet.Id)
                     .ToList()
                     .First();
-
+                //Заполнение параметров Номера и Имени листа
                 firstViewSheetFrame.get_Parameter(BuiltInParameter.SHEET_NUMBER).Set(sheetNumber.ToString());
                 firstViewSheetFrame.get_Parameter(BuiltInParameter.SHEET_NAME).Set("Спецификация оборудования");
+
+                //Назначение 1-го листа текущим листом для размещения спецификаций
                 ViewSheet myViewSheet = firstViewSheet;
+                //Назначение рамки 1-го листа текущей рамкой для размещения спецификаций
                 FamilyInstance myViewSheetFrame = firstViewSheetFrame;
+                //Точка для размещения спецификации на листе
                 XYZ viewScheduleLocation = new XYZ(20 / 304.8, 260 / 304.8, 0);
+                //Параметр высоты спецификации на листе
                 double viewScheduleInstanceHight = 0;
+
+                //Перебор списка шаблонных спецификаций
                 foreach (ViewSchedule viewSchedule in viewScheduleList)
                 {
                     TableData tableData = viewSchedule.GetTableData();
@@ -402,7 +428,6 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                                 string rovenProductType = "";
                                 string rovenAirDuctRAL = "";
                                 string rovenFittingsMaterial = "";
-                                string tMetal = "";
                                 string diameter = "";
                                 string airDuctConnectionCircle = "";
                                 string metalThicknessDuctFerrousMetal = "";
@@ -415,7 +440,6 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                                     rovenProductType = viewSchedule.GetCellText(SectionType.Body, i, 19).ToString(); //4 
                                     rovenAirDuctRAL = viewSchedule.GetCellText(SectionType.Body, i, 21).ToString(); //0
                                     rovenFittingsMaterial = viewSchedule.GetCellText(SectionType.Body, i, 20); //1
-                                    //tMetal = viewSchedule.GetCellText(SectionType.Body, i, 6); //0.7
                                     diameter = viewSchedule.GetCellText(SectionType.Body, i, 8); //315
                                     airDuctConnectionCircle = viewSchedule.GetCellText(SectionType.Body, i, 24).ToString();//6
                                     metalThicknessDuctFerrousMetal = viewSchedule.GetCellText(SectionType.Body, i, 23).ToString();//
@@ -425,7 +449,6 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                                     Guid rovenProductTypeGuid = new Guid("2efb8907-3150-4c1f-9965-6ee321ff378b");
                                     Guid rovenAirDuctRALGuid = new Guid("69f7cda5-d4c3-4077-8198-8a7d7b305803");
                                     Guid rovenFittingsMaterialGuid = new Guid("15cf4725-f4db-45d0-95e8-cab206d27f1f");
-                                    //Guid tMetalGuid = new Guid("15cf4725-f4db-45d0-95e8-cab206d27f1f");
                                     Guid rovenEmptyLineGuid = new Guid("9fcdaf8a-4560-4b30-9648-f2ca2f333d11");
                                     Guid adskNoteGuid = new Guid("a85b7661-26b0-412f-979c-66af80b4b2c3");
 
@@ -436,7 +459,7 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                                         .Where(fi => fi.DuctType.get_Parameter(rovenProductTypeGuid).AsInteger().ToString() == rovenProductType)
                                         .Where(fi => fi.get_Parameter(rovenAirDuctRALGuid).AsInteger().ToString() == rovenAirDuctRAL)
                                         .Where(fi => fi.DuctType.get_Parameter(rovenFittingsMaterialGuid).AsInteger().ToString() == rovenFittingsMaterial)
-                                        .Where(fi => (fi.get_Parameter(BuiltInParameter.RBS_CURVE_DIAMETER_PARAM).AsDouble() *304.8).ToString() == diameter)
+                                        .Where(fi => (fi.get_Parameter(BuiltInParameter.RBS_CURVE_DIAMETER_PARAM).AsDouble() * 304.8).ToString() == diameter)
                                         .Where(fi => fi.LookupParameter("Воздуховод соединение круг. Возд").AsInteger().ToString() == airDuctConnectionCircle)
                                         .Where(fi => fi.LookupParameter("Воздуховод толщина металла Ч.М.").AsInteger().ToString() == metalThicknessDuctFerrousMetal)
                                         .Where(fi => fi.get_Parameter(adskNoteGuid).AsString() == adskNote)
@@ -491,9 +514,67 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                                 }
 
                             }
-
                         }
+                    }
 
+                    if (viewSchedule.Name == "MEPVSC_Общеобменная_Воздуховоды прямоугольные")
+                    {
+                        for (int i = 0; i < nRows; i++)
+                        {
+                            if (startSheetNumber != sheetNumber & viewScheduleInstanceHight <= 240 / 304.8)
+                            {
+                                string systemName = "";
+                                string adskShortName = "";
+                                string rovenProductType = "";
+                                string rovenAirDuctRAL = "";
+                                string rovenFittingsMaterial = "";
+                                string width = "";
+                                string height = "";
+                                string airDuctConnectionRectangular = "";
+                                string metalThicknessDuctFerrousMetal = "";
+                                string adskNote = "";
+                                List<Duct> rowElements = new List<Duct>();
+
+                                if (sectionData.CanRemoveRow(i) == true)
+                                {
+                                    systemName = viewSchedule.GetCellText(SectionType.Body, i, 0); //В1
+                                    adskShortName = viewSchedule.GetCellText(SectionType.Body, i, 2); //Возд.
+                                    rovenProductType = viewSchedule.GetCellText(SectionType.Body, i, 20).ToString(); //1
+                                    rovenAirDuctRAL = viewSchedule.GetCellText(SectionType.Body, i, 22).ToString(); //0
+                                    rovenFittingsMaterial = viewSchedule.GetCellText(SectionType.Body, i, 21); //1
+                                    width = viewSchedule.GetCellText(SectionType.Body, i, 7); //200
+                                    height = viewSchedule.GetCellText(SectionType.Body, i, 9); //150
+                                    airDuctConnectionRectangular = viewSchedule.GetCellText(SectionType.Body, i, 18).ToString();//5
+                                    metalThicknessDuctFerrousMetal = viewSchedule.GetCellText(SectionType.Body, i, 24).ToString();//0
+                                    adskNote = viewSchedule.GetCellText(SectionType.Body, i, 19); //""
+                                    Guid adskShortNameGuid = new Guid("f194bf60-b880-4217-b793-1e0c30dda5e9");
+                                    Guid rovenProductTypeGuid = new Guid("2efb8907-3150-4c1f-9965-6ee321ff378b");
+                                    Guid rovenAirDuctRALGuid = new Guid("69f7cda5-d4c3-4077-8198-8a7d7b305803");
+                                    Guid rovenFittingsMaterialGuid = new Guid("15cf4725-f4db-45d0-95e8-cab206d27f1f");
+                                    Guid rovenEmptyLineGuid = new Guid("9fcdaf8a-4560-4b30-9648-f2ca2f333d11");
+                                    Guid adskNoteGuid = new Guid("a85b7661-26b0-412f-979c-66af80b4b2c3");
+
+                                    rowElements = new FilteredElementCollector(doc, viewSchedule.Id)
+                                        .Cast<Duct>()
+                                        .Where(fi => fi.get_Parameter(BuiltInParameter.RBS_SYSTEM_NAME_PARAM).AsString() == systemName)
+                                        .Where(fi => fi.DuctType.get_Parameter(adskShortNameGuid).AsString() == adskShortName)
+                                        .Where(fi => fi.DuctType.get_Parameter(rovenProductTypeGuid).AsInteger().ToString() == rovenProductType)
+                                        .Where(fi => fi.get_Parameter(rovenAirDuctRALGuid).AsInteger().ToString() == rovenAirDuctRAL)
+                                        .Where(fi => fi.DuctType.get_Parameter(rovenFittingsMaterialGuid).AsInteger().ToString() == rovenFittingsMaterial)
+                                        .Where(fi => (fi.get_Parameter(BuiltInParameter.RBS_CURVE_WIDTH_PARAM).AsDouble() * 304.8).ToString() == width)
+                                        .Where(fi => (fi.get_Parameter(BuiltInParameter.RBS_CURVE_HEIGHT_PARAM).AsDouble() * 304.8).ToString() == height)
+                                        .Where(fi => fi.LookupParameter("Воздуховод соединение прямоуг. Возд").AsInteger().ToString() == airDuctConnectionRectangular)
+                                        .Where(fi => fi.LookupParameter("Воздуховод толщина металла Ч.М.").AsInteger().ToString() == metalThicknessDuctFerrousMetal)
+                                        .Where(fi => fi.get_Parameter(adskNoteGuid).AsString() == adskNote)
+                                        .ToList();
+
+                                    foreach (Duct fi in rowElements)
+                                    {
+                                        fi.get_Parameter(rovenEmptyLineGuid).Set(sheetNumber);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
