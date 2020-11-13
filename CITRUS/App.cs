@@ -262,8 +262,22 @@ namespace CITRUS
                     , "CITRUS.Blocker");
 
             panel_Other.AddItem(pbdBlocker);
-                     
-            
+            //CIT_05_4_1_MEPViewScheduleCleaner_Roven
+            //  Создание кнопки "MEPViewScheduleCreator_Roven" в категории "Другое"
+            PushButtonData pbdMEPViewScheduleCreator_Roven = new PushButtonData("MEPViewScheduleCreator_Roven"
+                    , "РОВЕН\nСоздать спецификации"
+                    , assemblyPach
+                    , "CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven.CIT_05_4_1_MEPViewScheduleCreator_Roven");
+
+            panel_Other.AddItem(pbdMEPViewScheduleCreator_Roven);
+
+            //  Создание кнопки "MEPViewScheduleCleaner_Roven" в категории "Другое"
+            PushButtonData pbdMEPViewScheduleCleaner_Roven = new PushButtonData("MEPViewScheduleCleaner_Roven"
+                    , "РОВЕН\nУдалить спецификации"
+                    , assemblyPach
+                    , "CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven.CIT_05_4_1_MEPViewScheduleCleaner_Roven");
+
+            panel_Other.AddItem(pbdMEPViewScheduleCleaner_Roven);
 
             return Result.Succeeded;
             }

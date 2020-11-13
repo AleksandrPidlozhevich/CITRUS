@@ -101,6 +101,8 @@
     <Compile Include="CIT_04_5_StairFlightReinforcement\CIT_04_5_StairFlightReinforcementForm.Designer.cs">
       <DependentUpon>CIT_04_5_StairFlightReinforcementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CIT_05_4_1_MEPViewScheduleCreator_Roven\CIT_05_4_1_MEPViewScheduleCreator_Roven.cs" />
+    <Compile Include="CIT_05_4_1_MEPViewScheduleCreator_Roven\CIT_05_4_1_MEPViewScheduleCleaner_Roven.cs" />
     <Compile Include="Draftsman.cs" />
     <Compile Include="FormRebarOutletsCreator.cs">
       <SubType>Form</SubType>
@@ -456,5 +458,6 @@
   <ItemGroup>
     <None Include="Resources\StaircaseReinforcement_Large.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
