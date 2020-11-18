@@ -42,6 +42,7 @@
             this.comboBox_FloorTypes.Location = new System.Drawing.Point(15, 35);
             this.comboBox_FloorTypes.Name = "comboBox_FloorTypes";
             this.comboBox_FloorTypes.Size = new System.Drawing.Size(357, 21);
+            this.comboBox_FloorTypes.Sorted = true;
             this.comboBox_FloorTypes.TabIndex = 0;
             this.comboBox_FloorTypes.SelectedIndexChanged += new System.EventHandler(this.comboBox_FloorTypes_SelectedIndexChanged);
             // 
@@ -88,7 +89,7 @@
             this.Controls.Add(this.comboBox_FloorTypes);
             this.MinimumSize = new System.Drawing.Size(400, 200);
             this.Name = "FloorTypeSelector";
-            this.Text = "Выбератор типа пола";
+            this.Text = "Пол";
             this.ResumeLayout(false);
             this.PerformLayout();
 

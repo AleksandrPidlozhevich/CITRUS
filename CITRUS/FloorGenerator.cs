@@ -44,28 +44,39 @@ namespace CITRUS
 
 			using (Transaction t = new Transaction(doc))
 			{
-				t.Start("Размещение пола");
 				foreach (Room myRoom in roomList)
 				{
-					//string namRoom = myRoom.LookupParameter("Номер").AsString();
-
 					CurveArray roomCurves = new CurveArray();
+					CurveArray secondCurves = new CurveArray();
 					IList<IList<BoundarySegment>> loops = myRoom.GetBoundarySegments(new SpatialElementBoundaryOptions());
-					foreach (IList<BoundarySegment> loop in loops)
-					{
-						foreach (BoundarySegment seg in loop)
+					for (int i = 0; i < loops.Count();i++)
+                    {
+						if (i == 0)
 						{
-							roomCurves.Append(seg.GetCurve());
+							foreach (BoundarySegment seg in loops[i])
+							{
+								roomCurves.Append(seg.GetCurve());
+							}
 						}
-                        Floor myFloor2 = doc.Create.NewFloor(roomCurves, myFloorType, myLevel, false);
-                        //Parameter kommentParam = myFloor.LookupParameter("Комментарии");
-                        //kommentParam.Set(namRoom);
-                    }
-                }
-				t.Commit();
+						else
+                        {
+							foreach (BoundarySegment seg in loops[i])
+							{
+								secondCurves.Append(seg.GetCurve());
+							}
+						}
+					}
+					t.Start("Создание пола");
+					Floor myFloor = doc.Create.NewFloor(roomCurves, myFloorType, myLevel, true);
+					t.Commit();
+					t.Start("Вырезание проема");
+					if (secondCurves.Size != 0)
+                    {
+						doc.Create.NewOpening(myFloor, secondCurves, true);
+					}
+					t.Commit();
+				}
 			}
-
-
 			return Result.Succeeded;
         }
     }

@@ -61,7 +61,10 @@ namespace CITRUS
             RibbonPanel panel_AR = application.CreateRibbonPanel(tabName, "АР");
 
             //Создание кнопки "Генератор пола" в категории "Публикация"
-            PushButtonData pbdFloorGenerator = new PushButtonData("FloorGenerator", "Генератор пола", assemblyPach, "CITRUS.FloorGenerator");
+            PushButtonData pbdFloorGenerator = new PushButtonData("FloorGenerator"
+                , "Генератор\nпола"
+                , assemblyPach
+                , "CITRUS.FloorGenerator");
 
             Image FloorGenerator_img1 = Properties.Resources.FloorGenerator_Large;
             ImageSource FloorGenerator_imgLarge = GetImageSourse(FloorGenerator_img1);
@@ -71,6 +74,21 @@ namespace CITRUS
             pbdFloorGenerator.LargeImage = FloorGenerator_imgLarge;
             pbdFloorGenerator.Image = FloorGenerator_imgStandart;
             panel_AR.AddItem(pbdFloorGenerator);
+
+            //Создание кнопки "WallFinishCreator" в категории "АР"
+            PushButtonData pbdWallFinishCreator = new PushButtonData("WallFinishCreator"
+                    , "Отделка\nстен"
+                    , assemblyPach
+                    , "CITRUS.CIT_03_1_WallFinishCreator.CIT_03_1_WallFinishCreator");
+
+            Image WallFinishCreator_img1 = Properties.Resources.WallFinishCreator_Large;
+            ImageSource WallFinishCreator_imgLarge = GetImageSourse(WallFinishCreator_img1);
+            Image WallFinishCreator_img2 = Properties.Resources.WallFinishCreator;
+            ImageSource WallFinishCreator_imgStandart = GetImageSourse(WallFinishCreator_img2);
+
+            pbdWallFinishCreator.LargeImage = WallFinishCreator_imgLarge;
+            pbdWallFinishCreator.Image = WallFinishCreator_imgStandart;
+            panel_AR.AddItem(pbdWallFinishCreator);
 
             //Создание категории кнопок "КР"
             RibbonPanel panel_KR = application.CreateRibbonPanel(tabName, "КР");
