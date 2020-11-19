@@ -49,8 +49,6 @@ namespace CITRUS.CIT_03_1_WallFinishCreator
                 t.Start("Создание отделки");
                 foreach (Room myRoom in roomList)
                 {
-
-
                     List<Curve> roomCurves = new List<Curve>();
                     IList<IList<BoundarySegment>> loops = myRoom.GetBoundarySegments(new SpatialElementBoundaryOptions());
                     foreach (IList<BoundarySegment> loop in loops)
@@ -60,6 +58,8 @@ namespace CITRUS.CIT_03_1_WallFinishCreator
                             Wall wall = Wall.Create(doc, seg.GetCurve(), wallTypeFirst.Id, myRoom.LevelId, mainWallFinishHeight, wallTypeFirstOffset, false, false);
                             wall.get_Parameter(BuiltInParameter.WALL_KEY_REF_PARAM).Set(3);
                             wall.get_Parameter(BuiltInParameter.WALL_ATTR_ROOM_BOUNDING).Set(0);
+                            WallUtils.DisallowWallJoinAtEnd(wall, 0);
+                            WallUtils.DisallowWallJoinAtEnd(wall, 1);
                             wallListForMove.Add(wall);
                         }
                     }
@@ -74,6 +74,7 @@ namespace CITRUS.CIT_03_1_WallFinishCreator
 
                     BoundingBoxXYZ bbox = wall.get_BoundingBox(null);
                     Outline myOutLn = new Outline(bbox.Min, bbox.Max);
+                    ElementClassFilter filter = new ElementClassFilter(typeof(FamilyInstance));
 
                     List<Wall> intersectWallList = new FilteredElementCollector(doc)
                         .OfClass(typeof(Wall))
@@ -82,7 +83,9 @@ namespace CITRUS.CIT_03_1_WallFinishCreator
                         .Where(w => w.WallType.Id != wallTypeFirst.Id)
                         .Where(w => w.WallType.Kind.ToString() != "Curtain")
                         .Where(w => w.get_Parameter(BuiltInParameter.PHASE_DEMOLISHED).AsValueString() == "Нет")
+                        .Where(w => w.GetDependentElements(filter) != null)
                         .ToList();
+
                     foreach (Wall w in intersectWallList)
                     {
                         try
@@ -94,6 +97,11 @@ namespace CITRUS.CIT_03_1_WallFinishCreator
                             continue;
                         }
                     }
+                }
+                foreach (Wall wall in wallListForMove)
+                {
+                    WallUtils.AllowWallJoinAtEnd(wall, 0);
+                    WallUtils.AllowWallJoinAtEnd(wall, 1);
                 }
                 t.Commit();
             }
