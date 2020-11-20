@@ -297,6 +297,14 @@ namespace CITRUS
 
             panel_Other.AddItem(pbdMEPViewScheduleCleaner_Roven);
 
+            //Создание кнопки "FinishNumerator" в категории "Другое"
+            PushButtonData pbdFinishNumerator = new PushButtonData("FinishNumerator"
+                    , "FinishNumerator"
+                    , assemblyPach
+                    , "CITRUS.CIT_03_2_FinishNumerator.CIT_03_2_FinishNumerator");
+
+            panel_Other.AddItem(pbdFinishNumerator);
+
             return Result.Succeeded;
             }
             // Конвертер изображения

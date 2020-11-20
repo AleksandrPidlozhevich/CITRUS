@@ -64,6 +64,7 @@
             this.comboBox_WallTypeFirst.Location = new System.Drawing.Point(15, 27);
             this.comboBox_WallTypeFirst.Name = "comboBox_WallTypeFirst";
             this.comboBox_WallTypeFirst.Size = new System.Drawing.Size(260, 21);
+            this.comboBox_WallTypeFirst.Sorted = true;
             this.comboBox_WallTypeFirst.TabIndex = 6;
             this.comboBox_WallTypeFirst.SelectedIndexChanged += new System.EventHandler(this.comboBox_WallTypeFirst_SelectedIndexChanged);
             // 

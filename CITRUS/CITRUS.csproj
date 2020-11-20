@@ -73,6 +73,7 @@
     <Compile Include="CIT_03_1_WallFinishCreator\CIT_03_1_WallFinishCreatorForm.Designer.cs">
       <DependentUpon>CIT_03_1_WallFinishCreatorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CIT_03_2_FinishNumerator\CIT_03_2_FinishNumerator.cs" />
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\CIT_04_1_1FormSquareColumnsReinforcementType6.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -474,5 +475,6 @@
   <ItemGroup>
     <None Include="Resources\WallFinishCreator_Large.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
