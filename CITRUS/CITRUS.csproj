@@ -74,6 +74,12 @@
       <DependentUpon>CIT_03_1_WallFinishCreatorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CIT_03_2_FinishNumerator\CIT_03_2_FinishNumerator.cs" />
+    <Compile Include="CIT_03_2_FinishNumerator\CIT_03_2_FinishNumeratorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CIT_03_2_FinishNumerator\CIT_03_2_FinishNumeratorForm.Designer.cs">
+      <DependentUpon>CIT_03_2_FinishNumeratorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\CIT_04_1_1FormSquareColumnsReinforcementType6.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -224,6 +230,9 @@
   <ItemGroup>
     <EmbeddedResource Include="CIT_03_1_WallFinishCreator\CIT_03_1_WallFinishCreatorForm.resx">
       <DependentUpon>CIT_03_1_WallFinishCreatorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CIT_03_2_FinishNumerator\CIT_03_2_FinishNumeratorForm.resx">
+      <DependentUpon>CIT_03_2_FinishNumeratorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CIT_04_1_SquareColumnsReinforcement\CIT_04_1_1FormSquareColumnsReinforcementType6.resx">
       <DependentUpon>CIT_04_1_1FormSquareColumnsReinforcementType6.cs</DependentUpon>
