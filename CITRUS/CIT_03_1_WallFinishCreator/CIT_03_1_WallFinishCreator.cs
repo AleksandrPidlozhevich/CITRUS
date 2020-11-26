@@ -61,6 +61,8 @@ namespace CITRUS.CIT_03_1_WallFinishCreator
                             WallUtils.DisallowWallJoinAtEnd(wall, 0);
                             WallUtils.DisallowWallJoinAtEnd(wall, 1);
                             wallListForMove.Add(wall);
+                            XYZ wallOrientationVector = wall.Orientation;
+                            ElementTransformUtils.MoveElement(doc, wall.Id, wallOrientationVector * (wallTypeFirstWidth / 2));
                         }
                     }
                 }
@@ -69,8 +71,8 @@ namespace CITRUS.CIT_03_1_WallFinishCreator
                 t.Start("Смещение стен");
                 foreach(Wall wall in wallListForMove)
                 {
-                    XYZ wallOrientationVector = wall.Orientation;
-                    ElementTransformUtils.MoveElement(doc, wall.Id, wallOrientationVector * (wallTypeFirstWidth / 2));
+                    //XYZ wallOrientationVector = wall.Orientation;
+                    //ElementTransformUtils.MoveElement(doc, wall.Id, wallOrientationVector * (wallTypeFirstWidth / 2));
 
                     BoundingBoxXYZ bbox = wall.get_BoundingBox(null);
                     Outline myOutLn = new Outline(bbox.Min, bbox.Max);
@@ -106,6 +108,51 @@ namespace CITRUS.CIT_03_1_WallFinishCreator
                 t.Commit();
             }
             return Result.Succeeded;
+        }
+
+
+        //List<ElementId> insertIds = wall.FindInserts(true, false, false, false ).ToList();
+
+        static List<PlanarFace> GetWallOpeningPlanarFaces(Wall wall, ElementId openingId)
+        {
+            List<PlanarFace> faceList = new List<PlanarFace>();
+
+            List<Solid> solidList = new List<Solid>();
+
+            Options geomOptions = wall.Document.Application.Create.NewGeometryOptions();
+
+            if (geomOptions != null)
+            {
+
+                GeometryElement geoElem = wall.get_Geometry(geomOptions);
+
+                if (geoElem != null)
+                {
+                    foreach (GeometryObject geomObj in geoElem)
+                    {
+                        if (geomObj is Solid)
+                        {
+                            solidList.Add(geomObj as Solid);
+                        }
+                    }
+                }
+            }
+
+            foreach (Solid solid in solidList)
+            {
+                foreach (Face face in solid.Faces)
+                {
+                    if (face is PlanarFace)
+                    {
+                        if (wall.GetGeneratingElementIds(face)
+                          .Any(x => x == openingId))
+                        {
+                            faceList.Add(face as PlanarFace);
+                        }
+                    }
+                }
+            }
+            return faceList;
         }
     }
 }

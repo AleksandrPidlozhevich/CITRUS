@@ -30,16 +30,17 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                        .OfClass(typeof(Floor))
                        .Cast<Floor>()
                        .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL) != null)
-                       .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
+                       .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Пол" 
+                       || f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
                        .ToList();
 
                 using (Transaction t = new Transaction(doc))
                 {
                     t.Start("Заполнение номеров помещений");
                     //Очистка параметра "Помещение_Список номеров"
-                    foreach (Floor f in floorList)
+                    foreach (Floor floor in floorList)
                     {
-                        f.LookupParameter("Помещение_Список номеров").Set("");
+                        floor.LookupParameter("Помещение_Список номеров").Set("");
                     }
 
                     foreach (Floor floor in floorList)
@@ -71,7 +72,8 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                                     List<Floor> floorListForFilling = new FilteredElementCollector(doc)
                                        .OfClass(typeof(Floor))
                                        .Cast<Floor>()
-                                       .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
+                                       .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Пол" 
+                                       || f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
                                        .Where(f => f.FloorType.Id == floor.FloorType.Id)
                                        .ToList();
                                     foreach (Floor f in floorListForFilling)
@@ -85,7 +87,8 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                                 List<Floor> floorListForFilling = new FilteredElementCollector(doc)
                                        .OfClass(typeof(Floor))
                                        .Cast<Floor>()
-                                       .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
+                                       .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Пол"
+                                       || f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
                                        .Where(f => f.FloorType.Id == floor.FloorType.Id)
                                        .ToList();
                                 foreach (Floor f in floorListForFilling)
@@ -100,7 +103,8 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                    .OfClass(typeof(Floor))
                    .Cast<Floor>()
                    .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL) != null)
-                   .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
+                   .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Пол"
+                   || f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
                    .ToList();
 
                     List<ElementId> FloorTypeIdList = new List<ElementId>();
@@ -139,7 +143,8 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                                .OfClass(typeof(Floor))
                                .Cast<Floor>()
                                .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL) != null)
-                               .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
+                               .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Пол"
+                               || f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
                                .Where(f => f.FloorType.Id == floor.FloorType.Id)
                                .ToList();
                             foreach (Floor f in floorListForAddNewSortedFilling)
@@ -169,16 +174,17 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                            .OfClass(typeof(Floor))
                            .Cast<Floor>()
                            .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL) != null)
-                           .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
+                           .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Пол"
+                           || f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
                            .Where(f => f.LevelId == lv.Id)
                            .ToList();
 
                         if (floorList.Count != 0)
                         {
                             //Очистка параметра "Помещение_Список номеров"
-                            foreach (Floor f in floorList)
+                            foreach (Floor floor in floorList)
                             {
-                                f.LookupParameter("Помещение_Список номеров").Set("");
+                                floor.LookupParameter("Помещение_Список номеров").Set("");
                             }
 
                             foreach (Floor floor in floorList)
@@ -210,7 +216,8 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                                             List<Floor> floorListForFilling = new FilteredElementCollector(doc)
                                                .OfClass(typeof(Floor))
                                                .Cast<Floor>()
-                                               .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
+                                               .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Пол"
+                                               || f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
                                                .Where(f => f.FloorType.Id == floor.FloorType.Id)
                                                .Where(f => f.LevelId == lv.Id)
                                                .ToList();
@@ -225,7 +232,8 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                                         List<Floor> floorListForFilling = new FilteredElementCollector(doc)
                                                .OfClass(typeof(Floor))
                                                .Cast<Floor>()
-                                               .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
+                                               .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Пол"
+                                               || f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
                                                .Where(f => f.FloorType.Id == floor.FloorType.Id)
                                                .Where(f => f.LevelId == lv.Id)
                                                .ToList();
@@ -241,7 +249,8 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                                .OfClass(typeof(Floor))
                                .Cast<Floor>()
                                .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL) != null)
-                               .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
+                               .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Пол"
+                               || f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
                                .Where(f => f.LevelId == lv.Id)
                                .ToList();
 
@@ -279,7 +288,8 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                                        .OfClass(typeof(Floor))
                                        .Cast<Floor>()
                                        .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL) != null)
-                                       .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
+                                       .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Пол"
+                                       || f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
                                        .Where(f => f.FloorType.Id == floor.FloorType.Id)
                                        .Where(f => f.LevelId == lv.Id)
                                        .ToList();

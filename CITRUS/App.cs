@@ -90,6 +90,21 @@ namespace CITRUS
             pbdWallFinishCreator.Image = WallFinishCreator_imgStandart;
             panel_AR.AddItem(pbdWallFinishCreator);
 
+            //Создание кнопки "FinishNumerator" в категории "АР"
+            PushButtonData pbdFinishNumerator = new PushButtonData("FinishNumerator"
+                    , "Нумератор\nотделки"
+                    , assemblyPach
+                    , "CITRUS.CIT_03_2_FinishNumerator.CIT_03_2_FinishNumerator");
+
+            Image FinishNumerator_img1 = Properties.Resources.FinishNumerator_Large;
+            ImageSource FinishNumerator_imgLarge = GetImageSourse(FinishNumerator_img1);
+            Image FinishNumerator_img2 = Properties.Resources.FinishNumerator;
+            ImageSource FinishNumerator_imgStandart = GetImageSourse(FinishNumerator_img2);
+
+            pbdFinishNumerator.LargeImage = FinishNumerator_imgLarge;
+            pbdFinishNumerator.Image = FinishNumerator_imgStandart;
+            panel_AR.AddItem(pbdFinishNumerator);
+
             //Создание категории кнопок "КР"
             RibbonPanel panel_KR = application.CreateRibbonPanel(tabName, "КР");
 
@@ -297,13 +312,13 @@ namespace CITRUS
 
             panel_Other.AddItem(pbdMEPViewScheduleCleaner_Roven);
 
-            //Создание кнопки "FinishNumerator" в категории "Другое"
-            PushButtonData pbdFinishNumerator = new PushButtonData("FinishNumerator"
-                    , "FinishNumerator"
+            //Создание кнопки "HoleTransfer" в категории "Другое"
+            PushButtonData pbdHoleTransfer = new PushButtonData("HoleTransfer"
+                    , "Перенос\nпроемов"
                     , assemblyPach
-                    , "CITRUS.CIT_03_2_FinishNumerator.CIT_03_2_FinishNumerator");
+                    , "CITRUS.CIT_04_6_HoleTransfer.CIT_04_6_HoleTransfer");
 
-            panel_Other.AddItem(pbdFinishNumerator);
+            panel_Other.AddItem(pbdHoleTransfer);
 
             return Result.Succeeded;
             }

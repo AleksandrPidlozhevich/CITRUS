@@ -115,6 +115,19 @@
     <Compile Include="CIT_04_5_StairFlightReinforcement\CIT_04_5_StairFlightReinforcementForm.Designer.cs">
       <DependentUpon>CIT_04_5_StairFlightReinforcementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransfer.cs" />
+    <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferForm.Designer.cs">
+      <DependentUpon>CIT_04_6_HoleTransferForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferMessageBox.Designer.cs">
+      <DependentUpon>CIT_04_6_HoleTransferMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="CIT_05_4_1_MEPViewScheduleCreator_Roven\CIT_05_4_1_MEPViewScheduleCreator_Roven.cs" />
     <Compile Include="CIT_05_4_1_MEPViewScheduleCreator_Roven\CIT_05_4_1_MEPViewScheduleCleaner_Roven.cs" />
     <Compile Include="Draftsman.cs" />
@@ -263,6 +276,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CIT_04_5_StairFlightReinforcement\CIT_04_5_StairFlightReinforcementForm.resx">
       <DependentUpon>CIT_04_5_StairFlightReinforcementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferForm.resx">
+      <DependentUpon>CIT_04_6_HoleTransferForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferMessageBox.resx">
+      <DependentUpon>CIT_04_6_HoleTransferMessageBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FloorTypeSelectorForCapitalMaker.resx">
       <DependentUpon>FloorTypeSelectorForCapitalMaker.cs</DependentUpon>
@@ -484,6 +503,11 @@
   <ItemGroup>
     <None Include="Resources\WallFinishCreator_Large.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\FinishNumerator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FinishNumerator_Large.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
