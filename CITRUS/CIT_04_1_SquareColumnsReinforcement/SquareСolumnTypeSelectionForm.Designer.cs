@@ -43,6 +43,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1_Ok = new System.Windows.Forms.Button();
             this.button2_Cancel = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox_Types.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -205,7 +206,7 @@
             // 
             // button1_Ok
             // 
-            this.button1_Ok.Location = new System.Drawing.Point(280, 415);
+            this.button1_Ok.Location = new System.Drawing.Point(341, 424);
             this.button1_Ok.Name = "button1_Ok";
             this.button1_Ok.Size = new System.Drawing.Size(100, 25);
             this.button1_Ok.TabIndex = 7;
@@ -215,7 +216,7 @@
             // 
             // button2_Cancel
             // 
-            this.button2_Cancel.Location = new System.Drawing.Point(440, 415);
+            this.button2_Cancel.Location = new System.Drawing.Point(472, 424);
             this.button2_Cancel.Name = "button2_Cancel";
             this.button2_Cancel.Size = new System.Drawing.Size(100, 25);
             this.button2_Cancel.TabIndex = 8;
@@ -223,11 +224,21 @@
             this.button2_Cancel.UseVisualStyleBackColor = true;
             this.button2_Cancel.Click += new System.EventHandler(this.button2_Cancel_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 395);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(342, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "*Тип 1 и Тип 2 применимы для колонн сечением не более 400 мм";
+            // 
             // SquareСolumnTypeSelectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 461);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button2_Cancel);
             this.Controls.Add(this.button1_Ok);
             this.Controls.Add(this.groupBox_Types);
@@ -245,6 +256,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -265,5 +277,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button1_Ok;
         private System.Windows.Forms.Button button2_Cancel;
+        private System.Windows.Forms.Label label1;
     }
 }

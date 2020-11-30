@@ -385,7 +385,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         continue;
                     }
 
-                    if (columnSectionWidth<=400/304.8)
+                    if (columnSectionWidth <= 400/304.8)
                     {
                         continue;
                     }

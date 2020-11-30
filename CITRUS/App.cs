@@ -108,6 +108,21 @@ namespace CITRUS
             //Создание категории кнопок "КР"
             RibbonPanel panel_KR = application.CreateRibbonPanel(tabName, "КР");
 
+            //Создание кнопки "HoleTransfer" в категории "КР"
+            PushButtonData pbdHoleTransfer = new PushButtonData("HoleTransfer"
+                    , "Перенос\nпроемов"
+                    , assemblyPach
+                    , "CITRUS.CIT_04_6_HoleTransfer.CIT_04_6_HoleTransfer");
+
+            Image HoleTransfer_img1 = Properties.Resources.HoleTransfer_Large;
+            ImageSource HoleTransfer_imgLarge = GetImageSourse(HoleTransfer_img1);
+            Image HoleTransfer_img2 = Properties.Resources.HoleTransfer;
+            ImageSource HoleTransfer_imgStandart = GetImageSourse(HoleTransfer_img2);
+
+            pbdHoleTransfer.LargeImage = HoleTransfer_imgLarge;
+            pbdHoleTransfer.Image = HoleTransfer_imgStandart;
+            panel_KR.AddItem(pbdHoleTransfer);
+
             //Создание кнопки "Капитель" в категории "Публикация"
             PushButtonData pbdCapitalMaker = new PushButtonData("CapitalMaker", "Капитель", assemblyPach, "CITRUS.CapitalMaker");
             Image CapitalMaker_img1 = Properties.Resources.CapitalMaker_Large;
@@ -311,14 +326,6 @@ namespace CITRUS
                     , "CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven.CIT_05_4_1_MEPViewScheduleCleaner_Roven");
 
             panel_Other.AddItem(pbdMEPViewScheduleCleaner_Roven);
-
-            //Создание кнопки "HoleTransfer" в категории "Другое"
-            PushButtonData pbdHoleTransfer = new PushButtonData("HoleTransfer"
-                    , "Перенос\nпроемов"
-                    , assemblyPach
-                    , "CITRUS.CIT_04_6_HoleTransfer.CIT_04_6_HoleTransfer");
-
-            panel_Other.AddItem(pbdHoleTransfer);
 
             return Result.Succeeded;
             }

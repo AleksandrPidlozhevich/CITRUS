@@ -509,5 +509,11 @@
   <ItemGroup>
     <None Include="Resources\FinishNumerator_Large.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HoleTransfer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HoleTransfer_Large.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

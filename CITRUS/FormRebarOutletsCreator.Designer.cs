@@ -44,9 +44,13 @@ namespace CITRUS
             this.label_RequiredField = new System.Windows.Forms.Label();
             this.comboBox_StirrupBarTapes = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox_ColumnArrangement = new System.Windows.Forms.GroupBox();
+            this.radioButton_Link = new System.Windows.Forms.RadioButton();
+            this.radioButton_Project = new System.Windows.Forms.RadioButton();
             this.group_OutletSizes.SuspendLayout();
             this.groupBox_ForceType.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox_ColumnArrangement.SuspendLayout();
             this.SuspendLayout();
             // 
             // group_OutletSizes
@@ -55,7 +59,7 @@ namespace CITRUS
             this.group_OutletSizes.Controls.Add(this.radioButton_Auto);
             this.group_OutletSizes.Location = new System.Drawing.Point(15, 15);
             this.group_OutletSizes.Name = "group_OutletSizes";
-            this.group_OutletSizes.Size = new System.Drawing.Size(135, 70);
+            this.group_OutletSizes.Size = new System.Drawing.Size(140, 70);
             this.group_OutletSizes.TabIndex = 0;
             this.group_OutletSizes.TabStop = false;
             this.group_OutletSizes.Text = "Раазмеры выпусков";
@@ -108,7 +112,7 @@ namespace CITRUS
             this.groupBox_ForceType.Controls.Add(this.radioButton_Stretching);
             this.groupBox_ForceType.Location = new System.Drawing.Point(15, 91);
             this.groupBox_ForceType.Name = "groupBox_ForceType";
-            this.groupBox_ForceType.Size = new System.Drawing.Size(135, 70);
+            this.groupBox_ForceType.Size = new System.Drawing.Size(140, 70);
             this.groupBox_ForceType.TabIndex = 3;
             this.groupBox_ForceType.TabStop = false;
             this.groupBox_ForceType.Text = "Тип усилия";
@@ -193,11 +197,45 @@ namespace CITRUS
             this.pictureBox1.TabIndex = 9;
             this.pictureBox1.TabStop = false;
             // 
+            // groupBox_ColumnArrangement
+            // 
+            this.groupBox_ColumnArrangement.Controls.Add(this.radioButton_Project);
+            this.groupBox_ColumnArrangement.Controls.Add(this.radioButton_Link);
+            this.groupBox_ColumnArrangement.Location = new System.Drawing.Point(15, 241);
+            this.groupBox_ColumnArrangement.Name = "groupBox_ColumnArrangement";
+            this.groupBox_ColumnArrangement.Size = new System.Drawing.Size(140, 75);
+            this.groupBox_ColumnArrangement.TabIndex = 10;
+            this.groupBox_ColumnArrangement.TabStop = false;
+            this.groupBox_ColumnArrangement.Text = "Расположение колонн:";
+            // 
+            // radioButton_Link
+            // 
+            this.radioButton_Link.AutoSize = true;
+            this.radioButton_Link.Checked = true;
+            this.radioButton_Link.Location = new System.Drawing.Point(9, 20);
+            this.radioButton_Link.Name = "radioButton_Link";
+            this.radioButton_Link.Size = new System.Drawing.Size(56, 17);
+            this.radioButton_Link.TabIndex = 0;
+            this.radioButton_Link.TabStop = true;
+            this.radioButton_Link.Text = "Связь";
+            this.radioButton_Link.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_Project
+            // 
+            this.radioButton_Project.AutoSize = true;
+            this.radioButton_Project.Location = new System.Drawing.Point(9, 44);
+            this.radioButton_Project.Name = "radioButton_Project";
+            this.radioButton_Project.Size = new System.Drawing.Size(62, 17);
+            this.radioButton_Project.TabIndex = 1;
+            this.radioButton_Project.Text = "Проект";
+            this.radioButton_Project.UseVisualStyleBackColor = true;
+            // 
             // FormRebarOutletsCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 376);
+            this.Controls.Add(this.groupBox_ColumnArrangement);
             this.Controls.Add(this.comboBox_StirrupBarTapes);
             this.Controls.Add(this.label_RequiredField);
             this.Controls.Add(this.textBox_OffsetFromSlabBottom);
@@ -218,6 +256,8 @@ namespace CITRUS
             this.groupBox_ForceType.ResumeLayout(false);
             this.groupBox_ForceType.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox_ColumnArrangement.ResumeLayout(false);
+            this.groupBox_ColumnArrangement.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -239,5 +279,8 @@ namespace CITRUS
         private System.Windows.Forms.Label label_RequiredField;
         private System.Windows.Forms.ComboBox comboBox_StirrupBarTapes;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.GroupBox groupBox_ColumnArrangement;
+        private System.Windows.Forms.RadioButton radioButton_Project;
+        private System.Windows.Forms.RadioButton radioButton_Link;
     }
 }

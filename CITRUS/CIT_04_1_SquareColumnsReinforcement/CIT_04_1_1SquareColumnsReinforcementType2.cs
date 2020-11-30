@@ -365,6 +365,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
 
                     if (columnSectionWidth>400/304.8)
                     {
+                        TaskDialog.Show("Revit", "Выбранный тип армирования применим для колонн сечением не более 400 мм");
                         continue;
                     }
 

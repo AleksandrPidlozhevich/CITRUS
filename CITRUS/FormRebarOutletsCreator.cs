@@ -15,6 +15,7 @@ namespace CITRUS
     {
         public string OutletSizesCheckedButtonName;
         public string ForceTypeCheckedButtonName;
+        public string ColumnArrangementCheckedButtonName;
 
         public double ManualOverlapLength;
         public double ManualAnchorageLength;
@@ -35,6 +36,7 @@ namespace CITRUS
         {
             OutletSizesCheckedButtonName = group_OutletSizes.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
             ForceTypeCheckedButtonName = groupBox_ForceType.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
+            ColumnArrangementCheckedButtonName = groupBox_ColumnArrangement.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

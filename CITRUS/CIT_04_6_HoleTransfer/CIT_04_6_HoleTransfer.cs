@@ -347,9 +347,6 @@ namespace CITRUS.CIT_04_6_HoleTransfer
                 }
                 
             }
-
-            
-
             return Result.Succeeded;
         }
     }

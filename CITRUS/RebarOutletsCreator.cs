@@ -35,6 +35,7 @@ namespace CITRUS
             }
             string outletSizesCheckedButtonName = formRebarOutletsCreator.OutletSizesCheckedButtonName;
             string forceTypeCheckedButtonName = formRebarOutletsCreator.ForceTypeCheckedButtonName;
+            string columnArrangementCheckedButtonName = formRebarOutletsCreator.ColumnArrangementCheckedButtonName;
             double manualOverlapLength = formRebarOutletsCreator.ManualOverlapLength / 304.8;
             double manualAnchorageLength = formRebarOutletsCreator.ManualAnchorageLength / 304.8;
             double offsetFromSlabBottom = formRebarOutletsCreator.OffsetFromSlabBottom / 304.8;
@@ -65,27 +66,45 @@ namespace CITRUS
             double mySelFloorTopOffset = mySelFloor.get_Parameter(BuiltInParameter.FLOOR_HEIGHTABOVELEVEL_PARAM).AsDouble();
             double mySelFloorTopElevation = Math.Round((mySelFloorElevation - mySelFloorTopOffset), 6);
 
-            //Выбор связанного файла
-            RevitLinkInstanceSelectionFilter selFilterRevitLinkInstance = new RevitLinkInstanceSelectionFilter(); //Вызов фильтра выбора
-            Reference selRevitLinkInstance = sel.PickObject(ObjectType.Element, selFilterRevitLinkInstance, "Выберите связанный файл!");//Получение ссылки на выбранную группу
-            IEnumerable<RevitLinkInstance> myRevitLinkInstance = new FilteredElementCollector(doc)
-                .OfClass(typeof(RevitLinkInstance))
-                .Where(li => li.Id == selRevitLinkInstance.ElementId)
-                .Cast<RevitLinkInstance>();
-            XYZ linkOrigin = myRevitLinkInstance.First().GetTransform().Origin;
-            Document doc2 = myRevitLinkInstance.First().GetLinkDocument();
-
-            //Выбор колонн в связанном файле
-            IList<Reference> selElementsList = sel.PickObjects(ObjectType.LinkedElement, "Выберите колонны!");//Получение списка ссылок на выбранные колонны
+            Document doc2 = null;
+            XYZ linkOrigin = new XYZ();
             List<FamilyInstance> columnsList = new List<FamilyInstance>();
-            foreach (Reference refElem in selElementsList)
+            if (columnArrangementCheckedButtonName == "radioButton_Link")
             {
-                if (doc2.GetElement(refElem.LinkedElementId).Category.Id.ToString() == "-2001330")
+                //Выбор связанного файла
+                RevitLinkInstanceSelectionFilter selFilterRevitLinkInstance = new RevitLinkInstanceSelectionFilter(); //Вызов фильтра выбора
+                Reference selRevitLinkInstance = sel.PickObject(ObjectType.Element, selFilterRevitLinkInstance, "Выберите связанный файл!");//Получение ссылки на выбранную группу
+                IEnumerable<RevitLinkInstance> myRevitLinkInstance = new FilteredElementCollector(doc)
+                    .OfClass(typeof(RevitLinkInstance))
+                    .Where(li => li.Id == selRevitLinkInstance.ElementId)
+                    .Cast<RevitLinkInstance>();
+                linkOrigin = myRevitLinkInstance.First().GetTransform().Origin;
+                doc2 = myRevitLinkInstance.First().GetLinkDocument();
+
+                //Выбор колонн в связанном файле
+                IList<Reference> selElementsList = sel.PickObjects(ObjectType.LinkedElement, "Выберите колонны!");//Получение списка ссылок на выбранные колонны
+                foreach (Reference refElem in selElementsList)
                 {
-                    columnsList.Add((doc2.GetElement(refElem.LinkedElementId)) as FamilyInstance);
+                    if (doc2.GetElement(refElem.LinkedElementId).Category.Id.ToString() == "-2001330")
+                    {
+                        columnsList.Add((doc2.GetElement(refElem.LinkedElementId)) as FamilyInstance);
+                    }
                 }
             }
+            else
+            {
+                //Выбор колонн
+                ColumnSelectionFilter columnSelFilter = new ColumnSelectionFilter(); //Вызов фильтра выбора
+                IList<Reference> selColumns = sel.PickObjects(ObjectType.Element, columnSelFilter, "Выберите колонны!");//Получение списка ссылок на выбранные колонны
 
+                foreach (Reference columnRef in selColumns)
+                {
+                    columnsList.Add(doc.GetElement(columnRef) as FamilyInstance);
+                }
+                //Завершение блока Получение списка колонн
+            }
+
+#region Формы арматуры
             //Выбор формы основной арматуры если требуемая длина анкеровки меньше толщины плиты
             List<RebarShape> rebarShapeAnchorageOutletsLessFloorThicknessList = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarShape))
@@ -173,6 +192,7 @@ namespace CITRUS
             //Диаметр хомута
             Parameter stirrupRebarTypeDiamParam = myStirrupBarTape.get_Parameter(BuiltInParameter.REBAR_BAR_DIAMETER);
             double stirrupRebarDiam = stirrupRebarTypeDiamParam.AsDouble();
+#endregion
 
             //Список семейств с именем CIT_04_ВаннаДляСварки
             List<Family> familiesTubWelding = new FilteredElementCollector(doc).OfClass(typeof(Family)).Cast<Family>().Where(f => f.Name == "CIT_04_ВаннаДляСварки").ToList();
@@ -207,14 +227,30 @@ namespace CITRUS
                 {
                     //Материал колонны
                     ElementId columnMaterialId = column.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_MATERIAL_PARAM).AsElementId();
-                    Material columnMaterial = doc2.GetElement(columnMaterialId) as Material;
+                    Material columnMaterial = null;
+                    if (columnArrangementCheckedButtonName == "radioButton_Link")
+                    { 
+                        columnMaterial = doc2.GetElement(columnMaterialId) as Material; 
+                    }
+                    else
+                    {
+                        columnMaterial = doc.GetElement(columnMaterialId) as Material;
+                    }
                     string columnMaterialNameAsString = columnMaterial.Name + " AddSimbol";
                     string columnMaterialName = columnMaterialNameAsString.Split(' ').ToArray()[0].ToString();
                     LocationPoint columnLocationPoint = column.Location as LocationPoint;
                     XYZ columnLocationPointXYZ = new XYZ(columnLocationPoint.Point.X, columnLocationPoint.Point.Y, columnLocationPoint.Point.Z);
                     //Защитный слой колонны
                     ElementId myRebarCoverTypeID = column.get_Parameter(BuiltInParameter.CLEAR_COVER_OTHER).AsElementId();
-                    RebarCoverType myRebarCoverType = doc2.GetElement(myRebarCoverTypeID) as RebarCoverType;
+                    RebarCoverType myRebarCoverType = null;
+                    if (columnArrangementCheckedButtonName == "radioButton_Link")
+                    {
+                        myRebarCoverType = doc2.GetElement(myRebarCoverTypeID) as RebarCoverType;
+                    }
+                    else
+                    {
+                        myRebarCoverType = doc.GetElement(myRebarCoverTypeID) as RebarCoverType;
+                    }
                     double mainRebarCoverLayer = myRebarCoverType.CoverDistance;
 
                     //Габариты колонны
@@ -247,10 +283,14 @@ namespace CITRUS
 
                     BoundingBoxXYZ bbox = column.get_BoundingBox(null);
                     Outline myColumnOutLn = new Outline(bbox.Min, bbox.Max);
+
+                    List<Rebar> columnRebarList = new List<Rebar>();
                     //Список стержней в колонне
-                    List<Rebar> columnRebarList = new FilteredElementCollector(doc2)
+                    if (columnArrangementCheckedButtonName == "radioButton_Link")
+                    {
+                        columnRebarList = new FilteredElementCollector(doc2)
                         .OfClass(typeof(Rebar))
-                        .WherePasses(new BoundingBoxIntersectsFilter(myColumnOutLn) )
+                        .WherePasses(new BoundingBoxIntersectsFilter(myColumnOutLn))
                         .Cast<Rebar>()
                         //.Where(r => r.GetHostId() == column.Id) //Подумать, может вернуть обратно этот элемент
                         .Where(r => r.Name.Split(' ').ToArray().Contains("A500") || r.Name.Split(' ').ToArray().Contains("А500")
@@ -260,7 +300,27 @@ namespace CITRUS
                         r.get_Parameter(BuiltInParameter.REBAR_SHAPE).AsValueString() != "Х_51")
                         .Where(r => r.get_Parameter(BuiltInParameter.REBAR_SHAPE).AsValueString() != "02" &
                         r.get_Parameter(BuiltInParameter.REBAR_SHAPE).AsValueString() != "Х_(22)")
+                        .Where(r => doc2.GetElement(r.GetHostId()).Category.Id.ToString() == "-2001330")
                         .ToList();
+                    }
+                    else
+                    {
+                        columnRebarList = new FilteredElementCollector(doc)
+                        .OfClass(typeof(Rebar))
+                        .WherePasses(new BoundingBoxIntersectsFilter(myColumnOutLn))
+                        .Cast<Rebar>()
+                        //.Where(r => r.GetHostId() == column.Id) //Подумать, может вернуть обратно этот элемент
+                        .Where(r => r.Name.Split(' ').ToArray().Contains("A500") || r.Name.Split(' ').ToArray().Contains("А500")
+                        || r.Name.Split(' ').ToArray().Contains("A500C") || r.Name.Split(' ').ToArray().Contains("А500С")
+                        || r.Name.Split(' ').ToArray().Contains("A500СП") || r.Name.Split(' ').ToArray().Contains("А500СП"))
+                        .Where(r => r.get_Parameter(BuiltInParameter.REBAR_SHAPE).AsValueString() != "51" &
+                        r.get_Parameter(BuiltInParameter.REBAR_SHAPE).AsValueString() != "Х_51")
+                        .Where(r => r.get_Parameter(BuiltInParameter.REBAR_SHAPE).AsValueString() != "02" &
+                        r.get_Parameter(BuiltInParameter.REBAR_SHAPE).AsValueString() != "Х_(22)")
+                        .Where(r => doc.GetElement(r.GetHostId()).Category.Id.ToString() == "-2001330")
+                        .ToList();
+                    }
+
                     if (columnRebarList.Count == 0)
                     {
                         TaskDialog.Show("Revit", "Арматура в колонне не найдена!" +
