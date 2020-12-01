@@ -23,13 +23,15 @@ namespace CITRUS
 			RebarGroupCopier.RebarGroupCopierForm rebarGroupCopierForm = new RebarGroupCopier.RebarGroupCopierForm();
 			rebarGroupCopierForm.ShowDialog();
 			string checkedButtonNameResult = "";
+			string columnArrangementСheckedButtonName = "";
 			if (rebarGroupCopierForm.DialogResult != System.Windows.Forms.DialogResult.OK)
 			{
 				return Result.Cancelled;
 			}
 			else
             {
-				checkedButtonNameResult = rebarGroupCopierForm.checkedButtonName;
+				checkedButtonNameResult = rebarGroupCopierForm.CheckedButtonName;
+				columnArrangementСheckedButtonName = rebarGroupCopierForm.ColumnArrangementСheckedButtonName;
 			}
 
 			if (checkedButtonNameResult == "radioButton_ColumnGroups")
@@ -98,16 +100,21 @@ namespace CITRUS
 				{
 					myGroupList.Add(doc.GetElement(refer) as Group);
 				}
-
-				//Выбор связанного файла
-				RevitLinkInstanceSelectionFilter selFilterRevitLinkInstance = new RevitLinkInstanceSelectionFilter(); //Вызов фильтра выбора
-				Reference selRevitLinkInstance = sel.PickObject(ObjectType.Element, selFilterRevitLinkInstance, "Выберите связанный файл!");//Получение ссылки на выбранную группу
-				IEnumerable<RevitLinkInstance> myRevitLinkInstance = new FilteredElementCollector(doc)
-					.OfClass(typeof(RevitLinkInstance))
-					.Where(li => li.Id == selRevitLinkInstance.ElementId)
-					.Cast<RevitLinkInstance>();
-				XYZ linkOrigin = myRevitLinkInstance.First().GetTransform().Origin;
-				Document doc2 = myRevitLinkInstance.First().GetLinkDocument();
+				Document doc2 = null;
+				XYZ linkOrigin = new XYZ(0, 0, 0);
+				if (columnArrangementСheckedButtonName == "radioButton_Link")
+                {
+					//Выбор связанного файла
+					RevitLinkInstanceSelectionFilter selFilterRevitLinkInstance = new RevitLinkInstanceSelectionFilter(); //Вызов фильтра выбора
+					Reference selRevitLinkInstance = sel.PickObject(ObjectType.Element, selFilterRevitLinkInstance, "Выберите связанный файл!");//Получение ссылки на выбранную группу
+					IEnumerable<RevitLinkInstance> myRevitLinkInstance = new FilteredElementCollector(doc)
+						.OfClass(typeof(RevitLinkInstance))
+						.Where(li => li.Id == selRevitLinkInstance.ElementId)
+						.Cast<RevitLinkInstance>();
+					linkOrigin = myRevitLinkInstance.First().GetTransform().Origin;
+					doc2 = myRevitLinkInstance.First().GetLinkDocument();
+				}
+				
 				
 				using (Transaction t = new Transaction(doc))
 				{

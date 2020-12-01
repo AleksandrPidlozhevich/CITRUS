@@ -12,7 +12,9 @@ namespace CITRUS.RebarGroupCopier
 {
     public partial class RebarGroupCopierForm : Form
     {
-        public string checkedButtonName;
+        public string CheckedButtonName;
+        public string ColumnArrangementСheckedButtonName;
+
         public RebarGroupCopierForm()
         {
             InitializeComponent();
@@ -20,7 +22,8 @@ namespace CITRUS.RebarGroupCopier
 
         private void btn_Ok_Click(object sender, EventArgs e)
         {
-            checkedButtonName = groupBox_GroupTypes.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
+            CheckedButtonName = groupBox_GroupTypes.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
+            ColumnArrangementСheckedButtonName = groupBox_ColumnArrangement.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

@@ -880,8 +880,8 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         XYZ secondMainRebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z + rebarSecondOutletsLength, 6));
                         XYZ secondMainRebar_p2 = new XYZ(Math.Round(secondMainRebar_p1.X, 6), Math.Round(secondMainRebar_p1.Y, 6), Math.Round(secondMainRebar_p1.Z + columnLength + floorThicknessAboveColumn, 6));
 
-                        XYZ firstTubWelding_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLength);
-                        XYZ secondTubWelding_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarSecondOutletsLength);
+                        XYZ firstTubWelding_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLength + baseLevelOffset);
+                        XYZ secondTubWelding_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarSecondOutletsLength + baseLevelOffset);
 
                         //Кривые основных удлиненных стержней
                         List<Curve> myFirstMainRebarCurves = new List<Curve>();
@@ -1741,8 +1741,8 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     {
                         //Если стыковка стержней на сварке с изменением сечения колонны выше
 
-                        XYZ firstTubWelding_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLength);
-                        XYZ secondTubWelding_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarSecondOutletsLength);
+                        XYZ firstTubWelding_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLength + baseLevelOffset);
+                        XYZ secondTubWelding_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarSecondOutletsLength + baseLevelOffset);
 
                         //Точки для построения кривых основных удлиненных угловых стержней
                         XYZ firstMainRebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z + rebarOutletsLength, 6));

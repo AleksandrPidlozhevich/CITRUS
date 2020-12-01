@@ -531,7 +531,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         XYZ rebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z + rebarOutletsLength, 6));
                         XYZ rebar_p2 = new XYZ(Math.Round(rebar_p1.X, 6), Math.Round(rebar_p1.Y, 6), Math.Round(rebar_p1.Z + columnLength + floorThicknessAboveColumn, 6));
 
-                        XYZ tubWelding_p0 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLength);
+                        XYZ tubWelding_p0 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLength + baseLevelOffset);
                         //Кривые стержня
                         List<Curve> myMainRebarCurves = new List<Curve>();
 
@@ -781,7 +781,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     {
                         //Если стыковка стержней на сварке с изменением сечения колонны выше
 
-                        XYZ tubWelding_p0 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLength);
+                        XYZ tubWelding_p0 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLength + baseLevelOffset);
 
                         //Точки для построения кривфх стержня
                         XYZ rebar_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), Math.Round(columnOrigin.Z + rebarOutletsLength, 6));
