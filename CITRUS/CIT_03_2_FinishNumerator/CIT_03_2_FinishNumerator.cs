@@ -24,6 +24,13 @@ namespace CITRUS.CIT_03_2_FinishNumerator
             }
             bool divideByFloors = finishNumeratorForm.DivideByFloors;
 
+            List<Room> roomList = new FilteredElementCollector(doc)
+                .OfClass(typeof(SpatialElement))
+                .WhereElementIsNotElementType()
+                .Where(r => r.GetType() == typeof(Room))
+                .Cast<Room>()
+                .ToList();
+
             if (divideByFloors == false)
             {
                 List<Floor> floorList = new FilteredElementCollector(doc)
@@ -45,25 +52,56 @@ namespace CITRUS.CIT_03_2_FinishNumerator
 
                     foreach (Floor floor in floorList)
                     {
-                        GeometryElement geomFloorElement = floor.get_Geometry(new Options());
+                        Room room = null;
+                        Floor floorForSolid = doc.GetElement(ElementTransformUtils.CopyElement(doc, floor.Id, (100 / 304.8) * XYZ.BasisZ).First()) as Floor;
+                        GeometryElement geomFloorElement = floorForSolid.get_Geometry(new Options());
                         Solid floorSolid = null;
                         foreach (GeometryObject geomObj in geomFloorElement)
                         {
                             floorSolid = geomObj as Solid;
                             if (floorSolid != null) break;
                         }
-                        XYZ floorCenterPoint = floorSolid.ComputeCentroid();
 
-                        Room room = doc
-                                .GetRoomAtPoint(floorCenterPoint + (floor.get_Parameter(BuiltInParameter.FLOOR_ATTR_THICKNESS_PARAM)
-                                .AsDouble()) * XYZ.BasisZ) as Room;
+                        foreach (Room r in roomList)
+                        {
+                            GeometryElement geomRoomElement = r.get_Geometry(new Options());
+                            Solid roomSolid = null;
+                            foreach (GeometryObject geomObj in geomRoomElement)
+                            {
+                                roomSolid = geomObj as Solid;
+                                if (roomSolid != null) break;
+                            }
+                            Solid intersection = null;
+                            try
+                            {
+                                intersection = BooleanOperationsUtils.ExecuteBooleanOperation(floorSolid, roomSolid, BooleanOperationsType.Intersect);
+                            }
+                            catch
+                            {
+                                TaskDialog.Show("Revit", "Не удалось обработать "
+                                    + floor.FloorType.Name + "\nи помещение №" + r.Number.ToString()
+                                    + " из за ошибок геометрии");
+                            }
+                            double volumeOfIntersection = 0;
+                            if(intersection != null)
+                            {
+                                volumeOfIntersection = intersection.Volume;
+                            }
+                            if (volumeOfIntersection != 0)
+                            {
+                                room = r;
+                                break;
+                            }
+                        }
+                        doc.Delete(floorForSolid.Id);
+
                         if (room != null)
                         {
                             string floorDescription = floor.LookupParameter("Помещение_Список номеров").AsString();
                             string roomNumber = room.get_Parameter(BuiltInParameter.ROOM_NUMBER).AsString();
                             if (floorDescription != null & floorDescription != "")
                             {
-                                if (floorDescription.Contains(roomNumber))
+                                if (floorDescription.Split(',').ToList().Contains(roomNumber))
                                 {
                                     continue;
                                 }
@@ -189,25 +227,56 @@ namespace CITRUS.CIT_03_2_FinishNumerator
 
                             foreach (Floor floor in floorList)
                             {
-                                GeometryElement geomFloorElement = floor.get_Geometry(new Options());
+                                Room room = null;
+                                Floor floorForSolid = doc.GetElement(ElementTransformUtils.CopyElement(doc, floor.Id, (100 / 304.8) * XYZ.BasisZ).First()) as Floor;
+                                GeometryElement geomFloorElement = floorForSolid.get_Geometry(new Options());
                                 Solid floorSolid = null;
                                 foreach (GeometryObject geomObj in geomFloorElement)
                                 {
                                     floorSolid = geomObj as Solid;
                                     if (floorSolid != null) break;
                                 }
-                                XYZ floorCenterPoint = floorSolid.ComputeCentroid();
 
-                                Room room = doc
-                                        .GetRoomAtPoint(floorCenterPoint + (floor.get_Parameter(BuiltInParameter.FLOOR_ATTR_THICKNESS_PARAM)
-                                        .AsDouble()) * XYZ.BasisZ) as Room;
+                                foreach (Room r in roomList)
+                                {
+                                    GeometryElement geomRoomElement = r.get_Geometry(new Options());
+                                    Solid roomSolid = null;
+                                    foreach (GeometryObject geomObj in geomRoomElement)
+                                    {
+                                        roomSolid = geomObj as Solid;
+                                        if (roomSolid != null) break;
+                                    }
+                                    Solid intersection = null;
+                                    try
+                                    {
+                                        intersection = BooleanOperationsUtils.ExecuteBooleanOperation(floorSolid, roomSolid, BooleanOperationsType.Intersect);
+                                    }
+                                    catch
+                                    {
+                                        TaskDialog.Show("Revit", "Не удалось обработать "
+                                            + floor.FloorType.Name + "\nи помещение №" + r.Number.ToString()
+                                            + " из за ошибок геометрии");
+                                    }
+                                    double volumeOfIntersection = 0;
+                                    if (intersection != null)
+                                    {
+                                        volumeOfIntersection = intersection.Volume;
+                                    }
+                                    if (volumeOfIntersection != 0)
+                                    {
+                                        room = r;
+                                        break;
+                                    }
+                                }
+                                doc.Delete(floorForSolid.Id);
+
                                 if (room != null)
                                 {
                                     string floorDescription = floor.LookupParameter("Помещение_Список номеров").AsString();
                                     string roomNumber = room.get_Parameter(BuiltInParameter.ROOM_NUMBER).AsString();
                                     if (floorDescription != null & floorDescription != "")
                                     {
-                                        if (floorDescription.Contains(roomNumber))
+                                        if (floorDescription.Split(',').ToList().Contains(roomNumber))
                                         {
                                             continue;
                                         }
