@@ -47,7 +47,7 @@ namespace CITRUS
             FloorSelectionFilter selFilterFloor = new FloorSelectionFilter(); //Вызов фильтра выбора
             Reference selFloor = sel.PickObject(ObjectType.Element, selFilterFloor, "Выберите фундаментную плиту!");//Получение списка ссылок на выбранную плиту
             Floor mySelFloor = doc.GetElement(selFloor) as Floor;
-            if (mySelFloor.Category.Id.IntegerValue != -2001300)
+            if (mySelFloor.Category.Id.IntegerValue != -2001300 & mySelFloor.Category.Id.IntegerValue != -2000032) //УБРАТЬ ВТОРУЮ ЧАСТЬ
             {
                 TaskDialog.Show("Revit", "Выберите фундаментную плиту!");
                 return Result.Cancelled;
@@ -64,8 +64,8 @@ namespace CITRUS
             Level mySelFloorLevel = doc.GetElement(mySelFloorLevelId) as Level;
             double mySelFloorElevation = mySelFloorLevel.Elevation;
             double mySelFloorTopOffset = mySelFloor.get_Parameter(BuiltInParameter.FLOOR_HEIGHTABOVELEVEL_PARAM).AsDouble();
-            double mySelFloorTopElevation = Math.Round((mySelFloorElevation - mySelFloorTopOffset), 6);
-
+            double mySelFloorTopElevation = Math.Round((mySelFloorElevation + mySelFloorTopOffset), 6);
+            
             Document doc2 = null;
             XYZ linkOrigin = new XYZ();
             List<FamilyInstance> columnsList = new List<FamilyInstance>();
@@ -815,11 +815,11 @@ namespace CITRUS
                             XYZ tubWeldingInstalationPoint = new XYZ(0, 0, 0);
                             if (rebar_p1.Z < 0)
                             {
-                                tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z + Math.Abs(mySelFloorTopElevation));
+                                tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z + Math.Abs(mySelFloorTopElevation - mySelFloorTopOffset));
                             }
                             else
                             {
-                                tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z - Math.Abs(mySelFloorTopElevation));
+                                tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z - Math.Abs(mySelFloorTopElevation - mySelFloorTopOffset));
                             }
 
                             //Установка ванночки для сварки
@@ -969,11 +969,11 @@ namespace CITRUS
                             XYZ tubWeldingInstalationPoint = new XYZ(0, 0, 0);
                             if (rebar_p1.Z < 0)
                             {
-                                tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z + Math.Abs(mySelFloorTopElevation));
+                                tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z + Math.Abs(mySelFloorTopElevation - mySelFloorTopOffset));
                             }
                             else
                             {
-                                tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z - Math.Abs(mySelFloorTopElevation));
+                                tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z - Math.Abs(mySelFloorTopElevation - mySelFloorTopOffset));
                             }
 
                             //Установка ванночки для сварки
@@ -1420,11 +1420,11 @@ namespace CITRUS
                                 XYZ tubWeldingInstalationPoint = new XYZ(0, 0, 0);
                                 if (rebar_p1.Z < 0)
                                 {
-                                    tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z + Math.Abs(mySelFloorTopElevation));
+                                    tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z + Math.Abs(mySelFloorTopElevation - mySelFloorTopOffset));
                                 }
                                 else
                                 {
-                                    tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z - Math.Abs(mySelFloorTopElevation));
+                                    tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z - Math.Abs(mySelFloorTopElevation - mySelFloorTopOffset));
                                 }
 
                                 //Установка ванночки для сварки
@@ -1579,11 +1579,11 @@ namespace CITRUS
                             XYZ tubWeldingInstalationPoint = new XYZ(0, 0, 0);
                             if (rebar_p1.Z < 0)
                             {
-                                tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z + Math.Abs(mySelFloorTopElevation));
+                                tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z + Math.Abs(mySelFloorTopElevation - mySelFloorTopOffset));
                             }
                             else
                             {
-                                tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z - Math.Abs(mySelFloorTopElevation));
+                                tubWeldingInstalationPoint = new XYZ(rebar_p1.X, rebar_p1.Y, rebar_p1.Z - Math.Abs(mySelFloorTopElevation - mySelFloorTopOffset));
                             }
 
                             //Установка ванночки для сварки
