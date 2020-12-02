@@ -1966,8 +1966,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                         XYZ mainRebarTypeOneShort_p2 = new XYZ(Math.Round(mainRebarTypeOneShort_p1.X, 6), Math.Round(mainRebarTypeOneShort_p1.Y, 6), Math.Round(mainRebarTypeOneShort_p1.Z + columnLength + floorThicknessAboveColumn, 6));
 
                         //Точки для установки ванночки
-                        XYZ longTubWeldingOne_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthLong);
-                        XYZ shortTubWeldingOne_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthShort);
+                        XYZ longTubWeldingOne_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthLong + baseLevelOffset);
+                        XYZ shortTubWeldingOne_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthShort + baseLevelOffset);
 
                         //Кривые стержня один длинного
                         List<Curve> myMainRebarTypeOneCurvesLong = new List<Curve>();
@@ -2134,8 +2134,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             XYZ mainRebarTypeTwoShort_p2 = new XYZ(Math.Round(mainRebarTypeTwoShort_p1.X, 6), Math.Round(mainRebarTypeTwoShort_p1.Y, 6), Math.Round(mainRebarTypeTwoShort_p1.Z + columnLength + floorThicknessAboveColumn, 6));
 
                             //Точки для установки ванночки
-                            XYZ longTubWeldingTwo_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthLong);
-                            XYZ shortTubWeldingTwo_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthShort);
+                            XYZ longTubWeldingTwo_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthLong + baseLevelOffset);
+                            XYZ shortTubWeldingTwo_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthShort + baseLevelOffset);
 
                             //Кривые стержня один длинного
                             List<Curve> myMainRebarTypeTwoCurvesLong = new List<Curve>();
@@ -2407,8 +2407,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             XYZ mainRebarTypeThreeShort_p2 = new XYZ(Math.Round(mainRebarTypeThreeShort_p1.X, 6), Math.Round(mainRebarTypeThreeShort_p1.Y, 6), Math.Round(mainRebarTypeThreeShort_p1.Z + columnLength + floorThicknessAboveColumn, 6));
 
                             //Точки для установки ванночки
-                            XYZ longTubWeldingThree_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthLong);
-                            XYZ shortTubWeldingThree_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthShort);
+                            XYZ longTubWeldingThree_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthLong + baseLevelOffset);
+                            XYZ shortTubWeldingThree_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthShort + baseLevelOffset);
 
                             //Кривые стержня один длинного
                             List<Curve> myMainRebarTypeThreeCurvesLong = new List<Curve>();
@@ -3192,8 +3192,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             , Math.Round(mainRebarTypeOneShort_p3.Z + rebarOutletsLengthShort, 6));
 
                         //Точки для установки ванночки
-                        XYZ longTubWeldingOne_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthLong);
-                        XYZ shortTubWeldingOne_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthShort);
+                        XYZ longTubWeldingOne_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthLong + baseLevelOffset);
+                        XYZ shortTubWeldingOne_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthShort + baseLevelOffset);
 
                         //Кривые стержня один длинного
                         List<Curve> myMainRebarTypeOneCurvesLong = new List<Curve>();
@@ -3390,8 +3390,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                                 , Math.Round(mainRebarTypeTwoShort_p3.Z + rebarOutletsLengthShort, 6));
 
                             //Точки для установки ванночки
-                            XYZ longTubWeldingTwo_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthLong);
-                            XYZ shortTubWeldingTwo_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthShort);
+                            XYZ longTubWeldingTwo_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthLong + baseLevelOffset);
+                            XYZ shortTubWeldingTwo_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthShort + baseLevelOffset);
 
                             //Кривые стержня удлиненного
                             List<Curve> myMainRebarTypeTwoCurvesLong = new List<Curve>();
@@ -3673,8 +3673,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
                             XYZ mainRebarTypeThreeShort_p2 = new XYZ(Math.Round(mainRebarTypeThreeShort_p1.X, 6), Math.Round(mainRebarTypeThreeShort_p1.Y, 6), Math.Round(mainRebarTypeThreeShort_p1.Z + columnLength + floorThicknessAboveColumn, 6));
 
                             //Точки для установки ванночки
-                            XYZ longTubWeldingThree_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthLong);
-                            XYZ shortTubWeldingThree_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthShort);
+                            XYZ longTubWeldingThree_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthLong + baseLevelOffset);
+                            XYZ shortTubWeldingThree_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLengthShort + baseLevelOffset);
 
                             //Кривые стержня один длинного
                             List<Curve> myMainRebarTypeThreeCurvesLong = new List<Curve>();

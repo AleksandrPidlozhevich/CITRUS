@@ -129,14 +129,27 @@ namespace CITRUS
 						List<FamilyInstance> myColumnsList = new List<FamilyInstance>();
 						if (myGroup.Name.Split(' ').Length > 1)
 						{
-							//Список колонн не пересекающих группу
-							myColumnsList = new FilteredElementCollector(doc2)
-							.OfClass(typeof(FamilyInstance))
-							.OfCategory(BuiltInCategory.OST_StructuralColumns)
-							.WherePasses(new BoundingBoxIntersectsFilter(myGroupOutLn, true))
-							.Where(fi => fi.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString() == myGroup.Name.Split(' ')[1])
-							.Cast<FamilyInstance>()
-							.ToList();
+							if (columnArrangementСheckedButtonName == "radioButton_Link")
+							{
+								//Список колонн не пересекающих группу
+								myColumnsList = new FilteredElementCollector(doc2)
+									.OfClass(typeof(FamilyInstance))
+									.OfCategory(BuiltInCategory.OST_StructuralColumns)
+									.WherePasses(new BoundingBoxIntersectsFilter(myGroupOutLn, true))
+									.Where(fi => fi.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString() == myGroup.Name.Split(' ')[1])
+									.Cast<FamilyInstance>()
+									.ToList();
+							}
+                            else
+							{
+								myColumnsList = new FilteredElementCollector(doc)
+									.OfClass(typeof(FamilyInstance))
+									.OfCategory(BuiltInCategory.OST_StructuralColumns)
+									.WherePasses(new BoundingBoxIntersectsFilter(myGroupOutLn, true))
+									.Where(fi => fi.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString() == myGroup.Name.Split(' ')[1])
+									.Cast<FamilyInstance>()
+									.ToList();
+							}
 						}
 						else
                         {

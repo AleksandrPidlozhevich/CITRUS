@@ -206,7 +206,7 @@ namespace CITRUS
             pbdBeamReinforcement.Image = BeamReinforcement_imgStandart;
             panel_KR.AddItem(pbdBeamReinforcement);
 
-            // Создание кнопки "StaircaseReinforcement" в категории "Другое"
+            // Создание кнопки "StaircaseReinforcement" в категории "КР"
             PushButtonData pbdStaircaseReinforcement = new PushButtonData("StairFlightReinforcement"
                     , "Арм.Марш"
                     , assemblyPach
