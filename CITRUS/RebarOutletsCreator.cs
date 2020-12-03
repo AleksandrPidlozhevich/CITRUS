@@ -47,7 +47,7 @@ namespace CITRUS
             FloorSelectionFilter selFilterFloor = new FloorSelectionFilter(); //Вызов фильтра выбора
             Reference selFloor = sel.PickObject(ObjectType.Element, selFilterFloor, "Выберите фундаментную плиту!");//Получение списка ссылок на выбранную плиту
             Floor mySelFloor = doc.GetElement(selFloor) as Floor;
-            if (mySelFloor.Category.Id.IntegerValue != -2001300 & mySelFloor.Category.Id.IntegerValue != -2000032) //УБРАТЬ ВТОРУЮ ЧАСТЬ
+            if (mySelFloor.Category.Id.IntegerValue != -2001300 /*& mySelFloor.Category.Id.IntegerValue != -2000032*/) //Для фундаментной плиты перекрытием
             {
                 TaskDialog.Show("Revit", "Выберите фундаментную плиту!");
                 return Result.Cancelled;
