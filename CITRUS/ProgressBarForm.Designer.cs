@@ -28,25 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBar_pb = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
-            // progressBar1
+            // progressBar_pb
             // 
-            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.progressBar_pb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(12, 12);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(410, 36);
-            this.progressBar1.TabIndex = 0;
+            this.progressBar_pb.Location = new System.Drawing.Point(12, 12);
+            this.progressBar_pb.Name = "progressBar_pb";
+            this.progressBar_pb.Size = new System.Drawing.Size(410, 36);
+            this.progressBar_pb.TabIndex = 0;
             // 
             // ProgressBarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 61);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.progressBar_pb);
             this.Name = "ProgressBarForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ProgressBarForm";
@@ -55,7 +55,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ProgressBar progressBar1;
+        public System.Windows.Forms.ProgressBar progressBar_pb;
     }
 }

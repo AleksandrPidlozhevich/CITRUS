@@ -304,7 +304,11 @@ namespace CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven
                                     scheduleDefinition.SetFilter(5, scheduleEquipmentFilter);
                                     scheduleDefinition.GetField(25).IsHidden = true;
 
-                                    ScheduleSheetInstance newViewScheduleInstance = ScheduleSheetInstance.Create(doc, myViewSheet.Id, newViewScheduleMEPVSCEquipment.Id, viewScheduleLocation);
+                                    ScheduleSheetInstance newViewScheduleInstance = ScheduleSheetInstance
+                                        .Create(doc
+                                        , myViewSheet.Id
+                                        , newViewScheduleMEPVSCEquipment.Id
+                                        , viewScheduleLocation);
                                     BoundingBoxXYZ bbox = newViewScheduleInstance.get_BoundingBox(myViewSheet);
                                     viewScheduleInstanceHight = bbox.Max.Y - bbox.Min.Y;
                                     if (viewScheduleInstanceHight <= 200 / 304.8)

@@ -7,14 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace CITRUS
 {
     public partial class ProgressBarForm : Form
     {
-        public ProgressBarForm()
+
+        public ProgressBarForm(int max)
         {
             InitializeComponent();
+            progressBar_pb.Minimum = 0;
+            progressBar_pb.Maximum = max;
+            progressBar_pb.Step = 1;
         }
     }
 }

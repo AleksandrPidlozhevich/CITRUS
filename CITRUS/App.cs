@@ -271,46 +271,46 @@ namespace CITRUS
             pbdGloryHole.Image = GloryHole_imgStandart;
             panel_Other.AddItem(pbdGloryHole);
 
-            //Создание кнопки "MEPViewScheduleCreatorADM" в категории "Другое"
-            PushButtonData pbdMEPViewScheduleCreatorADM = new PushButtonData("MEPViewScheduleCreatorADM"
-                    , "Создать\ncпецификации MEPADM"
-                    , assemblyPach
-                    , "CITRUS.MEPViewScheduleCreatorADM");
+            ////Создание кнопки "MEPViewScheduleCreatorADM" в категории "Другое"
+            //PushButtonData pbdMEPViewScheduleCreatorADM = new PushButtonData("MEPViewScheduleCreatorADM"
+            //        , "Создать\ncпецификации MEPADM"
+            //        , assemblyPach
+            //        , "CITRUS.MEPViewScheduleCreatorADM");
 
-            panel_Other.AddItem(pbdMEPViewScheduleCreatorADM);
+            //panel_Other.AddItem(pbdMEPViewScheduleCreatorADM);
 
-            // Создание кнопки "HeatLoss" в категории "Другое"
-            PushButtonData pbdHeatLoss = new PushButtonData("HeatLoss"
-                    , "Теплопотери"
-                    , assemblyPach
-                    , "CITRUS.HeatLoss");
+            //// Создание кнопки "HeatLoss" в категории "Другое"
+            //PushButtonData pbdHeatLoss = new PushButtonData("HeatLoss"
+            //        , "Теплопотери"
+            //        , assemblyPach
+            //        , "CITRUS.HeatLoss");
 
-            panel_Other.AddItem(pbdHeatLoss);
+            //panel_Other.AddItem(pbdHeatLoss);
 
-            // Создание кнопки "Draftsman" в категории "Другое"
-            PushButtonData pbdDraftsman = new PushButtonData("Draftsman"
-                    , "Чертило"
-                    , assemblyPach
-                    , "CITRUS.Draftsman");
+            //// Создание кнопки "Draftsman" в категории "Другое"
+            //PushButtonData pbdDraftsman = new PushButtonData("Draftsman"
+            //        , "Чертило"
+            //        , assemblyPach
+            //        , "CITRUS.Draftsman");
 
-            panel_Other.AddItem(pbdDraftsman);
+            //panel_Other.AddItem(pbdDraftsman);
 
-            // Создание кнопки "MySQL_Test" в категории "Другое"
-            PushButtonData pbdMySQLTest = new PushButtonData("MySQLTest"
-                    , "MySQLTest"
-                    , assemblyPach
-                    , "CITRUS.MySQL_Test");
+            //// Создание кнопки "MySQL_Test" в категории "Другое"
+            //PushButtonData pbdMySQLTest = new PushButtonData("MySQLTest"
+            //        , "MySQLTest"
+            //        , assemblyPach
+            //        , "CITRUS.MySQL_Test");
 
-            panel_Other.AddItem(pbdMySQLTest);
+            //panel_Other.AddItem(pbdMySQLTest);
 
-            // Создание кнопки "Blocker" в категории "Другое"
-            PushButtonData pbdBlocker = new PushButtonData("Blocker"
-                    , "Blocker"
-                    , assemblyPach
-                    , "CITRUS.Blocker");
+            //// Создание кнопки "Blocker" в категории "Другое"
+            //PushButtonData pbdBlocker = new PushButtonData("Blocker"
+            //        , "Blocker"
+            //        , assemblyPach
+            //        , "CITRUS.Blocker");
 
-            panel_Other.AddItem(pbdBlocker);
-            //CIT_05_4_1_MEPViewScheduleCleaner_Roven
+            //panel_Other.AddItem(pbdBlocker);
+
             //  Создание кнопки "MEPViewScheduleCreator_Roven" в категории "Другое"
             PushButtonData pbdMEPViewScheduleCreator_Roven = new PushButtonData("MEPViewScheduleCreator_Roven"
                     , "РОВЕН\nСоздать спецификации"
@@ -326,6 +326,14 @@ namespace CITRUS
                     , "CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven.CIT_05_4_1_MEPViewScheduleCleaner_Roven");
 
             panel_Other.AddItem(pbdMEPViewScheduleCleaner_Roven);
+
+            //  Создание кнопки "SlabReinforcement" в категории "Другое"
+            PushButtonData pbdSlabReinforcement = new PushButtonData("SlabReinforcement"
+                    , "Арм.Плиты"
+                    , assemblyPach
+                    , "CITRUS.CIT_04_4_SlabReinforcement.CIT_04_4_SlabReinforcement");
+
+            panel_Other.AddItem(pbdSlabReinforcement);
 
             return Result.Succeeded;
             }

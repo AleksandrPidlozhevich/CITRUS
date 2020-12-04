@@ -108,6 +108,7 @@
     <Compile Include="CIT_04_3_BeamReinforcement\CIT_04_3_BeamReinforcementForm.Designer.cs">
       <DependentUpon>CIT_04_3_BeamReinforcementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CIT_04_4_SlabReinforcement\CIT_04_4_SlabReinforcement.cs" />
     <Compile Include="CIT_04_5_StairFlightReinforcement\CIT_04_5_StairFlightReinforcement.cs" />
     <Compile Include="CIT_04_5_StairFlightReinforcement\CIT_04_5_StairFlightReinforcementForm.cs">
       <SubType>Form</SubType>

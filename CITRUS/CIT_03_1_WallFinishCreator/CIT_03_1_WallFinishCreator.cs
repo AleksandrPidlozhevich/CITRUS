@@ -61,8 +61,6 @@ namespace CITRUS.CIT_03_1_WallFinishCreator
                             WallUtils.DisallowWallJoinAtEnd(wall, 0);
                             WallUtils.DisallowWallJoinAtEnd(wall, 1);
                             wallListForMove.Add(wall);
-                            XYZ wallOrientationVector = wall.Orientation;
-                            ElementTransformUtils.MoveElement(doc, wall.Id, wallOrientationVector * (wallTypeFirstWidth / 2));
                         }
                     }
                 }
@@ -71,8 +69,8 @@ namespace CITRUS.CIT_03_1_WallFinishCreator
                 t.Start("Смещение стен");
                 foreach(Wall wall in wallListForMove)
                 {
-                    //XYZ wallOrientationVector = wall.Orientation;
-                    //ElementTransformUtils.MoveElement(doc, wall.Id, wallOrientationVector * (wallTypeFirstWidth / 2));
+                    XYZ wallOrientationVector = wall.Orientation;
+                    ElementTransformUtils.MoveElement(doc, wall.Id, wallOrientationVector * (wallTypeFirstWidth / 2));
 
                     BoundingBoxXYZ bbox = wall.get_BoundingBox(null);
                     Outline myOutLn = new Outline(bbox.Min, bbox.Max);
