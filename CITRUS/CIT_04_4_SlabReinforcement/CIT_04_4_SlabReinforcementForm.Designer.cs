@@ -40,6 +40,9 @@
             this.textBox_TopYDirectionRebarSpacing = new System.Windows.Forms.TextBox();
             this.comboBox_RebarCoverTypeForTop = new System.Windows.Forms.ComboBox();
             this.comboBox_RebarCoverTypeForBottom = new System.Windows.Forms.ComboBox();
+            this.textBox_PerimeterFramingDiam = new System.Windows.Forms.TextBox();
+            this.textBox_PerimeterFramingAnchoring = new System.Windows.Forms.TextBox();
+            this.textBox_PerimeterFramingEndCoverLayer = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button2_Cancel
@@ -144,7 +147,7 @@
             // comboBox_RebarCoverTypeForTop
             // 
             this.comboBox_RebarCoverTypeForTop.FormattingEnabled = true;
-            this.comboBox_RebarCoverTypeForTop.Location = new System.Drawing.Point(493, 161);
+            this.comboBox_RebarCoverTypeForTop.Location = new System.Drawing.Point(285, 161);
             this.comboBox_RebarCoverTypeForTop.Name = "comboBox_RebarCoverTypeForTop";
             this.comboBox_RebarCoverTypeForTop.Size = new System.Drawing.Size(121, 21);
             this.comboBox_RebarCoverTypeForTop.Sorted = true;
@@ -154,18 +157,45 @@
             // comboBox_RebarCoverTypeForBottom
             // 
             this.comboBox_RebarCoverTypeForBottom.FormattingEnabled = true;
-            this.comboBox_RebarCoverTypeForBottom.Location = new System.Drawing.Point(493, 314);
+            this.comboBox_RebarCoverTypeForBottom.Location = new System.Drawing.Point(285, 378);
             this.comboBox_RebarCoverTypeForBottom.Name = "comboBox_RebarCoverTypeForBottom";
             this.comboBox_RebarCoverTypeForBottom.Size = new System.Drawing.Size(121, 21);
             this.comboBox_RebarCoverTypeForBottom.Sorted = true;
             this.comboBox_RebarCoverTypeForBottom.TabIndex = 13;
             this.comboBox_RebarCoverTypeForBottom.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarCoverTypeForBottom_SelectedIndexChanged);
             // 
+            // textBox_PerimeterFramingDiam
+            // 
+            this.textBox_PerimeterFramingDiam.Location = new System.Drawing.Point(520, 60);
+            this.textBox_PerimeterFramingDiam.Name = "textBox_PerimeterFramingDiam";
+            this.textBox_PerimeterFramingDiam.Size = new System.Drawing.Size(100, 20);
+            this.textBox_PerimeterFramingDiam.TabIndex = 14;
+            this.textBox_PerimeterFramingDiam.TextChanged += new System.EventHandler(this.textBox_PerimeterFramingDiam_TextChanged);
+            // 
+            // textBox_PerimeterFramingAnchoring
+            // 
+            this.textBox_PerimeterFramingAnchoring.Location = new System.Drawing.Point(673, 39);
+            this.textBox_PerimeterFramingAnchoring.Name = "textBox_PerimeterFramingAnchoring";
+            this.textBox_PerimeterFramingAnchoring.Size = new System.Drawing.Size(100, 20);
+            this.textBox_PerimeterFramingAnchoring.TabIndex = 15;
+            this.textBox_PerimeterFramingAnchoring.TextChanged += new System.EventHandler(this.textBox_PerimeterFramingAnchoring_TextChanged);
+            // 
+            // textBox_PerimeterFramingEndCoverLayer
+            // 
+            this.textBox_PerimeterFramingEndCoverLayer.Location = new System.Drawing.Point(520, 126);
+            this.textBox_PerimeterFramingEndCoverLayer.Name = "textBox_PerimeterFramingEndCoverLayer";
+            this.textBox_PerimeterFramingEndCoverLayer.Size = new System.Drawing.Size(100, 20);
+            this.textBox_PerimeterFramingEndCoverLayer.TabIndex = 16;
+            this.textBox_PerimeterFramingEndCoverLayer.TextChanged += new System.EventHandler(this.textBox_PerimeterFramingEndCoverLayer_TextChanged);
+            // 
             // CIT_04_4_SlabReinforcementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textBox_PerimeterFramingEndCoverLayer);
+            this.Controls.Add(this.textBox_PerimeterFramingAnchoring);
+            this.Controls.Add(this.textBox_PerimeterFramingDiam);
             this.Controls.Add(this.comboBox_RebarCoverTypeForBottom);
             this.Controls.Add(this.comboBox_RebarCoverTypeForTop);
             this.Controls.Add(this.textBox_TopYDirectionRebarSpacing);
@@ -199,5 +229,8 @@
         private System.Windows.Forms.TextBox textBox_TopYDirectionRebarSpacing;
         private System.Windows.Forms.ComboBox comboBox_RebarCoverTypeForTop;
         private System.Windows.Forms.ComboBox comboBox_RebarCoverTypeForBottom;
+        private System.Windows.Forms.TextBox textBox_PerimeterFramingDiam;
+        private System.Windows.Forms.TextBox textBox_PerimeterFramingAnchoring;
+        private System.Windows.Forms.TextBox textBox_PerimeterFramingEndCoverLayer;
     }
 }

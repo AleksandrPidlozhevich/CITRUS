@@ -75,7 +75,6 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                 .Cast<RebarCoverType>()
                 .ToList();
 
-
             CIT_04_4_SlabReinforcementForm slabReinforcementForm = new CIT_04_4_SlabReinforcementForm(bottomXDirectionRebarTapesList
                 , bottomYDirectionRebarTapesList
                 , topXDirectionRebarTapesList
@@ -110,10 +109,19 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
             double topXDirectionRebarSpacing = slabReinforcementForm.TopXDirectionRebarSpacing / 304.8;
             double topYDirectionRebarSpacing = slabReinforcementForm.TopYDirectionRebarSpacing / 304.8;
 
+            double perimeterFramingDiam = slabReinforcementForm.PerimeterFramingDiam / 304.8;
+            double perimeterFramingAnchoring = slabReinforcementForm.PerimeterFramingAnchoring / 304.8;
+            double perimeterFramingEndCoverLayer = slabReinforcementForm.PerimeterFramingEndCoverLayer / 304.8;
+
             //Выбор типа защитного слоя сверху
             RebarCoverType rebarCoverTypeForTop = slabReinforcementForm.mySelectionRebarCoverTypeForTop;
+            double rebarCoverTop = rebarCoverTypeForTop.CoverDistance;
             //Выбор типа защитного слоя снизу
             RebarCoverType rebarCoverTypeForBottom = slabReinforcementForm.mySelectionRebarCoverTypeForBottom;
+            double rebarCoverBottom = rebarCoverTypeForBottom.CoverDistance;
+
+            double perimeterFramingTopCoverLayer = rebarCoverTop + topYDirectionRebarDiam + perimeterFramingDiam / 2;
+            double perimeterFramingBottomCoverLayer = rebarCoverBottom + perimeterFramingDiam / 2;
 
             using (Transaction t = new Transaction(doc))
             {
@@ -122,6 +130,46 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                 {
                     floor.get_Parameter(BuiltInParameter.CLEAR_COVER_TOP).Set(rebarCoverTypeForTop.Id);
                     floor.get_Parameter(BuiltInParameter.CLEAR_COVER_BOTTOM).Set(rebarCoverTypeForBottom.Id);
+                    double floorThickness = floor.FloorType.get_Parameter(BuiltInParameter.FLOOR_ATTR_DEFAULT_THICKNESS_PARAM).AsDouble();
+                    FamilySymbol targetPerimeterFramingFamilySymbol = null;
+
+                    //Семейство обрамления проема
+                    List<FamilySymbol> perimeterFramingFamilySymbolList = new FilteredElementCollector(doc)
+                        .OfClass(typeof(FamilySymbol))
+                        .Cast<FamilySymbol>()
+                        .Where(fs => fs.FamilyName == "264_Обрамление периметра Пшки (ОбщМод_Линия)")
+                        .Where(fs => fs.LookupParameter("Диаметр стержня").AsDouble() == perimeterFramingDiam)
+                        .Where(fs => fs.LookupParameter("Анкеровка Пшки").AsDouble() == perimeterFramingAnchoring)
+                        .Where(fs => fs.LookupParameter("Защитный слой верх").AsDouble() == perimeterFramingTopCoverLayer)
+                        .Where(fs => fs.LookupParameter("Защитный слой низ").AsDouble() == perimeterFramingBottomCoverLayer)
+                        .Where(fs => fs.LookupParameter("Защитный слой торец").AsDouble() == perimeterFramingEndCoverLayer)
+                        .Where(fs => fs.LookupParameter("Толщина плиты").AsDouble() == floorThickness)
+                        .ToList();
+
+                    if (perimeterFramingFamilySymbolList.Count == 0)
+                    {
+                        //Семейство обрамления проема
+                        perimeterFramingFamilySymbolList = new FilteredElementCollector(doc)
+                            .OfClass(typeof(FamilySymbol))
+                            .Cast<FamilySymbol>()
+                            .Where(fs => fs.FamilyName == "264_Обрамление периметра Пшки (ОбщМод_Линия)")
+                            .ToList();
+                        FamilySymbol typeForCopy = perimeterFramingFamilySymbolList.First();
+
+                        targetPerimeterFramingFamilySymbol = typeForCopy.Duplicate("Плита=" + floorThickness*304.8 +"мм" + ", D="+ perimeterFramingDiam * 304.8 + "мм" + " ,Анкеровка ="+ perimeterFramingAnchoring * 304.8 + "мм" + " , ЗС_Торец="+ perimeterFramingEndCoverLayer * 304.8 + "мм") as FamilySymbol;
+                        targetPerimeterFramingFamilySymbol.LookupParameter("Диаметр стержня").Set(perimeterFramingDiam);
+                        targetPerimeterFramingFamilySymbol.LookupParameter("Анкеровка Пшки").Set(perimeterFramingAnchoring);
+                        targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой верх").Set(perimeterFramingTopCoverLayer);
+                        targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой низ").Set(perimeterFramingBottomCoverLayer);
+                        targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой торец").Set(perimeterFramingEndCoverLayer);
+                        targetPerimeterFramingFamilySymbol.LookupParameter("Толщина плиты").Set(floorThickness);
+                    }
+                    else
+                    {
+                        targetPerimeterFramingFamilySymbol = perimeterFramingFamilySymbolList.First();
+                    }
+
+
 
                     double spanDirectionAngle = floor.SpanDirectionAngle;
                     XYZ zeroPoint = new XYZ(0, 0, 0);
@@ -130,7 +178,9 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                     XYZ directionPoint = rot.OfPoint(directionPointStart);
                     XYZ directionVector = (directionPoint - zeroPoint).Normalize();
 
-                    GeometryElement geomFloorElement = floor.get_Geometry(new Options());
+                    Options opt = new Options();
+                    opt.ComputeReferences = true;
+                    GeometryElement geomFloorElement = floor.get_Geometry(opt);
                     Solid floorSolid = null;
                     foreach (GeometryObject geomObj in geomFloorElement)
                     {
@@ -217,6 +267,15 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                     areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_TOP_DIR_2).Set(topYDirectionRebarSpacing);
                     areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("верх Y фон");
                     areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_TOP_OFFSET).Set(0);
+
+                    foreach (CurveLoop cl in curveLoopList)
+                    {
+                        foreach(Line ln in cl)
+                        {
+                            doc.Create.NewFamilyInstance(myFace, ln, targetPerimeterFramingFamilySymbol);
+                        }
+                    }
+                    
                 }
                 t.Commit();
             }

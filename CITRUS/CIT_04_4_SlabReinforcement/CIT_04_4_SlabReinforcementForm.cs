@@ -26,6 +26,10 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
         public RebarCoverType mySelectionRebarCoverTypeForTop;
         public RebarCoverType mySelectionRebarCoverTypeForBottom;
 
+        public double PerimeterFramingDiam;
+        public double PerimeterFramingAnchoring;
+        public double PerimeterFramingEndCoverLayer;
+
         public CIT_04_4_SlabReinforcementForm(List<RebarBarType> BottomXDirectionRebarTapesList,
             List<RebarBarType> BottomYDirectionRebarTapesList
             , List<RebarBarType> TopXDirectionRebarTapesList
@@ -119,6 +123,21 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
         private void comboBox_RebarCoverTypeForBottom_SelectedIndexChanged(object sender, EventArgs e)
         {
             mySelectionRebarCoverTypeForBottom = comboBox_RebarCoverTypeForBottom.SelectedItem as RebarCoverType;
+        }
+
+        private void textBox_PerimeterFramingDiam_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_PerimeterFramingDiam.Text, out PerimeterFramingDiam);
+        }
+
+        private void textBox_PerimeterFramingAnchoring_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_PerimeterFramingAnchoring.Text, out PerimeterFramingAnchoring);
+        }
+
+        private void textBox_PerimeterFramingEndCoverLayer_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_PerimeterFramingEndCoverLayer.Text, out PerimeterFramingEndCoverLayer);
         }
     }
 }
