@@ -534,5 +534,14 @@
   <ItemGroup>
     <None Include="Resources\HoleTransfer_Large.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SlabReinforcement.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SlabReinforcement_Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SlabReinforcement_Small.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

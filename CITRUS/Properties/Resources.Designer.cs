@@ -523,6 +523,36 @@ namespace CITRUS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SlabReinforcement {
+            get {
+                object obj = ResourceManager.GetObject("SlabReinforcement", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SlabReinforcement_Large {
+            get {
+                object obj = ResourceManager.GetObject("SlabReinforcement_Large", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SlabReinforcement_Small {
+            get {
+                object obj = ResourceManager.GetObject("SlabReinforcement_Small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Sobirator {
             get {
                 object obj = ResourceManager.GetObject("Sobirator", resourceCulture);

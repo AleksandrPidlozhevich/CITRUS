@@ -1354,5 +1354,101 @@ namespace CITRUS.Properties {
                 this["SFRF_AdditionalBarMeshName_2"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SR_BottomXDirectionRebarSpacing {
+            get {
+                return ((string)(this["SR_BottomXDirectionRebarSpacing"]));
+            }
+            set {
+                this["SR_BottomXDirectionRebarSpacing"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SR_BottomYDirectionRebarSpacing {
+            get {
+                return ((string)(this["SR_BottomYDirectionRebarSpacing"]));
+            }
+            set {
+                this["SR_BottomYDirectionRebarSpacing"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SR_TopXDirectionRebarSpacing {
+            get {
+                return ((string)(this["SR_TopXDirectionRebarSpacing"]));
+            }
+            set {
+                this["SR_TopXDirectionRebarSpacing"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SR_TopYDirectionRebarSpacing {
+            get {
+                return ((string)(this["SR_TopYDirectionRebarSpacing"]));
+            }
+            set {
+                this["SR_TopYDirectionRebarSpacing"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SR_PerimeterFramingDiam {
+            get {
+                return ((string)(this["SR_PerimeterFramingDiam"]));
+            }
+            set {
+                this["SR_PerimeterFramingDiam"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SR_PerimeterFramingAnchoring {
+            get {
+                return ((string)(this["SR_PerimeterFramingAnchoring"]));
+            }
+            set {
+                this["SR_PerimeterFramingAnchoring"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SR_PerimeterFramingEndCoverLayer {
+            get {
+                return ((string)(this["SR_PerimeterFramingEndCoverLayer"]));
+            }
+            set {
+                this["SR_PerimeterFramingEndCoverLayer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SR_PerimeterFramingStep {
+            get {
+                return ((string)(this["SR_PerimeterFramingStep"]));
+            }
+            set {
+                this["SR_PerimeterFramingStep"] = value;
+            }
+        }
     }
 }

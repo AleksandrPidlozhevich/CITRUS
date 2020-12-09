@@ -206,6 +206,21 @@ namespace CITRUS
             pbdBeamReinforcement.Image = BeamReinforcement_imgStandart;
             panel_KR.AddItem(pbdBeamReinforcement);
 
+            //  Создание кнопки "SlabReinforcement" в категории "КР"
+            PushButtonData pbdSlabReinforcement = new PushButtonData("SlabReinforcement"
+                    , "Арм.Плиты"
+                    , assemblyPach
+                    , "CITRUS.CIT_04_4_SlabReinforcement.CIT_04_4_SlabReinforcement");
+
+            Image SlabReinforcement_img1 = Properties.Resources.SlabReinforcement_Large;
+            ImageSource SlabReinforcement_imgLarge = GetImageSourse(SlabReinforcement_img1);
+            Image SlabReinforcement_img2 = Properties.Resources.SlabReinforcement_Small;
+            ImageSource SlabReinforcement_imgStandart = GetImageSourse(SlabReinforcement_img2);
+
+            pbdSlabReinforcement.LargeImage = SlabReinforcement_imgLarge;
+            pbdSlabReinforcement.Image = SlabReinforcement_imgStandart;
+            panel_KR.AddItem(pbdSlabReinforcement);
+
             // Создание кнопки "StaircaseReinforcement" в категории "КР"
             PushButtonData pbdStaircaseReinforcement = new PushButtonData("StairFlightReinforcement"
                     , "Арм.Марш"
@@ -246,94 +261,86 @@ namespace CITRUS
             panel_OV.AddItem(pbdMEPViewScheduleHost);
 
 
-            //Создание категории кнопок "Другое"
-            RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
+            ////Создание категории кнопок "Другое"
+            //RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
 
-            //Создание кнопки "VR" в категории "Другое"
-            PushButtonData pbdVoiceRecognition = new PushButtonData("VoiceRecognition", "VR", assemblyPach, "CITRUS.VoiceRecognition.VoiceRecognition");
-            Image VoiceRecognition_img1 = Properties.Resources.VoiceRecognition_Large;
-            ImageSource VoiceRecognition_imgLarge = GetImageSourse(VoiceRecognition_img1);
-            Image VoiceRecognition_img2 = Properties.Resources.VoiceRecognition_Small;
-            ImageSource VoiceRecognition_imgStandart = GetImageSourse(VoiceRecognition_img2);
+            ////Создание кнопки "VR" в категории "Другое"
+            //PushButtonData pbdVoiceRecognition = new PushButtonData("VoiceRecognition", "VR", assemblyPach, "CITRUS.VoiceRecognition.VoiceRecognition");
+            //Image VoiceRecognition_img1 = Properties.Resources.VoiceRecognition_Large;
+            //ImageSource VoiceRecognition_imgLarge = GetImageSourse(VoiceRecognition_img1);
+            //Image VoiceRecognition_img2 = Properties.Resources.VoiceRecognition_Small;
+            //ImageSource VoiceRecognition_imgStandart = GetImageSourse(VoiceRecognition_img2);
 
-            pbdVoiceRecognition.LargeImage = VoiceRecognition_imgLarge;
-            pbdVoiceRecognition.Image = VoiceRecognition_imgStandart;
-            panel_Other.AddItem(pbdVoiceRecognition);
+            //pbdVoiceRecognition.LargeImage = VoiceRecognition_imgLarge;
+            //pbdVoiceRecognition.Image = VoiceRecognition_imgStandart;
+            //panel_Other.AddItem(pbdVoiceRecognition);
 
-            //Создание кнопки "GloryHole" в категории "Другое"
-            PushButtonData pbdGloryHole = new PushButtonData("GloryHole", "GloryHole", assemblyPach, "CITRUS.GloryHole");
-            Image GloryHole_img1 = Properties.Resources.GloryHole_Large;
-            ImageSource GloryHole_imgLarge = GetImageSourse(GloryHole_img1);
-            Image GloryHole_img2 = Properties.Resources.GloryHole;
-            ImageSource GloryHole_imgStandart = GetImageSourse(GloryHole_img2);
+            ////Создание кнопки "GloryHole" в категории "Другое"
+            //PushButtonData pbdGloryHole = new PushButtonData("GloryHole", "GloryHole", assemblyPach, "CITRUS.GloryHole");
+            //Image GloryHole_img1 = Properties.Resources.GloryHole_Large;
+            //ImageSource GloryHole_imgLarge = GetImageSourse(GloryHole_img1);
+            //Image GloryHole_img2 = Properties.Resources.GloryHole;
+            //ImageSource GloryHole_imgStandart = GetImageSourse(GloryHole_img2);
 
-            pbdGloryHole.LargeImage = GloryHole_imgLarge;
-            pbdGloryHole.Image = GloryHole_imgStandart;
-            panel_Other.AddItem(pbdGloryHole);
+            //pbdGloryHole.LargeImage = GloryHole_imgLarge;
+            //pbdGloryHole.Image = GloryHole_imgStandart;
+            //panel_Other.AddItem(pbdGloryHole);
 
-            ////Создание кнопки "MEPViewScheduleCreatorADM" в категории "Другое"
-            //PushButtonData pbdMEPViewScheduleCreatorADM = new PushButtonData("MEPViewScheduleCreatorADM"
-            //        , "Создать\ncпецификации MEPADM"
+            //////Создание кнопки "MEPViewScheduleCreatorADM" в категории "Другое"
+            ////PushButtonData pbdMEPViewScheduleCreatorADM = new PushButtonData("MEPViewScheduleCreatorADM"
+            ////        , "Создать\ncпецификации MEPADM"
+            ////        , assemblyPach
+            ////        , "CITRUS.MEPViewScheduleCreatorADM");
+
+            ////panel_Other.AddItem(pbdMEPViewScheduleCreatorADM);
+
+            ////// Создание кнопки "HeatLoss" в категории "Другое"
+            ////PushButtonData pbdHeatLoss = new PushButtonData("HeatLoss"
+            ////        , "Теплопотери"
+            ////        , assemblyPach
+            ////        , "CITRUS.HeatLoss");
+
+            ////panel_Other.AddItem(pbdHeatLoss);
+
+            ////// Создание кнопки "Draftsman" в категории "Другое"
+            ////PushButtonData pbdDraftsman = new PushButtonData("Draftsman"
+            ////        , "Чертило"
+            ////        , assemblyPach
+            ////        , "CITRUS.Draftsman");
+
+            ////panel_Other.AddItem(pbdDraftsman);
+
+            ////// Создание кнопки "MySQL_Test" в категории "Другое"
+            ////PushButtonData pbdMySQLTest = new PushButtonData("MySQLTest"
+            ////        , "MySQLTest"
+            ////        , assemblyPach
+            ////        , "CITRUS.MySQL_Test");
+
+            ////panel_Other.AddItem(pbdMySQLTest);
+
+            ////// Создание кнопки "Blocker" в категории "Другое"
+            ////PushButtonData pbdBlocker = new PushButtonData("Blocker"
+            ////        , "Blocker"
+            ////        , assemblyPach
+            ////        , "CITRUS.Blocker");
+
+            ////panel_Other.AddItem(pbdBlocker);
+
+            ////  Создание кнопки "MEPViewScheduleCreator_Roven" в категории "Другое"
+            //PushButtonData pbdMEPViewScheduleCreator_Roven = new PushButtonData("MEPViewScheduleCreator_Roven"
+            //        , "РОВЕН\nСоздать спецификации"
             //        , assemblyPach
-            //        , "CITRUS.MEPViewScheduleCreatorADM");
+            //        , "CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven.CIT_05_4_1_MEPViewScheduleCreator_Roven");
 
-            //panel_Other.AddItem(pbdMEPViewScheduleCreatorADM);
+            //panel_Other.AddItem(pbdMEPViewScheduleCreator_Roven);
 
-            //// Создание кнопки "HeatLoss" в категории "Другое"
-            //PushButtonData pbdHeatLoss = new PushButtonData("HeatLoss"
-            //        , "Теплопотери"
+            ////  Создание кнопки "MEPViewScheduleCleaner_Roven" в категории "Другое"
+            //PushButtonData pbdMEPViewScheduleCleaner_Roven = new PushButtonData("MEPViewScheduleCleaner_Roven"
+            //        , "РОВЕН\nУдалить спецификации"
             //        , assemblyPach
-            //        , "CITRUS.HeatLoss");
+            //        , "CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven.CIT_05_4_1_MEPViewScheduleCleaner_Roven");
 
-            //panel_Other.AddItem(pbdHeatLoss);
-
-            //// Создание кнопки "Draftsman" в категории "Другое"
-            //PushButtonData pbdDraftsman = new PushButtonData("Draftsman"
-            //        , "Чертило"
-            //        , assemblyPach
-            //        , "CITRUS.Draftsman");
-
-            //panel_Other.AddItem(pbdDraftsman);
-
-            //// Создание кнопки "MySQL_Test" в категории "Другое"
-            //PushButtonData pbdMySQLTest = new PushButtonData("MySQLTest"
-            //        , "MySQLTest"
-            //        , assemblyPach
-            //        , "CITRUS.MySQL_Test");
-
-            //panel_Other.AddItem(pbdMySQLTest);
-
-            //// Создание кнопки "Blocker" в категории "Другое"
-            //PushButtonData pbdBlocker = new PushButtonData("Blocker"
-            //        , "Blocker"
-            //        , assemblyPach
-            //        , "CITRUS.Blocker");
-
-            //panel_Other.AddItem(pbdBlocker);
-
-            //  Создание кнопки "MEPViewScheduleCreator_Roven" в категории "Другое"
-            PushButtonData pbdMEPViewScheduleCreator_Roven = new PushButtonData("MEPViewScheduleCreator_Roven"
-                    , "РОВЕН\nСоздать спецификации"
-                    , assemblyPach
-                    , "CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven.CIT_05_4_1_MEPViewScheduleCreator_Roven");
-
-            panel_Other.AddItem(pbdMEPViewScheduleCreator_Roven);
-
-            //  Создание кнопки "MEPViewScheduleCleaner_Roven" в категории "Другое"
-            PushButtonData pbdMEPViewScheduleCleaner_Roven = new PushButtonData("MEPViewScheduleCleaner_Roven"
-                    , "РОВЕН\nУдалить спецификации"
-                    , assemblyPach
-                    , "CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven.CIT_05_4_1_MEPViewScheduleCleaner_Roven");
-
-            panel_Other.AddItem(pbdMEPViewScheduleCleaner_Roven);
-
-            //  Создание кнопки "SlabReinforcement" в категории "Другое"
-            PushButtonData pbdSlabReinforcement = new PushButtonData("SlabReinforcement"
-                    , "Арм.Плиты"
-                    , assemblyPach
-                    , "CITRUS.CIT_04_4_SlabReinforcement.CIT_04_4_SlabReinforcement");
-
-            panel_Other.AddItem(pbdSlabReinforcement);
+            //panel_Other.AddItem(pbdMEPViewScheduleCleaner_Roven);
 
             return Result.Succeeded;
             }

@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB.Structure;
+using CITRUS.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,6 +30,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
         public double PerimeterFramingDiam;
         public double PerimeterFramingAnchoring;
         public double PerimeterFramingEndCoverLayer;
+        public double PerimeterFramingStep;
 
         public CIT_04_4_SlabReinforcementForm(List<RebarBarType> BottomXDirectionRebarTapesList,
             List<RebarBarType> BottomYDirectionRebarTapesList
@@ -38,6 +40,18 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
             , List<RebarCoverType> rebarCoverTypesForBottom)
         {
             InitializeComponent();
+
+            textBox_BottomXDirectionRebarSpacing.Text = Settings.Default["SR_BottomXDirectionRebarSpacing"].ToString();
+            textBox_BottomYDirectionRebarSpacing.Text = Settings.Default["SR_BottomYDirectionRebarSpacing"].ToString();
+            textBox_TopXDirectionRebarSpacing.Text = Settings.Default["SR_TopXDirectionRebarSpacing"].ToString();
+            textBox_TopYDirectionRebarSpacing.Text = Settings.Default["SR_TopYDirectionRebarSpacing"].ToString();
+            textBox_PerimeterFramingDiam.Text = Settings.Default["SR_PerimeterFramingDiam"].ToString();
+            textBox_PerimeterFramingAnchoring.Text = Settings.Default["SR_PerimeterFramingAnchoring"].ToString();
+            textBox_PerimeterFramingEndCoverLayer.Text = Settings.Default["SR_PerimeterFramingEndCoverLayer"].ToString();
+            textBox_PerimeterFramingStep.Text = Settings.Default["SR_PerimeterFramingStep"].ToString();
+
+
+
             List<RebarBarType> bottomXDirectionRebarTapesListForComboBox = BottomXDirectionRebarTapesList;
             comboBox_BottomXDirectionRebarTapes.DataSource = bottomXDirectionRebarTapesListForComboBox;
             comboBox_BottomXDirectionRebarTapes.DisplayMember = "Name";
@@ -65,6 +79,15 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
 
         private void button1_Ok_Click(object sender, EventArgs e)
         {
+            Settings.Default["SR_BottomXDirectionRebarSpacing"] = textBox_BottomXDirectionRebarSpacing.Text;
+            Settings.Default["SR_BottomYDirectionRebarSpacing"] = textBox_BottomYDirectionRebarSpacing.Text;
+            Settings.Default["SR_TopXDirectionRebarSpacing"] = textBox_TopXDirectionRebarSpacing.Text;
+            Settings.Default["SR_TopYDirectionRebarSpacing"] = textBox_TopYDirectionRebarSpacing.Text;
+            Settings.Default["SR_PerimeterFramingDiam"] = textBox_PerimeterFramingDiam.Text;
+            Settings.Default["SR_PerimeterFramingAnchoring"] = textBox_PerimeterFramingAnchoring.Text;
+            Settings.Default["SR_PerimeterFramingEndCoverLayer"] = textBox_PerimeterFramingEndCoverLayer.Text;
+            Settings.Default["SR_PerimeterFramingStep"] = textBox_PerimeterFramingStep.Text;
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -138,6 +161,11 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
         private void textBox_PerimeterFramingEndCoverLayer_TextChanged(object sender, EventArgs e)
         {
             double.TryParse(textBox_PerimeterFramingEndCoverLayer.Text, out PerimeterFramingEndCoverLayer);
+        }
+
+        private void textBox_PerimeterFramingStep_TextChanged(object sender, EventArgs e)
+        {
+            double.TryParse(textBox_PerimeterFramingStep.Text, out PerimeterFramingStep);
         }
     }
 }

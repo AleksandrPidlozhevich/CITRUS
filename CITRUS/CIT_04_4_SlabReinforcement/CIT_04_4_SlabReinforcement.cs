@@ -111,7 +111,8 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
 
             double perimeterFramingDiam = slabReinforcementForm.PerimeterFramingDiam / 304.8;
             double perimeterFramingAnchoring = slabReinforcementForm.PerimeterFramingAnchoring / 304.8;
-            double perimeterFramingEndCoverLayer = slabReinforcementForm.PerimeterFramingEndCoverLayer / 304.8;
+            double perimeterFramingEndCoverLayer = slabReinforcementForm.PerimeterFramingEndCoverLayer / 304.8 + perimeterFramingDiam/2;
+            double perimeterFramingStep = slabReinforcementForm.PerimeterFramingStep / 304.8;
 
             //Выбор типа защитного слоя сверху
             RebarCoverType rebarCoverTypeForTop = slabReinforcementForm.mySelectionRebarCoverTypeForTop;
@@ -154,9 +155,20 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                             .Cast<FamilySymbol>()
                             .Where(fs => fs.FamilyName == "264_Обрамление периметра Пшки (ОбщМод_Линия)")
                             .ToList();
+                        if (perimeterFramingFamilySymbolList.Count == 0)
+                        {
+                            TaskDialog.Show("Revit", "Семейство \"264_Обрамление периметра Пшки (ОбщМод_Линия)\" не найдено!");
+                            return Result.Cancelled;
+                        }
                         FamilySymbol typeForCopy = perimeterFramingFamilySymbolList.First();
 
-                        targetPerimeterFramingFamilySymbol = typeForCopy.Duplicate("Плита=" + floorThickness*304.8 +"мм" + ", D="+ perimeterFramingDiam * 304.8 + "мм" + " ,Анкеровка ="+ perimeterFramingAnchoring * 304.8 + "мм" + " , ЗС_Торец="+ perimeterFramingEndCoverLayer * 304.8 + "мм") as FamilySymbol;
+                        targetPerimeterFramingFamilySymbol = typeForCopy.Duplicate("Плита=" + floorThickness*304.8 +"мм" 
+                            + ", D="+ perimeterFramingDiam * 304.8 + "мм" 
+                            + " ,Анкеровка ="+ perimeterFramingAnchoring * 304.8 + "мм" 
+                            + " , ЗС_Торец="+ (perimeterFramingEndCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм" 
+                            + " , ЗС_Верх=" + (perimeterFramingTopCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм" 
+                            + " , ЗС_Низ=" + (perimeterFramingBottomCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм") as FamilySymbol;
+
                         targetPerimeterFramingFamilySymbol.LookupParameter("Диаметр стержня").Set(perimeterFramingDiam);
                         targetPerimeterFramingFamilySymbol.LookupParameter("Анкеровка Пшки").Set(perimeterFramingAnchoring);
                         targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой верх").Set(perimeterFramingTopCoverLayer);
@@ -168,8 +180,6 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                     {
                         targetPerimeterFramingFamilySymbol = perimeterFramingFamilySymbolList.First();
                     }
-
-
 
                     double spanDirectionAngle = floor.SpanDirectionAngle;
                     XYZ zeroPoint = new XYZ(0, 0, 0);
@@ -272,7 +282,9 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                     {
                         foreach(Line ln in cl)
                         {
-                            doc.Create.NewFamilyInstance(myFace, ln, targetPerimeterFramingFamilySymbol);
+                            FamilyInstance fi = doc.Create.NewFamilyInstance(myFace, ln, targetPerimeterFramingFamilySymbol);
+                            fi.LookupParameter("Мсв.Шаг").Set(perimeterFramingStep);
+                            fi.LookupParameter("Мрк.МаркаКонструкции").Set(floor.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString());
                         }
                     }
                     
