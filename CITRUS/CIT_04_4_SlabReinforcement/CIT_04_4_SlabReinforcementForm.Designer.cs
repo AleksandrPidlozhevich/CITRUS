@@ -41,7 +41,7 @@
             this.comboBox_RebarCoverTypeForTop = new System.Windows.Forms.ComboBox();
             this.comboBox_RebarCoverTypeForBottom = new System.Windows.Forms.ComboBox();
             this.textBox_PerimeterFramingDiam = new System.Windows.Forms.TextBox();
-            this.textBox_PerimeterFramingAnchoring = new System.Windows.Forms.TextBox();
+            this.textBox_PerimeterFramingOverlaping = new System.Windows.Forms.TextBox();
             this.textBox_PerimeterFramingEndCoverLayer = new System.Windows.Forms.TextBox();
             this.textBox_PerimeterFramingStep = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -176,14 +176,14 @@
             this.textBox_PerimeterFramingDiam.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_PerimeterFramingDiam.TextChanged += new System.EventHandler(this.textBox_PerimeterFramingDiam_TextChanged);
             // 
-            // textBox_PerimeterFramingAnchoring
+            // textBox_PerimeterFramingOverlaping
             // 
-            this.textBox_PerimeterFramingAnchoring.Location = new System.Drawing.Point(314, 372);
-            this.textBox_PerimeterFramingAnchoring.Name = "textBox_PerimeterFramingAnchoring";
-            this.textBox_PerimeterFramingAnchoring.Size = new System.Drawing.Size(50, 20);
-            this.textBox_PerimeterFramingAnchoring.TabIndex = 15;
-            this.textBox_PerimeterFramingAnchoring.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox_PerimeterFramingAnchoring.TextChanged += new System.EventHandler(this.textBox_PerimeterFramingAnchoring_TextChanged);
+            this.textBox_PerimeterFramingOverlaping.Location = new System.Drawing.Point(314, 372);
+            this.textBox_PerimeterFramingOverlaping.Name = "textBox_PerimeterFramingOverlaping";
+            this.textBox_PerimeterFramingOverlaping.Size = new System.Drawing.Size(50, 20);
+            this.textBox_PerimeterFramingOverlaping.TabIndex = 15;
+            this.textBox_PerimeterFramingOverlaping.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_PerimeterFramingOverlaping.TextChanged += new System.EventHandler(this.textBox_PerimeterFramingOverlaping_TextChanged);
             // 
             // textBox_PerimeterFramingEndCoverLayer
             // 
@@ -221,7 +221,7 @@
             this.ClientSize = new System.Drawing.Size(644, 501);
             this.Controls.Add(this.textBox_PerimeterFramingStep);
             this.Controls.Add(this.textBox_PerimeterFramingEndCoverLayer);
-            this.Controls.Add(this.textBox_PerimeterFramingAnchoring);
+            this.Controls.Add(this.textBox_PerimeterFramingOverlaping);
             this.Controls.Add(this.textBox_PerimeterFramingDiam);
             this.Controls.Add(this.comboBox_RebarCoverTypeForBottom);
             this.Controls.Add(this.comboBox_RebarCoverTypeForTop);
@@ -262,7 +262,7 @@
         private System.Windows.Forms.ComboBox comboBox_RebarCoverTypeForTop;
         private System.Windows.Forms.ComboBox comboBox_RebarCoverTypeForBottom;
         private System.Windows.Forms.TextBox textBox_PerimeterFramingDiam;
-        private System.Windows.Forms.TextBox textBox_PerimeterFramingAnchoring;
+        private System.Windows.Forms.TextBox textBox_PerimeterFramingOverlaping;
         private System.Windows.Forms.TextBox textBox_PerimeterFramingEndCoverLayer;
         private System.Windows.Forms.TextBox textBox_PerimeterFramingStep;
         private System.Windows.Forms.PictureBox pictureBox1;

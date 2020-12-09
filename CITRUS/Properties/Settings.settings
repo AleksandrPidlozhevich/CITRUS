@@ -350,7 +350,7 @@
     <Setting Name="SR_PerimeterFramingDiam" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SR_PerimeterFramingAnchoring" Type="System.String" Scope="User">
+    <Setting Name="SR_PerimeterFramingOverlaping" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SR_PerimeterFramingEndCoverLayer" Type="System.String" Scope="User">

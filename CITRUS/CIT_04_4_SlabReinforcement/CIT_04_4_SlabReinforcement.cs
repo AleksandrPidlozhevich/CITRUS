@@ -15,7 +15,10 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
         {
             //Получение текущего документа
             Document doc = commandData.Application.ActiveUIDocument.Document;
+            //Получение достпа к Selection
             Selection sel = commandData.Application.ActiveUIDocument.Selection;
+
+            //Выбор плит для армирования
             FloorSelectionFilter selFilter = new FloorSelectionFilter();
             IList<Reference> selSlabs = sel.PickObjects(ObjectType.Element, selFilter, "Выберите плиту!");
             if (selSlabs.Count == 0)
@@ -34,6 +37,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                 return Result.Cancelled;
             }
 
+            //Выбор типа армирования по площади
             List<AreaReinforcementType> areaReinforcementTypeList = new FilteredElementCollector(doc)
                 .OfClass(typeof(AreaReinforcementType))
                 .Cast<AreaReinforcementType>()
@@ -44,26 +48,30 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                 return Result.Cancelled;
             }
             AreaReinforcementType areaReinforcementType = areaReinforcementTypeList.First();
+
+            //Создание списков типов арматуры для формы
+            //Список для низ X
             List<RebarBarType> bottomXDirectionRebarTapesList = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarBarType))
                 .Cast<RebarBarType>()
                 .ToList();
-
+            //Список для низ Y
             List<RebarBarType> bottomYDirectionRebarTapesList = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarBarType))
                 .Cast<RebarBarType>()
                 .ToList();
-
+            //Список для верх X
             List<RebarBarType> topXDirectionRebarTapesList = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarBarType))
                 .Cast<RebarBarType>()
                 .ToList();
-
+            //Список для верх Y
             List<RebarBarType> topYDirectionRebarTapesList = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarBarType))
                 .Cast<RebarBarType>()
                 .ToList();
 
+            //Создание списков типов защитных слоёв для формы
             //Список типов защитных слоев арматуры верх
             List<RebarCoverType> rebarCoverTypesListForTop = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarCoverType))
@@ -74,7 +82,8 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                 .OfClass(typeof(RebarCoverType))
                 .Cast<RebarCoverType>()
                 .ToList();
-
+            
+            //Вызов формы
             CIT_04_4_SlabReinforcementForm slabReinforcementForm = new CIT_04_4_SlabReinforcementForm(bottomXDirectionRebarTapesList
                 , bottomYDirectionRebarTapesList
                 , topXDirectionRebarTapesList
@@ -88,30 +97,43 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                 return Result.Cancelled;
             }
 
+            //Получение результатов формы
+            //Тип арматуры низ X
             RebarBarType bottomXDirectionRebarTape = slabReinforcementForm.mySelectionBottomXDirectionRebarTape;
             Parameter bottomXDirectionRebarTapeDiamParam = bottomXDirectionRebarTape.get_Parameter(BuiltInParameter.REBAR_BAR_DIAMETER);
             double bottomXDirectionRebarDiam = bottomXDirectionRebarTapeDiamParam.AsDouble();
 
+            //Тип арматуры низ Y
             RebarBarType bottomYDirectionRebarTape = slabReinforcementForm.mySelectionBottomYDirectionRebarTape;
             Parameter bottomYDirectionRebarTapeDiamParam = bottomYDirectionRebarTape.get_Parameter(BuiltInParameter.REBAR_BAR_DIAMETER);
             double bottomYDirectionRebarDiam = bottomYDirectionRebarTapeDiamParam.AsDouble();
 
+            //Тип арматуры верх X
             RebarBarType topXDirectionRebarTape = slabReinforcementForm.mySelectionTopXDirectionRebarTape;
             Parameter topXDirectionRebarTapeDiamParam = topXDirectionRebarTape.get_Parameter(BuiltInParameter.REBAR_BAR_DIAMETER);
             double topXDirectionRebarDiam = topXDirectionRebarTapeDiamParam.AsDouble();
 
+            //Тип арматуры верх Y
             RebarBarType topYDirectionRebarTape = slabReinforcementForm.mySelectionTopYDirectionRebarTape;
             Parameter topYDirectionRebarTapeDiamParam = topYDirectionRebarTape.get_Parameter(BuiltInParameter.REBAR_BAR_DIAMETER);
             double topYDirectionRebarDiam = topYDirectionRebarTapeDiamParam.AsDouble();
 
+            //Шаг арматуры низ X
             double bottomXDirectionRebarSpacing = slabReinforcementForm.BottomXDirectionRebarSpacing / 304.8;
+            //Шаг арматуры низ Y 
             double bottomYDirectionRebarSpacing = slabReinforcementForm.BottomYDirectionRebarSpacing / 304.8;
+            //Шаг арматуры верх X
             double topXDirectionRebarSpacing = slabReinforcementForm.TopXDirectionRebarSpacing / 304.8;
+            //Шаг арматуры верх Y
             double topYDirectionRebarSpacing = slabReinforcementForm.TopYDirectionRebarSpacing / 304.8;
 
+            //Диаметр П-шки обрамления
             double perimeterFramingDiam = slabReinforcementForm.PerimeterFramingDiam / 304.8;
-            double perimeterFramingAnchoring = slabReinforcementForm.PerimeterFramingAnchoring / 304.8;
+            //Нахлёст П-шки обрамления
+            double perimeterFramingOverlaping = slabReinforcementForm.PerimeterFramingOverlaping / 304.8;
+            //Защитный слой торца П-шки
             double perimeterFramingEndCoverLayer = slabReinforcementForm.PerimeterFramingEndCoverLayer / 304.8 + perimeterFramingDiam/2;
+            //Шаг П-шки
             double perimeterFramingStep = slabReinforcementForm.PerimeterFramingStep / 304.8;
 
             //Выбор типа защитного слоя сверху
@@ -121,17 +143,23 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
             RebarCoverType rebarCoverTypeForBottom = slabReinforcementForm.mySelectionRebarCoverTypeForBottom;
             double rebarCoverBottom = rebarCoverTypeForBottom.CoverDistance;
 
+            //Защитный слой П-шки сверху
             double perimeterFramingTopCoverLayer = rebarCoverTop + topYDirectionRebarDiam + perimeterFramingDiam / 2;
+            //Защитный слой П-шки снизу
             double perimeterFramingBottomCoverLayer = rebarCoverBottom + perimeterFramingDiam / 2;
 
+            //Старт транзакции
             using (Transaction t = new Transaction(doc))
             {
                 t.Start("Армирование плиты");
                 foreach (Floor floor in floorList)
                 {
+                    //Установка верхнего и нижнего защитных слоев плиты
                     floor.get_Parameter(BuiltInParameter.CLEAR_COVER_TOP).Set(rebarCoverTypeForTop.Id);
                     floor.get_Parameter(BuiltInParameter.CLEAR_COVER_BOTTOM).Set(rebarCoverTypeForBottom.Id);
+                    //Толщина плиты
                     double floorThickness = floor.FloorType.get_Parameter(BuiltInParameter.FLOOR_ATTR_DEFAULT_THICKNESS_PARAM).AsDouble();
+                    //Объявляем переменную для семейства обрамления
                     FamilySymbol targetPerimeterFramingFamilySymbol = null;
 
                     //Семейство обрамления проема
@@ -140,47 +168,54 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                         .Cast<FamilySymbol>()
                         .Where(fs => fs.FamilyName == "264_Обрамление периметра Пшки (ОбщМод_Линия)")
                         .Where(fs => fs.LookupParameter("Диаметр стержня").AsDouble() == perimeterFramingDiam)
-                        .Where(fs => fs.LookupParameter("Анкеровка Пшки").AsDouble() == perimeterFramingAnchoring)
+                        .Where(fs => fs.LookupParameter("Анкеровка Пшки").AsDouble() == perimeterFramingOverlaping)
                         .Where(fs => fs.LookupParameter("Защитный слой верх").AsDouble() == perimeterFramingTopCoverLayer)
                         .Where(fs => fs.LookupParameter("Защитный слой низ").AsDouble() == perimeterFramingBottomCoverLayer)
                         .Where(fs => fs.LookupParameter("Защитный слой торец").AsDouble() == perimeterFramingEndCoverLayer)
                         .Where(fs => fs.LookupParameter("Толщина плиты").AsDouble() == floorThickness)
                         .ToList();
 
+                    //Если семейство обрамления проема с заданными параметрами не найдено
                     if (perimeterFramingFamilySymbolList.Count == 0)
                     {
-                        //Семейство обрамления проема
+                        //Семейство обрамления проема проверить существует ли оно в проекте
                         perimeterFramingFamilySymbolList = new FilteredElementCollector(doc)
                             .OfClass(typeof(FamilySymbol))
                             .Cast<FamilySymbol>()
                             .Where(fs => fs.FamilyName == "264_Обрамление периметра Пшки (ОбщМод_Линия)")
                             .ToList();
+                        //Если не существует
                         if (perimeterFramingFamilySymbolList.Count == 0)
                         {
                             TaskDialog.Show("Revit", "Семейство \"264_Обрамление периметра Пшки (ОбщМод_Линия)\" не найдено!");
                             return Result.Cancelled;
                         }
+                        //Если существует взять любой тип семейства обрамления для создания нового
                         FamilySymbol typeForCopy = perimeterFramingFamilySymbolList.First();
 
+                        //Создание нового типа семейства обрамления
                         targetPerimeterFramingFamilySymbol = typeForCopy.Duplicate("Плита=" + floorThickness*304.8 +"мм" 
                             + ", D="+ perimeterFramingDiam * 304.8 + "мм" 
-                            + " ,Анкеровка ="+ perimeterFramingAnchoring * 304.8 + "мм" 
+                            + " ,Анкеровка ="+ perimeterFramingOverlaping * 304.8 + "мм" 
                             + " , ЗС_Торец="+ (perimeterFramingEndCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм" 
                             + " , ЗС_Верх=" + (perimeterFramingTopCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм" 
                             + " , ЗС_Низ=" + (perimeterFramingBottomCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм") as FamilySymbol;
 
+                        //Задание требуемых параметров
                         targetPerimeterFramingFamilySymbol.LookupParameter("Диаметр стержня").Set(perimeterFramingDiam);
-                        targetPerimeterFramingFamilySymbol.LookupParameter("Анкеровка Пшки").Set(perimeterFramingAnchoring);
+                        targetPerimeterFramingFamilySymbol.LookupParameter("Анкеровка Пшки").Set(perimeterFramingOverlaping);
                         targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой верх").Set(perimeterFramingTopCoverLayer);
                         targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой низ").Set(perimeterFramingBottomCoverLayer);
                         targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой торец").Set(perimeterFramingEndCoverLayer);
                         targetPerimeterFramingFamilySymbol.LookupParameter("Толщина плиты").Set(floorThickness);
                     }
+                    //Если семейство обрамления проема с заданными параметрами найдено
                     else
                     {
                         targetPerimeterFramingFamilySymbol = perimeterFramingFamilySymbolList.First();
                     }
 
+                    //Вектор направления пролёта перекрытия
                     double spanDirectionAngle = floor.SpanDirectionAngle;
                     XYZ zeroPoint = new XYZ(0, 0, 0);
                     XYZ directionPointStart = new XYZ(1, 0, 0);
@@ -188,6 +223,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                     XYZ directionPoint = rot.OfPoint(directionPointStart);
                     XYZ directionVector = (directionPoint - zeroPoint).Normalize();
 
+                    //Получение верхней грани плиты перекрытия
                     Options opt = new Options();
                     opt.ComputeReferences = true;
                     GeometryElement geomFloorElement = floor.get_Geometry(opt);
@@ -208,6 +244,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                         }
                     }
 
+                    //Получение контуров верхней грани плиты перекрытия
                     IList<CurveLoop> curveLoopList = myFace.GetEdgesAsCurveLoops();
                     IList<Curve> curveList = new List<Curve>();
                     foreach (Curve c in curveLoopList.First())
@@ -215,6 +252,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                         curveList.Add(c);
                     }
 
+                    //Создание армирования по площади для низ X
                     AreaReinforcement areaReinforcementBottomXDirection = AreaReinforcement.Create(doc
                         , floor
                         , curveList
@@ -230,6 +268,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                     areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_BOTTOM_DIR_1).Set(bottomXDirectionRebarSpacing);
                     areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("низ X фон");
 
+                    //Создание армирования по площади для низ Y
                     AreaReinforcement areaReinforcementBottomYDirection = AreaReinforcement.Create(doc
                         , floor
                         , curveList
@@ -246,6 +285,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                     areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("низ Y фон");
                     areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_BOTTOM_OFFSET).Set(bottomXDirectionRebarDiam);
 
+                    //Создание армирования по площади для верх X
                     AreaReinforcement areaReinforcemenTopXDirection = AreaReinforcement.Create(doc
                         , floor
                         , curveList
@@ -262,6 +302,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                     areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("верх X фон");
                     areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_TOP_OFFSET).Set(topYDirectionRebarDiam);
 
+                    //Создание армирования по площади для верх Y
                     AreaReinforcement areaReinforcemenTopYDirection = AreaReinforcement.Create(doc
                         , floor
                         , curveList
@@ -278,6 +319,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                     areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("верх Y фон");
                     areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_TOP_OFFSET).Set(0);
 
+                    //Устройство обрамления по всем контурам перекрытия
                     foreach (CurveLoop cl in curveLoopList)
                     {
                         foreach(Line ln in cl)

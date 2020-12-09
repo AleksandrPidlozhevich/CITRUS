@@ -1418,12 +1418,12 @@ namespace CITRUS.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SR_PerimeterFramingAnchoring {
+        public string SR_PerimeterFramingOverlaping {
             get {
-                return ((string)(this["SR_PerimeterFramingAnchoring"]));
+                return ((string)(this["SR_PerimeterFramingOverlaping"]));
             }
             set {
-                this["SR_PerimeterFramingAnchoring"] = value;
+                this["SR_PerimeterFramingOverlaping"] = value;
             }
         }
         

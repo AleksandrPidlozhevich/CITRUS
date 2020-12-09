@@ -28,7 +28,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
         public RebarCoverType mySelectionRebarCoverTypeForBottom;
 
         public double PerimeterFramingDiam;
-        public double PerimeterFramingAnchoring;
+        public double PerimeterFramingOverlaping;
         public double PerimeterFramingEndCoverLayer;
         public double PerimeterFramingStep;
 
@@ -46,7 +46,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
             textBox_TopXDirectionRebarSpacing.Text = Settings.Default["SR_TopXDirectionRebarSpacing"].ToString();
             textBox_TopYDirectionRebarSpacing.Text = Settings.Default["SR_TopYDirectionRebarSpacing"].ToString();
             textBox_PerimeterFramingDiam.Text = Settings.Default["SR_PerimeterFramingDiam"].ToString();
-            textBox_PerimeterFramingAnchoring.Text = Settings.Default["SR_PerimeterFramingAnchoring"].ToString();
+            textBox_PerimeterFramingOverlaping.Text = Settings.Default["SR_PerimeterFramingOverlaping"].ToString();
             textBox_PerimeterFramingEndCoverLayer.Text = Settings.Default["SR_PerimeterFramingEndCoverLayer"].ToString();
             textBox_PerimeterFramingStep.Text = Settings.Default["SR_PerimeterFramingStep"].ToString();
 
@@ -84,7 +84,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
             Settings.Default["SR_TopXDirectionRebarSpacing"] = textBox_TopXDirectionRebarSpacing.Text;
             Settings.Default["SR_TopYDirectionRebarSpacing"] = textBox_TopYDirectionRebarSpacing.Text;
             Settings.Default["SR_PerimeterFramingDiam"] = textBox_PerimeterFramingDiam.Text;
-            Settings.Default["SR_PerimeterFramingAnchoring"] = textBox_PerimeterFramingAnchoring.Text;
+            Settings.Default["SR_PerimeterFramingOverlaping"] = textBox_PerimeterFramingOverlaping.Text;
             Settings.Default["SR_PerimeterFramingEndCoverLayer"] = textBox_PerimeterFramingEndCoverLayer.Text;
             Settings.Default["SR_PerimeterFramingStep"] = textBox_PerimeterFramingStep.Text;
 
@@ -153,9 +153,9 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
             double.TryParse(textBox_PerimeterFramingDiam.Text, out PerimeterFramingDiam);
         }
 
-        private void textBox_PerimeterFramingAnchoring_TextChanged(object sender, EventArgs e)
+        private void textBox_PerimeterFramingOverlaping_TextChanged(object sender, EventArgs e)
         {
-            double.TryParse(textBox_PerimeterFramingAnchoring.Text, out PerimeterFramingAnchoring);
+            double.TryParse(textBox_PerimeterFramingOverlaping.Text, out PerimeterFramingOverlaping);
         }
 
         private void textBox_PerimeterFramingEndCoverLayer_TextChanged(object sender, EventArgs e)
