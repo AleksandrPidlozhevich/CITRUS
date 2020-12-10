@@ -148,6 +148,12 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
             //Защитный слой П-шки снизу
             double perimeterFramingBottomCoverLayer = rebarCoverBottom + perimeterFramingDiam / 2;
 
+            bool perimeterFraming = slabReinforcementForm.PerimeterFraming;
+            bool bottomXDirection = slabReinforcementForm.BottomXDirection;
+            bool bottomYDirection = slabReinforcementForm.BottomYDirection;
+            bool topXDirection = slabReinforcementForm.TopXDirection;
+            bool topYDirection = slabReinforcementForm.TopYDirection;
+
             //Старт транзакции
             using (Transaction t = new Transaction(doc))
             {
@@ -162,57 +168,61 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                     //Объявляем переменную для семейства обрамления
                     FamilySymbol targetPerimeterFramingFamilySymbol = null;
 
-                    //Семейство обрамления проема
-                    List<FamilySymbol> perimeterFramingFamilySymbolList = new FilteredElementCollector(doc)
-                        .OfClass(typeof(FamilySymbol))
-                        .Cast<FamilySymbol>()
-                        .Where(fs => fs.FamilyName == "264_Обрамление периметра Пшки (ОбщМод_Линия)")
-                        .Where(fs => fs.LookupParameter("Диаметр стержня").AsDouble() == perimeterFramingDiam)
-                        .Where(fs => fs.LookupParameter("Анкеровка Пшки").AsDouble() == perimeterFramingOverlaping)
-                        .Where(fs => fs.LookupParameter("Защитный слой верх").AsDouble() == perimeterFramingTopCoverLayer)
-                        .Where(fs => fs.LookupParameter("Защитный слой низ").AsDouble() == perimeterFramingBottomCoverLayer)
-                        .Where(fs => fs.LookupParameter("Защитный слой торец").AsDouble() == perimeterFramingEndCoverLayer)
-                        .Where(fs => fs.LookupParameter("Толщина плиты").AsDouble() == floorThickness)
-                        .ToList();
-
-                    //Если семейство обрамления проема с заданными параметрами не найдено
-                    if (perimeterFramingFamilySymbolList.Count == 0)
+                    if (perimeterFraming == true)
                     {
-                        //Семейство обрамления проема проверить существует ли оно в проекте
-                        perimeterFramingFamilySymbolList = new FilteredElementCollector(doc)
+
+                        //Семейство обрамления проема
+                        List<FamilySymbol> perimeterFramingFamilySymbolList = new FilteredElementCollector(doc)
                             .OfClass(typeof(FamilySymbol))
                             .Cast<FamilySymbol>()
                             .Where(fs => fs.FamilyName == "264_Обрамление периметра Пшки (ОбщМод_Линия)")
+                            .Where(fs => fs.LookupParameter("Диаметр стержня").AsDouble() == perimeterFramingDiam)
+                            .Where(fs => fs.LookupParameter("Анкеровка Пшки").AsDouble() == perimeterFramingOverlaping)
+                            .Where(fs => fs.LookupParameter("Защитный слой верх").AsDouble() == perimeterFramingTopCoverLayer)
+                            .Where(fs => fs.LookupParameter("Защитный слой низ").AsDouble() == perimeterFramingBottomCoverLayer)
+                            .Where(fs => fs.LookupParameter("Защитный слой торец").AsDouble() == perimeterFramingEndCoverLayer)
+                            .Where(fs => fs.LookupParameter("Толщина плиты").AsDouble() == floorThickness)
                             .ToList();
-                        //Если не существует
+
+                        //Если семейство обрамления проема с заданными параметрами не найдено
                         if (perimeterFramingFamilySymbolList.Count == 0)
                         {
-                            TaskDialog.Show("Revit", "Семейство \"264_Обрамление периметра Пшки (ОбщМод_Линия)\" не найдено!");
-                            return Result.Cancelled;
+                            //Семейство обрамления проема проверить существует ли оно в проекте
+                            perimeterFramingFamilySymbolList = new FilteredElementCollector(doc)
+                                .OfClass(typeof(FamilySymbol))
+                                .Cast<FamilySymbol>()
+                                .Where(fs => fs.FamilyName == "264_Обрамление периметра Пшки (ОбщМод_Линия)")
+                                .ToList();
+                            //Если не существует
+                            if (perimeterFramingFamilySymbolList.Count == 0)
+                            {
+                                TaskDialog.Show("Revit", "Семейство \"264_Обрамление периметра Пшки (ОбщМод_Линия)\" не найдено!");
+                                return Result.Cancelled;
+                            }
+                            //Если существует взять любой тип семейства обрамления для создания нового
+                            FamilySymbol typeForCopy = perimeterFramingFamilySymbolList.First();
+
+                            //Создание нового типа семейства обрамления
+                            targetPerimeterFramingFamilySymbol = typeForCopy.Duplicate("Плита=" + floorThickness * 304.8 + "мм"
+                                + ", D=" + perimeterFramingDiam * 304.8 + "мм"
+                                + " ,Нахлест =" + perimeterFramingOverlaping * 304.8 + "мм"
+                                + " , ЗС_Торец=" + (perimeterFramingEndCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм"
+                                + " , ЗС_Верх=" + (perimeterFramingTopCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм"
+                                + " , ЗС_Низ=" + (perimeterFramingBottomCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм") as FamilySymbol;
+
+                            //Задание требуемых параметров
+                            targetPerimeterFramingFamilySymbol.LookupParameter("Диаметр стержня").Set(perimeterFramingDiam);
+                            targetPerimeterFramingFamilySymbol.LookupParameter("Анкеровка Пшки").Set(perimeterFramingOverlaping);
+                            targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой верх").Set(perimeterFramingTopCoverLayer);
+                            targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой низ").Set(perimeterFramingBottomCoverLayer);
+                            targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой торец").Set(perimeterFramingEndCoverLayer);
+                            targetPerimeterFramingFamilySymbol.LookupParameter("Толщина плиты").Set(floorThickness);
                         }
-                        //Если существует взять любой тип семейства обрамления для создания нового
-                        FamilySymbol typeForCopy = perimeterFramingFamilySymbolList.First();
-
-                        //Создание нового типа семейства обрамления
-                        targetPerimeterFramingFamilySymbol = typeForCopy.Duplicate("Плита=" + floorThickness*304.8 +"мм" 
-                            + ", D="+ perimeterFramingDiam * 304.8 + "мм" 
-                            + " ,Анкеровка ="+ perimeterFramingOverlaping * 304.8 + "мм" 
-                            + " , ЗС_Торец="+ (perimeterFramingEndCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм" 
-                            + " , ЗС_Верх=" + (perimeterFramingTopCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм" 
-                            + " , ЗС_Низ=" + (perimeterFramingBottomCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм") as FamilySymbol;
-
-                        //Задание требуемых параметров
-                        targetPerimeterFramingFamilySymbol.LookupParameter("Диаметр стержня").Set(perimeterFramingDiam);
-                        targetPerimeterFramingFamilySymbol.LookupParameter("Анкеровка Пшки").Set(perimeterFramingOverlaping);
-                        targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой верх").Set(perimeterFramingTopCoverLayer);
-                        targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой низ").Set(perimeterFramingBottomCoverLayer);
-                        targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой торец").Set(perimeterFramingEndCoverLayer);
-                        targetPerimeterFramingFamilySymbol.LookupParameter("Толщина плиты").Set(floorThickness);
-                    }
-                    //Если семейство обрамления проема с заданными параметрами найдено
-                    else
-                    {
-                        targetPerimeterFramingFamilySymbol = perimeterFramingFamilySymbolList.First();
+                        //Если семейство обрамления проема с заданными параметрами найдено
+                        else
+                        {
+                            targetPerimeterFramingFamilySymbol = perimeterFramingFamilySymbolList.First();
+                        }
                     }
 
                     //Вектор направления пролёта перекрытия
@@ -252,84 +262,102 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                         curveList.Add(c);
                     }
 
-                    //Создание армирования по площади для низ X
-                    AreaReinforcement areaReinforcementBottomXDirection = AreaReinforcement.Create(doc
-                        , floor
-                        , curveList
-                        , directionVector
-                        , areaReinforcementType.Id
-                        , bottomXDirectionRebarTape.Id
-                        , ElementId.InvalidElementId);
-
-                    areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1).Set(1);
-                    areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_2).Set(0);
-                    areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_1).Set(0);
-                    areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_2).Set(0);
-                    areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_BOTTOM_DIR_1).Set(bottomXDirectionRebarSpacing);
-                    areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("низ X фон");
-
-                    //Создание армирования по площади для низ Y
-                    AreaReinforcement areaReinforcementBottomYDirection = AreaReinforcement.Create(doc
-                        , floor
-                        , curveList
-                        , directionVector
-                        , areaReinforcementType.Id
-                        , bottomYDirectionRebarTape.Id
-                        , ElementId.InvalidElementId);
-
-                    areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1).Set(0);
-                    areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_2).Set(1);
-                    areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_1).Set(0);
-                    areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_2).Set(0);
-                    areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_BOTTOM_DIR_2).Set(bottomYDirectionRebarSpacing);
-                    areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("низ Y фон");
-                    areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_BOTTOM_OFFSET).Set(bottomXDirectionRebarDiam);
-
-                    //Создание армирования по площади для верх X
-                    AreaReinforcement areaReinforcemenTopXDirection = AreaReinforcement.Create(doc
-                        , floor
-                        , curveList
-                        , directionVector
-                        , areaReinforcementType.Id
-                        , topXDirectionRebarTape.Id
-                        , ElementId.InvalidElementId);
-
-                    areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1).Set(0);
-                    areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_2).Set(0);
-                    areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_1).Set(1);
-                    areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_2).Set(0);
-                    areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_TOP_DIR_1).Set(topXDirectionRebarSpacing);
-                    areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("верх X фон");
-                    areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_TOP_OFFSET).Set(topYDirectionRebarDiam);
-
-                    //Создание армирования по площади для верх Y
-                    AreaReinforcement areaReinforcemenTopYDirection = AreaReinforcement.Create(doc
-                        , floor
-                        , curveList
-                        , directionVector
-                        , areaReinforcementType.Id
-                        , topYDirectionRebarTape.Id
-                        , ElementId.InvalidElementId);
-
-                    areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1).Set(0);
-                    areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_2).Set(0);
-                    areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_1).Set(0);
-                    areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_2).Set(1);
-                    areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_TOP_DIR_2).Set(topYDirectionRebarSpacing);
-                    areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("верх Y фон");
-                    areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_TOP_OFFSET).Set(0);
-
-                    //Устройство обрамления по всем контурам перекрытия
-                    foreach (CurveLoop cl in curveLoopList)
+                    if (bottomXDirection == true)
                     {
-                        foreach(Line ln in cl)
+
+
+                        //Создание армирования по площади для низ X
+                        AreaReinforcement areaReinforcementBottomXDirection = AreaReinforcement.Create(doc
+                            , floor
+                            , curveList
+                            , directionVector
+                            , areaReinforcementType.Id
+                            , bottomXDirectionRebarTape.Id
+                            , ElementId.InvalidElementId);
+
+                        areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1).Set(1);
+                        areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_2).Set(0);
+                        areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_1).Set(0);
+                        areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_2).Set(0);
+                        areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_BOTTOM_DIR_1).Set(bottomXDirectionRebarSpacing);
+                        areaReinforcementBottomXDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("низ X фон");
+                    }
+
+                    if (bottomYDirection == true)
+                    {
+                        //Создание армирования по площади для низ Y
+                        AreaReinforcement areaReinforcementBottomYDirection = AreaReinforcement.Create(doc
+                            , floor
+                            , curveList
+                            , directionVector
+                            , areaReinforcementType.Id
+                            , bottomYDirectionRebarTape.Id
+                            , ElementId.InvalidElementId);
+
+                        areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1).Set(0);
+                        areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_2).Set(1);
+                        areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_1).Set(0);
+                        areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_2).Set(0);
+                        areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_BOTTOM_DIR_2).Set(bottomYDirectionRebarSpacing);
+                        areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("низ Y фон");
+                        areaReinforcementBottomYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_BOTTOM_OFFSET).Set(bottomXDirectionRebarDiam);
+                    }
+
+                    if (topXDirection == true)
+                    {
+                        //Создание армирования по площади для верх X
+                        AreaReinforcement areaReinforcemenTopXDirection = AreaReinforcement.Create(doc
+                            , floor
+                            , curveList
+                            , directionVector
+                            , areaReinforcementType.Id
+                            , topXDirectionRebarTape.Id
+                            , ElementId.InvalidElementId);
+
+                        areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1).Set(0);
+                        areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_2).Set(0);
+                        areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_1).Set(1);
+                        areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_2).Set(0);
+                        areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_TOP_DIR_1).Set(topXDirectionRebarSpacing);
+                        areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("верх X фон");
+                        areaReinforcemenTopXDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_TOP_OFFSET).Set(topYDirectionRebarDiam);
+                    }
+
+                    if (topYDirection == true)
+                    {
+
+
+                        //Создание армирования по площади для верх Y
+                        AreaReinforcement areaReinforcemenTopYDirection = AreaReinforcement.Create(doc
+                            , floor
+                            , curveList
+                            , directionVector
+                            , areaReinforcementType.Id
+                            , topYDirectionRebarTape.Id
+                            , ElementId.InvalidElementId);
+
+                        areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_1).Set(0);
+                        areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_BOTTOM_DIR_2).Set(0);
+                        areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_1).Set(0);
+                        areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ACTIVE_TOP_DIR_2).Set(1);
+                        areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_SPACING_TOP_DIR_2).Set(topYDirectionRebarSpacing);
+                        areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.NUMBER_PARTITION_PARAM).Set("верх Y фон");
+                        areaReinforcemenTopYDirection.get_Parameter(BuiltInParameter.REBAR_SYSTEM_ADDL_TOP_OFFSET).Set(0);
+                    }
+
+                    if (perimeterFraming == true)
+                    {
+                        //Устройство обрамления по всем контурам перекрытия
+                        foreach (CurveLoop cl in curveLoopList)
                         {
-                            FamilyInstance fi = doc.Create.NewFamilyInstance(myFace, ln, targetPerimeterFramingFamilySymbol);
-                            fi.LookupParameter("Мсв.Шаг").Set(perimeterFramingStep);
-                            fi.LookupParameter("Мрк.МаркаКонструкции").Set(floor.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString());
+                            foreach (Line ln in cl)
+                            {
+                                FamilyInstance fi = doc.Create.NewFamilyInstance(myFace, ln, targetPerimeterFramingFamilySymbol);
+                                fi.LookupParameter("Мсв.Шаг").Set(perimeterFramingStep);
+                                fi.LookupParameter("Мрк.МаркаКонструкции").Set(floor.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString());
+                            }
                         }
                     }
-                    
                 }
                 t.Commit();
             }

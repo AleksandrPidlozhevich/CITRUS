@@ -32,6 +32,13 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
         public double PerimeterFramingEndCoverLayer;
         public double PerimeterFramingStep;
 
+        public bool PerimeterFraming;
+        public bool BottomXDirection;
+        public bool BottomYDirection;
+        public bool TopXDirection;
+        public bool TopYDirection;
+
+
         public CIT_04_4_SlabReinforcementForm(List<RebarBarType> BottomXDirectionRebarTapesList,
             List<RebarBarType> BottomYDirectionRebarTapesList
             , List<RebarBarType> TopXDirectionRebarTapesList
@@ -79,6 +86,12 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
 
         private void button1_Ok_Click(object sender, EventArgs e)
         {
+            PerimeterFraming = checkBox_PerimeterFraming.Checked;
+            BottomXDirection = checkBox_BottomXDirection.Checked;
+            BottomYDirection = checkBox_BottomYDirection.Checked;
+            TopXDirection = checkBox_TopXDirection.Checked;
+            TopYDirection = checkBox_TopYDirection.Checked;
+
             Settings.Default["SR_BottomXDirectionRebarSpacing"] = textBox_BottomXDirectionRebarSpacing.Text;
             Settings.Default["SR_BottomYDirectionRebarSpacing"] = textBox_BottomYDirectionRebarSpacing.Text;
             Settings.Default["SR_TopXDirectionRebarSpacing"] = textBox_TopXDirectionRebarSpacing.Text;
@@ -87,6 +100,7 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
             Settings.Default["SR_PerimeterFramingOverlaping"] = textBox_PerimeterFramingOverlaping.Text;
             Settings.Default["SR_PerimeterFramingEndCoverLayer"] = textBox_PerimeterFramingEndCoverLayer.Text;
             Settings.Default["SR_PerimeterFramingStep"] = textBox_PerimeterFramingStep.Text;
+
 
             this.DialogResult = DialogResult.OK;
             this.Close();

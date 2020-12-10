@@ -45,6 +45,11 @@
             this.textBox_PerimeterFramingEndCoverLayer = new System.Windows.Forms.TextBox();
             this.textBox_PerimeterFramingStep = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.checkBox_PerimeterFraming = new System.Windows.Forms.CheckBox();
+            this.checkBox_TopYDirection = new System.Windows.Forms.CheckBox();
+            this.checkBox_TopXDirection = new System.Windows.Forms.CheckBox();
+            this.checkBox_BottomYDirection = new System.Windows.Forms.CheckBox();
+            this.checkBox_BottomXDirection = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -214,11 +219,71 @@
             this.pictureBox1.TabIndex = 18;
             this.pictureBox1.TabStop = false;
             // 
+            // checkBox_PerimeterFraming
+            // 
+            this.checkBox_PerimeterFraming.AutoSize = true;
+            this.checkBox_PerimeterFraming.Checked = true;
+            this.checkBox_PerimeterFraming.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_PerimeterFraming.Location = new System.Drawing.Point(603, 253);
+            this.checkBox_PerimeterFraming.Name = "checkBox_PerimeterFraming";
+            this.checkBox_PerimeterFraming.Size = new System.Drawing.Size(15, 14);
+            this.checkBox_PerimeterFraming.TabIndex = 19;
+            this.checkBox_PerimeterFraming.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_TopYDirection
+            // 
+            this.checkBox_TopYDirection.AutoSize = true;
+            this.checkBox_TopYDirection.Checked = true;
+            this.checkBox_TopYDirection.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_TopYDirection.Location = new System.Drawing.Point(26, 38);
+            this.checkBox_TopYDirection.Name = "checkBox_TopYDirection";
+            this.checkBox_TopYDirection.Size = new System.Drawing.Size(15, 14);
+            this.checkBox_TopYDirection.TabIndex = 20;
+            this.checkBox_TopYDirection.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_TopXDirection
+            // 
+            this.checkBox_TopXDirection.AutoSize = true;
+            this.checkBox_TopXDirection.Checked = true;
+            this.checkBox_TopXDirection.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_TopXDirection.Location = new System.Drawing.Point(26, 166);
+            this.checkBox_TopXDirection.Name = "checkBox_TopXDirection";
+            this.checkBox_TopXDirection.Size = new System.Drawing.Size(15, 14);
+            this.checkBox_TopXDirection.TabIndex = 21;
+            this.checkBox_TopXDirection.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_BottomYDirection
+            // 
+            this.checkBox_BottomYDirection.AutoSize = true;
+            this.checkBox_BottomYDirection.Checked = true;
+            this.checkBox_BottomYDirection.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_BottomYDirection.Location = new System.Drawing.Point(26, 277);
+            this.checkBox_BottomYDirection.Name = "checkBox_BottomYDirection";
+            this.checkBox_BottomYDirection.Size = new System.Drawing.Size(15, 14);
+            this.checkBox_BottomYDirection.TabIndex = 22;
+            this.checkBox_BottomYDirection.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_BottomXDirection
+            // 
+            this.checkBox_BottomXDirection.AutoSize = true;
+            this.checkBox_BottomXDirection.Checked = true;
+            this.checkBox_BottomXDirection.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_BottomXDirection.Location = new System.Drawing.Point(26, 405);
+            this.checkBox_BottomXDirection.Name = "checkBox_BottomXDirection";
+            this.checkBox_BottomXDirection.Size = new System.Drawing.Size(15, 14);
+            this.checkBox_BottomXDirection.TabIndex = 23;
+            this.checkBox_BottomXDirection.UseVisualStyleBackColor = true;
+            // 
             // CIT_04_4_SlabReinforcementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(644, 501);
+            this.Controls.Add(this.checkBox_BottomXDirection);
+            this.Controls.Add(this.checkBox_BottomYDirection);
+            this.Controls.Add(this.checkBox_TopXDirection);
+            this.Controls.Add(this.checkBox_TopYDirection);
+            this.Controls.Add(this.checkBox_PerimeterFraming);
             this.Controls.Add(this.textBox_PerimeterFramingStep);
             this.Controls.Add(this.textBox_PerimeterFramingEndCoverLayer);
             this.Controls.Add(this.textBox_PerimeterFramingOverlaping);
@@ -266,5 +331,10 @@
         private System.Windows.Forms.TextBox textBox_PerimeterFramingEndCoverLayer;
         private System.Windows.Forms.TextBox textBox_PerimeterFramingStep;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.CheckBox checkBox_PerimeterFraming;
+        private System.Windows.Forms.CheckBox checkBox_TopYDirection;
+        private System.Windows.Forms.CheckBox checkBox_TopXDirection;
+        private System.Windows.Forms.CheckBox checkBox_BottomYDirection;
+        private System.Windows.Forms.CheckBox checkBox_BottomXDirection;
     }
 }
