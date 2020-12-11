@@ -49,7 +49,7 @@
             this.Controls.Add(this.progressBar_pb);
             this.Name = "ProgressBarForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ProgressBarForm";
+            this.Text = "Нужно немного подождать...";
             this.ResumeLayout(false);
 
         }

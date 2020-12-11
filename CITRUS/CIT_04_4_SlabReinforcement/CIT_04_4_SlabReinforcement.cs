@@ -205,10 +205,10 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                             //Создание нового типа семейства обрамления
                             targetPerimeterFramingFamilySymbol = typeForCopy.Duplicate("Плита=" + floorThickness * 304.8 + "мм"
                                 + ", D=" + perimeterFramingDiam * 304.8 + "мм"
-                                + " ,Нахлест =" + perimeterFramingOverlaping * 304.8 + "мм"
-                                + " , ЗС_Торец=" + (perimeterFramingEndCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм"
-                                + " , ЗС_Верх=" + (perimeterFramingTopCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм"
-                                + " , ЗС_Низ=" + (perimeterFramingBottomCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм") as FamilySymbol;
+                                + ", Нахлест =" + perimeterFramingOverlaping * 304.8 + "мм"
+                                + ", ЗС_Торец=" + (perimeterFramingEndCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм"
+                                + ", ЗС_Верх=" + (perimeterFramingTopCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм"
+                                + ", ЗС_Низ=" + (perimeterFramingBottomCoverLayer - perimeterFramingDiam / 2) * 304.8 + "мм") as FamilySymbol;
 
                             //Задание требуемых параметров
                             targetPerimeterFramingFamilySymbol.LookupParameter("Диаметр стержня").Set(perimeterFramingDiam);

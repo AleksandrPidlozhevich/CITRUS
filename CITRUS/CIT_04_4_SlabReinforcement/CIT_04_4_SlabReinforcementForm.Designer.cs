@@ -305,7 +305,7 @@
             this.MinimumSize = new System.Drawing.Size(660, 540);
             this.Name = "CIT_04_4_SlabReinforcementForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CIT_04_4_SlabReinforcementForm";
+            this.Text = "Свойства армирования";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

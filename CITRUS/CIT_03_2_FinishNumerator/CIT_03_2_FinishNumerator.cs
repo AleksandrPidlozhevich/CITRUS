@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CITRUS.CIT_03_2_FinishNumerator
 {
@@ -31,6 +32,7 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                 .WhereElementIsNotElementType()
                 .Where(r => r.GetType() == typeof(Room))
                 .Cast<Room>()
+                .Where(r => r.Area > 0)
                 .ToList();
 
             if (divideByFloors == false)
@@ -42,18 +44,40 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                        .Where(f => f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Пол" 
                        || f.FloorType.get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Полы")
                        .ToList();
+                if (floorList.Count == 0)
+                {
+                    TaskDialog.Show("Revit", "Пол в проекте не найден.\nПроверьте параметр \"Группа модели\" у перекрытий\nДля пола должно быть указано значение - \"Пол\" или \"Полы\" без ковычек");
+                    return Result.Cancelled;
+                }
+
+                ProgressBarForm pbf = null;
+                Thread m_Thread = new Thread(() => Application.Run(pbf = new ProgressBarForm(floorList.Count)));
+                m_Thread.IsBackground = true;
+                m_Thread.Start();
+                int step = 0;
+                Thread.Sleep(100);
 
                 using (Transaction t = new Transaction(doc))
                 {
                     t.Start("Заполнение номеров помещений");
                     //Очистка параметра "Помещение_Список номеров"
-                    foreach (Floor floor in floorList)
+                    if (floorList.First().LookupParameter("Помещение_Список номеров") == null)
                     {
-                        floor.LookupParameter("Помещение_Список номеров").Set("");
+                        TaskDialog.Show("Revit", "У пола отсутствует параметр \"Помещение_Список номеров\"");
+                        pbf.BeginInvoke(new Action(() => { pbf.Close(); }));
+                        return Result.Cancelled;
                     }
 
                     foreach (Floor floor in floorList)
                     {
+                        floor.LookupParameter("Помещение_Список номеров").Set("");
+                    }
+                    
+                    foreach (Floor floor in floorList)
+                    {
+                        step += 1;
+                        pbf.BeginInvoke(new Action(() => { pbf.progressBar_pb.Value = step; }));
+
                         Room room = null;
                         Floor floorForSolid = doc.GetElement(ElementTransformUtils.CopyElement(doc, floor.Id, (100 / 304.8) * XYZ.BasisZ).First()) as Floor;
                         GeometryElement geomFloorElement = floorForSolid.get_Geometry(new Options());
@@ -138,6 +162,7 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                             }
                         }
                     }
+                    pbf.BeginInvoke(new Action(() => { pbf.Close(); }));
 
                     List<Floor> floorListForSortedFilling = new FilteredElementCollector(doc)
                    .OfClass(typeof(Floor))
@@ -204,11 +229,20 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                        .Cast<Level>()
                        .ToList();
 
+                ProgressBarForm pbf = null;
+                Thread m_Thread = new Thread(() => Application.Run(pbf = new ProgressBarForm(levelList.Count)));
+                m_Thread.IsBackground = true;
+                m_Thread.Start();
+                int step = 0;
+                Thread.Sleep(100);
+
                 using (Transaction t = new Transaction(doc))
                 {
                     t.Start("Заполнение номеров помещений");
                     foreach (Level lv in levelList)
                     {
+                        step += 1;
+                        pbf.BeginInvoke(new Action(() => { pbf.progressBar_pb.Value = step; }));
 
                         List<Floor> floorList = new FilteredElementCollector(doc)
                            .OfClass(typeof(Floor))
@@ -221,6 +255,13 @@ namespace CITRUS.CIT_03_2_FinishNumerator
 
                         if (floorList.Count != 0)
                         {
+                            if (floorList.First().LookupParameter("Помещение_Список номеров") == null)
+                            {
+                                TaskDialog.Show("Revit", "У пола отсутствует параметр \"Помещение_Список номеров\"");
+                                pbf.BeginInvoke(new Action(() => { pbf.Close(); }));
+                                return Result.Cancelled;
+                            }
+
                             //Очистка параметра "Помещение_Список номеров"
                             foreach (Floor floor in floorList)
                             {
@@ -372,6 +413,7 @@ namespace CITRUS.CIT_03_2_FinishNumerator
                             }
                         }
                     }
+                    pbf.BeginInvoke(new Action(() => { pbf.Close(); }));
                     t.Commit();
                 }
             }
