@@ -94,7 +94,6 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
             this.comboBox_MainBarTapes.Size = new System.Drawing.Size(100, 21);
             this.comboBox_MainBarTapes.Sorted = true;
             this.comboBox_MainBarTapes.TabIndex = 3;
-            this.comboBox_MainBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_MainBarTapes_SelectedIndexChanged);
             // 
             // comboBox_StirrupBarTapes
             // 
@@ -105,7 +104,6 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
             this.comboBox_StirrupBarTapes.Size = new System.Drawing.Size(100, 21);
             this.comboBox_StirrupBarTapes.Sorted = true;
             this.comboBox_StirrupBarTapes.TabIndex = 4;
-            this.comboBox_StirrupBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_StirrupBarTapes_SelectedIndexChanged);
             // 
             // comboBox_RebarCoverTypes
             // 
@@ -116,7 +114,6 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
             this.comboBox_RebarCoverTypes.Size = new System.Drawing.Size(60, 21);
             this.comboBox_RebarCoverTypes.Sorted = true;
             this.comboBox_RebarCoverTypes.TabIndex = 5;
-            this.comboBox_RebarCoverTypes.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarCoverTypes_SelectedIndexChanged);
             // 
             // textBox_RebarOutletsLength
             // 

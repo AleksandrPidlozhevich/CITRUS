@@ -95,18 +95,16 @@
             this.comboBox_FirstMainBarTapes.Size = new System.Drawing.Size(100, 21);
             this.comboBox_FirstMainBarTapes.Sorted = true;
             this.comboBox_FirstMainBarTapes.TabIndex = 3;
-            this.comboBox_FirstMainBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_FirstMainBarTapes_SelectedIndexChanged);
             // 
             // comboBox_StirrupBarTapes
             // 
             this.comboBox_StirrupBarTapes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBox_StirrupBarTapes.FormattingEnabled = true;
-            this.comboBox_StirrupBarTapes.Location = new System.Drawing.Point(306, 106);
+            this.comboBox_StirrupBarTapes.Location = new System.Drawing.Point(310, 44);
             this.comboBox_StirrupBarTapes.Name = "comboBox_StirrupBarTapes";
             this.comboBox_StirrupBarTapes.Size = new System.Drawing.Size(100, 21);
             this.comboBox_StirrupBarTapes.Sorted = true;
             this.comboBox_StirrupBarTapes.TabIndex = 4;
-            this.comboBox_StirrupBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_StirrupBarTapes_SelectedIndexChanged);
             // 
             // comboBox_RebarCoverTypes
             // 
@@ -117,7 +115,6 @@
             this.comboBox_RebarCoverTypes.Size = new System.Drawing.Size(60, 21);
             this.comboBox_RebarCoverTypes.Sorted = true;
             this.comboBox_RebarCoverTypes.TabIndex = 5;
-            this.comboBox_RebarCoverTypes.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarCoverTypes_SelectedIndexChanged);
             // 
             // textBox_RebarOutletsLength
             // 
@@ -294,7 +291,6 @@
             this.comboBox_SecondMainBarTapes.Size = new System.Drawing.Size(100, 21);
             this.comboBox_SecondMainBarTapes.Sorted = true;
             this.comboBox_SecondMainBarTapes.TabIndex = 21;
-            this.comboBox_SecondMainBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_SecondMainBarTapes_SelectedIndexChanged);
             // 
             // textBox_RebarSecondOutletsLength
             // 
@@ -308,12 +304,11 @@
             // comboBox_SecondStirrupBarTapes
             // 
             this.comboBox_SecondStirrupBarTapes.FormattingEnabled = true;
-            this.comboBox_SecondStirrupBarTapes.Location = new System.Drawing.Point(307, 44);
+            this.comboBox_SecondStirrupBarTapes.Location = new System.Drawing.Point(310, 107);
             this.comboBox_SecondStirrupBarTapes.Name = "comboBox_SecondStirrupBarTapes";
             this.comboBox_SecondStirrupBarTapes.Size = new System.Drawing.Size(99, 21);
             this.comboBox_SecondStirrupBarTapes.Sorted = true;
             this.comboBox_SecondStirrupBarTapes.TabIndex = 23;
-            this.comboBox_SecondStirrupBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_SecondStirrupBarTapes_SelectedIndexChanged);
             // 
             // pictureBox5
             // 

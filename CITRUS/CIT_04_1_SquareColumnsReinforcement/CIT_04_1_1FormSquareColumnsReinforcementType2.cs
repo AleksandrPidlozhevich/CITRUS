@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CITRUS.Properties;
+using System.IO;
 
 namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
 {
@@ -35,54 +36,77 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
         public bool TransitionToOverlap;
         public bool DeepeningBars;
         public bool BendIntoASlab;
+
+        FSCRT2_Settings fsсrt2_Settings = null;
+
         public CIT_04_1_1FormSquareColumnsReinforcementType2(List<RebarBarType> firstMainBarTapes, List<RebarBarType> secondMainBarTapes, List<RebarBarType> stirrupBarTapes, List<RebarCoverType> rebarCoverTypes)
         {
             InitializeComponent();
-            textBox_FloorThicknessAboveColumn.Text = Settings.Default["FSCRT2_FloorThickness"].ToString();
-            textBox_RebarOutletsLength.Text = Settings.Default["FSCRT2_RebarOutlets"].ToString();
-            textBox_RebarSecondOutletsLength.Text = Settings.Default["FSCRT2_RebarSecondOutlets"].ToString();
-            textBox_FirstStirrupOffset.Text = Settings.Default["FSCRT2_FirstStirrupOffset"].ToString();
-            textBox_IncreasedStirrupSpacing.Text = Settings.Default["FSCRT2_IncreasedStirrupSpacing"].ToString();
-            textBox_StandardStirrupSpacing.Text = Settings.Default["FSCRT2_StandardStirrupSpacing"].ToString();
-            textBox_StirrupIncreasedPlacementHeight.Text = Settings.Default["FSCRT2_StirrupIncreasedPlacementHeight"].ToString();
-            textBox_ColumnSectionOffset.Text = Settings.Default["FSCRT2_ColumnSectionOffset"].ToString();
-            textBox_DeepeningBars.Text = Settings.Default["FSCRT2_DeepeningBarsSize"].ToString();
-
+            fsсrt2_Settings = FSCRT2_Settings.GetSettings();
+            string assemblyPathAll = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string fileName = "FSCRT2_Settings.xml";
+            string assemblyPath = assemblyPathAll.Replace("CITRUS.dll", fileName);
+            if (File.Exists(assemblyPath))
+            {
+                textBox_FloorThicknessAboveColumn.Text = fsсrt2_Settings.FloorThicknessSettings;
+                textBox_RebarOutletsLength.Text = fsсrt2_Settings.RebarOutletsSettings;
+                textBox_RebarSecondOutletsLength.Text = fsсrt2_Settings.RebarSecondOutletsSettings;
+                textBox_FirstStirrupOffset.Text = fsсrt2_Settings.FirstStirrupOffsetSettings;
+                textBox_IncreasedStirrupSpacing.Text = fsсrt2_Settings.IncreasedStirrupSpacingSettings;
+                textBox_StandardStirrupSpacing.Text = fsсrt2_Settings.StandardStirrupSpacingSettings;
+                textBox_StirrupIncreasedPlacementHeight.Text = fsсrt2_Settings.StirrupIncreasedPlacementHeightSettings;
+                textBox_ColumnSectionOffset.Text = fsсrt2_Settings.ColumnSectionOffsetSettings;
+                textBox_DeepeningBars.Text = fsсrt2_Settings.DeepeningBarsSizeSettings;
+            }
 
             List<RebarBarType> firstMainBarTapesListForComboBox = firstMainBarTapes;
             comboBox_FirstMainBarTapes.DataSource = firstMainBarTapesListForComboBox;
             comboBox_FirstMainBarTapes.DisplayMember = "Name";
+            comboBox_FirstMainBarTapes.SelectedItem = firstMainBarTapesListForComboBox.FirstOrDefault(rbt => rbt.Name == fsсrt2_Settings.mySelectionFirstMainBarTapeSettings);
 
             List<RebarBarType> secondMainBarTapesListForComboBox = secondMainBarTapes;
             comboBox_SecondMainBarTapes.DataSource = secondMainBarTapesListForComboBox;
             comboBox_SecondMainBarTapes.DisplayMember = "Name";
+            comboBox_SecondMainBarTapes.SelectedItem = secondMainBarTapesListForComboBox.FirstOrDefault(rbt => rbt.Name == fsсrt2_Settings.mySelectionSecondMainBarTapeSettings);
 
             List<RebarBarType> stirrupBarTapesForComboBox = stirrupBarTapes;
             comboBox_StirrupBarTapes.DataSource = stirrupBarTapesForComboBox;
             comboBox_StirrupBarTapes.DisplayMember = "Name";
+            comboBox_StirrupBarTapes.SelectedItem = stirrupBarTapesForComboBox.FirstOrDefault(rbt => rbt.Name == fsсrt2_Settings.mySelectionStirrupBarTapeSettings);
 
             List<RebarCoverType> rebarCoverTypesListForComboBox = rebarCoverTypes;
             comboBox_RebarCoverTypes.DataSource = rebarCoverTypesListForComboBox;
             comboBox_RebarCoverTypes.DisplayMember = "Name";
+            comboBox_RebarCoverTypes.SelectedItem = rebarCoverTypesListForComboBox.FirstOrDefault(rbt => rbt.Name == fsсrt2_Settings.mySelectionRebarCoverTypeSettings);
         }
 
         private void button1_Ok_Click(object sender, EventArgs e)
         {
+            mySelectionFirstMainBarTape = comboBox_FirstMainBarTapes.SelectedItem as RebarBarType;
+            mySelectionSecondMainBarTape = comboBox_SecondMainBarTapes.SelectedItem as RebarBarType;
+            mySelectionStirrupBarTape = comboBox_StirrupBarTapes.SelectedItem as RebarBarType;
+            mySelectionRebarCoverType = comboBox_RebarCoverTypes.SelectedItem as RebarCoverType;
+
             CheckedRebarOutletsButtonName = groupBox_RebarOutlets.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
             TransitionToOverlap = checkBox_TransitionToOverlap.Checked;
             DeepeningBars = checkBox_DeepeningBars.Checked;
             BendIntoASlab = checkBox_BendIntoASlab.Checked;
 
-            Settings.Default["FSCRT2_FloorThickness"] = textBox_FloorThicknessAboveColumn.Text;
-            Settings.Default["FSCRT2_RebarOutlets"] = textBox_RebarOutletsLength.Text;
-            Settings.Default["FSCRT2_RebarSecondOutlets"] = textBox_RebarSecondOutletsLength.Text;
-            Settings.Default["FSCRT2_FirstStirrupOffset"] = textBox_FirstStirrupOffset.Text;
-            Settings.Default["FSCRT2_IncreasedStirrupSpacing"] = textBox_IncreasedStirrupSpacing.Text;
-            Settings.Default["FSCRT2_StandardStirrupSpacing"] = textBox_StandardStirrupSpacing.Text;
-            Settings.Default["FSCRT2_StirrupIncreasedPlacementHeight"] = textBox_StirrupIncreasedPlacementHeight.Text;
-            Settings.Default["FSCRT2_ColumnSectionOffset"] = textBox_ColumnSectionOffset.Text;
-            Settings.Default["FSCRT2_DeepeningBarsSize"] = textBox_DeepeningBars.Text;
-            Settings.Default.Save();
+            fsсrt2_Settings.FloorThicknessSettings = textBox_FloorThicknessAboveColumn.Text;
+            fsсrt2_Settings.RebarOutletsSettings = textBox_RebarOutletsLength.Text;
+            fsсrt2_Settings.RebarSecondOutletsSettings = textBox_RebarSecondOutletsLength.Text;
+            fsсrt2_Settings.FirstStirrupOffsetSettings = textBox_FirstStirrupOffset.Text;
+            fsсrt2_Settings.IncreasedStirrupSpacingSettings = textBox_IncreasedStirrupSpacing.Text;
+            fsсrt2_Settings.StandardStirrupSpacingSettings = textBox_StandardStirrupSpacing.Text;
+            fsсrt2_Settings.StirrupIncreasedPlacementHeightSettings = textBox_StirrupIncreasedPlacementHeight.Text;
+            fsсrt2_Settings.ColumnSectionOffsetSettings = textBox_ColumnSectionOffset.Text;
+            fsсrt2_Settings.DeepeningBarsSizeSettings = textBox_DeepeningBars.Text;
+
+            fsсrt2_Settings.mySelectionFirstMainBarTapeSettings = mySelectionFirstMainBarTape.Name;
+            fsсrt2_Settings.mySelectionSecondMainBarTapeSettings = mySelectionSecondMainBarTape.Name;
+            fsсrt2_Settings.mySelectionStirrupBarTapeSettings = mySelectionStirrupBarTape.Name;
+            fsсrt2_Settings.mySelectionRebarCoverTypeSettings = mySelectionRebarCoverType.Name;
+            fsсrt2_Settings.Save();
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -92,23 +116,6 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
-        }
-
-        private void comboBox_FirstMainBarTapes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionFirstMainBarTape = comboBox_FirstMainBarTapes.SelectedItem as RebarBarType;
-        }
-        private void comboBox_SecondMainBarTapes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionSecondMainBarTape = comboBox_SecondMainBarTapes.SelectedItem as RebarBarType;
-        }
-        private void comboBox_StirrupBarTapes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionStirrupBarTape = comboBox_StirrupBarTapes.SelectedItem as RebarBarType;
-        }
-        private void comboBox_RebarCoverTypes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionRebarCoverType = comboBox_RebarCoverTypes.SelectedItem as RebarCoverType;
         }
 
         private void textBox_FloorThicknessAboveColumn_TextChanged(object sender, EventArgs e)

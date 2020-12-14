@@ -80,6 +80,12 @@
     <Compile Include="CIT_03_2_FinishNumerator\CIT_03_2_FinishNumeratorForm.Designer.cs">
       <DependentUpon>CIT_03_2_FinishNumeratorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CIT_04_1_SquareColumnsReinforcement\FSCRT6_Settings.cs" />
+    <Compile Include="CIT_04_1_SquareColumnsReinforcement\FSCRT5_Settings.cs" />
+    <Compile Include="CIT_04_1_SquareColumnsReinforcement\FSCRT4_Settings.cs" />
+    <Compile Include="CIT_04_1_SquareColumnsReinforcement\FSCRT3_Settings.cs" />
+    <Compile Include="CIT_04_1_SquareColumnsReinforcement\FSCRT2_Settings.cs" />
+    <Compile Include="CIT_04_1_SquareColumnsReinforcement\FSCRT1_Settings.cs" />
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\CIT_04_1_1FormSquareColumnsReinforcementType6.cs">
       <SubType>Form</SubType>
     </Compile>
