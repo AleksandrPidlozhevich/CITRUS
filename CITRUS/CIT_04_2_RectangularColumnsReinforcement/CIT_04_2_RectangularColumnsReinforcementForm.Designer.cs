@@ -99,7 +99,6 @@
             this.comboBox_MainBarTapesOne.Size = new System.Drawing.Size(80, 21);
             this.comboBox_MainBarTapesOne.Sorted = true;
             this.comboBox_MainBarTapesOne.TabIndex = 2;
-            this.comboBox_MainBarTapesOne.SelectedIndexChanged += new System.EventHandler(this.comboBox_MainBarTapesOne_SelectedIndexChanged);
             // 
             // comboBox_StirrupBarTapes
             // 
@@ -109,7 +108,6 @@
             this.comboBox_StirrupBarTapes.Size = new System.Drawing.Size(80, 21);
             this.comboBox_StirrupBarTapes.Sorted = true;
             this.comboBox_StirrupBarTapes.TabIndex = 3;
-            this.comboBox_StirrupBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_StirrupBarTapes_SelectedIndexChanged);
             // 
             // comboBox_RebarCoverTypes
             // 
@@ -119,7 +117,6 @@
             this.comboBox_RebarCoverTypes.Size = new System.Drawing.Size(60, 21);
             this.comboBox_RebarCoverTypes.Sorted = true;
             this.comboBox_RebarCoverTypes.TabIndex = 4;
-            this.comboBox_RebarCoverTypes.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarCoverTypes_SelectedIndexChanged);
             // 
             // comboBox_MainBarTapesTwo
             // 
@@ -129,7 +126,6 @@
             this.comboBox_MainBarTapesTwo.Size = new System.Drawing.Size(80, 21);
             this.comboBox_MainBarTapesTwo.Sorted = true;
             this.comboBox_MainBarTapesTwo.TabIndex = 5;
-            this.comboBox_MainBarTapesTwo.SelectedIndexChanged += new System.EventHandler(this.comboBox_MainBarTapesTwo_SelectedIndexChanged);
             // 
             // comboBox_MainBarTapesThree
             // 
@@ -139,7 +135,6 @@
             this.comboBox_MainBarTapesThree.Size = new System.Drawing.Size(80, 21);
             this.comboBox_MainBarTapesThree.Sorted = true;
             this.comboBox_MainBarTapesThree.TabIndex = 6;
-            this.comboBox_MainBarTapesThree.SelectedIndexChanged += new System.EventHandler(this.comboBox_MainBarTapesThree_SelectedIndexChanged);
             // 
             // textBox_NumberOfBarsLRFaces
             // 
@@ -167,7 +162,6 @@
             this.comboBox_PinBarTapes.Size = new System.Drawing.Size(80, 21);
             this.comboBox_PinBarTapes.Sorted = true;
             this.comboBox_PinBarTapes.TabIndex = 9;
-            this.comboBox_PinBarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_PinBarTapes_SelectedIndexChanged);
             // 
             // textBox_RebarOutletsLengthLong
             // 

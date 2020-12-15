@@ -93,7 +93,6 @@
             this.comboBox_MainBarT1.Size = new System.Drawing.Size(100, 21);
             this.comboBox_MainBarT1.Sorted = true;
             this.comboBox_MainBarT1.TabIndex = 2;
-            this.comboBox_MainBarT1.SelectedIndexChanged += new System.EventHandler(this.comboBox_MainBarT1_SelectedIndexChanged);
             // 
             // comboBox_MainBarT2
             // 
@@ -103,7 +102,6 @@
             this.comboBox_MainBarT2.Size = new System.Drawing.Size(100, 21);
             this.comboBox_MainBarT2.Sorted = true;
             this.comboBox_MainBarT2.TabIndex = 3;
-            this.comboBox_MainBarT2.SelectedIndexChanged += new System.EventHandler(this.comboBox_MainBarT2_SelectedIndexChanged);
             // 
             // comboBox_MainBarT3
             // 
@@ -113,7 +111,6 @@
             this.comboBox_MainBarT3.Size = new System.Drawing.Size(100, 21);
             this.comboBox_MainBarT3.Sorted = true;
             this.comboBox_MainBarT3.TabIndex = 4;
-            this.comboBox_MainBarT3.SelectedIndexChanged += new System.EventHandler(this.comboBox_MainBarT3_SelectedIndexChanged);
             // 
             // textBox_ExtensionLeftLenghtL1
             // 
@@ -159,7 +156,6 @@
             this.comboBox_RebarTopCoverLayer.Size = new System.Drawing.Size(55, 21);
             this.comboBox_RebarTopCoverLayer.Sorted = true;
             this.comboBox_RebarTopCoverLayer.TabIndex = 9;
-            this.comboBox_RebarTopCoverLayer.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarTopCoverLayer_SelectedIndexChanged);
             // 
             // comboBox_RebarBottomCoverLayer
             // 
@@ -169,7 +165,6 @@
             this.comboBox_RebarBottomCoverLayer.Size = new System.Drawing.Size(55, 21);
             this.comboBox_RebarBottomCoverLayer.Sorted = true;
             this.comboBox_RebarBottomCoverLayer.TabIndex = 10;
-            this.comboBox_RebarBottomCoverLayer.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarBottomCoverLayer_SelectedIndexChanged);
             // 
             // comboBox_RebarLRCoverLayer
             // 
@@ -179,7 +174,6 @@
             this.comboBox_RebarLRCoverLayer.Size = new System.Drawing.Size(55, 21);
             this.comboBox_RebarLRCoverLayer.Sorted = true;
             this.comboBox_RebarLRCoverLayer.TabIndex = 11;
-            this.comboBox_RebarLRCoverLayer.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarLRCoverLayer_SelectedIndexChanged);
             // 
             // textBox_NumberOfBarsTopFaces
             // 
@@ -243,7 +237,6 @@
             this.comboBox_StirrupT1.Size = new System.Drawing.Size(100, 21);
             this.comboBox_StirrupT1.Sorted = true;
             this.comboBox_StirrupT1.TabIndex = 22;
-            this.comboBox_StirrupT1.SelectedIndexChanged += new System.EventHandler(this.comboBox_StirrupT1_SelectedIndexChanged);
             // 
             // comboBox_StirrupC1
             // 
@@ -253,7 +246,6 @@
             this.comboBox_StirrupC1.Size = new System.Drawing.Size(100, 21);
             this.comboBox_StirrupC1.Sorted = true;
             this.comboBox_StirrupC1.TabIndex = 23;
-            this.comboBox_StirrupC1.SelectedIndexChanged += new System.EventHandler(this.comboBox_StirrupC1_SelectedIndexChanged);
             // 
             // textBox_StirrupIndentL1
             // 

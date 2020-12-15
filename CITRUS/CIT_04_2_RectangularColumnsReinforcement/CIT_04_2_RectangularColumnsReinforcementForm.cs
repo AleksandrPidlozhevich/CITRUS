@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CITRUS.Properties;
+using System.IO;
 
 namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
 {
@@ -41,6 +42,8 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         public bool DeepeningBars;
         public bool BendIntoASlab;
 
+        RCRF_Settings rcrf_Settings = null;
+
         public CIT_04_2_RectangularColumnsReinforcementForm(List<RebarBarType> mainBarTapesOne
             , List<RebarBarType> mainBarTapesTwo
             , List<RebarBarType> mainBarTapesThree
@@ -49,45 +52,65 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
             , List<RebarCoverType> rebarCoverTypes)
         {
             InitializeComponent();
-            textBox_NumberOfBarsLRFaces.Text = Settings.Default["RCRF_NumberOfBarsLRFaces"].ToString();
-            textBox_NumberOfBarsTBFaces.Text = Settings.Default["RCRF_NumberOfBarsTBFaces"].ToString();
-            textBox_RebarOutletsLengthLong.Text = Settings.Default["RCRF_RebarOutletsLengthLong"].ToString();
-            textBox_RebarOutletsLengthShort.Text = Settings.Default["RCRF_RebarOutletsLengthShort"].ToString();
-            textBox_FloorThicknessAboveColumn.Text = Settings.Default["RCRF_FloorThicknessAboveColumn"].ToString();
-            textBox_StandardStirrupStep.Text = Settings.Default["RCRF_StandardStirrupStep"].ToString();
-            textBox_IncreasedStirrupStep.Text = Settings.Default["RCRF_IncreasedStirrupStep"].ToString();
-            textBox_FirstStirrupOffset.Text = Settings.Default["RCRF_FirstStirrupOffset"].ToString();
-            textBox_StirrupIncreasedPlacementHeight.Text = Settings.Default["RCRF_StirrupIncreasedPlacementHeight"].ToString();
-            textBox_ColumnSectionOffset.Text = Settings.Default["RCRF_ColumnSectionOffset"].ToString();
-            textBox_DeepeningBars.Text = Settings.Default["RCRF_DeepeningBarsSize"].ToString();
+            rcrf_Settings = RCRF_Settings.GetSettings();
+            string assemblyPathAll = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string fileName = "RCRF_Settings.xml";
+            string assemblyPath = assemblyPathAll.Replace("CITRUS.dll", fileName);
+            if (File.Exists(assemblyPath))
+            {
+                textBox_NumberOfBarsLRFaces.Text = rcrf_Settings.NumberOfBarsLRFacesSettings;
+                textBox_NumberOfBarsTBFaces.Text = rcrf_Settings.NumberOfBarsTBFacesSettings;
+                textBox_RebarOutletsLengthLong.Text = rcrf_Settings.RebarOutletsLengthLongSettings;
+                textBox_RebarOutletsLengthShort.Text = rcrf_Settings.RebarOutletsLengthShortSettings;
+                textBox_FloorThicknessAboveColumn.Text = rcrf_Settings.FloorThicknessAboveColumnSettings;
+                textBox_StandardStirrupStep.Text = rcrf_Settings.StandardStirrupStepSettings;
+                textBox_IncreasedStirrupStep.Text = rcrf_Settings.IncreasedStirrupStepSettings;
+                textBox_FirstStirrupOffset.Text = rcrf_Settings.FirstStirrupOffsetSettings;
+                textBox_StirrupIncreasedPlacementHeight.Text = rcrf_Settings.StirrupIncreasedPlacementHeightSettings;
+                textBox_ColumnSectionOffset.Text = rcrf_Settings.ColumnSectionOffsetSettings;
+                textBox_DeepeningBars.Text = rcrf_Settings.DeepeningBarsSizeSettings;
+            }
 
             List<RebarBarType> mainBarTapesOneListForComboBox = mainBarTapesOne;
             comboBox_MainBarTapesOne.DataSource = mainBarTapesOneListForComboBox;
             comboBox_MainBarTapesOne.DisplayMember = "Name";
+            comboBox_MainBarTapesOne.SelectedItem = mainBarTapesOneListForComboBox.FirstOrDefault(rbt => rbt.Name == rcrf_Settings.mySelectionMainBarTapeOneSettings);
 
             List<RebarBarType> mainBarTapesTwoListForComboBox = mainBarTapesTwo;
             comboBox_MainBarTapesTwo.DataSource = mainBarTapesTwoListForComboBox;
             comboBox_MainBarTapesTwo.DisplayMember = "Name";
+            comboBox_MainBarTapesTwo.SelectedItem = mainBarTapesTwoListForComboBox.FirstOrDefault(rbt => rbt.Name == rcrf_Settings.mySelectionMainBarTapeTwoSettings);
 
             List<RebarBarType> mainBarTapesThreeListForComboBox = mainBarTapesThree;
             comboBox_MainBarTapesThree.DataSource = mainBarTapesThreeListForComboBox;
             comboBox_MainBarTapesThree.DisplayMember = "Name";
+            comboBox_MainBarTapesThree.SelectedItem = mainBarTapesThreeListForComboBox.FirstOrDefault(rbt => rbt.Name == rcrf_Settings.mySelectionMainBarTapeThreeSettings);
 
             List<RebarBarType> stirrupBarTapesForComboBox = stirrupBarTapes;
             comboBox_StirrupBarTapes.DataSource = stirrupBarTapesForComboBox;
             comboBox_StirrupBarTapes.DisplayMember = "Name";
+            comboBox_StirrupBarTapes.SelectedItem = stirrupBarTapesForComboBox.FirstOrDefault(rbt => rbt.Name == rcrf_Settings.mySelectionStirrupBarTapeSettings);
 
             List<RebarBarType> pinBarTapesForComboBox = pinBarTapes;
             comboBox_PinBarTapes.DataSource = pinBarTapesForComboBox;
             comboBox_PinBarTapes.DisplayMember = "Name";
+            comboBox_PinBarTapes.SelectedItem = pinBarTapesForComboBox.FirstOrDefault(rbt => rbt.Name == rcrf_Settings.mySelectionPinBarTapeSettings);
 
             List<RebarCoverType> rebarCoverTypesListForComboBox = rebarCoverTypes;
             comboBox_RebarCoverTypes.DataSource = rebarCoverTypesListForComboBox;
             comboBox_RebarCoverTypes.DisplayMember = "Name";
+            comboBox_RebarCoverTypes.SelectedItem = rebarCoverTypesListForComboBox.FirstOrDefault(rbt => rbt.Name == rcrf_Settings.mySelectionRebarCoverTypeSettings);
         }
 
         private void btn_Ok_Click(object sender, EventArgs e)
         {
+            mySelectionMainBarTapeOne = comboBox_MainBarTapesOne.SelectedItem as RebarBarType;
+            mySelectionMainBarTapeTwo = comboBox_MainBarTapesTwo.SelectedItem as RebarBarType;
+            mySelectionMainBarTapeThree = comboBox_MainBarTapesThree.SelectedItem as RebarBarType;
+            mySelectionStirrupBarTape = comboBox_StirrupBarTapes.SelectedItem as RebarBarType;
+            mySelectionPinBarTape = comboBox_PinBarTapes.SelectedItem as RebarBarType;
+            mySelectionRebarCoverType = comboBox_RebarCoverTypes.SelectedItem as RebarCoverType;
+
             CheckedRebarOutletsButtonName = groupBox_RebarOutlets.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
             CheckedRebarStrappingTypeButtonName = groupBox_StrappingType.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
             TransitionToOverlap = checkBox_TransitionToOverlap.Checked;
@@ -95,18 +118,27 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
             DeepeningBars = checkBox_DeepeningBars.Checked;
             BendIntoASlab = checkBox_BendIntoASlab.Checked;
 
-            Settings.Default["RCRF_NumberOfBarsLRFaces"] = textBox_NumberOfBarsLRFaces.Text;
-            Settings.Default["RCRF_NumberOfBarsTBFaces"] = textBox_NumberOfBarsTBFaces.Text;
-            Settings.Default["RCRF_RebarOutletsLengthLong"] = textBox_RebarOutletsLengthLong.Text;
-            Settings.Default["RCRF_RebarOutletsLengthShort"] = textBox_RebarOutletsLengthShort.Text;
-            Settings.Default["RCRF_FloorThicknessAboveColumn"] = textBox_FloorThicknessAboveColumn.Text;
-            Settings.Default["RCRF_StandardStirrupStep"] = textBox_StandardStirrupStep.Text;
-            Settings.Default["RCRF_IncreasedStirrupStep"] = textBox_IncreasedStirrupStep.Text;
-            Settings.Default["RCRF_FirstStirrupOffset"] = textBox_FirstStirrupOffset.Text;
-            Settings.Default["RCRF_StirrupIncreasedPlacementHeight"] = textBox_StirrupIncreasedPlacementHeight.Text;
-            Settings.Default["RCRF_ColumnSectionOffset"] = textBox_ColumnSectionOffset.Text;
-            Settings.Default["RCRF_DeepeningBarsSize"] = textBox_DeepeningBars.Text;
-            Settings.Default.Save();
+            rcrf_Settings.NumberOfBarsLRFacesSettings = textBox_NumberOfBarsLRFaces.Text;
+            rcrf_Settings.NumberOfBarsTBFacesSettings = textBox_NumberOfBarsTBFaces.Text;
+            rcrf_Settings.RebarOutletsLengthLongSettings = textBox_RebarOutletsLengthLong.Text;
+            rcrf_Settings.RebarOutletsLengthShortSettings = textBox_RebarOutletsLengthShort.Text;
+            rcrf_Settings.FloorThicknessAboveColumnSettings = textBox_FloorThicknessAboveColumn.Text;
+            rcrf_Settings.StandardStirrupStepSettings = textBox_StandardStirrupStep.Text;
+            rcrf_Settings.IncreasedStirrupStepSettings = textBox_IncreasedStirrupStep.Text;
+            rcrf_Settings.FirstStirrupOffsetSettings = textBox_FirstStirrupOffset.Text;
+            rcrf_Settings.StirrupIncreasedPlacementHeightSettings = textBox_StirrupIncreasedPlacementHeight.Text;
+            rcrf_Settings.ColumnSectionOffsetSettings = textBox_ColumnSectionOffset.Text;
+            rcrf_Settings.DeepeningBarsSizeSettings = textBox_DeepeningBars.Text;
+
+
+            rcrf_Settings.mySelectionMainBarTapeOneSettings = mySelectionMainBarTapeOne.Name;
+            rcrf_Settings.mySelectionMainBarTapeTwoSettings = mySelectionMainBarTapeTwo.Name;
+            rcrf_Settings.mySelectionMainBarTapeThreeSettings = mySelectionMainBarTapeThree.Name;
+            rcrf_Settings.mySelectionStirrupBarTapeSettings = mySelectionStirrupBarTape.Name;
+            rcrf_Settings.mySelectionPinBarTapeSettings = mySelectionPinBarTape.Name;
+            rcrf_Settings.mySelectionRebarCoverTypeSettings = mySelectionRebarCoverType.Name;
+
+            rcrf_Settings.Save();
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -115,30 +147,6 @@ namespace CITRUS.CIT_04_2_RectangularColumnsReinforcement
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
-        }
-        private void comboBox_MainBarTapesOne_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionMainBarTapeOne = comboBox_MainBarTapesOne.SelectedItem as RebarBarType;
-        }
-        private void comboBox_MainBarTapesTwo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionMainBarTapeTwo = comboBox_MainBarTapesTwo.SelectedItem as RebarBarType;
-        }
-        private void comboBox_MainBarTapesThree_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionMainBarTapeThree = comboBox_MainBarTapesThree.SelectedItem as RebarBarType;
-        }
-        private void comboBox_StirrupBarTapes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionStirrupBarTape = comboBox_StirrupBarTapes.SelectedItem as RebarBarType;
-        }
-        private void comboBox_PinBarTapes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionPinBarTape = comboBox_PinBarTapes.SelectedItem as RebarBarType;
-        }
-        private void comboBox_RebarCoverTypes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionRebarCoverType = comboBox_RebarCoverTypes.SelectedItem as RebarCoverType;
         }
 
         private void textBox_NumberOfBarsLRFaces_TextChanged(object sender, EventArgs e)

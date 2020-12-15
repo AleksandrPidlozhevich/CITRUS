@@ -93,7 +93,6 @@
             this.comboBox_stepRebarType.Size = new System.Drawing.Size(100, 21);
             this.comboBox_stepRebarType.Sorted = true;
             this.comboBox_stepRebarType.TabIndex = 4;
-            this.comboBox_stepRebarType.SelectedIndexChanged += new System.EventHandler(this.comboBox_stepRebarType_SelectedIndexChanged);
             // 
             // textBox_StepRebarCoverLayer
             // 
@@ -166,7 +165,6 @@
             this.comboBox_staircaseRebarType.Size = new System.Drawing.Size(100, 21);
             this.comboBox_staircaseRebarType.Sorted = true;
             this.comboBox_staircaseRebarType.TabIndex = 12;
-            this.comboBox_staircaseRebarType.SelectedIndexChanged += new System.EventHandler(this.comboBox_staircaseRebarType_SelectedIndexChanged);
             // 
             // textBox_StaircaseRebarStep
             // 

@@ -107,6 +107,7 @@
     <Compile Include="CIT_04_2_RectangularColumnsReinforcement\CIT_04_2_RectangularColumnsReinforcementForm.Designer.cs">
       <DependentUpon>CIT_04_2_RectangularColumnsReinforcementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CIT_04_2_RectangularColumnsReinforcement\RCRF_Settings.cs" />
     <Compile Include="CIT_04_3_BeamReinforcement\CIT_04_3_BeamReinforcement.cs" />
     <Compile Include="CIT_04_3_BeamReinforcement\CIT_04_3_BeamReinforcementForm.cs">
       <SubType>Form</SubType>
@@ -114,6 +115,8 @@
     <Compile Include="CIT_04_3_BeamReinforcement\CIT_04_3_BeamReinforcementForm.Designer.cs">
       <DependentUpon>CIT_04_3_BeamReinforcementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CIT_04_3_BeamReinforcement\BR_Settings.cs" />
+    <Compile Include="CIT_04_4_SlabReinforcement\SR_Settings.cs" />
     <Compile Include="CIT_04_4_SlabReinforcement\CIT_04_4_SlabReinforcement.cs" />
     <Compile Include="CIT_04_4_SlabReinforcement\CIT_04_4_SlabReinforcementForm.cs">
       <SubType>Form</SubType>
@@ -128,6 +131,7 @@
     <Compile Include="CIT_04_5_StairFlightReinforcement\CIT_04_5_StairFlightReinforcementForm.Designer.cs">
       <DependentUpon>CIT_04_5_StairFlightReinforcementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CIT_04_5_StairFlightReinforcement\SFR_Settings.cs" />
     <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransfer.cs" />
     <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferForm.cs">
       <SubType>Form</SubType>
@@ -335,7 +339,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

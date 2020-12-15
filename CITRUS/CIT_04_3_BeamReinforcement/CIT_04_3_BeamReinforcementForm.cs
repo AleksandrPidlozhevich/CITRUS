@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CITRUS.Properties;
+using System.IO;
 
 namespace CITRUS.CIT_04_3_BeamReinforcement
 {
@@ -49,6 +50,8 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
         public bool AddBarL2;
         public bool AddBarR2;
 
+        BR_Settings br_Settings = null;
+
         public CIT_04_3_BeamReinforcementForm(List<RebarBarType> mainBarT1
             , List<RebarBarType> mainBarT2
             , List<RebarBarType> mainBarT3
@@ -59,80 +62,123 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
             , List<RebarCoverType> LRCoverLayerList)
         {
             InitializeComponent();
-            textBox_ExtensionLeftLenghtL1.Text = Settings.Default["BRF_ExtensionLeftLenghtL1"].ToString();
-            textBox_ExtensionLeftLenghtL2.Text = Settings.Default["BRF_ExtensionLeftLenghtL2"].ToString();
-            textBox_ExtensionRightLenghtR1.Text = Settings.Default["BRF_ExtensionRightLenghtR1"].ToString();
-            textBox_ExtensionRightLenghtR2.Text = Settings.Default["BRF_ExtensionRightLenghtR2"].ToString();
-            textBox_DeepeningIntoTheStructureL1.Text = Settings.Default["BRF_DeepeningIntoTheStructureL1"].ToString();
-            textBox_DeepeningIntoTheStructureL2.Text = Settings.Default["BRF_DeepeningIntoTheStructureL2"].ToString();
-            textBox_DeepeningIntoTheStructureR1.Text = Settings.Default["BRF_DeepeningIntoTheStructureR1"].ToString();
-            textBox_DeepeningIntoTheStructureR2.Text = Settings.Default["BRF_DeepeningIntoTheStructureR2"].ToString();
-            textBox_StirrupIndentL1.Text = Settings.Default["BRF_StirrupIndentL1"].ToString();
-            textBox_StirrupStepL1.Text = Settings.Default["BRF_StirrupStepL1"].ToString();
-            textBox_StirrupIndentR1.Text = Settings.Default["BRF_StirrupIndentR1"].ToString();
-            textBox_StirrupStepR1.Text = Settings.Default["BRF_StirrupStepR1"].ToString();
-            textBox_StirrupStepC1.Text = Settings.Default["BRF_StirrupStepC1"].ToString();
-            textBox_ExtensionAddBarL2.Text = Settings.Default["BRF_ExtensionAddBarL2"].ToString();
-            textBox_ExtensionAddBarR2.Text = Settings.Default["BRF_ExtensionAddBarR2"].ToString();
-            textBox_NumberOfBarsTopFaces.Text = Settings.Default["BRF_NumberOfBarsTopFaces"].ToString();
-            textBox_NumberOfBarsBottomFaces.Text = Settings.Default["BRF_NumberOfBarsBottomFaces"].ToString();
+            br_Settings = BR_Settings.GetSettings();
+            string assemblyPathAll = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string fileName = "BR_Settings.xml";
+            string assemblyPath = assemblyPathAll.Replace("CITRUS.dll", fileName);
+            if (File.Exists(assemblyPath))
+            {
+                textBox_ExtensionLeftLenghtL1.Text = br_Settings.ExtensionLeftLenghtL1Settings;
+                textBox_ExtensionLeftLenghtL2.Text = br_Settings.ExtensionLeftLenghtL2Settings;
+                textBox_ExtensionRightLenghtR1.Text = br_Settings.ExtensionRightLenghtR1Settings;
+                textBox_ExtensionRightLenghtR2.Text = br_Settings.ExtensionRightLenghtR2Settings;
+
+                textBox_DeepeningIntoTheStructureL1.Text = br_Settings.DeepeningIntoTheStructureL1Settings;
+                textBox_DeepeningIntoTheStructureL2.Text = br_Settings.DeepeningIntoTheStructureL2Settings;
+                textBox_DeepeningIntoTheStructureR1.Text = br_Settings.DeepeningIntoTheStructureR1Settings;
+                textBox_DeepeningIntoTheStructureR2.Text = br_Settings.DeepeningIntoTheStructureR2Settings;
+
+                textBox_StirrupIndentL1.Text = br_Settings.StirrupIndentL1Settings;
+                textBox_StirrupStepL1.Text = br_Settings.StirrupStepL1Settings;
+                textBox_StirrupIndentR1.Text = br_Settings.StirrupIndentR1Settings;
+                textBox_StirrupStepR1.Text = br_Settings.StirrupStepR1Settings;
+                textBox_StirrupStepC1.Text = br_Settings.StirrupStepC1Settings;
+
+                textBox_ExtensionAddBarL2.Text = br_Settings.ExtensionAddBarL2Settings;
+                textBox_ExtensionAddBarR2.Text = br_Settings.ExtensionAddBarR2Settings;
+
+                textBox_NumberOfBarsTopFaces.Text = br_Settings.NumberOfBarsTopFacesSettings;
+                textBox_NumberOfBarsBottomFaces.Text = br_Settings.NumberOfBarsBottomFacesSettings;
+            }
 
             List<RebarBarType> mainBarT1ListForComboBox = mainBarT1;
             comboBox_MainBarT1.DataSource = mainBarT1ListForComboBox;
             comboBox_MainBarT1.DisplayMember = "Name";
+            comboBox_MainBarT1.SelectedItem = mainBarT1ListForComboBox.FirstOrDefault(rbt => rbt.Name == br_Settings.mySelectionMainBarT1Settings);
 
             List<RebarBarType> mainBarT2ListForComboBox = mainBarT2;
             comboBox_MainBarT2.DataSource = mainBarT2ListForComboBox;
             comboBox_MainBarT2.DisplayMember = "Name";
+            comboBox_MainBarT2.SelectedItem = mainBarT2ListForComboBox.FirstOrDefault(rbt => rbt.Name == br_Settings.mySelectionMainBarT2Settings);
 
             List<RebarBarType> mainBarT3ListForComboBox = mainBarT3;
             comboBox_MainBarT3.DataSource = mainBarT3ListForComboBox;
             comboBox_MainBarT3.DisplayMember = "Name";
+            comboBox_MainBarT3.SelectedItem = mainBarT3ListForComboBox.FirstOrDefault(rbt => rbt.Name == br_Settings.mySelectionMainBarT3Settings);
 
             List<RebarBarType> stirrupT1ListForComboBox = stirrupT1;
             comboBox_StirrupT1.DataSource = stirrupT1ListForComboBox;
             comboBox_StirrupT1.DisplayMember = "Name";
+            comboBox_StirrupT1.SelectedItem = stirrupT1ListForComboBox.FirstOrDefault(rbt => rbt.Name == br_Settings.mySelectionStirrupT1Settings);
 
             List<RebarBarType> stirrupT2ListForComboBox = stirrupT2;
             comboBox_StirrupC1.DataSource = stirrupT2ListForComboBox;
             comboBox_StirrupC1.DisplayMember = "Name";
+            comboBox_StirrupC1.SelectedItem = stirrupT2ListForComboBox.FirstOrDefault(rbt => rbt.Name == br_Settings.mySelectionStirrupC1Settings);
 
             List<RebarCoverType> topCoverLayerListForComboBox = topCoverLayerList;
             comboBox_RebarTopCoverLayer.DataSource = topCoverLayerListForComboBox;
             comboBox_RebarTopCoverLayer.DisplayMember = "Name";
+            comboBox_RebarTopCoverLayer.SelectedItem = topCoverLayerListForComboBox.FirstOrDefault(rbt => rbt.Name == br_Settings.RebarTopCoverLayerSettings);
 
             List<RebarCoverType> bottomCoverLayerListForComboBox = bottomCoverLayerList;
             comboBox_RebarBottomCoverLayer.DataSource = bottomCoverLayerListForComboBox;
             comboBox_RebarBottomCoverLayer.DisplayMember = "Name";
+            comboBox_RebarBottomCoverLayer.SelectedItem = bottomCoverLayerListForComboBox.FirstOrDefault(rbt => rbt.Name == br_Settings.RebarBottomCoverLayerSettings);
 
             List<RebarCoverType> LRCoverLayerListForComboBox = LRCoverLayerList;
             comboBox_RebarLRCoverLayer.DataSource = LRCoverLayerListForComboBox;
             comboBox_RebarLRCoverLayer.DisplayMember = "Name";
+            comboBox_RebarLRCoverLayer.SelectedItem = LRCoverLayerListForComboBox.FirstOrDefault(rbt => rbt.Name == br_Settings.RebarLRCoverLayerSettings);
         }
 
         private void btn_Ok_Click(object sender, EventArgs e)
         {
-            Settings.Default["BRF_ExtensionLeftLenghtL1"] = textBox_ExtensionLeftLenghtL1.Text;
-            Settings.Default["BRF_ExtensionLeftLenghtL2"] = textBox_ExtensionLeftLenghtL2.Text;
-            Settings.Default["BRF_ExtensionRightLenghtR1"] = textBox_ExtensionRightLenghtR1.Text;
-            Settings.Default["BRF_ExtensionRightLenghtR2"] = textBox_ExtensionRightLenghtR2.Text;
-            Settings.Default["BRF_DeepeningIntoTheStructureL1"] = textBox_DeepeningIntoTheStructureL1.Text;
-            Settings.Default["BRF_DeepeningIntoTheStructureL2"] = textBox_DeepeningIntoTheStructureL2.Text;
-            Settings.Default["BRF_DeepeningIntoTheStructureR1"] = textBox_DeepeningIntoTheStructureR1.Text;
-            Settings.Default["BRF_DeepeningIntoTheStructureR2"] = textBox_DeepeningIntoTheStructureR2.Text;
-            Settings.Default["BRF_StirrupIndentL1"] = textBox_StirrupIndentL1.Text;
-            Settings.Default["BRF_StirrupStepL1"] = textBox_StirrupStepL1.Text;
-            Settings.Default["BRF_StirrupIndentR1"] = textBox_StirrupIndentR1.Text;
-            Settings.Default["BRF_StirrupStepR1"] = textBox_StirrupStepR1.Text;
-            Settings.Default["BRF_StirrupStepC1"] = textBox_StirrupStepC1.Text;
-            Settings.Default["BRF_ExtensionAddBarL2"] = textBox_ExtensionAddBarL2.Text;
-            Settings.Default["BRF_ExtensionAddBarR2"] = textBox_ExtensionAddBarR2.Text;
-            Settings.Default["BRF_NumberOfBarsTopFaces"] = textBox_NumberOfBarsTopFaces.Text;
-            Settings.Default["BRF_NumberOfBarsBottomFaces"] = textBox_NumberOfBarsBottomFaces.Text;
-            Settings.Default.Save();
+            mySelectionMainBarT1 = comboBox_MainBarT1.SelectedItem as RebarBarType;
+            mySelectionMainBarT2 = comboBox_MainBarT2.SelectedItem as RebarBarType;
+            mySelectionMainBarT3 = comboBox_MainBarT3.SelectedItem as RebarBarType;
+            mySelectionStirrupT1 = comboBox_StirrupT1.SelectedItem as RebarBarType;
+            mySelectionStirrupC1 = comboBox_StirrupC1.SelectedItem as RebarBarType;
+            RebarTopCoverLayer = comboBox_RebarTopCoverLayer.SelectedItem as RebarCoverType;
+            RebarBottomCoverLayer = comboBox_RebarBottomCoverLayer.SelectedItem as RebarCoverType;
+            RebarLRCoverLayer = comboBox_RebarLRCoverLayer.SelectedItem as RebarCoverType;
 
             AddBarL2 = checkBox_AddBarL2.Checked;
             AddBarR2 = checkBox_AddBarR2.Checked;
+
+            br_Settings.ExtensionLeftLenghtL1Settings = textBox_ExtensionLeftLenghtL1.Text;
+            br_Settings.ExtensionLeftLenghtL2Settings = textBox_ExtensionLeftLenghtL2.Text;
+            br_Settings.ExtensionRightLenghtR1Settings = textBox_ExtensionRightLenghtR1.Text;
+            br_Settings.ExtensionRightLenghtR2Settings = textBox_ExtensionRightLenghtR2.Text;
+
+            br_Settings.DeepeningIntoTheStructureL1Settings = textBox_DeepeningIntoTheStructureL1.Text;
+            br_Settings.DeepeningIntoTheStructureL2Settings = textBox_DeepeningIntoTheStructureL2.Text;
+            br_Settings.DeepeningIntoTheStructureR1Settings = textBox_DeepeningIntoTheStructureR1.Text;
+            br_Settings.DeepeningIntoTheStructureR2Settings = textBox_DeepeningIntoTheStructureR2.Text;
+
+            br_Settings.StirrupIndentL1Settings = textBox_StirrupIndentL1.Text;
+            br_Settings.StirrupStepL1Settings = textBox_StirrupStepL1.Text;
+            br_Settings.StirrupIndentR1Settings = textBox_StirrupIndentR1.Text;
+            br_Settings.StirrupStepR1Settings = textBox_StirrupStepR1.Text;
+            br_Settings.StirrupStepC1Settings = textBox_StirrupStepC1.Text;
+
+            br_Settings.ExtensionAddBarL2Settings = textBox_ExtensionAddBarL2.Text;
+            br_Settings.ExtensionAddBarR2Settings = textBox_ExtensionAddBarR2.Text;
+
+            br_Settings.NumberOfBarsTopFacesSettings = textBox_NumberOfBarsTopFaces.Text;
+            br_Settings.NumberOfBarsBottomFacesSettings = textBox_NumberOfBarsBottomFaces.Text;
+
+            br_Settings.mySelectionMainBarT1Settings = mySelectionMainBarT1.Name;
+            br_Settings.mySelectionMainBarT2Settings = mySelectionMainBarT2.Name;
+            br_Settings.mySelectionMainBarT3Settings = mySelectionMainBarT3.Name;
+            br_Settings.mySelectionStirrupT1Settings = mySelectionStirrupT1.Name;
+            br_Settings.mySelectionStirrupC1Settings = mySelectionStirrupC1.Name;
+
+            br_Settings.RebarTopCoverLayerSettings = RebarTopCoverLayer.Name;
+            br_Settings.RebarBottomCoverLayerSettings = RebarBottomCoverLayer.Name;
+            br_Settings.RebarLRCoverLayerSettings = RebarLRCoverLayer.Name;
+            br_Settings.Save();
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -140,39 +186,6 @@ namespace CITRUS.CIT_04_3_BeamReinforcement
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
-        }
-
-        private void comboBox_MainBarT1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionMainBarT1 = comboBox_MainBarT1.SelectedItem as RebarBarType;
-        }
-        private void comboBox_MainBarT2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionMainBarT2 = comboBox_MainBarT2.SelectedItem as RebarBarType;
-        }
-        private void comboBox_MainBarT3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionMainBarT3 = comboBox_MainBarT3.SelectedItem as RebarBarType;
-        }
-        private void comboBox_StirrupT1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionStirrupT1 = comboBox_StirrupT1.SelectedItem as RebarBarType;
-        }
-        private void comboBox_StirrupC1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionStirrupC1 = comboBox_StirrupC1.SelectedItem as RebarBarType;
-        }
-        private void comboBox_RebarTopCoverLayer_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            RebarTopCoverLayer = comboBox_RebarTopCoverLayer.SelectedItem as RebarCoverType;
-        }
-        private void comboBox_RebarBottomCoverLayer_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            RebarBottomCoverLayer = comboBox_RebarBottomCoverLayer.SelectedItem as RebarCoverType;
-        }
-        private void comboBox_RebarLRCoverLayer_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            RebarLRCoverLayer = comboBox_RebarLRCoverLayer.SelectedItem as RebarCoverType;
         }
 
         private void textBox_ExtensionLeftLenghtL1_TextChanged(object sender, EventArgs e)

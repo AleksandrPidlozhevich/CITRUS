@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CITRUS.Properties;
+using System.IO;
 
 namespace CITRUS.CIT_04_5_StairFlightReinforcement
 {
@@ -35,53 +36,71 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
         public string CheckedBottomConnectionNodeName;
         public string CheckedTopConnectionNodeName;
 
+        SFR_Settings sfr_Settings = null;
+
         public CIT_04_5_StairFlightReinforcementForm(List<RebarBarType> stepRebarType, List<RebarBarType> staircaseRebarType)
         {
             InitializeComponent();
-            textBox_StepRebarCoverLayer.Text = Settings.Default["SFRF_StepRebarCoverLayer"].ToString();
-            textBox_StepLength.Text = Settings.Default["SFRF_StepLength"].ToString();
-            textBox_StepHeight.Text = Settings.Default["SFRF_StepHeight"].ToString();
-            textBox_StaircaseSlabThickness.Text = Settings.Default["SFRF_StaircaseSlabThickness"].ToString();
-            textBox_StairCoverLayer.Text = Settings.Default["SFRF_StairCoverLayer"].ToString();
-            textBox_StepRebarStep.Text = Settings.Default["SFRF_StepRebarStep"].ToString();
-            textBox_StaircaseRebarStep.Text = Settings.Default["SFRF_StaircaseRebarStep"].ToString();
-            textBox_TopExtensionStaircase.Text = Settings.Default["SFRF_TopExtensionStaircase"].ToString();
-            textBox_TopExtensionHeightStaircase.Text = Settings.Default["SFRF_TopExtensionHeightStaircase"].ToString();
-            textBox_BottomExtensionHeightStaircase.Text = Settings.Default["SFRF_BottomExtensionHeightStaircase"].ToString();
-            textBox_BottomExtensionHeightStaircaseNodeA2.Text = Settings.Default["SFRF_BottomExtensionHeightStaircaseNodeA2"].ToString();
-            textBox_FirstBarMeshName.Text = Settings.Default["SFRF_FirstBarMeshName"].ToString();
-            textBox_AdditionalBarMeshName_1.Text = Settings.Default["SFRF_AdditionalBarMeshName_1"].ToString();
-            textBox_AdditionalBarMeshName_2.Text = Settings.Default["SFRF_AdditionalBarMeshName_2"].ToString();
+            sfr_Settings = SFR_Settings.GetSettings();
+            string assemblyPathAll = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string fileName = "SFR_Settings.xml";
+            string assemblyPath = assemblyPathAll.Replace("CITRUS.dll", fileName);
+            if (File.Exists(assemblyPath))
+            {
+                textBox_StepRebarCoverLayer.Text = sfr_Settings.StepRebarCoverLayerSettings;
+                textBox_StepLength.Text = sfr_Settings.StepLengthSettings;
+                textBox_StepHeight.Text = sfr_Settings.StepHeightSettings;
+                textBox_StaircaseSlabThickness.Text = sfr_Settings.StaircaseSlabThicknessSettings;
+                textBox_StairCoverLayer.Text = sfr_Settings.StairCoverLayerSettings;
+                textBox_StepRebarStep.Text = sfr_Settings.StepRebarStepSettings;
+                textBox_StaircaseRebarStep.Text = sfr_Settings.StaircaseRebarStepSettings;
+                textBox_TopExtensionStaircase.Text = sfr_Settings.TopExtensionStaircaseSettings;
+                textBox_TopExtensionHeightStaircase.Text = sfr_Settings.TopExtensionHeightStaircaseSettings;
+                textBox_BottomExtensionHeightStaircase.Text = sfr_Settings.BottomExtensionHeightStaircaseSettings;
+                textBox_BottomExtensionHeightStaircaseNodeA2.Text = sfr_Settings.BottomExtensionHeightStaircaseNodeA2Settings;
+                textBox_FirstBarMeshName.Text = sfr_Settings.FirstBarMeshNameSettings;
+                textBox_AdditionalBarMeshName_1.Text = sfr_Settings.AdditionalBarMeshName_1Settings;
+                textBox_AdditionalBarMeshName_2.Text = sfr_Settings.AdditionalBarMeshName_2Settings;
+
+            }
 
             List<RebarBarType> stepRebarTypeListForComboBox = stepRebarType;
             comboBox_stepRebarType.DataSource = stepRebarTypeListForComboBox;
             comboBox_stepRebarType.DisplayMember = "Name";
+            comboBox_stepRebarType.SelectedItem = stepRebarTypeListForComboBox.FirstOrDefault(rbt => rbt.Name == sfr_Settings.mySelectionStepRebarTypeSettings);
 
             List<RebarBarType> staircaseRebarTypeListForComboBox = staircaseRebarType;
             comboBox_staircaseRebarType.DataSource = staircaseRebarTypeListForComboBox;
             comboBox_staircaseRebarType.DisplayMember = "Name";
+            comboBox_staircaseRebarType.SelectedItem = staircaseRebarTypeListForComboBox.FirstOrDefault(rbt => rbt.Name == sfr_Settings.mySelectionStaircaseRebarTypeSettings);
         }
 
         private void btn_Ok_Click(object sender, EventArgs e)
         {
-            Settings.Default["SFRF_StepRebarCoverLayer"] = textBox_StepRebarCoverLayer.Text;
-            Settings.Default["SFRF_StepLength"] = textBox_StepLength.Text;
-            Settings.Default["SFRF_StepHeight"] = textBox_StepHeight.Text;
-            Settings.Default["SFRF_StaircaseSlabThickness"] = textBox_StaircaseSlabThickness.Text;
-            Settings.Default["SFRF_StairCoverLayer"] = textBox_StairCoverLayer.Text;
-            Settings.Default["SFRF_StepRebarStep"] = textBox_StepRebarStep.Text;
-            Settings.Default["SFRF_StaircaseRebarStep"] = textBox_StaircaseRebarStep.Text;
-            Settings.Default["SFRF_TopExtensionStaircase"] = textBox_TopExtensionStaircase.Text;
-            Settings.Default["SFRF_TopExtensionHeightStaircase"] = textBox_TopExtensionHeightStaircase.Text;
-            Settings.Default["SFRF_BottomExtensionHeightStaircase"] = textBox_BottomExtensionHeightStaircase.Text;
-            Settings.Default["SFRF_BottomExtensionHeightStaircaseNodeA2"] = textBox_BottomExtensionHeightStaircaseNodeA2.Text;
-            Settings.Default["SFRF_FirstBarMeshName"] = textBox_FirstBarMeshName.Text;
-            Settings.Default["SFRF_AdditionalBarMeshName_1"] = textBox_AdditionalBarMeshName_1.Text;
-            Settings.Default["SFRF_AdditionalBarMeshName_2"] = textBox_AdditionalBarMeshName_2.Text;
-            Settings.Default.Save();
+            mySelectionStepRebarType = comboBox_stepRebarType.SelectedItem as RebarBarType;
+            mySelectionStaircaseRebarType = comboBox_staircaseRebarType.SelectedItem as RebarBarType;
 
             CheckedBottomConnectionNodeName = groupBox_BottomConnectionNode.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
             CheckedTopConnectionNodeName = groupBox_TopConnectionNode.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
+
+            sfr_Settings.StepRebarCoverLayerSettings = textBox_StepRebarCoverLayer.Text;
+            sfr_Settings.StepLengthSettings = textBox_StepLength.Text;
+            sfr_Settings.StepHeightSettings = textBox_StepHeight.Text;
+            sfr_Settings.StaircaseSlabThicknessSettings = textBox_StaircaseSlabThickness.Text;
+            sfr_Settings.StairCoverLayerSettings = textBox_StairCoverLayer.Text;
+            sfr_Settings.StepRebarStepSettings = textBox_StepRebarStep.Text;
+            sfr_Settings.StaircaseRebarStepSettings = textBox_StaircaseRebarStep.Text;
+            sfr_Settings.TopExtensionStaircaseSettings = textBox_TopExtensionStaircase.Text;
+            sfr_Settings.TopExtensionHeightStaircaseSettings = textBox_TopExtensionHeightStaircase.Text;
+            sfr_Settings.BottomExtensionHeightStaircaseSettings = textBox_BottomExtensionHeightStaircase.Text;
+            sfr_Settings.BottomExtensionHeightStaircaseNodeA2Settings = textBox_BottomExtensionHeightStaircaseNodeA2.Text;
+            sfr_Settings.FirstBarMeshNameSettings = textBox_FirstBarMeshName.Text;
+            sfr_Settings.AdditionalBarMeshName_1Settings = textBox_AdditionalBarMeshName_1.Text;
+            sfr_Settings.AdditionalBarMeshName_2Settings = textBox_AdditionalBarMeshName_2.Text;
+
+            sfr_Settings.mySelectionStepRebarTypeSettings = mySelectionStepRebarType.Name;
+            sfr_Settings.mySelectionStaircaseRebarTypeSettings = mySelectionStaircaseRebarType.Name;
+            sfr_Settings.Save();
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -91,15 +110,6 @@ namespace CITRUS.CIT_04_5_StairFlightReinforcement
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
-        }
-
-        private void comboBox_stepRebarType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionStepRebarType = comboBox_stepRebarType.SelectedItem as RebarBarType;
-        }
-        private void comboBox_staircaseRebarType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            mySelectionStaircaseRebarType = comboBox_staircaseRebarType.SelectedItem as RebarBarType;
         }
 
         private void textBox_StepRebarCoverLayer_TextChanged(object sender, EventArgs e)

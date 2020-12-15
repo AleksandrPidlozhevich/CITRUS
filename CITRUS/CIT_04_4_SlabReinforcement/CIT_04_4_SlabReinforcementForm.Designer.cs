@@ -84,7 +84,6 @@
             this.comboBox_BottomXDirectionRebarTapes.Size = new System.Drawing.Size(100, 21);
             this.comboBox_BottomXDirectionRebarTapes.Sorted = true;
             this.comboBox_BottomXDirectionRebarTapes.TabIndex = 4;
-            this.comboBox_BottomXDirectionRebarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_BottomXDirectionRebarTapesListForComboBox_SelectedIndexChanged);
             // 
             // comboBox_BottomYDirectionRebarTapes
             // 
@@ -94,7 +93,6 @@
             this.comboBox_BottomYDirectionRebarTapes.Size = new System.Drawing.Size(100, 21);
             this.comboBox_BottomYDirectionRebarTapes.Sorted = true;
             this.comboBox_BottomYDirectionRebarTapes.TabIndex = 5;
-            this.comboBox_BottomYDirectionRebarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_BottomYDirectionRebarTapes_SelectedIndexChanged);
             // 
             // comboBox_TopXDirectionRebarTapes
             // 
@@ -104,7 +102,6 @@
             this.comboBox_TopXDirectionRebarTapes.Size = new System.Drawing.Size(100, 21);
             this.comboBox_TopXDirectionRebarTapes.Sorted = true;
             this.comboBox_TopXDirectionRebarTapes.TabIndex = 6;
-            this.comboBox_TopXDirectionRebarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_TopXDirectionRebarTapes_SelectedIndexChanged);
             // 
             // comboBox_TopYDirectionRebarTapes
             // 
@@ -114,7 +111,6 @@
             this.comboBox_TopYDirectionRebarTapes.Size = new System.Drawing.Size(100, 21);
             this.comboBox_TopYDirectionRebarTapes.Sorted = true;
             this.comboBox_TopYDirectionRebarTapes.TabIndex = 7;
-            this.comboBox_TopYDirectionRebarTapes.SelectedIndexChanged += new System.EventHandler(this.comboBox_TopYDirectionRebarTapes_SelectedIndexChanged);
             // 
             // textBox_BottomXDirectionRebarSpacing
             // 
@@ -160,7 +156,6 @@
             this.comboBox_RebarCoverTypeForTop.Size = new System.Drawing.Size(55, 21);
             this.comboBox_RebarCoverTypeForTop.Sorted = true;
             this.comboBox_RebarCoverTypeForTop.TabIndex = 12;
-            this.comboBox_RebarCoverTypeForTop.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarCoverTypeForTop_SelectedIndexChanged);
             // 
             // comboBox_RebarCoverTypeForBottom
             // 
@@ -170,7 +165,6 @@
             this.comboBox_RebarCoverTypeForBottom.Size = new System.Drawing.Size(55, 21);
             this.comboBox_RebarCoverTypeForBottom.Sorted = true;
             this.comboBox_RebarCoverTypeForBottom.TabIndex = 13;
-            this.comboBox_RebarCoverTypeForBottom.SelectedIndexChanged += new System.EventHandler(this.comboBox_RebarCoverTypeForBottom_SelectedIndexChanged);
             // 
             // textBox_PerimeterFramingDiam
             // 
