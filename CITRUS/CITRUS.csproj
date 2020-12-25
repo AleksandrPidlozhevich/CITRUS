@@ -145,6 +145,13 @@
     <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferMessageBox.Designer.cs">
       <DependentUpon>CIT_04_6_HoleTransferMessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="CIT_04_7_ElementsTransfer\CIT_04_7_ElementsTransfer.cs" />
+    <Compile Include="CIT_04_7_ElementsTransfer\CIT_04_7_ElementsTransferForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CIT_04_7_ElementsTransfer\CIT_04_7_ElementsTransferForm.Designer.cs">
+      <DependentUpon>CIT_04_7_ElementsTransferForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CIT_05_4_1_MEPViewScheduleCreator_Roven\CIT_05_4_1_MEPViewScheduleCreator_Roven.cs" />
     <Compile Include="CIT_05_4_1_MEPViewScheduleCreator_Roven\CIT_05_4_1_MEPViewScheduleCleaner_Roven.cs" />
     <Compile Include="Draftsman.cs" />
@@ -308,6 +315,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferMessageBox.resx">
       <DependentUpon>CIT_04_6_HoleTransferMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CIT_04_7_ElementsTransfer\CIT_04_7_ElementsTransferForm.resx">
+      <DependentUpon>CIT_04_7_ElementsTransferForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FloorTypeSelectorForCapitalMaker.resx">
       <DependentUpon>FloorTypeSelectorForCapitalMaker.cs</DependentUpon>

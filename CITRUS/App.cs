@@ -261,8 +261,8 @@ namespace CITRUS
             panel_OV.AddItem(pbdMEPViewScheduleHost);
 
 
-            ////Создание категории кнопок "Другое"
-            //RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
+            //Создание категории кнопок "Другое"
+            RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
 
             ////Создание кнопки "VR" в категории "Другое"
             //PushButtonData pbdVoiceRecognition = new PushButtonData("VoiceRecognition", "VR", assemblyPach, "CITRUS.VoiceRecognition.VoiceRecognition");
@@ -341,6 +341,14 @@ namespace CITRUS
             //        , "CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven.CIT_05_4_1_MEPViewScheduleCleaner_Roven");
 
             //panel_Other.AddItem(pbdMEPViewScheduleCleaner_Roven);
+
+            //  Создание кнопки "CIT_04_7_ElementsTransfer" в категории "Другое"
+            PushButtonData pbdElementsTransfer = new PushButtonData("ElementsTransfer"
+                    , "Перенос\nэлементов"
+                    , assemblyPach
+                    , "CITRUS.CIT_04_7_ElementsTransfer.CIT_04_7_ElementsTransfer");
+
+            panel_Other.AddItem(pbdElementsTransfer);
 
             return Result.Succeeded;
             }
