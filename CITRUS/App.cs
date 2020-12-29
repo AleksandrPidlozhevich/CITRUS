@@ -108,11 +108,26 @@ namespace CITRUS
             //Создание категории кнопок "КР"
             RibbonPanel panel_KR = application.CreateRibbonPanel(tabName, "КР");
 
+            //Создание кнопки "CIT_04_7_ElementsTransfer" в категории "Другое"
+            PushButtonData pbdElementsTransfer = new PushButtonData("ElementsTransfer"
+                , "Перенос\nэлементов"
+                , assemblyPach
+                , "CITRUS.CIT_04_7_ElementsTransfer.CIT_04_7_ElementsTransfer");
+
+            Image ElementsTransfer_img1 = Properties.Resources.ElementsTransfer_Large;
+            ImageSource ElementsTransfer_imgLarge = GetImageSourse(ElementsTransfer_img1);
+            Image ElementsTransfer_img2 = Properties.Resources.ElementsTransfer;
+            ImageSource ElementsTransfer_imgStandart = GetImageSourse(ElementsTransfer_img2);
+
+            pbdElementsTransfer.LargeImage = ElementsTransfer_imgLarge;
+            pbdElementsTransfer.Image = ElementsTransfer_imgStandart;
+            panel_KR.AddItem(pbdElementsTransfer);
+
             //Создание кнопки "HoleTransfer" в категории "КР"
             PushButtonData pbdHoleTransfer = new PushButtonData("HoleTransfer"
-                    , "Перенос\nпроемов"
-                    , assemblyPach
-                    , "CITRUS.CIT_04_6_HoleTransfer.CIT_04_6_HoleTransfer");
+                , "Замена\nпроемов"
+                , assemblyPach
+                , "CITRUS.CIT_04_6_HoleTransfer.CIT_04_6_HoleTransfer");
 
             Image HoleTransfer_img1 = Properties.Resources.HoleTransfer_Large;
             ImageSource HoleTransfer_imgLarge = GetImageSourse(HoleTransfer_img1);
@@ -262,7 +277,7 @@ namespace CITRUS
 
 
             //Создание категории кнопок "Другое"
-            RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
+            //RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
 
             ////Создание кнопки "VR" в категории "Другое"
             //PushButtonData pbdVoiceRecognition = new PushButtonData("VoiceRecognition", "VR", assemblyPach, "CITRUS.VoiceRecognition.VoiceRecognition");
@@ -341,14 +356,6 @@ namespace CITRUS
             //        , "CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven.CIT_05_4_1_MEPViewScheduleCleaner_Roven");
 
             //panel_Other.AddItem(pbdMEPViewScheduleCleaner_Roven);
-
-            //  Создание кнопки "CIT_04_7_ElementsTransfer" в категории "Другое"
-            PushButtonData pbdElementsTransfer = new PushButtonData("ElementsTransfer"
-                    , "Перенос\nэлементов"
-                    , assemblyPach
-                    , "CITRUS.CIT_04_7_ElementsTransfer.CIT_04_7_ElementsTransfer");
-
-            panel_Other.AddItem(pbdElementsTransfer);
 
             return Result.Succeeded;
             }

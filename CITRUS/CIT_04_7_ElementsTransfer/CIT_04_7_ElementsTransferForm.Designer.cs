@@ -31,19 +31,22 @@
             this.btn_Cancel = new System.Windows.Forms.Button();
             this.btn_Ok = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox_ReplaceWallType = new System.Windows.Forms.CheckBox();
+            this.checkBox_ReplaceСolumnType = new System.Windows.Forms.CheckBox();
+            this.checkBox_ReplaceFloorType = new System.Windows.Forms.CheckBox();
             this.checkBox_FoundatioTransfer = new System.Windows.Forms.CheckBox();
             this.checkBox_WallTransfer = new System.Windows.Forms.CheckBox();
             this.checkBox_BeamTransfer = new System.Windows.Forms.CheckBox();
             this.checkBox_СolumnTransfer = new System.Windows.Forms.CheckBox();
             this.checkBox_FloorTransfer = new System.Windows.Forms.CheckBox();
-            this.checkBox_ReplaceFloorType = new System.Windows.Forms.CheckBox();
+            this.checkBox_ReplaceBeamType = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_Cancel
             // 
             this.btn_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Cancel.Location = new System.Drawing.Point(195, 179);
+            this.btn_Cancel.Location = new System.Drawing.Point(192, 254);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(100, 25);
             this.btn_Cancel.TabIndex = 9;
@@ -54,7 +57,7 @@
             // btn_Ok
             // 
             this.btn_Ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Ok.Location = new System.Drawing.Point(66, 179);
+            this.btn_Ok.Location = new System.Drawing.Point(63, 254);
             this.btn_Ok.Name = "btn_Ok";
             this.btn_Ok.Size = new System.Drawing.Size(100, 25);
             this.btn_Ok.TabIndex = 8;
@@ -67,6 +70,9 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.checkBox_ReplaceBeamType);
+            this.groupBox1.Controls.Add(this.checkBox_ReplaceWallType);
+            this.groupBox1.Controls.Add(this.checkBox_ReplaceСolumnType);
             this.groupBox1.Controls.Add(this.checkBox_ReplaceFloorType);
             this.groupBox1.Controls.Add(this.checkBox_FoundatioTransfer);
             this.groupBox1.Controls.Add(this.checkBox_WallTransfer);
@@ -75,15 +81,45 @@
             this.groupBox1.Controls.Add(this.checkBox_FloorTransfer);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(283, 161);
+            this.groupBox1.Size = new System.Drawing.Size(280, 236);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Перенести элементы:";
             // 
+            // checkBox_ReplaceWallType
+            // 
+            this.checkBox_ReplaceWallType.AutoSize = true;
+            this.checkBox_ReplaceWallType.Location = new System.Drawing.Point(26, 134);
+            this.checkBox_ReplaceWallType.Name = "checkBox_ReplaceWallType";
+            this.checkBox_ReplaceWallType.Size = new System.Drawing.Size(130, 17);
+            this.checkBox_ReplaceWallType.TabIndex = 7;
+            this.checkBox_ReplaceWallType.Text = "Заменить типы стен";
+            this.checkBox_ReplaceWallType.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_ReplaceСolumnType
+            // 
+            this.checkBox_ReplaceСolumnType.AutoSize = true;
+            this.checkBox_ReplaceСolumnType.Location = new System.Drawing.Point(26, 88);
+            this.checkBox_ReplaceСolumnType.Name = "checkBox_ReplaceСolumnType";
+            this.checkBox_ReplaceСolumnType.Size = new System.Drawing.Size(143, 17);
+            this.checkBox_ReplaceСolumnType.TabIndex = 6;
+            this.checkBox_ReplaceСolumnType.Text = "Заменить тип колонны";
+            this.checkBox_ReplaceСolumnType.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_ReplaceFloorType
+            // 
+            this.checkBox_ReplaceFloorType.AutoSize = true;
+            this.checkBox_ReplaceFloorType.Location = new System.Drawing.Point(26, 42);
+            this.checkBox_ReplaceFloorType.Name = "checkBox_ReplaceFloorType";
+            this.checkBox_ReplaceFloorType.Size = new System.Drawing.Size(160, 17);
+            this.checkBox_ReplaceFloorType.TabIndex = 5;
+            this.checkBox_ReplaceFloorType.Text = "Заменить тип перекрытия";
+            this.checkBox_ReplaceFloorType.UseVisualStyleBackColor = true;
+            // 
             // checkBox_FoundatioTransfer
             // 
             this.checkBox_FoundatioTransfer.AutoSize = true;
-            this.checkBox_FoundatioTransfer.Location = new System.Drawing.Point(6, 134);
+            this.checkBox_FoundatioTransfer.Location = new System.Drawing.Point(6, 203);
             this.checkBox_FoundatioTransfer.Name = "checkBox_FoundatioTransfer";
             this.checkBox_FoundatioTransfer.Size = new System.Drawing.Size(93, 17);
             this.checkBox_FoundatioTransfer.TabIndex = 4;
@@ -93,7 +129,7 @@
             // checkBox_WallTransfer
             // 
             this.checkBox_WallTransfer.AutoSize = true;
-            this.checkBox_WallTransfer.Location = new System.Drawing.Point(6, 88);
+            this.checkBox_WallTransfer.Location = new System.Drawing.Point(6, 111);
             this.checkBox_WallTransfer.Name = "checkBox_WallTransfer";
             this.checkBox_WallTransfer.Size = new System.Drawing.Size(58, 17);
             this.checkBox_WallTransfer.TabIndex = 3;
@@ -103,7 +139,7 @@
             // checkBox_BeamTransfer
             // 
             this.checkBox_BeamTransfer.AutoSize = true;
-            this.checkBox_BeamTransfer.Location = new System.Drawing.Point(6, 111);
+            this.checkBox_BeamTransfer.Location = new System.Drawing.Point(6, 157);
             this.checkBox_BeamTransfer.Name = "checkBox_BeamTransfer";
             this.checkBox_BeamTransfer.Size = new System.Drawing.Size(57, 17);
             this.checkBox_BeamTransfer.TabIndex = 2;
@@ -130,21 +166,21 @@
             this.checkBox_FloorTransfer.Text = "Перекрытия";
             this.checkBox_FloorTransfer.UseVisualStyleBackColor = true;
             // 
-            // checkBox_ReplaceFloorType
+            // checkBox_ReplaceBeamType
             // 
-            this.checkBox_ReplaceFloorType.AutoSize = true;
-            this.checkBox_ReplaceFloorType.Location = new System.Drawing.Point(26, 42);
-            this.checkBox_ReplaceFloorType.Name = "checkBox_ReplaceFloorType";
-            this.checkBox_ReplaceFloorType.Size = new System.Drawing.Size(160, 17);
-            this.checkBox_ReplaceFloorType.TabIndex = 5;
-            this.checkBox_ReplaceFloorType.Text = "Заменить тип перекрытия";
-            this.checkBox_ReplaceFloorType.UseVisualStyleBackColor = true;
+            this.checkBox_ReplaceBeamType.AutoSize = true;
+            this.checkBox_ReplaceBeamType.Location = new System.Drawing.Point(26, 180);
+            this.checkBox_ReplaceBeamType.Name = "checkBox_ReplaceBeamType";
+            this.checkBox_ReplaceBeamType.Size = new System.Drawing.Size(137, 17);
+            this.checkBox_ReplaceBeamType.TabIndex = 8;
+            this.checkBox_ReplaceBeamType.Text = "Заменить типы балок";
+            this.checkBox_ReplaceBeamType.UseVisualStyleBackColor = true;
             // 
             // CIT_04_7_ElementsTransferForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(307, 216);
+            this.ClientSize = new System.Drawing.Size(304, 291);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btn_Cancel);
             this.Controls.Add(this.btn_Ok);
@@ -168,5 +204,8 @@
         private System.Windows.Forms.CheckBox checkBox_WallTransfer;
         private System.Windows.Forms.CheckBox checkBox_FoundatioTransfer;
         private System.Windows.Forms.CheckBox checkBox_ReplaceFloorType;
+        private System.Windows.Forms.CheckBox checkBox_ReplaceСolumnType;
+        private System.Windows.Forms.CheckBox checkBox_ReplaceWallType;
+        private System.Windows.Forms.CheckBox checkBox_ReplaceBeamType;
     }
 }

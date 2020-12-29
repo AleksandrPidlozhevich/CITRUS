@@ -133,18 +133,6 @@
     </Compile>
     <Compile Include="CIT_04_5_StairFlightReinforcement\SFR_Settings.cs" />
     <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransfer.cs" />
-    <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferForm.Designer.cs">
-      <DependentUpon>CIT_04_6_HoleTransferForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferMessageBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferMessageBox.Designer.cs">
-      <DependentUpon>CIT_04_6_HoleTransferMessageBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="CIT_04_7_ElementsTransfer\CIT_04_7_ElementsTransfer.cs" />
     <Compile Include="CIT_04_7_ElementsTransfer\CIT_04_7_ElementsTransferForm.cs">
       <SubType>Form</SubType>
@@ -309,12 +297,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CIT_04_5_StairFlightReinforcement\CIT_04_5_StairFlightReinforcementForm.resx">
       <DependentUpon>CIT_04_5_StairFlightReinforcementForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferForm.resx">
-      <DependentUpon>CIT_04_6_HoleTransferForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CIT_04_6_HoleTransfer\CIT_04_6_HoleTransferMessageBox.resx">
-      <DependentUpon>CIT_04_6_HoleTransferMessageBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CIT_04_7_ElementsTransfer\CIT_04_7_ElementsTransferForm.resx">
       <DependentUpon>CIT_04_7_ElementsTransferForm.cs</DependentUpon>
@@ -561,6 +543,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SlabReinforcement_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ElementsTransfer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ElementsTransfer_Large.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

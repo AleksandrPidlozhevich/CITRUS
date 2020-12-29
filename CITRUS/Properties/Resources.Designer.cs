@@ -113,6 +113,26 @@ namespace CITRUS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ElementsTransfer {
+            get {
+                object obj = ResourceManager.GetObject("ElementsTransfer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ElementsTransfer_Large {
+            get {
+                object obj = ResourceManager.GetObject("ElementsTransfer_Large", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap FinishNumerator {
             get {
                 object obj = ResourceManager.GetObject("FinishNumerator", resourceCulture);

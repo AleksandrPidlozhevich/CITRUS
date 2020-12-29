@@ -17,7 +17,11 @@ namespace CITRUS.CIT_04_7_ElementsTransfer
         public bool WallTransferCheck;
         public bool BeamTransferCheck;
         public bool FoundatioTransferCheck;
+
         public bool ReplaceFloorType;
+        public bool ReplaceСolumnType;
+        public bool ReplaceWallType;
+        public bool ReplaceBeamType;
 
         public CIT_04_7_ElementsTransferForm()
         {
@@ -33,6 +37,9 @@ namespace CITRUS.CIT_04_7_ElementsTransfer
             FoundatioTransferCheck = checkBox_FoundatioTransfer.Checked;
 
             ReplaceFloorType = checkBox_ReplaceFloorType.Checked;
+            ReplaceСolumnType = checkBox_ReplaceСolumnType.Checked;
+            ReplaceWallType = checkBox_ReplaceWallType.Checked;
+            ReplaceBeamType = checkBox_ReplaceBeamType.Checked;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
