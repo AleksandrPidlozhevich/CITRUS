@@ -135,7 +135,8 @@ namespace CITRUS.CIT_04_7_ElementsTransfer
                     .OfCategory(BuiltInCategory.OST_StructuralFraming)
                     .Cast<FamilyInstance>()
                     .Where(f => f.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_MATERIAL_PARAM) != null)
-                    .Where(f => f.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_MATERIAL_PARAM).AsValueString().Contains("Бетон"))
+                    .Where(f => f.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_MATERIAL_PARAM).AsValueString().Contains("Бетон")
+                    || f.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_MATERIAL_PARAM).AsValueString().Contains("елезобетон"))
                     .ToList();
 
                     foreach (FamilyInstance fi in beamList)
@@ -292,6 +293,7 @@ namespace CITRUS.CIT_04_7_ElementsTransfer
                     .OfClass(typeof(FamilyInstance))
                     .OfCategory(BuiltInCategory.OST_StructuralColumns)
                     .Cast<FamilyInstance>()
+                    .Where(c => c.HasSweptProfile())
                     .ToList();
 
                     //Список типов колонн семейства "210_Прямоугольного сечения (НесКол_2ур)" с именем "400 x 400 мм"
@@ -312,51 +314,47 @@ namespace CITRUS.CIT_04_7_ElementsTransfer
                     //Если тип "400 x 400 мм" семейства "210_Прямоугольного сечения (НесКол_2ур)" есть в проекте добавляем его в переменную. Используем его для создания недостающих типов.
                     FamilySymbol columnType400 = columnTypesList400.First();
 
-                    //Список размеров колонн в проекте
-                    List<string> columnDimensionsList = new List<string>();
+                    //Обработка списка колонн
                     foreach (FamilyInstance column in columnListForReplacement)
                     {
-                        double columnHeightDouble = Math.Round(column.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_HEIGHT).AsDouble() * 304.8);
-                        double columnWidthDouble = Math.Round(column.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_WIDTH).AsDouble() * 304.8);
-
-                        string columnHeightStr = "";
-                        string columnWidthStr = "";
-
-                        if(columnHeightDouble >= columnWidthDouble)
+                        GeometryElement geomRoomElement = column.Symbol.get_Geometry(new Options());
+                        Solid columnSolid = null;
+                        foreach (GeometryObject geomObj in geomRoomElement)
                         {
-                            columnHeightStr = columnHeightDouble.ToString();
-                            columnWidthStr = columnWidthDouble.ToString();
-                        }
-                        else
-                        {
-                            columnHeightStr = columnWidthDouble.ToString(); 
-                            columnWidthStr = columnHeightDouble.ToString();
+                            columnSolid = geomObj as Solid;
+                            if (columnSolid != null) break;
                         }
 
-                        string columnDimensions = columnWidthStr + "x" + columnHeightStr;
-                        if (columnDimensionsList.Contains(columnDimensions)) continue;
-                        else columnDimensionsList.Add(columnDimensions);
-                    }
+                        FaceArray FacesList = columnSolid.Faces;
+                        Face targetFace = null;
+                        double faceArea = 9999;
 
-                    //Обработка списка размеров колонн
-                    foreach (string dim in columnDimensionsList)
-                    {
-                        string columnWidthStr = dim.Split('x')[0];
-                        string columnHeightStr = dim.Split('x')[1];
+                        foreach (PlanarFace face in FacesList)
+                        {
+                            if (face.Area < faceArea)
+                            {
+                                faceArea = face.Area;
+                                targetFace = face;
+                            }
+                        }
 
-                        //Все колонны с размерами dim
-                        List<FamilyInstance> columnListForReplacementTemp = new FilteredElementCollector(doc)
-                            .OfClass(typeof(FamilyInstance))
-                            .OfCategory(BuiltInCategory.OST_StructuralColumns)
-                            .Cast<FamilyInstance>()
-                            .Where(c => c.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_WIDTH) != null)
-                            .Where(c => c.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_HEIGHT) != null)
-                            .Where(c => (Math.Round(c.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_WIDTH).AsDouble() * 304.8).ToString() == columnWidthStr
-                            & Math.Round(c.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_HEIGHT).AsDouble() * 304.8).ToString() == columnHeightStr)
-                            ||
-                            (Math.Round(c.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_WIDTH).AsDouble() * 304.8).ToString() == columnHeightStr
-                            & Math.Round(c.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_HEIGHT).AsDouble() * 304.8).ToString() == columnWidthStr))
-                            .ToList();
+                        CurveLoop curveLoop = targetFace.GetEdgesAsCurveLoops().First();
+                        double columnHeightDouble = 0;
+                        double columnWidthDouble = 9999;
+                        foreach (Line ln in curveLoop)
+                        {
+                            if (columnHeightDouble < ln.Length)
+                            {
+                                columnHeightDouble = ln.Length;
+                            }
+
+                            if (columnWidthDouble > ln.Length)
+                            {
+                                columnWidthDouble = ln.Length;
+                            }
+                        }
+                        string columnWidthStr = Math.Round(columnWidthDouble * 304.8).ToString();
+                        string columnHeightStr = Math.Round(columnHeightDouble * 304.8).ToString();
 
                         //Поиск типа колонны для замены
                         List<FamilySymbol> columnTypesListTemp = new FilteredElementCollector(doc)
@@ -370,33 +368,25 @@ namespace CITRUS.CIT_04_7_ElementsTransfer
 
                         //Переменная для типа колонны
                         FamilySymbol newFamilySymbol = null;
-
                         //Если нужный тип колонны не найден в проекте, создаем его
                         if (columnTypesListTemp.Count() == 0)
                         {
                             newFamilySymbol = columnType400.Duplicate(columnWidthStr + " x " + columnHeightStr + " мм") as FamilySymbol;
 
-                            double.TryParse(columnWidthStr, out double columnWidthDouble);
-                            double.TryParse(columnHeightStr, out double columnHeightDouble);
-
-                            newFamilySymbol.LookupParameter("Рзм.Ширина").Set(columnWidthDouble / 304.8);
-                            newFamilySymbol.LookupParameter("Рзм.Высота").Set(columnHeightDouble / 304.8);
+                            newFamilySymbol.LookupParameter("Рзм.Ширина").Set(columnWidthDouble);
+                            newFamilySymbol.LookupParameter("Рзм.Высота").Set(columnHeightDouble);
                         }
-
                         //Если нужный тип найден в проекте
                         else
                         {
                             newFamilySymbol = columnTypesListTemp.First();
                         }
 
-                        //Замена типов колонн
-                        foreach (FamilyInstance fi in columnListForReplacementTemp)
+                        if (column.Symbol != newFamilySymbol)
                         {
-                            if (fi.Symbol != newFamilySymbol)
-                            {
-                                fi.Symbol = newFamilySymbol;
-                            }
+                            column.Symbol = newFamilySymbol;
                         }
+
                     }
                 }
 
@@ -407,7 +397,8 @@ namespace CITRUS.CIT_04_7_ElementsTransfer
                     .OfClass(typeof(Wall))
                     .Cast<Wall>()
                     .Where(w => w.get_Parameter(BuiltInParameter.WALL_STRUCTURAL_SIGNIFICANT).AsInteger() == 1)
-                    .Where(w => doc.GetElement(w.WallType.GetCompoundStructure().GetLayers()[0].MaterialId).get_Parameter(BuiltInParameter.MATERIAL_NAME).AsString().Contains("Бетон"))
+                    .Where(w => doc.GetElement(w.WallType.GetCompoundStructure().GetLayers()[0].MaterialId).get_Parameter(BuiltInParameter.MATERIAL_NAME).AsString().Contains("Бетон")
+                    || doc.GetElement(w.WallType.GetCompoundStructure().GetLayers()[0].MaterialId).get_Parameter(BuiltInParameter.MATERIAL_NAME).AsString().Contains("елезобетон"))
                     .ToList();
 
                     //Список типов стен с именем "В25 200мм"
@@ -443,7 +434,8 @@ namespace CITRUS.CIT_04_7_ElementsTransfer
                             .OfClass(typeof(Wall))
                             .Cast<Wall>()
                             .Where(w => w.get_Parameter(BuiltInParameter.WALL_STRUCTURAL_SIGNIFICANT).AsInteger() == 1)
-                            .Where(w => doc.GetElement(w.WallType.GetCompoundStructure().GetLayers()[0].MaterialId).get_Parameter(BuiltInParameter.MATERIAL_NAME).AsString().Contains("Бетон"))
+                            .Where(w => doc.GetElement(w.WallType.GetCompoundStructure().GetLayers()[0].MaterialId).get_Parameter(BuiltInParameter.MATERIAL_NAME).AsString().Contains("Бетон")
+                            || doc.GetElement(w.WallType.GetCompoundStructure().GetLayers()[0].MaterialId).get_Parameter(BuiltInParameter.MATERIAL_NAME).AsString().Contains("елезобетон"))
                             .Where(w => w.WallType.get_Parameter(BuiltInParameter.WALL_ATTR_WIDTH_PARAM).AsDouble() == thickness)
                             .ToList();
 
@@ -493,7 +485,8 @@ namespace CITRUS.CIT_04_7_ElementsTransfer
                         .OfCategory(BuiltInCategory.OST_StructuralFraming)
                         .Cast<FamilyInstance>()
                         .Where(f => f.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_MATERIAL_PARAM) != null)
-                        .Where(f => f.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_MATERIAL_PARAM).AsValueString().Contains("Бетон"))
+                        .Where(f => f.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_MATERIAL_PARAM).AsValueString().Contains("Бетон")
+                        || f.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_MATERIAL_PARAM).AsValueString().Contains("елезобетон"))
                         .ToList();
 
                     //Список типов колонн семейства "210_Прямоугольного сечения (НесКаркас_Балка)" с именем "300 x 600 мм"
@@ -514,34 +507,47 @@ namespace CITRUS.CIT_04_7_ElementsTransfer
                     //Если тип "300 x 600 мм" семейства "210_Прямоугольного сечения (НесКаркас_Балка)" есть в проекте добавляем его в переменную. Используем его для создания недостающих типов.
                     FamilySymbol beamType300x600 = beamTypesList300x600.First();
 
-                    //Список размеров балок в проекте
-                    List<string> beamDimensionsList = new List<string>();
                     foreach (FamilyInstance beam in beamListForReplacement)
                     {
-                        double beamHeightDouble = Math.Round(beam.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_HEIGHT).AsDouble()*304.8);
-                        double beamWidthDouble = Math.Round(beam.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_WIDTH).AsDouble() * 304.8);
 
-                        string beamDimensions = beamWidthDouble.ToString() + "x" + beamHeightDouble.ToString();
-                        if (beamDimensionsList.Contains(beamDimensions)) continue;
-                        else beamDimensionsList.Add(beamDimensions);
-                    }
+                        GeometryElement geomRoomElement = beam.Symbol.get_Geometry(new Options());
+                        Solid beamSolid = null;
+                        foreach (GeometryObject geomObj in geomRoomElement)
+                        {
+                            beamSolid = geomObj as Solid;
+                            if (beamSolid != null) break;
+                        }
 
-                    //Обработка списка размеров колонн
-                    foreach (string dim in beamDimensionsList)
-                    {
-                        string beamWidthStr = dim.Split('x')[0];
-                        string beamHeightStr = dim.Split('x')[1];
+                        FaceArray FacesList = beamSolid.Faces;
+                        Face targetFace = null;
+                        double faceArea = 9999;
 
-                        //Все колонны с размерами dim
-                        List<FamilyInstance> beamListForReplacementTemp = new FilteredElementCollector(doc)
-                            .OfClass(typeof(FamilyInstance))
-                            .OfCategory(BuiltInCategory.OST_StructuralFraming)
-                            .Cast<FamilyInstance>()
-                            .Where(b => b.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_WIDTH) != null)
-                            .Where(b => b.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_HEIGHT) != null)
-                            .Where(b => Math.Round(b.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_WIDTH).AsDouble() * 304.8).ToString() == beamWidthStr
-                            & Math.Round(b.Symbol.get_Parameter(BuiltInParameter.STRUCTURAL_SECTION_COMMON_HEIGHT).AsDouble() * 304.8).ToString() == beamHeightStr)
-                            .ToList();
+                        foreach (PlanarFace face in FacesList)
+                        {
+                            if (face.Area < faceArea)
+                            {
+                                faceArea = face.Area;
+                                targetFace = face;
+                            }
+                        }
+                        CurveLoop curveLoop = targetFace.GetEdgesAsCurveLoops().First();
+                        double beamHeightDouble = 0;
+                        double beamWidthDouble = 9999;
+                        foreach (Line ln in curveLoop)
+                        {
+                            if (beamHeightDouble < ln.Length)
+                            {
+                                beamHeightDouble = ln.Length;
+                            }
+
+                            if (beamWidthDouble > ln.Length)
+                            {
+                                beamWidthDouble = ln.Length;
+                            }
+                        }
+
+                        string beamWidthStr = Math.Round(beamWidthDouble * 304.8).ToString();
+                        string beamHeightStr = Math.Round(beamHeightDouble * 304.8).ToString();
 
                         //Поиск типа балки для замены
                         List<FamilySymbol> beamTypesListTemp = new FilteredElementCollector(doc)
@@ -561,31 +567,21 @@ namespace CITRUS.CIT_04_7_ElementsTransfer
                         {
                             newFamilySymbol = beamType300x600.Duplicate(beamWidthStr + " x " + beamHeightStr + " мм") as FamilySymbol;
 
-                            double.TryParse(beamWidthStr, out double columnWidthDouble);
-                            double.TryParse(beamHeightStr, out double columnHeightDouble);
-
-                            newFamilySymbol.LookupParameter("Рзм.Ширина").Set(columnWidthDouble / 304.8);
-                            newFamilySymbol.LookupParameter("Рзм.Высота").Set(columnHeightDouble / 304.8);
+                            newFamilySymbol.LookupParameter("Рзм.Ширина").Set(beamWidthDouble);
+                            newFamilySymbol.LookupParameter("Рзм.Высота").Set(beamHeightDouble);
                         }
-
                         //Если нужный тип найден в проекте
                         else
                         {
                             newFamilySymbol = beamTypesListTemp.First();
                         }
 
-                        //Замена типов колонн
-                        foreach (FamilyInstance fi in beamListForReplacementTemp)
+                        if (beam.Symbol != newFamilySymbol)
                         {
-                            if (fi.Symbol != newFamilySymbol)
-                            {
-                                fi.Symbol = newFamilySymbol;
-                            }
+                            beam.Symbol = newFamilySymbol;
                         }
                     }
-
                 }
-
                 t.Commit();
             }
             return Result.Succeeded;
