@@ -47,6 +47,10 @@ namespace CITRUS
 						{
 							s_complect = sh.GetParameters("РОВЕН_Раздел проекта")[0].AsString();
 						}
+
+						else if (sh.GetParameters("Орг.КомплектЧертежей").Count != 0)						{
+							s_complect = sh.GetParameters("Орг.КомплектЧертежей")[0].AsString();
+						}
 						break;
 					}
 				}

@@ -105,6 +105,25 @@ namespace CITRUS
             pbdFinishNumerator.Image = FinishNumerator_imgStandart;
             panel_AR.AddItem(pbdFinishNumerator);
 
+            //Создание категории кнопок "Инсоляция"
+            RibbonPanel panel_Insolation = application.CreateRibbonPanel(tabName, "Инсоляция");
+
+            //Создание кнопки "InsolationRulerСreator" в категории "Инсоляция"
+            PushButtonData pbdInsolationRulerСreator = new PushButtonData("InsolationRulerСreator"
+                    , "Инсоляционная\nлинейка"
+                    , assemblyPach
+                    , "CITRUS.CIT_03_3_Insolation.InsolationRulerСreator");
+
+            panel_Insolation.AddItem(pbdInsolationRulerСreator);
+
+            //Создание кнопки "InsolationAtPoint" в категории "Инсоляция"
+            PushButtonData pbdInsolationAtPoint = new PushButtonData("InsolationAtPoint"
+                    , "Инсоляция\nв точке"
+                    , assemblyPach
+                    , "CITRUS.CIT_03_3_Insolation.InsolationAtPoint");
+
+            panel_Insolation.AddItem(pbdInsolationAtPoint);
+
             //Создание категории кнопок "КР"
             RibbonPanel panel_KR = application.CreateRibbonPanel(tabName, "КР");
 
@@ -277,7 +296,7 @@ namespace CITRUS
 
 
             //Создание категории кнопок "Другое"
-            //RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
+            RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
 
             ////Создание кнопки "VR" в категории "Другое"
             //PushButtonData pbdVoiceRecognition = new PushButtonData("VoiceRecognition", "VR", assemblyPach, "CITRUS.VoiceRecognition.VoiceRecognition");
@@ -317,14 +336,6 @@ namespace CITRUS
 
             ////panel_Other.AddItem(pbdHeatLoss);
 
-            ////// Создание кнопки "Draftsman" в категории "Другое"
-            ////PushButtonData pbdDraftsman = new PushButtonData("Draftsman"
-            ////        , "Чертило"
-            ////        , assemblyPach
-            ////        , "CITRUS.Draftsman");
-
-            ////panel_Other.AddItem(pbdDraftsman);
-
             ////// Создание кнопки "MySQL_Test" в категории "Другое"
             ////PushButtonData pbdMySQLTest = new PushButtonData("MySQLTest"
             ////        , "MySQLTest"
@@ -332,14 +343,6 @@ namespace CITRUS
             ////        , "CITRUS.MySQL_Test");
 
             ////panel_Other.AddItem(pbdMySQLTest);
-
-            ////// Создание кнопки "Blocker" в категории "Другое"
-            ////PushButtonData pbdBlocker = new PushButtonData("Blocker"
-            ////        , "Blocker"
-            ////        , assemblyPach
-            ////        , "CITRUS.Blocker");
-
-            ////panel_Other.AddItem(pbdBlocker);
 
             ////  Создание кнопки "MEPViewScheduleCreator_Roven" в категории "Другое"
             //PushButtonData pbdMEPViewScheduleCreator_Roven = new PushButtonData("MEPViewScheduleCreator_Roven"
@@ -356,6 +359,30 @@ namespace CITRUS
             //        , "CITRUS.CIT_05_4_1_MEPViewScheduleCreator_Roven.CIT_05_4_1_MEPViewScheduleCleaner_Roven");
 
             //panel_Other.AddItem(pbdMEPViewScheduleCleaner_Roven);
+
+            //Создание кнопки "Axis3D2D" в категории "Другое"
+            //PushButtonData pbdAxis3D2D = new PushButtonData("Axis3D2D"
+            //        , "Оси\n3D в 2D"
+            //        , assemblyPach
+            //        , "CITRUS.Axis3D2D");
+
+            //panel_Other.AddItem(pbdAxis3D2D);
+
+            //Создание кнопки "Google" в категории "Другое"
+            //PushButtonData pbdGoogle = new PushButtonData("Google"
+            //        , "Google"
+            //        , assemblyPach
+            //        , "CITRUS.CIT_00_0_GoogleSheets.RevitDataToGoogleSheets");
+
+            //panel_Other.AddItem(pbdGoogle);
+
+            ////Создание кнопки "FinishingSheet" в категории "Другое"
+            //PushButtonData pbdGFinishingSheet = new PushButtonData("FinishingSheet"
+            //        , "Отделка"
+            //        , assemblyPach
+            //        , "CITRUS.FinishingSheet");
+
+            //panel_Other.AddItem(pbdGFinishingSheet);
 
             return Result.Succeeded;
             }

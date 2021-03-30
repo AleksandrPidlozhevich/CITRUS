@@ -31,6 +31,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Google.Apis, Version=1.50.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.50.0\lib\net45\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.50.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.50.0\lib\net45\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.50.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.50.0\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.50.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.50.0\lib\net45\Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.50.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.50.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Sheets.v4, Version=1.50.0.2245, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Sheets.v4.1.50.0.2245\lib\net45\Google.Apis.Sheets.v4.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Speech, Version=11.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Speech\v11.0\Assembly\Microsoft.Speech.dll</HintPath>
@@ -40,13 +58,16 @@
       <HintPath>..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.22\Assemblies\v4.5.2\MySql.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -64,8 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="Blocker.cs" />
+    <Compile Include="Axis3D2D.cs" />
     <Compile Include="CapitalMaker.cs" />
+    <Compile Include="CIT_00_0_GoogleSheets\RevitDataToGoogleSheets.cs" />
     <Compile Include="CIT_03_1_WallFinishCreator\CIT_03_1_WallFinishCreator.cs" />
     <Compile Include="CIT_03_1_WallFinishCreator\CIT_03_1_WallFinishCreatorForm.cs">
       <SubType>Form</SubType>
@@ -80,6 +102,14 @@
     <Compile Include="CIT_03_2_FinishNumerator\CIT_03_2_FinishNumeratorForm.Designer.cs">
       <DependentUpon>CIT_03_2_FinishNumeratorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CIT_03_3_Insolation\InsolationAtPoint.cs" />
+    <Compile Include="CIT_03_3_Insolation\InsolationAtPointForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CIT_03_3_Insolation\InsolationAtPointForm.Designer.cs">
+      <DependentUpon>InsolationAtPointForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CIT_03_3_Insolation\InsolationRulerСreator.cs" />
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\FSCRT6_Settings.cs" />
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\FSCRT5_Settings.cs" />
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\FSCRT4_Settings.cs" />
@@ -142,13 +172,14 @@
     </Compile>
     <Compile Include="CIT_05_4_1_MEPViewScheduleCreator_Roven\CIT_05_4_1_MEPViewScheduleCreator_Roven.cs" />
     <Compile Include="CIT_05_4_1_MEPViewScheduleCreator_Roven\CIT_05_4_1_MEPViewScheduleCleaner_Roven.cs" />
-    <Compile Include="Draftsman.cs" />
+    <Compile Include="FinishingSheet.cs" />
     <Compile Include="FormRebarOutletsCreator.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormRebarOutletsCreator.Designer.cs">
       <DependentUpon>FormRebarOutletsCreator.cs</DependentUpon>
     </Compile>
+    <Compile Include="FamilyInstanceSelectionFilter.cs" />
     <Compile Include="HeatLoss.cs" />
     <Compile Include="MEPViewScheduleCreatorADM.cs" />
     <Compile Include="MEPViewScheduleCreator.cs" />
@@ -265,6 +296,9 @@
     <EmbeddedResource Include="CIT_03_2_FinishNumerator\CIT_03_2_FinishNumeratorForm.resx">
       <DependentUpon>CIT_03_2_FinishNumeratorForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CIT_03_3_Insolation\InsolationAtPointForm.resx">
+      <DependentUpon>InsolationAtPointForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CIT_04_1_SquareColumnsReinforcement\CIT_04_1_1FormSquareColumnsReinforcementType6.resx">
       <DependentUpon>CIT_04_1_1FormSquareColumnsReinforcementType6.cs</DependentUpon>
     </EmbeddedResource>
@@ -331,6 +365,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="CIT_00_0_GoogleSheets\CITRUSGoogle.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
