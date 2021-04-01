@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CITRUS.CIT_03_3_Insolation
 {
@@ -19,7 +21,7 @@ namespace CITRUS.CIT_03_3_Insolation
             ElementId viewId = doc.ActiveView.Id;
 
             //Список исходных лучей
-            List<FamilyInstance> initialRayList = new FilteredElementCollector(doc, viewId)
+            List<FamilyInstance> initialRayUnsortedList = new FilteredElementCollector(doc, viewId)
                 .WhereElementIsNotElementType()
                 .OfClass(typeof(FamilyInstance))
                 .Where(l => l.Name == "CIT_03_Луч")
@@ -27,7 +29,7 @@ namespace CITRUS.CIT_03_3_Insolation
                 .ToList();
 
             //Сортировка лучей по направлению относительно X
-            initialRayList.OrderBy(l => (l.HandOrientation).AngleTo(XYZ.BasisX));
+            List<FamilyInstance> initialRayList = initialRayUnsortedList.OrderBy(l => (l.HandOrientation).AngleTo(XYZ.BasisX)).ToList(); ;
 
             //Ось вращения при создании промежуточных лучей
             XYZ a = new XYZ(0, 0, 0);
@@ -98,7 +100,7 @@ namespace CITRUS.CIT_03_3_Insolation
             }
 
             //Список лучей для создания Линий модели с учетом угловой высоты
-            List<FamilyInstance> rayListForRotate = new FilteredElementCollector(doc, viewId)
+            List<FamilyInstance> rayUnsortedListForRotate = new FilteredElementCollector(doc, viewId)
                 .WhereElementIsNotElementType()
                 .OfClass(typeof(FamilyInstance))
                 .Where(l => l.Name == "CIT_03_Луч")
@@ -106,14 +108,28 @@ namespace CITRUS.CIT_03_3_Insolation
                 .ToList();
 
             //Сортировка лучей по направлению относительно X
-            rayListForRotate.OrderBy(l => (l.HandOrientation).AngleTo(XYZ.BasisX));
+            List<FamilyInstance> rayListForRotate = rayUnsortedListForRotate.OrderBy(l => (l.HandOrientation).AngleTo(XYZ.BasisX)).ToList();
 
+            ProgressBarForm pbf = null;
+            Thread m_Thread = new Thread(() => Application.Run(pbf = new ProgressBarForm(rayListForRotate.Count)));
+            m_Thread.IsBackground = true;
+            m_Thread.Start();
+            int step = 0;
+            Thread.Sleep(100);
+
+            if (rayListForRotate.Count == 0)
+            {
+                pbf.BeginInvoke(new Action(() => { pbf.Close(); }));
+            }
 
             using (Transaction t = new Transaction(doc))
             {
-                t.Start("Новые лучи");
+                t.Start("Построение лучей");
                 foreach (FamilyInstance fi in rayListForRotate)
                 {
+                    step += 1;
+                    pbf.BeginInvoke(new Action(() => { pbf.progressBar_pb.Value = step; }));
+
                     //Создание Линий Модели с учетом угловой высоты
                     XYZ p = new XYZ(0, 0, 0) + (20000 / 304.8) * fi.HandOrientation;
                     XYZ q = p + (100000 / 304.8) * fi.HandOrientation;
@@ -126,9 +142,10 @@ namespace CITRUS.CIT_03_3_Insolation
                     ModelCurve newRayWithoutAngle = doc.Create.NewModelCurve(line, sketchPlane);
                     ElementTransformUtils.RotateElement(doc, newRayWithoutAngle.Id, rotationAxis, - fi.LookupParameter("Высота").AsDouble());
                 }
+                pbf.BeginInvoke(new Action(() => { pbf.Close(); }));
                 t.Commit();
             }
-
+            TaskDialog.Show("Revit", "Обработка завершена!");
             return Result.Succeeded;
         }
     }

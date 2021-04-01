@@ -334,4 +334,10 @@
   <data name="ElementsTransfer_Large" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ElementsTransfer_Large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="InsolationAtPoint" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InsolationAtPoint.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="InsolationAtPoint_Large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InsolationAtPoint_Large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

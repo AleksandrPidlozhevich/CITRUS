@@ -122,12 +122,20 @@ namespace CITRUS
                     , assemblyPach
                     , "CITRUS.CIT_03_3_Insolation.InsolationAtPoint");
 
+            Image InsolationAtPoint_img1 = Properties.Resources.InsolationAtPoint_Large;
+            ImageSource InsolationAtPoint_imgLarge = GetImageSourse(InsolationAtPoint_img1);
+            Image InsolationAtPoint_img2 = Properties.Resources.InsolationAtPoint;
+            ImageSource InsolationAtPoint_imgStandart = GetImageSourse(InsolationAtPoint_img2);
+
+            pbdInsolationAtPoint.LargeImage = InsolationAtPoint_imgLarge;
+            pbdInsolationAtPoint.Image = InsolationAtPoint_imgStandart;
+
             panel_Insolation.AddItem(pbdInsolationAtPoint);
 
             //Создание категории кнопок "КР"
             RibbonPanel panel_KR = application.CreateRibbonPanel(tabName, "КР");
 
-            //Создание кнопки "CIT_04_7_ElementsTransfer" в категории "Другое"
+            //Создание кнопки "CIT_04_7_ElementsTransfer" в категории "КР"
             PushButtonData pbdElementsTransfer = new PushButtonData("ElementsTransfer"
                 , "Перенос\nэлементов"
                 , assemblyPach
@@ -157,7 +165,7 @@ namespace CITRUS
             pbdHoleTransfer.Image = HoleTransfer_imgStandart;
             panel_KR.AddItem(pbdHoleTransfer);
 
-            //Создание кнопки "Капитель" в категории "Публикация"
+            //Создание кнопки "Капитель" в категории "КР"
             PushButtonData pbdCapitalMaker = new PushButtonData("CapitalMaker", "Капитель", assemblyPach, "CITRUS.CapitalMaker");
             Image CapitalMaker_img1 = Properties.Resources.CapitalMaker_Large;
             ImageSource CapitalMaker_imgLarge = GetImageSourse(CapitalMaker_img1);
@@ -295,8 +303,8 @@ namespace CITRUS
             panel_OV.AddItem(pbdMEPViewScheduleHost);
 
 
-            //Создание категории кнопок "Другое"
-            RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
+            ////Создание категории кнопок "Другое"
+            //RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
 
             ////Создание кнопки "VR" в категории "Другое"
             //PushButtonData pbdVoiceRecognition = new PushButtonData("VoiceRecognition", "VR", assemblyPach, "CITRUS.VoiceRecognition.VoiceRecognition");

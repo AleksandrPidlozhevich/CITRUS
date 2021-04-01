@@ -110,6 +110,7 @@
       <DependentUpon>InsolationAtPointForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CIT_03_3_Insolation\InsolationRulerСreator.cs" />
+    <Compile Include="CIT_03_3_Insolation\PanelSelectionFilter.cs" />
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\FSCRT6_Settings.cs" />
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\FSCRT5_Settings.cs" />
     <Compile Include="CIT_04_1_SquareColumnsReinforcement\FSCRT4_Settings.cs" />
@@ -587,6 +588,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ElementsTransfer_Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsolationAtPoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsolationAtPoint_Large.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -12,7 +12,10 @@ namespace CITRUS.CIT_03_3_Insolation
 {
     public partial class InsolationAtPointForm : Form
     {
+        public string VerificationOption;
+        public bool CheckSelectedPanels;
         public bool CheckSelectedPoints;
+        public bool WallsAndFloorsGeometry;
         public InsolationAtPointForm()
         {
             InitializeComponent();
@@ -20,7 +23,10 @@ namespace CITRUS.CIT_03_3_Insolation
 
         private void btn_Ok_Click(object sender, EventArgs e)
         {
+            VerificationOption = groupBox_VerificationOptions.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
+            CheckSelectedPanels = checkBox_CheckSelectedPanels.Checked;
             CheckSelectedPoints = checkBox_CheckSelectedPoints.Checked;
+            WallsAndFloorsGeometry = checkBox_WallsAndFloorsGeometry.Checked;
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

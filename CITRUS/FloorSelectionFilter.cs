@@ -11,7 +11,7 @@ namespace CITRUS
 {
     class FloorSelectionFilter : ISelectionFilter
     {
-		public bool AllowElement(Autodesk.Revit.DB.Element elem)
+		public bool AllowElement(Element elem)
 		{
 
 			if (elem is Floor)
@@ -21,7 +21,7 @@ namespace CITRUS
 			return false;
 		}
 
-		public bool AllowReference(Autodesk.Revit.DB.Reference reference, Autodesk.Revit.DB.XYZ position)
+		public bool AllowReference(Reference reference, XYZ position)
 		{
 			return false;
 		}

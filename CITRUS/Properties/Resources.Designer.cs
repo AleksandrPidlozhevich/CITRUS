@@ -413,6 +413,26 @@ namespace CITRUS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap InsolationAtPoint {
+            get {
+                object obj = ResourceManager.GetObject("InsolationAtPoint", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap InsolationAtPoint_Large {
+            get {
+                object obj = ResourceManager.GetObject("InsolationAtPoint_Large", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap RebarGroupCopier {
             get {
                 object obj = ResourceManager.GetObject("RebarGroupCopier", resourceCulture);
