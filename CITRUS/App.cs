@@ -303,8 +303,8 @@ namespace CITRUS
             panel_OV.AddItem(pbdMEPViewScheduleHost);
 
 
-            ////Создание категории кнопок "Другое"
-            //RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
+            //Создание категории кнопок "Другое"
+            RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
 
             ////Создание кнопки "VR" в категории "Другое"
             //PushButtonData pbdVoiceRecognition = new PushButtonData("VoiceRecognition", "VR", assemblyPach, "CITRUS.VoiceRecognition.VoiceRecognition");
@@ -384,13 +384,13 @@ namespace CITRUS
 
             //panel_Other.AddItem(pbdGoogle);
 
-            ////Создание кнопки "FinishingSheet" в категории "Другое"
-            //PushButtonData pbdGFinishingSheet = new PushButtonData("FinishingSheet"
-            //        , "Отделка"
-            //        , assemblyPach
-            //        , "CITRUS.FinishingSheet");
+            //Создание кнопки "FinishingSheet" в категории "Другое"
+            PushButtonData pbdGFinishingSheet = new PushButtonData("FinishingSheet"
+                    , "Отделка"
+                    , assemblyPach
+                    , "CITRUS.FinishingSheet");
 
-            //panel_Other.AddItem(pbdGFinishingSheet);
+            panel_Other.AddItem(pbdGFinishingSheet);
 
             return Result.Succeeded;
             }
