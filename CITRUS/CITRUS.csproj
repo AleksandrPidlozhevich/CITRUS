@@ -88,6 +88,7 @@
     <Compile Include="Axis3D2D.cs" />
     <Compile Include="CapitalMaker.cs" />
     <Compile Include="CIT_00_0_GoogleSheets\RevitDataToGoogleSheets.cs" />
+    <Compile Include="CIT_00_1_FillingParameterLevel\CIT_00_1_FillingParameterLevel.cs" />
     <Compile Include="CIT_03_1_WallFinishCreator\CIT_03_1_WallFinishCreator.cs" />
     <Compile Include="CIT_03_1_WallFinishCreator\CIT_03_1_WallFinishCreatorForm.cs">
       <SubType>Form</SubType>
@@ -173,7 +174,9 @@
     </Compile>
     <Compile Include="CIT_05_4_1_MEPViewScheduleCreator_Roven\CIT_05_4_1_MEPViewScheduleCreator_Roven.cs" />
     <Compile Include="CIT_05_4_1_MEPViewScheduleCreator_Roven\CIT_05_4_1_MEPViewScheduleCleaner_Roven.cs" />
+    <Compile Include="CreateColumnDimensions.cs" />
     <Compile Include="FinishingSheet.cs" />
+    <Compile Include="WallSelectionFilter.cs" />
     <Compile Include="FormRebarOutletsCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -289,6 +292,7 @@
     <Compile Include="VoiceRecognitionForm.Designer.cs">
       <DependentUpon>VoiceRecognitionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="WallsReinforcement.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CIT_03_1_WallFinishCreator\CIT_03_1_WallFinishCreatorForm.resx">
@@ -595,5 +599,6 @@
   <ItemGroup>
     <None Include="Resources\InsolationAtPoint_Large.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

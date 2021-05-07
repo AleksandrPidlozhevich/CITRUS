@@ -369,12 +369,12 @@ namespace CITRUS
             //panel_Other.AddItem(pbdMEPViewScheduleCleaner_Roven);
 
             //Создание кнопки "Axis3D2D" в категории "Другое"
-            //PushButtonData pbdAxis3D2D = new PushButtonData("Axis3D2D"
-            //        , "Оси\n3D в 2D"
-            //        , assemblyPach
-            //        , "CITRUS.Axis3D2D");
+            PushButtonData pbdAxis3D2D = new PushButtonData("Axis3D2D"
+                    , "Оси\n3D в 2D"
+                    , assemblyPach
+                    , "CITRUS.Axis3D2D");
 
-            //panel_Other.AddItem(pbdAxis3D2D);
+            panel_Other.AddItem(pbdAxis3D2D);
 
             //Создание кнопки "Google" в категории "Другое"
             //PushButtonData pbdGoogle = new PushButtonData("Google"
@@ -391,6 +391,31 @@ namespace CITRUS
                     , "CITRUS.FinishingSheet");
 
             panel_Other.AddItem(pbdGFinishingSheet);
+
+            ////Создание кнопки "WallsReinforcement" в категории "Другое"
+            //PushButtonData pbdWallsReinforcement = new PushButtonData("WallsReinforcement"
+            //        , "Армирование\nстены"
+            //        , assemblyPach
+            //        , "CITRUS.WallsReinforcement");
+
+            //panel_Other.AddItem(pbdWallsReinforcement);
+
+            //Создание кнопки "FillingParameterLevel" в категории "Другое"
+            //PushButtonData pbdFillingParameterLevel = new PushButtonData("FillingParameterLevel"
+            //        , "Заполнить\n\"Этаж\""
+            //        , assemblyPach
+            //        , "CITRUS.CIT_00_1_FillingParameterLevel.CIT_00_1_FillingParameterLevel");
+
+            //panel_Other.AddItem(pbdFillingParameterLevel);
+
+            //CreateColumnDimensions
+            //Создание кнопки "CreateColumnDimensions" в категории "Другое"
+            PushButtonData pbdCreateColumnDimensions = new PushButtonData("CreateColumnDimensions"
+                    , "Образмерить\nколонны"
+                    , assemblyPach
+                    , "CITRUS.CreateColumnDimensions");
+
+            panel_Other.AddItem(pbdCreateColumnDimensions);
 
             return Result.Succeeded;
             }
