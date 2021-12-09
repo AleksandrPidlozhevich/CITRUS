@@ -375,6 +375,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
 
                     //Завершение блока сбора параметров колонны
 
+
                     //Старт блока задания параметра защитного слоя боковых граней колонны
                     //Защитный слой арматуры боковых граней
                     Parameter clearCoverOther = myColumn.get_Parameter(BuiltInParameter.CLEAR_COVER_OTHER);

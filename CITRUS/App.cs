@@ -279,29 +279,61 @@ namespace CITRUS
 
             panel_KR.AddItem(pbdStaircaseReinforcement);
 
-            //Создание категории кнопок "ОВ"
-            RibbonPanel panel_OV = application.CreateRibbonPanel(tabName, "ОВ");
-            //Создание кнопки "MEPViewScheduleCreator" в категории "ОВ"
-            PushButtonData pbdMEPViewScheduleCreator = new PushButtonData("MEPViewScheduleCreator", "Создать\ncпецификации MEP", assemblyPach, "CITRUS.MEPViewScheduleCreator");
+            ////Создание категории кнопок "ОВ"
+            //RibbonPanel panel_OV = application.CreateRibbonPanel(tabName, "ОВ");
+            ////Создание кнопки "MEPViewScheduleCreator" в категории "ОВ"
+            //PushButtonData pbdMEPViewScheduleCreator = new PushButtonData("MEPViewScheduleCreator", "Создать\ncпецификации MEP", assemblyPach, "CITRUS.MEPViewScheduleCreator");
 
-            Image MEPViewScheduleCreator_img1 = Properties.Resources.ScheduleCreator_Large;
-            ImageSource MEPViewScheduleCreator_imgLarge = GetImageSourse(MEPViewScheduleCreator_img1);
-            Image MEPViewScheduleCreator_img2 = Properties.Resources.ScheduleCreator;
-            ImageSource MEPViewScheduleCreator_imgStandart = GetImageSourse(MEPViewScheduleCreator_img2);
-            pbdMEPViewScheduleCreator.LargeImage = MEPViewScheduleCreator_imgLarge;
-            pbdMEPViewScheduleCreator.Image = MEPViewScheduleCreator_imgStandart;
-            panel_OV.AddItem(pbdMEPViewScheduleCreator);
+            //Image MEPViewScheduleCreator_img1 = Properties.Resources.ScheduleCreator_Large;
+            //ImageSource MEPViewScheduleCreator_imgLarge = GetImageSourse(MEPViewScheduleCreator_img1);
+            //Image MEPViewScheduleCreator_img2 = Properties.Resources.ScheduleCreator;
+            //ImageSource MEPViewScheduleCreator_imgStandart = GetImageSourse(MEPViewScheduleCreator_img2);
+            //pbdMEPViewScheduleCreator.LargeImage = MEPViewScheduleCreator_imgLarge;
+            //pbdMEPViewScheduleCreator.Image = MEPViewScheduleCreator_imgStandart;
+            //panel_OV.AddItem(pbdMEPViewScheduleCreator);
 
-            //Создание кнопки "MEPViewScheduleHost" в категории "ОВ"
-            PushButtonData pbdMEPViewScheduleHost = new PushButtonData("MEPViewScheduleHost", "Разместить\nспецификации MEP", assemblyPach, "CITRUS.MEPViewScheduleHost");
-            Image MEPViewScheduleHost_img1 = Properties.Resources.ScheduleHost_Large;
-            ImageSource MEPViewScheduleHost_imgLarge = GetImageSourse(MEPViewScheduleHost_img1);
-            Image MEPViewScheduleHost_img2 = Properties.Resources.ScheduleHost;
-            ImageSource MEPViewScheduleHost_imgStandart = GetImageSourse(MEPViewScheduleHost_img2);
-            pbdMEPViewScheduleHost.LargeImage = MEPViewScheduleHost_imgLarge;
-            pbdMEPViewScheduleHost.Image = MEPViewScheduleHost_imgStandart;
-            panel_OV.AddItem(pbdMEPViewScheduleHost);
+            ////Создание кнопки "MEPViewScheduleHost" в категории "ОВ"
+            //PushButtonData pbdMEPViewScheduleHost = new PushButtonData("MEPViewScheduleHost", "Разместить\nспецификации MEP", assemblyPach, "CITRUS.MEPViewScheduleHost");
+            //Image MEPViewScheduleHost_img1 = Properties.Resources.ScheduleHost_Large;
+            //ImageSource MEPViewScheduleHost_imgLarge = GetImageSourse(MEPViewScheduleHost_img1);
+            //Image MEPViewScheduleHost_img2 = Properties.Resources.ScheduleHost;
+            //ImageSource MEPViewScheduleHost_imgStandart = GetImageSourse(MEPViewScheduleHost_img2);
+            //pbdMEPViewScheduleHost.LargeImage = MEPViewScheduleHost_imgLarge;
+            //pbdMEPViewScheduleHost.Image = MEPViewScheduleHost_imgStandart;
+            //panel_OV.AddItem(pbdMEPViewScheduleHost);
 
+            //Создание категории кнопок "Обработка отверстий"
+            RibbonPanel panel_HoleMachining = application.CreateRibbonPanel(tabName, "Обработка отверстий");
+
+            //Создание кнопки "GloryHole" в категории "Обработка отверстий"
+            PushButtonData pbdGloryHole = new PushButtonData("GloryHole", "Создать\nзадание", assemblyPach, "CITRUS.GloryHole");
+            panel_HoleMachining.AddItem(pbdGloryHole);
+
+            //Создание кнопки "GloryHoleRefreshElevations" в категории "Обработка отверстий"
+            PushButtonData pbdGloryHoleRefreshElevations = new PushButtonData("GloryHoleRefreshElevations", "Обновить\nотметки", assemblyPach, "CITRUS.GloryHoleRefreshElevations");
+            //panel_HoleMachining.AddItem(pbdGloryHoleRefreshElevations);
+
+            //Создание кнопки "GloryHoleRefreshMark" в категории "Обработка отверстий"
+            PushButtonData pbdGloryHoleRefreshMark = new PushButtonData("GloryHoleRefreshMark", "Обновить\nмарки", assemblyPach, "CITRUS.GloryHoleRefreshMark");
+            //panel_HoleMachining.AddItem(pbdGloryHoleRefreshMark);
+
+            SplitButtonData groupDataGloryHoleRefresh = new SplitButtonData("Обновить\nданные", "Pulldown Group");
+            SplitButton groupGloryHoleRefresh = panel_HoleMachining.AddItem(groupDataGloryHoleRefresh) as SplitButton;
+            PushButton pbGloryHoleRefreshElevations = groupGloryHoleRefresh.AddPushButton(pbdGloryHoleRefreshElevations) as PushButton;
+            groupGloryHoleRefresh.AddSeparator();
+            PushButton pbGloryHoleRefreshMark = groupGloryHoleRefresh.AddPushButton(pbdGloryHoleRefreshMark) as PushButton;
+
+            //Создание кнопки "GloryHoleSaveAssignmentVersion" в категории "Обработка отверстий"
+            PushButtonData pbdGloryHoleSaveAssignmentVersion = new PushButtonData("GloryHoleSaveAssignmentVersion", "Сохранить\nверсию задания", assemblyPach, "CITRUS.GloryHoleSaveAssignmentVersion");
+            panel_HoleMachining.AddItem(pbdGloryHoleSaveAssignmentVersion);
+
+            //Создание кнопки "GloryHoleCutter" в категории "Обработка отверстий"
+            PushButtonData pbdGloryHoleCutter = new PushButtonData("GloryHoleCutter", "Вырезать\nотверстия", assemblyPach, "CITRUS.GloryHoleCutter");
+            panel_HoleMachining.AddItem(pbdGloryHoleCutter);
+
+            //Создание кнопки "SystemsToSpace" в категории "Обработка отверстий"
+            PushButtonData pbdSystemsToSpace = new PushButtonData("SystemsToSpace", "Системы\nв пространства", assemblyPach, "CITRUS.SystemsToSpace");
+            panel_HoleMachining.AddItem(pbdSystemsToSpace);
 
             //Создание категории кнопок "Другое"
             RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");
@@ -316,17 +348,6 @@ namespace CITRUS
             //pbdVoiceRecognition.LargeImage = VoiceRecognition_imgLarge;
             //pbdVoiceRecognition.Image = VoiceRecognition_imgStandart;
             //panel_Other.AddItem(pbdVoiceRecognition);
-
-            ////Создание кнопки "GloryHole" в категории "Другое"
-            //PushButtonData pbdGloryHole = new PushButtonData("GloryHole", "GloryHole", assemblyPach, "CITRUS.GloryHole");
-            //Image GloryHole_img1 = Properties.Resources.GloryHole_Large;
-            //ImageSource GloryHole_imgLarge = GetImageSourse(GloryHole_img1);
-            //Image GloryHole_img2 = Properties.Resources.GloryHole;
-            //ImageSource GloryHole_imgStandart = GetImageSourse(GloryHole_img2);
-
-            //pbdGloryHole.LargeImage = GloryHole_imgLarge;
-            //pbdGloryHole.Image = GloryHole_imgStandart;
-            //panel_Other.AddItem(pbdGloryHole);
 
             //////Создание кнопки "MEPViewScheduleCreatorADM" в категории "Другое"
             ////PushButtonData pbdMEPViewScheduleCreatorADM = new PushButtonData("MEPViewScheduleCreatorADM"
@@ -369,12 +390,12 @@ namespace CITRUS
             //panel_Other.AddItem(pbdMEPViewScheduleCleaner_Roven);
 
             //Создание кнопки "Axis3D2D" в категории "Другое"
-            PushButtonData pbdAxis3D2D = new PushButtonData("Axis3D2D"
-                    , "Оси\n3D в 2D"
-                    , assemblyPach
-                    , "CITRUS.Axis3D2D");
+            //PushButtonData pbdAxis3D2D = new PushButtonData("Axis3D2D"
+            //        , "Оси\n3D в 2D"
+            //        , assemblyPach
+            //        , "CITRUS.Axis3D2D");
 
-            panel_Other.AddItem(pbdAxis3D2D);
+            //panel_Other.AddItem(pbdAxis3D2D);
 
             //Создание кнопки "Google" в категории "Другое"
             //PushButtonData pbdGoogle = new PushButtonData("Google"
@@ -409,13 +430,37 @@ namespace CITRUS
             //panel_Other.AddItem(pbdFillingParameterLevel);
 
             //CreateColumnDimensions
-            //Создание кнопки "CreateColumnDimensions" в категории "Другое"
-            PushButtonData pbdCreateColumnDimensions = new PushButtonData("CreateColumnDimensions"
-                    , "Образмерить\nколонны"
+            //Создание кнопки "CreateLineDimensions" в категории "Другое"
+            PushButtonData pbdCreateLineDimensions = new PushButtonData("CreateLineDimensions"
+                   , "Размер\nпо линии"
                     , assemblyPach
-                    , "CITRUS.CreateColumnDimensions");
+                   , "CITRUS.CreateLineDimensions");
 
-            panel_Other.AddItem(pbdCreateColumnDimensions);
+            panel_Other.AddItem(pbdCreateLineDimensions);
+
+            //ColumnCutter
+            //PushButtonData pbdColumnCutter = new PushButtonData("ColumnCutter"
+            //        , "Резчик\nКолонн"
+            //        , assemblyPach
+            //        , "CITRUS.ColumnCutter");
+
+            //panel_Other.AddItem(pbdColumnCutter);
+
+            //ApartmentLayout
+            PushButtonData pbdApartmentLayout = new PushButtonData("ApartmentLayout"
+                    , "Квартирография"
+                    , assemblyPach
+                    , "CITRUS.ApartmentLayout");
+
+            //Создание кнопки "WallFinishCreator_v2" в категории "АР"
+            PushButtonData pbdWallFinishCreator_v2 = new PushButtonData("WallFinishCreator_v2"
+                    , "Отделка\nстен v2"
+                    , assemblyPach
+                    , "CITRUS.CIT_03_1_WallFinishCreator_v2.CIT_03_1_WallFinishCreator_v2");
+
+            panel_AR.AddItem(pbdWallFinishCreator_v2);
+
+            panel_Other.AddItem(pbdApartmentLayout);
 
             return Result.Succeeded;
             }

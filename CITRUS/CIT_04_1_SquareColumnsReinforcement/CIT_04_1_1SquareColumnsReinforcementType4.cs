@@ -1541,7 +1541,6 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                     else if (checkedRebarOutletsButtonName == "radioButton_MainWeldingRods" & transitionToOverlap == false & changeColumnSection == true & sectionOffset <= 50 / 304.8)
                     {
                         //Если стыковка стержней на сварке с изменением сечения колонны выше
-
                         XYZ firstTubWelding_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarOutletsLength + baseLevelOffset);
                         XYZ secondTubWelding_p1 = new XYZ(Math.Round(columnOrigin.X, 6), Math.Round(columnOrigin.Y, 6), columnLength + floorThicknessAboveColumn + rebarSecondOutletsLength + baseLevelOffset);
 
@@ -1969,8 +1968,7 @@ namespace CITRUS.CIT_04_1_SquareColumnsReinforcement
                         , Math.Round(firstRebarStirrup_p3.Z, 6));
 
 
-                    ////Точки для построения кривых стержня хомута дополнительного
-
+                    //Точки для построения кривых стержня хомута дополнительного
                     XYZ secondRebarStirrup_p1 = new XYZ(Math.Round(columnOrigin.X - secondLeftRebarOffset-secondMainRebarDiam/2-secondStirrupRebarDiam, 6)
                         , Math.Round(columnOrigin.Y+columnSectionWidth/2 - mainRebarCoverLayer+secondStirrupRebarDiam/2, 6)
                         , Math.Round(columnOrigin.Z + firstStirrupOffset + firstStirrupRebarDiam / 2 + secondStirrupRebarDiam / 2, 6));

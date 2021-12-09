@@ -89,6 +89,7 @@
             this.Controls.Add(this.comboBox_FloorTypes);
             this.MinimumSize = new System.Drawing.Size(400, 200);
             this.Name = "FloorTypeSelector";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Пол";
             this.ResumeLayout(false);
             this.PerformLayout();

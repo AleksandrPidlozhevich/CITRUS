@@ -175,9 +175,10 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                         List<FamilySymbol> perimeterFramingFamilySymbolList = new FilteredElementCollector(doc)
                             .OfClass(typeof(FamilySymbol))
                             .Cast<FamilySymbol>()
-                            .Where(fs => fs.FamilyName == "264_Обрамление периметра Пшки (ОбщМод_Линия)")
+                            .Where(fs => fs.FamilyName == "264_Обрамление_периметра_Пшки_ОбщМод_Линия")
                             .Where(fs => fs.LookupParameter("Диаметр стержня").AsDouble() == perimeterFramingDiam)
-                            .Where(fs => fs.LookupParameter("Анкеровка Пшки").AsDouble() == perimeterFramingOverlaping)
+                            .Where(fs => fs.LookupParameter("Анкеровка Пшки верх").AsDouble() == perimeterFramingOverlaping)
+                            .Where(fs => fs.LookupParameter("Анкеровка Пшки низ").AsDouble() == perimeterFramingOverlaping)
                             .Where(fs => fs.LookupParameter("Защитный слой верх").AsDouble() == perimeterFramingTopCoverLayer)
                             .Where(fs => fs.LookupParameter("Защитный слой низ").AsDouble() == perimeterFramingBottomCoverLayer)
                             .Where(fs => fs.LookupParameter("Защитный слой торец").AsDouble() == perimeterFramingEndCoverLayer)
@@ -191,12 +192,12 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
                             perimeterFramingFamilySymbolList = new FilteredElementCollector(doc)
                                 .OfClass(typeof(FamilySymbol))
                                 .Cast<FamilySymbol>()
-                                .Where(fs => fs.FamilyName == "264_Обрамление периметра Пшки (ОбщМод_Линия)")
+                                .Where(fs => fs.FamilyName == "264_Обрамление_периметра_Пшки_ОбщМод_Линия")
                                 .ToList();
                             //Если не существует
                             if (perimeterFramingFamilySymbolList.Count == 0)
                             {
-                                TaskDialog.Show("Revit", "Семейство \"264_Обрамление периметра Пшки (ОбщМод_Линия)\" не найдено!");
+                                TaskDialog.Show("Revit", "Семейство \"264_Обрамление_периметра_Пшки_ОбщМод_Линия\" не найдено!");
                                 return Result.Cancelled;
                             }
                             //Если существует взять любой тип семейства обрамления для создания нового
@@ -212,7 +213,8 @@ namespace CITRUS.CIT_04_4_SlabReinforcement
 
                             //Задание требуемых параметров
                             targetPerimeterFramingFamilySymbol.LookupParameter("Диаметр стержня").Set(perimeterFramingDiam);
-                            targetPerimeterFramingFamilySymbol.LookupParameter("Анкеровка Пшки").Set(perimeterFramingOverlaping);
+                            targetPerimeterFramingFamilySymbol.LookupParameter("Анкеровка Пшки верх").Set(perimeterFramingOverlaping);
+                            targetPerimeterFramingFamilySymbol.LookupParameter("Анкеровка Пшки низ").Set(perimeterFramingOverlaping);
                             targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой верх").Set(perimeterFramingTopCoverLayer);
                             targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой низ").Set(perimeterFramingBottomCoverLayer);
                             targetPerimeterFramingFamilySymbol.LookupParameter("Защитный слой торец").Set(perimeterFramingEndCoverLayer);

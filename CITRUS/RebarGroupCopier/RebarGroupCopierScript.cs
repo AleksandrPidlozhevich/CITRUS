@@ -50,11 +50,20 @@ namespace CITRUS
 
 					foreach (Group myGroup in myGroupList)
 					{
-						List<ElementId> myElementsInGroup = myGroup.GetDependentElements(null).ToList();
-						Element myFirstElementInGroup = doc.GetElement(myElementsInGroup.First()) as Element;
-						string rebarElemHostMarkParam = myFirstElementInGroup.get_Parameter(BuiltInParameter.REBAR_ELEM_HOST_MARK).AsString();
-
-						Rebar myFirstElementInGroupAsRebar = doc.GetElement(myElementsInGroup.First()) as Rebar;
+						string rebarElemHostMarkParam = "";
+						Rebar myFirstElementInGroupAsRebar = null;
+						List <ElementId> myElementsInGroup = myGroup.GetDependentElements(null).ToList();
+						foreach(ElementId elemId in myElementsInGroup)
+                        {
+							Element myElementInGroup = doc.GetElement(elemId) as Element;
+							if(myElementInGroup.GetType().Name == "Rebar")
+                            {
+								rebarElemHostMarkParam = myElementInGroup.get_Parameter(BuiltInParameter.REBAR_ELEM_HOST_MARK).AsString();
+								myFirstElementInGroupAsRebar = doc.GetElement(elemId) as Rebar;
+								break;
+							}
+						}
+						 
 						ElementId myRebarHostElementId = myFirstElementInGroupAsRebar.GetHostId();
 						FamilyInstance myRebarHostElement = doc.GetElement(myRebarHostElementId) as FamilyInstance;
 						LocationPoint rebarHostElementLocation = myRebarHostElement.Location as LocationPoint;

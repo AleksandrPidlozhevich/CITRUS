@@ -18,24 +18,25 @@ namespace CITRUS
         {
 			Document doc = commandData.Application.ActiveUIDocument.Document;
 			Selection sel = commandData.Application.ActiveUIDocument.Selection;
-			RoomSelectionFilter selFilter = new RoomSelectionFilter();
-			IList<Reference> selRooms = sel.PickObjects(ObjectType.Element, selFilter, "Выберите помещения!");
+
 			List<Room> roomList = new List<Room>();
-
-			foreach (Reference roomRef in selRooms)
-			{
-				roomList.Add(doc.GetElement(roomRef) as Room);
-			}
-
-			View active = doc.ActiveView;
-			Level myLevel = active.GenLevel;
-			if(myLevel==null)
+			roomList = GetRoomsFromCurrentSelection(doc, sel);
+            if (roomList.Count == 0)
             {
-				return Result.Failed;
+				RoomSelectionFilter selFilter = new RoomSelectionFilter();
+				IList<Reference> selRooms = sel.PickObjects(ObjectType.Element, selFilter, "Выберите помещения!");
+
+				foreach (Reference roomRef in selRooms)
+				{
+					roomList.Add(doc.GetElement(roomRef) as Room);
+				}
 			}
 
-			List<FloorType> myFloorTypeList = new FilteredElementCollector(doc).OfClass(typeof(FloorType)).Cast<FloorType>().ToList();
-
+			List<FloorType> myFloorTypeList = new FilteredElementCollector(doc)
+				.OfClass(typeof(FloorType))
+				.Where(f=>f.Category.Id.IntegerValue.Equals((int)BuiltInCategory.OST_Floors))
+				.Cast<FloorType>()
+				.ToList();
 
 		    FloorTypeSelector formRoomTypeSelector = new FloorTypeSelector(myFloorTypeList);
             formRoomTypeSelector.ShowDialog();
@@ -46,6 +47,11 @@ namespace CITRUS
 			{
 				foreach (Room myRoom in roomList)
 				{
+					Level myLevel = myRoom.Level;
+					if (myLevel == null)
+					{
+						continue;
+					}
 					CurveArray roomCurves = new CurveArray();
 					CurveArray secondCurves = new CurveArray();
 					IList<IList<BoundarySegment>> loops = myRoom.GetBoundarySegments(new SpatialElementBoundaryOptions());
@@ -79,5 +85,21 @@ namespace CITRUS
 			}
 			return Result.Succeeded;
         }
-    }
+
+		private static List<Room> GetRoomsFromCurrentSelection(Document doc, Selection sel)
+		{
+			ICollection<ElementId> selectedIds = sel.GetElementIds();
+			List<Room> tempRoomsList = new List<Room>();
+			foreach (ElementId roomId in selectedIds)
+			{
+				if (doc.GetElement(roomId) is Room 
+					&& null != doc.GetElement(roomId).Category 
+					&& doc.GetElement(roomId).Category.Id.IntegerValue.Equals((int)BuiltInCategory.OST_Rooms))
+				{
+					tempRoomsList.Add(doc.GetElement(roomId) as Room);
+				}
+			}
+			return tempRoomsList;
+		}
+	}
 }

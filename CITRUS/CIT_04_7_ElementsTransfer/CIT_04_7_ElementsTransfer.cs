@@ -172,7 +172,12 @@ namespace CITRUS.CIT_04_7_ElementsTransfer
 
                     if (wallTransferCheck & wallIdList.Count != 0)
                     {
-                        ElementTransformUtils.CopyElements(doc2, wallIdList, doc, linkOrigin, copyOptions);
+                        foreach(ElementId wallId in wallIdList)
+                        {
+                            List<ElementId> tempWallIdList = new List<ElementId>();
+                            tempWallIdList.Add(wallId);
+                            ElementTransformUtils.CopyElements(doc2, tempWallIdList, doc, linkOrigin, copyOptions);
+                        }
                     }
 
                     if (floorTransferCheck & floorIdList.Count != 0)

@@ -259,12 +259,12 @@ namespace CITRUS.CIT_03_3_Insolation
                         p.LookupParameter("Инсоляция (мин.)").Set(numberOfNonintersectingRays);
                         if (continuousInsolationList.Count != 0)
                         {
-                            p.LookupParameter("Неприрывная инсоляция (мин.)").Set(continuousInsolationList.Max());
+                            p.LookupParameter("Непрерывная инсоляция (мин.)").Set(continuousInsolationList.Max());
                             p.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).Set("Прерывистая");
                         }
                         else
                         {
-                            p.LookupParameter("Неприрывная инсоляция (мин.)").Set(numberOfNonintersectingRays);
+                            p.LookupParameter("Непрерывная инсоляция (мин.)").Set(numberOfNonintersectingRays);
                             p.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).Set("Непрерывная");
                         }
 
@@ -380,12 +380,12 @@ namespace CITRUS.CIT_03_3_Insolation
                         p.LookupParameter("Инсоляция (мин.)").Set(numberOfNonintersectingRays);
                         if (continuousInsolationList.Count != 0)
                         {
-                            p.LookupParameter("Неприрывная инсоляция (мин.)").Set(continuousInsolationList.Max());
+                            p.LookupParameter("Непрерывная инсоляция (мин.)").Set(continuousInsolationList.Max());
                             p.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).Set("Прерывистая");
                         }
                         else
                         {
-                            p.LookupParameter("Неприрывная инсоляция (мин.)").Set(numberOfNonintersectingRays);
+                            p.LookupParameter("Непрерывная инсоляция (мин.)").Set(numberOfNonintersectingRays);
                             p.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).Set("Непрерывная");
                         }
                     }

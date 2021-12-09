@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CITRUS.CIT_00_1_FillingParameterLevel
 {
@@ -48,14 +50,26 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                 t.Start("Заполнение параметра \"О_Этаж\"");
 
                 int sortedLevelsListAboveZeroCnt = 1;
-                //Обработка элементоввыше ноля
+                CIT_00_1_FillingParameterLevelProgressBarForm pbf = null;
+                Thread m_Thread = new Thread(() => Application.Run(pbf = new CIT_00_1_FillingParameterLevelProgressBarForm(sortedLevelsListAboveZero.Count)));
+                m_Thread.IsBackground = true;
+                m_Thread.Start();
+                int step = 0;
+                Thread.Sleep(100);
+
+                //Обработка элементов выше ноля
                 foreach (Level lv in sortedLevelsListAboveZero)
                 {
+                    step += 1;
+                    pbf.BeginInvoke(new Action(() => { pbf.label_LevelName.Text = lv.Name; }));
+                    pbf.BeginInvoke(new Action(() => { pbf.progressBar_pb.Value = step; }));
+
                     List<Floor> floorsList = new FilteredElementCollector(doc)
                         .OfCategory(BuiltInCategory.OST_Floors)
                         .OfClass(typeof(Floor))
                         .WhereElementIsNotElementType()
                         .Cast<Floor>()
+                        .Where(fl => fl.get_Parameter(BuiltInParameter.LEVEL_PARAM) != null)
                         .Where(fl => fl.get_Parameter(BuiltInParameter.LEVEL_PARAM).AsElementId() == lv.Id)
                         .ToList();
                     foreach (Floor fl in floorsList)
@@ -69,6 +83,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                         .OfClass(typeof(Wall))
                         .WhereElementIsNotElementType()
                         .Cast<Wall>()
+                        .Where(wl => wl.get_Parameter(BuiltInParameter.WALL_BASE_CONSTRAINT) != null)
                         .Where(wl => wl.get_Parameter(BuiltInParameter.WALL_BASE_CONSTRAINT).AsElementId() == lv.Id)
                         .ToList();
                     foreach (Wall wl in wallsList)
@@ -107,6 +122,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                         .OfClass(typeof(FamilyInstance))
                         .WhereElementIsNotElementType()
                         .Cast<FamilyInstance>()
+                        .Where(cl => cl.get_Parameter(BuiltInParameter.FAMILY_BASE_LEVEL_PARAM) != null)
                         .Where(cl => cl.get_Parameter(BuiltInParameter.FAMILY_BASE_LEVEL_PARAM).AsElementId() == lv.Id)
                         .ToList();
                     foreach (FamilyInstance cl in colunsList)
@@ -120,6 +136,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                         .OfClass(typeof(FamilyInstance))
                         .WhereElementIsNotElementType()
                         .Cast<FamilyInstance>()
+                        .Where(bm => bm.get_Parameter(BuiltInParameter.INSTANCE_REFERENCE_LEVEL_PARAM) != null)
                         .Where(bm => bm.get_Parameter(BuiltInParameter.INSTANCE_REFERENCE_LEVEL_PARAM).AsElementId() == lv.Id)
                         .ToList();
                     foreach (FamilyInstance bm in beamsList)
@@ -133,6 +150,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                         .OfClass(typeof(Floor))
                         .WhereElementIsNotElementType()
                         .Cast<Floor>()
+                        .Where(pfd => pfd.get_Parameter(BuiltInParameter.LEVEL_PARAM) != null)
                         .Where(pfd => pfd.get_Parameter(BuiltInParameter.LEVEL_PARAM).AsElementId() == lv.Id)
                         .ToList();
                     foreach (Floor pfd in floorFoundationList)
@@ -146,6 +164,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                         .OfClass(typeof(FamilyInstance))
                         .WhereElementIsNotElementType()
                         .Cast<FamilyInstance>()
+                        .Where(fd => fd.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM) != null)
                         .Where(fd => fd.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM).AsElementId() == lv.Id)
                         .ToList();
                     foreach (FamilyInstance fd in foundationList)
@@ -161,6 +180,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                        .OfClass(typeof(FamilyInstance))
                        .WhereElementIsNotElementType()
                        .Cast<FamilyInstance>()
+                       .Where(w => w.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM) != null)
                        .Where(w => w.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM).AsElementId() == lv.Id)
                        .ToList();
                     foreach (FamilyInstance w in windowsList)
@@ -193,6 +213,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                        .OfClass(typeof(FamilyInstance))
                        .WhereElementIsNotElementType()
                        .Cast<FamilyInstance>()
+                       .Where(d => d.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM) != null)
                        .Where(d => d.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM).AsElementId() == lv.Id)
                        .ToList();
                     foreach (FamilyInstance d in doorsList)
@@ -225,6 +246,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                        .OfClass(typeof(Railing))
                        .WhereElementIsNotElementType()
                        .Cast<Railing>()
+                       .Where(r => r.get_Parameter(BuiltInParameter.STAIRS_RAILING_BASE_LEVEL_PARAM) != null)
                        .Where(r => r.get_Parameter(BuiltInParameter.STAIRS_RAILING_BASE_LEVEL_PARAM).AsElementId() == lv.Id)
                        .ToList();
                     foreach (Railing r in railingsList)
@@ -238,6 +260,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                        .OfClass(typeof(FamilyInstance))
                        .WhereElementIsNotElementType()
                        .Cast<FamilyInstance>()
+                       .Where(bp => bp.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM) != null)
                        .Where(bp => bp.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM).AsElementId() == lv.Id)
                        .ToList();
                     foreach (FamilyInstance bp in breastplatesList)
@@ -267,16 +290,28 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
 
                     sortedLevelsListAboveZeroCnt++;
                 }
+                pbf.BeginInvoke(new Action(() => { pbf.Close(); }));
+
+                m_Thread = new Thread(() => Application.Run(pbf = new CIT_00_1_FillingParameterLevelProgressBarForm(sortedLevelsListBelowZero.Count)));
+                m_Thread.IsBackground = true;
+                m_Thread.Start();
+                step = 0;
+                Thread.Sleep(100);
 
                 int sortedLevelsListBelowZeroCnt = -1;
                 //Обработка элементов ниже ноля
                 foreach (Level lv in sortedLevelsListBelowZero)
                 {
+                    step += 1;
+                    pbf.BeginInvoke(new Action(() => { pbf.label_LevelName.Text = lv.Name; }));
+                    pbf.BeginInvoke(new Action(() => { pbf.progressBar_pb.Value = step; }));
+
                     List<Floor> floorsList = new FilteredElementCollector(doc)
                         .OfCategory(BuiltInCategory.OST_Floors)
                         .OfClass(typeof(Floor))
                         .WhereElementIsNotElementType()
                         .Cast<Floor>()
+                        .Where(fl => fl.get_Parameter(BuiltInParameter.LEVEL_PARAM) != null)
                         .Where(fl => fl.get_Parameter(BuiltInParameter.LEVEL_PARAM).AsElementId() == lv.Id)
                         .ToList();
                     foreach (Floor fl in floorsList)
@@ -290,6 +325,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                         .OfClass(typeof(Wall))
                         .WhereElementIsNotElementType()
                         .Cast<Wall>()
+                        .Where(wl => wl.get_Parameter(BuiltInParameter.WALL_BASE_CONSTRAINT) != null)
                         .Where(wl => wl.get_Parameter(BuiltInParameter.WALL_BASE_CONSTRAINT).AsElementId() == lv.Id)
                         .ToList();
                     foreach (Wall wl in wallsList)
@@ -328,6 +364,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                         .OfClass(typeof(FamilyInstance))
                         .WhereElementIsNotElementType()
                         .Cast<FamilyInstance>()
+                        .Where(cl => cl.get_Parameter(BuiltInParameter.FAMILY_BASE_LEVEL_PARAM) != null)
                         .Where(cl => cl.get_Parameter(BuiltInParameter.FAMILY_BASE_LEVEL_PARAM).AsElementId() == lv.Id)
                         .ToList();
                     foreach (FamilyInstance cl in colunsList)
@@ -341,6 +378,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                         .OfClass(typeof(FamilyInstance))
                         .WhereElementIsNotElementType()
                         .Cast<FamilyInstance>()
+                        .Where(bm => bm.get_Parameter(BuiltInParameter.INSTANCE_REFERENCE_LEVEL_PARAM) != null)
                         .Where(bm => bm.get_Parameter(BuiltInParameter.INSTANCE_REFERENCE_LEVEL_PARAM).AsElementId() == lv.Id)
                         .ToList();
                     foreach (FamilyInstance bm in beamsList)
@@ -354,6 +392,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                         .OfClass(typeof(Floor))
                         .WhereElementIsNotElementType()
                         .Cast<Floor>()
+                        .Where(pfd => pfd.get_Parameter(BuiltInParameter.LEVEL_PARAM) != null)
                         .Where(pfd => pfd.get_Parameter(BuiltInParameter.LEVEL_PARAM).AsElementId() == lv.Id)
                         .ToList();
                     foreach (Floor pfd in floorFoundationList)
@@ -367,6 +406,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                         .OfClass(typeof(FamilyInstance))
                         .WhereElementIsNotElementType()
                         .Cast<FamilyInstance>()
+                        .Where(fd => fd.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM) != null)
                         .Where(fd => fd.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM).AsElementId() == lv.Id)
                         .ToList();
                     foreach (FamilyInstance fd in foundationList)
@@ -381,6 +421,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                        .OfClass(typeof(FamilyInstance))
                        .WhereElementIsNotElementType()
                        .Cast<FamilyInstance>()
+                       .Where(w => w.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM) != null)
                        .Where(w => w.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM).AsElementId() == lv.Id)
                        .ToList();
                     foreach (FamilyInstance w in windowsList)
@@ -413,6 +454,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                        .OfClass(typeof(FamilyInstance))
                        .WhereElementIsNotElementType()
                        .Cast<FamilyInstance>()
+                       .Where(d => d.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM) != null)
                        .Where(d => d.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM).AsElementId() == lv.Id)
                        .ToList();
                     foreach (FamilyInstance d in doorsList)
@@ -445,6 +487,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                        .OfClass(typeof(Railing))
                        .WhereElementIsNotElementType()
                        .Cast<Railing>()
+                       .Where(r => r.get_Parameter(BuiltInParameter.STAIRS_RAILING_BASE_LEVEL_PARAM) != null)
                        .Where(r => r.get_Parameter(BuiltInParameter.STAIRS_RAILING_BASE_LEVEL_PARAM).AsElementId() == lv.Id)
                        .ToList();
                     foreach (Railing r in railingsList)
@@ -459,6 +502,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
                        .OfClass(typeof(FamilyInstance))
                        .WhereElementIsNotElementType()
                        .Cast<FamilyInstance>()
+                       .Where(bp => bp.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM) != null)
                        .Where(bp => bp.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM).AsElementId() == lv.Id)
                        .ToList();
                     foreach (FamilyInstance bp in breastplatesList)
@@ -488,6 +532,7 @@ namespace CITRUS.CIT_00_1_FillingParameterLevel
 
                     sortedLevelsListBelowZeroCnt--;
                 }
+                pbf.BeginInvoke(new Action(() => { pbf.Close(); }));
                 t.Commit();
             }
 

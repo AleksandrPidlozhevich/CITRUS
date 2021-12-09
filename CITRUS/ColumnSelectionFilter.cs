@@ -1,7 +1,5 @@
-﻿using System;
-using Autodesk.Revit.UI.Selection;
+﻿using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Architecture;
 
 
 namespace CITRUS

@@ -393,6 +393,16 @@ namespace CITRUS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap GloryHoleForm {
+            get {
+                object obj = ResourceManager.GetObject("GloryHoleForm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap HoleTransfer {
             get {
                 object obj = ResourceManager.GetObject("HoleTransfer", resourceCulture);
