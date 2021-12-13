@@ -307,14 +307,35 @@ namespace CITRUS
 
             //Создание кнопки "GloryHole" в категории "Обработка отверстий"
             PushButtonData pbdGloryHole = new PushButtonData("GloryHole", "Создать\nзадание", assemblyPach, "CITRUS.GloryHole");
+            Image GloryHole_img1 = Properties.Resources.GloryHoleIcon_Large;
+            ImageSource GloryHole_imgLarge = GetImageSourse(GloryHole_img1);
+            Image GloryHole_img2 = Properties.Resources.GloryHoleIcon;
+            ImageSource GloryHole_imgStandart = GetImageSourse(GloryHole_img2);
+
+            pbdGloryHole.LargeImage = GloryHole_imgLarge;
+            pbdGloryHole.Image = GloryHole_imgStandart;
             panel_HoleMachining.AddItem(pbdGloryHole);
 
             //Создание кнопки "GloryHoleRefreshElevations" в категории "Обработка отверстий"
             PushButtonData pbdGloryHoleRefreshElevations = new PushButtonData("GloryHoleRefreshElevations", "Обновить\nотметки", assemblyPach, "CITRUS.GloryHoleRefreshElevations");
+            Image GloryHoleRefreshElevations_img1 = Properties.Resources.GloryHoleRefreshElevationsIcon_Large;
+            ImageSource GloryHoleRefreshElevations_imgLarge = GetImageSourse(GloryHoleRefreshElevations_img1);
+            Image GloryHoleRefreshElevations_img2 = Properties.Resources.GloryHoleRefreshElevationsIcon;
+            ImageSource GloryHoleRefreshElevations_imgStandart = GetImageSourse(GloryHoleRefreshElevations_img2);
+
+            pbdGloryHoleRefreshElevations.LargeImage = GloryHoleRefreshElevations_imgLarge;
+            pbdGloryHoleRefreshElevations.Image = GloryHoleRefreshElevations_imgStandart;
             //panel_HoleMachining.AddItem(pbdGloryHoleRefreshElevations);
 
             //Создание кнопки "GloryHoleRefreshMark" в категории "Обработка отверстий"
             PushButtonData pbdGloryHoleRefreshMark = new PushButtonData("GloryHoleRefreshMark", "Обновить\nмарки", assemblyPach, "CITRUS.GloryHoleRefreshMark");
+            Image GloryHoleRefreshMark_img1 = Properties.Resources.GloryHoleRefreshMarkIcon_Large;
+            ImageSource GloryHoleRefreshMark_imgLarge = GetImageSourse(GloryHoleRefreshMark_img1);
+            Image GloryHoleRefreshMark_img2 = Properties.Resources.GloryHoleRefreshMarkIcon;
+            ImageSource GloryHoleRefreshMark_imgStandart = GetImageSourse(GloryHoleRefreshMark_img2);
+
+            pbdGloryHoleRefreshMark.LargeImage = GloryHoleRefreshMark_imgLarge;
+            pbdGloryHoleRefreshMark.Image = GloryHoleRefreshMark_imgStandart;
             //panel_HoleMachining.AddItem(pbdGloryHoleRefreshMark);
 
             SplitButtonData groupDataGloryHoleRefresh = new SplitButtonData("Обновить\nданные", "Pulldown Group");
@@ -325,14 +346,35 @@ namespace CITRUS
 
             //Создание кнопки "GloryHoleSaveAssignmentVersion" в категории "Обработка отверстий"
             PushButtonData pbdGloryHoleSaveAssignmentVersion = new PushButtonData("GloryHoleSaveAssignmentVersion", "Сохранить\nверсию задания", assemblyPach, "CITRUS.GloryHoleSaveAssignmentVersion");
+            Image GloryHoleSaveAssignmentVersion_img1 = Properties.Resources.GloryHoleSaveAssignmentVersionIcon_Large;
+            ImageSource GloryHoleSaveAssignmentVersion_imgLarge = GetImageSourse(GloryHoleSaveAssignmentVersion_img1);
+            Image GloryHoleSaveAssignmentVersion_img2 = Properties.Resources.GloryHoleSaveAssignmentVersionIcon;
+            ImageSource GloryHoleSaveAssignmentVersion_imgStandart = GetImageSourse(GloryHoleSaveAssignmentVersion_img2);
+
+            pbdGloryHoleSaveAssignmentVersion.LargeImage = GloryHoleSaveAssignmentVersion_imgLarge;
+            pbdGloryHoleSaveAssignmentVersion.Image = GloryHoleSaveAssignmentVersion_imgStandart;
             panel_HoleMachining.AddItem(pbdGloryHoleSaveAssignmentVersion);
 
             //Создание кнопки "GloryHoleCutter" в категории "Обработка отверстий"
             PushButtonData pbdGloryHoleCutter = new PushButtonData("GloryHoleCutter", "Вырезать\nотверстия", assemblyPach, "CITRUS.GloryHoleCutter");
+            Image GloryHoleCutter_img1 = Properties.Resources.GloryHoleCutterIcon_Large;
+            ImageSource GloryHoleCutter_imgLarge = GetImageSourse(GloryHoleCutter_img1);
+            Image GloryHoleCutter_img2 = Properties.Resources.GloryHoleCutterIcon;
+            ImageSource GloryHoleCutter_imgStandart = GetImageSourse(GloryHoleCutter_img2);
+
+            pbdGloryHoleCutter.LargeImage = GloryHoleCutter_imgLarge;
+            pbdGloryHoleCutter.Image = GloryHoleCutter_imgStandart;
             panel_HoleMachining.AddItem(pbdGloryHoleCutter);
 
             //Создание кнопки "SystemsToSpace" в категории "Обработка отверстий"
             PushButtonData pbdSystemsToSpace = new PushButtonData("SystemsToSpace", "Системы\nв пространства", assemblyPach, "CITRUS.SystemsToSpace");
+            Image SystemsToSpace_img1 = Properties.Resources.SystemsToSpaceIcon_Large;
+            ImageSource SystemsToSpace_imgLarge = GetImageSourse(SystemsToSpace_img1);
+            Image SystemsToSpace_img2 = Properties.Resources.SystemsToSpaceIcon;
+            ImageSource SystemsToSpace_imgStandart = GetImageSourse(SystemsToSpace_img2);
+
+            pbdSystemsToSpace.LargeImage = SystemsToSpace_imgLarge;
+            pbdSystemsToSpace.Image = SystemsToSpace_imgStandart;
             panel_HoleMachining.AddItem(pbdSystemsToSpace);
 
             //Создание категории кнопок "Другое"
@@ -483,5 +525,5 @@ namespace CITRUS
                 }
                 return bmp;
             }
-        }
+    }
 }

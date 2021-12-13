@@ -373,9 +373,9 @@ namespace CITRUS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GloryHole {
+        internal static System.Drawing.Bitmap GloryHoleCutterIcon {
             get {
-                object obj = ResourceManager.GetObject("GloryHole", resourceCulture);
+                object obj = ResourceManager.GetObject("GloryHoleCutterIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -383,9 +383,9 @@ namespace CITRUS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GloryHole_Large {
+        internal static System.Drawing.Bitmap GloryHoleCutterIcon_Large {
             get {
-                object obj = ResourceManager.GetObject("GloryHole_Large", resourceCulture);
+                object obj = ResourceManager.GetObject("GloryHoleCutterIcon_Large", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -396,6 +396,86 @@ namespace CITRUS.Properties {
         internal static System.Drawing.Bitmap GloryHoleForm {
             get {
                 object obj = ResourceManager.GetObject("GloryHoleForm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GloryHoleIcon {
+            get {
+                object obj = ResourceManager.GetObject("GloryHoleIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GloryHoleIcon_Large {
+            get {
+                object obj = ResourceManager.GetObject("GloryHoleIcon_Large", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GloryHoleRefreshElevationsIcon {
+            get {
+                object obj = ResourceManager.GetObject("GloryHoleRefreshElevationsIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GloryHoleRefreshElevationsIcon_Large {
+            get {
+                object obj = ResourceManager.GetObject("GloryHoleRefreshElevationsIcon_Large", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GloryHoleRefreshMarkIcon {
+            get {
+                object obj = ResourceManager.GetObject("GloryHoleRefreshMarkIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GloryHoleRefreshMarkIcon_Large {
+            get {
+                object obj = ResourceManager.GetObject("GloryHoleRefreshMarkIcon_Large", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GloryHoleSaveAssignmentVersionIcon {
+            get {
+                object obj = ResourceManager.GetObject("GloryHoleSaveAssignmentVersionIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GloryHoleSaveAssignmentVersionIcon_Large {
+            get {
+                object obj = ResourceManager.GetObject("GloryHoleSaveAssignmentVersionIcon_Large", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -756,6 +836,26 @@ namespace CITRUS.Properties {
         internal static System.Drawing.Bitmap staircaseReinforcement_Node3 {
             get {
                 object obj = ResourceManager.GetObject("staircaseReinforcement_Node3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SystemsToSpaceIcon {
+            get {
+                object obj = ResourceManager.GetObject("SystemsToSpaceIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SystemsToSpaceIcon_Large {
+            get {
+                object obj = ResourceManager.GetObject("SystemsToSpaceIcon_Large", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

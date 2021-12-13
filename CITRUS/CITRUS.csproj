@@ -282,6 +282,11 @@
     <Compile Include="GloryHoleSettings.cs" />
     <Compile Include="PipeDuctSelectionFilter.cs" />
     <Compile Include="GloryHoleWindowsSelectionFilter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SystemsToSpace.cs" />
     <Compile Include="WallSelectionFilter.cs" />
     <Compile Include="FormRebarOutletsCreator.cs">
@@ -369,11 +374,6 @@
     </Compile>
     <Compile Include="GloryHole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="SpaceSelectionFilter.cs" />
     <Compile Include="RoomSelectionFilter.cs" />
@@ -724,6 +724,42 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\GloryHoleForm1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GloryHoleIcon_Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GloryHoleIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GloryHoleCutterIcon_Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GloryHoleCutterIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GloryHoleRefreshElevationsIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GloryHoleRefreshElevationsIcon_Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GloryHoleRefreshMarkIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GloryHoleRefreshMarkIcon_Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SystemsToSpaceIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SystemsToSpaceIcon_Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GloryHoleSaveAssignmentVersionIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GloryHoleSaveAssignmentVersionIcon_Large.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

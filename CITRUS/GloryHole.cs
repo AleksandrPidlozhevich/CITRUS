@@ -175,7 +175,7 @@ namespace CITRUS
                                     XYZ wallOrientation = wall.Orientation;
                                     double pipeDiameter = pipe.get_Parameter(BuiltInParameter.RBS_PIPE_OUTER_DIAMETER).AsDouble();
                                     double intersectionPointHeight = RoundUpToIncrement(pipeDiameter + pipeTopBottomClearance, roundUpIncrement);
-                                    double intersectionPointThickness = RoundUpToIncrement(wall.Width + 100 / 304.8, roundUpIncrement);
+                                    double intersectionPointThickness = RoundUpToIncrement(wall.Width, 1);
 
                                     double a = Math.Round((wallOrientation.AngleTo((pipeCurve as Line).Direction)) * (180 / Math.PI), 6);
 
@@ -230,7 +230,7 @@ namespace CITRUS
                                     {
                                         double ductDiameter = duct.get_Parameter(BuiltInParameter.RBS_CURVE_DIAMETER_PARAM).AsDouble();
                                         double intersectionPointHeight = RoundUpToIncrement(ductDiameter + ductTopBottomClearance, roundUpIncrement);
-                                        double intersectionPointThickness = RoundUpToIncrement(wall.Width + 100 / 304.8, roundUpIncrement);
+                                        double intersectionPointThickness = RoundUpToIncrement(wall.Width, 1);
 
                                         double a = Math.Round((wallOrientation.AngleTo((ductCurve as Line).Direction)) * (180 / Math.PI), 6);
 
@@ -275,7 +275,7 @@ namespace CITRUS
                                         double ductHeight = duct.get_Parameter(BuiltInParameter.RBS_CURVE_HEIGHT_PARAM).AsDouble();
                                         double ductWidth = duct.get_Parameter(BuiltInParameter.RBS_CURVE_WIDTH_PARAM).AsDouble();
                                         double intersectionPointHeight = RoundUpToIncrement(ductHeight + ductTopBottomClearance, roundUpIncrement);
-                                        double intersectionPointThickness = RoundUpToIncrement(wall.Width + 100 / 304.8, roundUpIncrement);
+                                        double intersectionPointThickness = RoundUpToIncrement(wall.Width, 1);
 
                                         double a = Math.Round((wallOrientation.AngleTo((ductCurve as Line).Direction)) * (180 / Math.PI), 6);
 
