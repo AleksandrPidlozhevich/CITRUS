@@ -593,6 +593,26 @@ namespace CITRUS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap RefreshDuctFittings {
+            get {
+                object obj = ResourceManager.GetObject("RefreshDuctFittings", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RefreshDuctFittings_Large {
+            get {
+                object obj = ResourceManager.GetObject("RefreshDuctFittings_Large", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ScheduleCreator {
             get {
                 object obj = ResourceManager.GetObject("ScheduleCreator", resourceCulture);

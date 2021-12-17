@@ -26,6 +26,15 @@ namespace CITRUS
                 .OrderBy(lv => lv.Elevation)
                 .ToList();
 
+            if (levelsList.Count != 0)
+            {
+                if (levelsList.First().get_Parameter(adskLevel) == null) 
+                {
+                    TaskDialog.Show("Revit", "Уровни не содержат параметр \"ADSK_Этаж\" или \"О_Этаж\"!\nВы можете добавить параметр из ФОП шаблонов ADSK или Weandrevit в качестве параметра экземпляра для уровней.");
+                    return Result.Cancelled;
+                }
+            }
+
             using (Transaction t = new Transaction(doc))
             {
                 t.Start("Обновление марок");

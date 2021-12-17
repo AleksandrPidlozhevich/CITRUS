@@ -302,8 +302,8 @@ namespace CITRUS
             //pbdMEPViewScheduleHost.Image = MEPViewScheduleHost_imgStandart;
             //panel_OV.AddItem(pbdMEPViewScheduleHost);
 
-            //Создание категории кнопок "Обработка отверстий"
-            RibbonPanel panel_HoleMachining = application.CreateRibbonPanel(tabName, "Обработка отверстий");
+            //Создание категории кнопок "Обработка MEP"
+            RibbonPanel panel_MEPMachining = application.CreateRibbonPanel(tabName, "Обработка MEP");
 
             //Создание кнопки "GloryHole" в категории "Обработка отверстий"
             PushButtonData pbdGloryHole = new PushButtonData("GloryHole", "Создать\nзадание", assemblyPach, "CITRUS.GloryHole");
@@ -314,7 +314,7 @@ namespace CITRUS
 
             pbdGloryHole.LargeImage = GloryHole_imgLarge;
             pbdGloryHole.Image = GloryHole_imgStandart;
-            panel_HoleMachining.AddItem(pbdGloryHole);
+            panel_MEPMachining.AddItem(pbdGloryHole);
 
             //Создание кнопки "GloryHoleRefreshElevations" в категории "Обработка отверстий"
             PushButtonData pbdGloryHoleRefreshElevations = new PushButtonData("GloryHoleRefreshElevations", "Обновить\nотметки", assemblyPach, "CITRUS.GloryHoleRefreshElevations");
@@ -339,7 +339,7 @@ namespace CITRUS
             //panel_HoleMachining.AddItem(pbdGloryHoleRefreshMark);
 
             SplitButtonData groupDataGloryHoleRefresh = new SplitButtonData("Обновить\nданные", "Pulldown Group");
-            SplitButton groupGloryHoleRefresh = panel_HoleMachining.AddItem(groupDataGloryHoleRefresh) as SplitButton;
+            SplitButton groupGloryHoleRefresh = panel_MEPMachining.AddItem(groupDataGloryHoleRefresh) as SplitButton;
             PushButton pbGloryHoleRefreshElevations = groupGloryHoleRefresh.AddPushButton(pbdGloryHoleRefreshElevations) as PushButton;
             groupGloryHoleRefresh.AddSeparator();
             PushButton pbGloryHoleRefreshMark = groupGloryHoleRefresh.AddPushButton(pbdGloryHoleRefreshMark) as PushButton;
@@ -353,7 +353,7 @@ namespace CITRUS
 
             pbdGloryHoleSaveAssignmentVersion.LargeImage = GloryHoleSaveAssignmentVersion_imgLarge;
             pbdGloryHoleSaveAssignmentVersion.Image = GloryHoleSaveAssignmentVersion_imgStandart;
-            panel_HoleMachining.AddItem(pbdGloryHoleSaveAssignmentVersion);
+            panel_MEPMachining.AddItem(pbdGloryHoleSaveAssignmentVersion);
 
             //Создание кнопки "GloryHoleCutter" в категории "Обработка отверстий"
             PushButtonData pbdGloryHoleCutter = new PushButtonData("GloryHoleCutter", "Вырезать\nотверстия", assemblyPach, "CITRUS.GloryHoleCutter");
@@ -364,7 +364,8 @@ namespace CITRUS
 
             pbdGloryHoleCutter.LargeImage = GloryHoleCutter_imgLarge;
             pbdGloryHoleCutter.Image = GloryHoleCutter_imgStandart;
-            panel_HoleMachining.AddItem(pbdGloryHoleCutter);
+            panel_MEPMachining.AddItem(pbdGloryHoleCutter);
+            panel_MEPMachining.AddSeparator();
 
             //Создание кнопки "SystemsToSpace" в категории "Обработка отверстий"
             PushButtonData pbdSystemsToSpace = new PushButtonData("SystemsToSpace", "Системы\nв пространства", assemblyPach, "CITRUS.SystemsToSpace");
@@ -375,7 +376,18 @@ namespace CITRUS
 
             pbdSystemsToSpace.LargeImage = SystemsToSpace_imgLarge;
             pbdSystemsToSpace.Image = SystemsToSpace_imgStandart;
-            panel_HoleMachining.AddItem(pbdSystemsToSpace);
+            panel_MEPMachining.AddItem(pbdSystemsToSpace);
+
+            //Создание кнопки "RefreshDuctFittings" в категории "Обработка отверстий"
+            PushButtonData pbdRefreshDuctFittings = new PushButtonData("RefreshDuctFittings", "Обновить\nфитинги", assemblyPach, "CITRUS.RefreshDuctFittings");
+            Image RefreshDuctFittings_img1 = Properties.Resources.RefreshDuctFittings_Large;
+            ImageSource RefreshDuctFittings_imgLarge = GetImageSourse(RefreshDuctFittings_img1);
+            Image RefreshDuctFittings_img2 = Properties.Resources.RefreshDuctFittings;
+            ImageSource RefreshDuctFittings_imgStandart = GetImageSourse(RefreshDuctFittings_img2);
+
+            pbdRefreshDuctFittings.LargeImage = RefreshDuctFittings_imgLarge;
+            pbdRefreshDuctFittings.Image = RefreshDuctFittings_imgStandart;
+            panel_MEPMachining.AddItem(pbdRefreshDuctFittings);
 
             //Создание категории кнопок "Другое"
             RibbonPanel panel_Other = application.CreateRibbonPanel(tabName, "Другое");

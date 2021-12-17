@@ -373,4 +373,10 @@
   <data name="SystemsToSpaceIcon_Large" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SystemsToSpaceIcon_Large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="RefreshDuctFittings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RefreshDuctFittings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RefreshDuctFittings_Large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RefreshDuctFittings_Large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

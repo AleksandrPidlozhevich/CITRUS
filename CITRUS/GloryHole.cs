@@ -189,6 +189,7 @@ namespace CITRUS
                                     }
                                     double delta1 = Math.Abs((wall.Width / 2) * Math.Tan(a));
                                     double delta2 = Math.Abs((pipeDiameter / 2) / Math.Cos(a));
+                                    if (delta1 >= 9.84251968504 || delta2 >= 9.84251968504) continue;
 
                                     Level lvl = null;
                                     lvl = GetClosestBottomWallLevel(doc, linkDoc, wall);
@@ -244,6 +245,7 @@ namespace CITRUS
                                         }
                                         double delta1 = Math.Abs((wall.Width / 2) * Math.Tan(a));
                                         double delta2 = Math.Abs((ductDiameter / 2) / Math.Cos(a));
+                                        if (delta1 >= 9.84251968504 || delta2 >= 9.84251968504) continue;
 
                                         Level lvl = null;
                                         lvl = GetClosestBottomWallLevel(doc, linkDoc, wall);
@@ -290,6 +292,7 @@ namespace CITRUS
 
                                         double delta1 = Math.Abs((wall.Width / 2) * Math.Tan(a));
                                         double delta2 = Math.Abs((ductWidth / 2) / Math.Cos(a));
+                                        if (delta1 >= 9.84251968504 || delta2 >= 9.84251968504) continue;
 
                                         Level lvl = null;
                                         lvl = GetClosestBottomWallLevel(doc, linkDoc, wall);
