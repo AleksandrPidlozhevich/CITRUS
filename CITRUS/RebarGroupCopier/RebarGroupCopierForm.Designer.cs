@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.groupBox_GroupTypes = new System.Windows.Forms.GroupBox();
+            this.groupBox_ColumnArrangement = new System.Windows.Forms.GroupBox();
+            this.radioButton_Project = new System.Windows.Forms.RadioButton();
+            this.radioButton_Link = new System.Windows.Forms.RadioButton();
             this.radioButton_OutletsGroups = new System.Windows.Forms.RadioButton();
             this.radioButton_ColumnGroups = new System.Windows.Forms.RadioButton();
             this.btn_Ok = new System.Windows.Forms.Button();
             this.btn_Cancel = new System.Windows.Forms.Button();
-            this.radioButton_Project = new System.Windows.Forms.RadioButton();
-            this.radioButton_Link = new System.Windows.Forms.RadioButton();
-            this.groupBox_ColumnArrangement = new System.Windows.Forms.GroupBox();
             this.groupBox_GroupTypes.SuspendLayout();
             this.groupBox_ColumnArrangement.SuspendLayout();
             this.SuspendLayout();
@@ -51,6 +51,39 @@
             this.groupBox_GroupTypes.TabIndex = 0;
             this.groupBox_GroupTypes.TabStop = false;
             this.groupBox_GroupTypes.Text = "Выберите тип:";
+            // 
+            // groupBox_ColumnArrangement
+            // 
+            this.groupBox_ColumnArrangement.Controls.Add(this.radioButton_Project);
+            this.groupBox_ColumnArrangement.Controls.Add(this.radioButton_Link);
+            this.groupBox_ColumnArrangement.Location = new System.Drawing.Point(13, 69);
+            this.groupBox_ColumnArrangement.Name = "groupBox_ColumnArrangement";
+            this.groupBox_ColumnArrangement.Size = new System.Drawing.Size(233, 68);
+            this.groupBox_ColumnArrangement.TabIndex = 11;
+            this.groupBox_ColumnArrangement.TabStop = false;
+            this.groupBox_ColumnArrangement.Text = "Расположение колонн:";
+            // 
+            // radioButton_Project
+            // 
+            this.radioButton_Project.AutoSize = true;
+            this.radioButton_Project.Location = new System.Drawing.Point(9, 44);
+            this.radioButton_Project.Name = "radioButton_Project";
+            this.radioButton_Project.Size = new System.Drawing.Size(62, 17);
+            this.radioButton_Project.TabIndex = 1;
+            this.radioButton_Project.Text = "Проект";
+            this.radioButton_Project.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_Link
+            // 
+            this.radioButton_Link.AutoSize = true;
+            this.radioButton_Link.Checked = true;
+            this.radioButton_Link.Location = new System.Drawing.Point(9, 20);
+            this.radioButton_Link.Name = "radioButton_Link";
+            this.radioButton_Link.Size = new System.Drawing.Size(56, 17);
+            this.radioButton_Link.TabIndex = 0;
+            this.radioButton_Link.TabStop = true;
+            this.radioButton_Link.Text = "Связь";
+            this.radioButton_Link.UseVisualStyleBackColor = true;
             // 
             // radioButton_OutletsGroups
             // 
@@ -95,39 +128,6 @@
             this.btn_Cancel.Text = "Отмена";
             this.btn_Cancel.UseVisualStyleBackColor = true;
             this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
-            // 
-            // radioButton_Project
-            // 
-            this.radioButton_Project.AutoSize = true;
-            this.radioButton_Project.Location = new System.Drawing.Point(9, 44);
-            this.radioButton_Project.Name = "radioButton_Project";
-            this.radioButton_Project.Size = new System.Drawing.Size(62, 17);
-            this.radioButton_Project.TabIndex = 1;
-            this.radioButton_Project.Text = "Проект";
-            this.radioButton_Project.UseVisualStyleBackColor = true;
-            // 
-            // radioButton_Link
-            // 
-            this.radioButton_Link.AutoSize = true;
-            this.radioButton_Link.Checked = true;
-            this.radioButton_Link.Location = new System.Drawing.Point(9, 20);
-            this.radioButton_Link.Name = "radioButton_Link";
-            this.radioButton_Link.Size = new System.Drawing.Size(56, 17);
-            this.radioButton_Link.TabIndex = 0;
-            this.radioButton_Link.TabStop = true;
-            this.radioButton_Link.Text = "Связь";
-            this.radioButton_Link.UseVisualStyleBackColor = true;
-            // 
-            // groupBox_ColumnArrangement
-            // 
-            this.groupBox_ColumnArrangement.Controls.Add(this.radioButton_Project);
-            this.groupBox_ColumnArrangement.Controls.Add(this.radioButton_Link);
-            this.groupBox_ColumnArrangement.Location = new System.Drawing.Point(13, 69);
-            this.groupBox_ColumnArrangement.Name = "groupBox_ColumnArrangement";
-            this.groupBox_ColumnArrangement.Size = new System.Drawing.Size(233, 68);
-            this.groupBox_ColumnArrangement.TabIndex = 11;
-            this.groupBox_ColumnArrangement.TabStop = false;
-            this.groupBox_ColumnArrangement.Text = "Расположение колонн:";
             // 
             // RebarGroupCopierForm
             // 

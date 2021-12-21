@@ -75,20 +75,20 @@ namespace CITRUS
             pbdFloorGenerator.Image = FloorGenerator_imgStandart;
             panel_AR.AddItem(pbdFloorGenerator);
 
-            //Создание кнопки "WallFinishCreator" в категории "АР"
-            PushButtonData pbdWallFinishCreator = new PushButtonData("WallFinishCreator"
-                    , "Отделка\nстен"
-                    , assemblyPach
-                    , "CITRUS.CIT_03_1_WallFinishCreator.CIT_03_1_WallFinishCreator");
+            ////Создание кнопки "WallFinishCreator" в категории "АР"
+            //PushButtonData pbdWallFinishCreator = new PushButtonData("WallFinishCreator"
+            //        , "Отделка\nстен"
+            //        , assemblyPach
+            //        , "CITRUS.CIT_03_1_WallFinishCreator.CIT_03_1_WallFinishCreator");
 
-            Image WallFinishCreator_img1 = Properties.Resources.WallFinishCreator_Large;
-            ImageSource WallFinishCreator_imgLarge = GetImageSourse(WallFinishCreator_img1);
-            Image WallFinishCreator_img2 = Properties.Resources.WallFinishCreator;
-            ImageSource WallFinishCreator_imgStandart = GetImageSourse(WallFinishCreator_img2);
+            //Image WallFinishCreator_img1 = Properties.Resources.WallFinishCreator_Large;
+            //ImageSource WallFinishCreator_imgLarge = GetImageSourse(WallFinishCreator_img1);
+            //Image WallFinishCreator_img2 = Properties.Resources.WallFinishCreator;
+            //ImageSource WallFinishCreator_imgStandart = GetImageSourse(WallFinishCreator_img2);
 
-            pbdWallFinishCreator.LargeImage = WallFinishCreator_imgLarge;
-            pbdWallFinishCreator.Image = WallFinishCreator_imgStandart;
-            panel_AR.AddItem(pbdWallFinishCreator);
+            //pbdWallFinishCreator.LargeImage = WallFinishCreator_imgLarge;
+            //pbdWallFinishCreator.Image = WallFinishCreator_imgStandart;
+            //panel_AR.AddItem(pbdWallFinishCreator);
 
             //Создание кнопки "FinishNumerator" в категории "АР"
             PushButtonData pbdFinishNumerator = new PushButtonData("FinishNumerator"
@@ -104,6 +104,14 @@ namespace CITRUS
             pbdFinishNumerator.LargeImage = FinishNumerator_imgLarge;
             pbdFinishNumerator.Image = FinishNumerator_imgStandart;
             panel_AR.AddItem(pbdFinishNumerator);
+
+            //Создание кнопки "WallFinishCreator_v2" в категории "АР"
+            PushButtonData pbdWallFinishCreator_v2 = new PushButtonData("WallFinishCreator_v2"
+                    , "Отделка\nстен v2"
+                    , assemblyPach
+                    , "CITRUS.CIT_03_1_WallFinishCreator_v2.CIT_03_1_WallFinishCreator_v2");
+
+            panel_AR.AddItem(pbdWallFinishCreator_v2);
 
             //Создание категории кнопок "Инсоляция"
             RibbonPanel panel_Insolation = application.CreateRibbonPanel(tabName, "Инсоляция");
@@ -165,20 +173,23 @@ namespace CITRUS
             pbdHoleTransfer.Image = HoleTransfer_imgStandart;
             panel_KR.AddItem(pbdHoleTransfer);
 
-            //Создание кнопки "Капитель" в категории "КР"
-            PushButtonData pbdCapitalMaker = new PushButtonData("CapitalMaker", "Капитель", assemblyPach, "CITRUS.CapitalMaker");
-            Image CapitalMaker_img1 = Properties.Resources.CapitalMaker_Large;
-            ImageSource CapitalMaker_imgLarge = GetImageSourse(CapitalMaker_img1);
-            Image CapitalMaker_img2 = Properties.Resources.CapitalMaker;
-            ImageSource CapitalMaker_imgStandart = GetImageSourse(CapitalMaker_img2);
+            ////Создание кнопки "Капитель" в категории "КР"
+            //PushButtonData pbdCapitalMaker = new PushButtonData("CapitalMaker", "Капитель", assemblyPach, "CITRUS.CapitalMaker");
+            //Image CapitalMaker_img1 = Properties.Resources.CapitalMaker_Large;
+            //ImageSource CapitalMaker_imgLarge = GetImageSourse(CapitalMaker_img1);
+            //Image CapitalMaker_img2 = Properties.Resources.CapitalMaker;
+            //ImageSource CapitalMaker_imgStandart = GetImageSourse(CapitalMaker_img2);
 
-            pbdCapitalMaker.LargeImage = CapitalMaker_imgLarge;
-            pbdCapitalMaker.Image = CapitalMaker_imgStandart;
-            panel_KR.AddItem(pbdCapitalMaker);
+            //pbdCapitalMaker.LargeImage = CapitalMaker_imgLarge;
+            //pbdCapitalMaker.Image = CapitalMaker_imgStandart;
+            //panel_KR.AddItem(pbdCapitalMaker);
 
-            //Создание кнопки "Армирование квадратной колонны" в категории "КР"
+            //Создание категории кнопок "Армирование"
+            RibbonPanel panel_Reinforcement = application.CreateRibbonPanel(tabName, "Армирование");
+
+            //Создание кнопки "Армирование квадратной колонны" в категории "Армирование"
             PushButtonData pbdSquareColumnsReinforcement = new PushButtonData("SquareColumnsReinforcement"
-                , "Арм.Квадратной\nколонны"
+                , "Квадратные\nколонны"
                 , assemblyPach
                 , "CITRUS.CIT_04_1_SquareColumnsReinforcement.CIT_04_1_SquareColumnsReinforcement");
 
@@ -189,11 +200,14 @@ namespace CITRUS
 
             pbdSquareColumnsReinforcement.LargeImage = SquareColumnsReinforcement_imgLarge;
             pbdSquareColumnsReinforcement.Image = SquareColumnsReinforcement_imgStandart;
-            panel_KR.AddItem(pbdSquareColumnsReinforcement);
 
-            //Создание кнопки "Армирование прямоугольной колонны" в категории "КР"
+            ContextualHelp SquareColumnsReinforcementCHelp = new ContextualHelp(ContextualHelpType.Url, "https://youtu.be/jmJYHjQaAYc");
+            pbdSquareColumnsReinforcement.SetContextualHelp(SquareColumnsReinforcementCHelp);
+            panel_Reinforcement.AddItem(pbdSquareColumnsReinforcement);
+
+            //Создание кнопки "Армирование прямоугольной колонны" в категории "Армирование"
             PushButtonData pbdRectangularColumnsReinforcement = new PushButtonData("RectangularColumnsReinforcement"
-                , "Арм.Прямоугольной\nколонны"
+                , "Прямоугольные\nколонны"
                 , assemblyPach
                 , "CITRUS.CIT_04_2_RectangularColumnsReinforcement.CIT_04_2_RectangularColumnsReinforcement");
 
@@ -204,9 +218,12 @@ namespace CITRUS
 
             pbdRectangularColumnsReinforcement.LargeImage = RectangularColumnsReinforcement_imgLarge;
             pbdRectangularColumnsReinforcement.Image = RectangularColumnsReinforcement_imgStandart;
-            panel_KR.AddItem(pbdRectangularColumnsReinforcement);
 
-            //Создание кнопки "Выпуски" в категории "КР"
+            ContextualHelp RectangularColumnsReinforcementCHelp = new ContextualHelp(ContextualHelpType.Url, "https://youtu.be/KEDHqLwrE4c");
+            pbdRectangularColumnsReinforcement.SetContextualHelp(RectangularColumnsReinforcementCHelp);
+            panel_Reinforcement.AddItem(pbdRectangularColumnsReinforcement);
+
+            //Создание кнопки "Выпуски" в категории "Армирование"
             PushButtonData pbdRebarOutletsCreator = new PushButtonData("RebarOutletsCreator", "Выпуски", assemblyPach, "CITRUS.RebarOutletsCreator");
 
             Image RebarOutletsCreator_img1 = Properties.Resources.RebarOutletsCreator_Large;
@@ -216,9 +233,11 @@ namespace CITRUS
             pbdRebarOutletsCreator.LargeImage = RebarOutletsCreator_imgLarge;
             pbdRebarOutletsCreator.Image = RebarOutletsCreator_imgStandart;
 
-            panel_KR.AddItem(pbdRebarOutletsCreator);
+            ContextualHelp RebarOutletsCreatorCHelp = new ContextualHelp(ContextualHelpType.Url, "https://youtu.be/TH4PfymtrQY");
+            pbdRebarOutletsCreator.SetContextualHelp(RebarOutletsCreatorCHelp);
+            panel_Reinforcement.AddItem(pbdRebarOutletsCreator);
 
-            //Создание кнопки "Копирователь групп" в категории "КР"
+            //Создание кнопки "Копирователь групп" в категории "Армирование"
             PushButtonData pbdRebarGroupCopier = new PushButtonData("RebarGroupCopier"
                 , "Копирователь\nгрупп"
                 , assemblyPach
@@ -231,11 +250,14 @@ namespace CITRUS
 
             pbdRebarGroupCopier.LargeImage = RebarGroupCopier_imgLarge;
             pbdRebarGroupCopier.Image = RebarGroupCopier_imgStandart;
-            panel_KR.AddItem(pbdRebarGroupCopier);
 
-            //Создание кнопки "BeamReinforcement" в категории "КР"
+            ContextualHelp RebarGroupCopierCHelp = new ContextualHelp(ContextualHelpType.Url, "https://youtu.be/22U2xBbK6VM");
+            pbdRebarGroupCopier.SetContextualHelp(RebarGroupCopierCHelp);
+            panel_Reinforcement.AddItem(pbdRebarGroupCopier);
+
+            //Создание кнопки "BeamReinforcement" в категории "Армирование"
             PushButtonData pbdBeamReinforcement = new PushButtonData("BeamReinforcement"
-                    , "Арм.Балки"
+                    , "Балки"
                     , assemblyPach
                     , "CITRUS.CIT_04_3_BeamReinforcement.CIT_04_3_BeamReinforcement");
 
@@ -246,11 +268,14 @@ namespace CITRUS
 
             pbdBeamReinforcement.LargeImage = BeamReinforcement_imgLarge;
             pbdBeamReinforcement.Image = BeamReinforcement_imgStandart;
-            panel_KR.AddItem(pbdBeamReinforcement);
 
-            //  Создание кнопки "SlabReinforcement" в категории "КР"
+            ContextualHelp BeamReinforcementCHelp = new ContextualHelp(ContextualHelpType.Url, "https://youtu.be/IVbpPK_CXLY");
+            pbdBeamReinforcement.SetContextualHelp(BeamReinforcementCHelp);
+            panel_Reinforcement.AddItem(pbdBeamReinforcement);
+
+            //Создание кнопки "SlabReinforcement" в категории "Армирование"
             PushButtonData pbdSlabReinforcement = new PushButtonData("SlabReinforcement"
-                    , "Арм.Плиты"
+                    , "Плиты"
                     , assemblyPach
                     , "CITRUS.CIT_04_4_SlabReinforcement.CIT_04_4_SlabReinforcement");
 
@@ -261,11 +286,14 @@ namespace CITRUS
 
             pbdSlabReinforcement.LargeImage = SlabReinforcement_imgLarge;
             pbdSlabReinforcement.Image = SlabReinforcement_imgStandart;
-            panel_KR.AddItem(pbdSlabReinforcement);
 
-            // Создание кнопки "StaircaseReinforcement" в категории "КР"
+            ContextualHelp SlabReinforcementCHelp = new ContextualHelp(ContextualHelpType.Url, "https://youtu.be/lO9uNZAcglQ");
+            pbdSlabReinforcement.SetContextualHelp(SlabReinforcementCHelp);
+            panel_Reinforcement.AddItem(pbdSlabReinforcement);
+
+            // Создание кнопки "StaircaseReinforcement" в категории "Армирование"
             PushButtonData pbdStaircaseReinforcement = new PushButtonData("StairFlightReinforcement"
-                    , "Арм.Марш"
+                    , "Марш"
                     , assemblyPach
                     , "CITRUS.CIT_04_5_StairFlightReinforcement.CIT_04_5_StairFlightReinforcement");
 
@@ -277,7 +305,9 @@ namespace CITRUS
             pbdStaircaseReinforcement.LargeImage = StaircaseReinforcement_imgLarge;
             pbdStaircaseReinforcement.Image = StaircaseReinforcement_imgStandart;
 
-            panel_KR.AddItem(pbdStaircaseReinforcement);
+            ContextualHelp StaircaseReinforcementCHelp = new ContextualHelp(ContextualHelpType.Url, "https://youtu.be/lg1BtFYUIeU");
+            pbdStaircaseReinforcement.SetContextualHelp(StaircaseReinforcementCHelp);
+            panel_Reinforcement.AddItem(pbdStaircaseReinforcement);
 
             ////Создание категории кнопок "ОВ"
             //RibbonPanel panel_OV = application.CreateRibbonPanel(tabName, "ОВ");
@@ -459,13 +489,13 @@ namespace CITRUS
 
             //panel_Other.AddItem(pbdGoogle);
 
-            //Создание кнопки "FinishingSheet" в категории "Другое"
-            PushButtonData pbdGFinishingSheet = new PushButtonData("FinishingSheet"
-                    , "Отделка"
-                    , assemblyPach
-                    , "CITRUS.FinishingSheet");
+            ////Создание кнопки "FinishingSheet" в категории "Другое"
+            //PushButtonData pbdGFinishingSheet = new PushButtonData("FinishingSheet"
+            //        , "Отделка"
+            //        , assemblyPach
+            //        , "CITRUS.FinishingSheet");
 
-            panel_Other.AddItem(pbdGFinishingSheet);
+            //panel_Other.AddItem(pbdGFinishingSheet);
 
             ////Создание кнопки "WallsReinforcement" в категории "Другое"
             //PushButtonData pbdWallsReinforcement = new PushButtonData("WallsReinforcement"
@@ -505,14 +535,6 @@ namespace CITRUS
                     , "Квартирография"
                     , assemblyPach
                     , "CITRUS.ApartmentLayout");
-
-            //Создание кнопки "WallFinishCreator_v2" в категории "АР"
-            PushButtonData pbdWallFinishCreator_v2 = new PushButtonData("WallFinishCreator_v2"
-                    , "Отделка\nстен v2"
-                    , assemblyPach
-                    , "CITRUS.CIT_03_1_WallFinishCreator_v2.CIT_03_1_WallFinishCreator_v2");
-
-            panel_AR.AddItem(pbdWallFinishCreator_v2);
 
             panel_Other.AddItem(pbdApartmentLayout);
 

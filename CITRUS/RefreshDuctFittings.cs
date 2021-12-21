@@ -17,129 +17,281 @@ namespace CITRUS
             // Получение текущего документа
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
+            RefreshDuctFittingsStartForm refreshDuctFittingsStartForm = new RefreshDuctFittingsStartForm();
+            refreshDuctFittingsStartForm.ShowDialog();
+            if (refreshDuctFittingsStartForm.DialogResult != System.Windows.Forms.DialogResult.OK)
+            {
+                return Result.Cancelled;
+            }
+
             List<FamilyInstance> ductFittingList = new FilteredElementCollector(doc)
                 .OfCategory(BuiltInCategory.OST_DuctFitting)
                 .WhereElementIsNotElementType()
                 .Cast<FamilyInstance>()
                 .ToList();
+
+            List<ElementId> errorElementsIdList = new List<ElementId>();
             using (Transaction t = new Transaction(doc))
             {
                 t.Start("Обновить фитинги");
                 foreach (FamilyInstance ductFitting in ductFittingList)
                 {
-                    ConnectorSet connectorSet = ductFitting.MEPModel.ConnectorManager.Connectors;
                     DuctType ductType = null;
-                    bool flag = false;
+                    bool ductHasChanged = false;
+                    bool connectorShapeChangeFlag = false;
+                    ConnectorProfileType connectorShape = ConnectorProfileType.Invalid;
+                    ConnectorSet connectorSet = null;
+                    try
+                    {
+                        connectorSet = ductFitting.MEPModel.ConnectorManager.Connectors;
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+
                     foreach (Connector pConn in connectorSet)
                     {
                         ConnectorSet connectorSetRefs = pConn.AllRefs;
+                        if (connectorShape == ConnectorProfileType.Invalid)
+                        {
+                            connectorShape = pConn.Shape;
+                        }
+                        else
+                        {
+                            if (connectorShape != pConn.Shape)
+                            {
+                                connectorShapeChangeFlag = true;
+                            }
+                        }
+
                         foreach (Connector c in connectorSetRefs)
                         {
                             Element connectionElement = c.Owner;
-                            if (connectionElement.Category.Id.IntegerValue != (int)BuiltInCategory.OST_DuctCurves) continue;
-                            if (ductType == null)
+                            if (connectionElement.Category.Id.IntegerValue == (int)BuiltInCategory.OST_DuctCurves)
                             {
-                                ductType = (connectionElement as Duct).DuctType;
-                            }
-                            else
-                            {
-                                if (ductType.Id != (connectionElement as Duct).DuctType.Id)
+                                if (ductType == null)
                                 {
-                                    flag = true;
-                                    break;
+                                    ductType = (connectionElement as Duct).DuctType;
+                                }
+                                else
+                                {
+                                    if (ductType.Id != (connectionElement as Duct).DuctType.Id)
+                                    {
+                                        ductHasChanged = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
-                        if (flag) break;
+                        if (ductHasChanged) break;
                     }
-                    if (!flag && (ductFitting.MEPModel as MechanicalFitting).PartType == PartType.Elbow)
+                    if (ductType != null && !ductHasChanged)
                     {
-                        RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
-                        int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.Elbows);
-                        if (initRuleCount != 0)
+                        if ((ductFitting.MEPModel as MechanicalFitting).PartType == PartType.Elbow)
                         {
-                            RoutingPreferenceRule elbowsRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.Elbows, 0);
-                            FamilySymbol elbowsFamilySymbol = doc.GetElement(elbowsRule.MEPPartId) as FamilySymbol;
-                            if (elbowsFamilySymbol.Id != ductFitting.Symbol.Id)
+                            RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
+                            int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.Elbows);
+                            if (initRuleCount != 0)
                             {
-                                ductFitting.Symbol = elbowsFamilySymbol;
+                                RoutingPreferenceRule elbowsRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.Elbows, 0);
+                                FamilySymbol elbowsFamilySymbol = doc.GetElement(elbowsRule.MEPPartId) as FamilySymbol;
+                                if (elbowsFamilySymbol.Id != ductFitting.Symbol.Id)
+                                {
+                                    try
+                                    {
+                                        ductFitting.Symbol = elbowsFamilySymbol;
+                                    }
+                                    catch
+                                    {
+                                        if(!errorElementsIdList.Contains(ductFitting.Id))
+                                        {
+                                            errorElementsIdList.Add(ductFitting.Id);
+                                        }
+                                        continue;
+                                    }
+                                }
                             }
                         }
-                    }
-                    else if(!flag && (ductFitting.MEPModel as MechanicalFitting).PartType == PartType.TapAdjustable)
-                    {
-                        RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
-                        int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.Junctions);
-                        if (initRuleCount != 0)
+                        else if ((ductFitting.MEPModel as MechanicalFitting).PartType == PartType.TapAdjustable)
                         {
-                            RoutingPreferenceRule transitionsRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.Junctions, 0);
-                            FamilySymbol transitionsFamilySymbol = doc.GetElement(transitionsRule.MEPPartId) as FamilySymbol;
-                            if (transitionsFamilySymbol.Id != ductFitting.Symbol.Id)
+                            RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
+                            int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.Junctions);
+                            if (initRuleCount != 0)
                             {
-                                ductFitting.Symbol = transitionsFamilySymbol;
+                                RoutingPreferenceRule tapAdjustableRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.Junctions, 0);
+                                FamilySymbol tapAdjustableFamilySymbol = doc.GetElement(tapAdjustableRule.MEPPartId) as FamilySymbol;
+                                if (tapAdjustableFamilySymbol.Id != ductFitting.Symbol.Id)
+                                {
+                                    try
+                                    {
+                                        ductFitting.Symbol = tapAdjustableFamilySymbol;
+                                    }
+                                    catch
+                                    {
+                                        if (!errorElementsIdList.Contains(ductFitting.Id))
+                                        {
+                                            errorElementsIdList.Add(ductFitting.Id);
+                                        }
+                                        continue;
+                                    }
+                                }
                             }
                         }
-                    }
-                    else if (!flag && (ductFitting.MEPModel as MechanicalFitting).PartType == PartType.Transition)
-                    {
-                        RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
-                        int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.Transitions);
-                        if (initRuleCount != 0)
+                        else if ((ductFitting.MEPModel as MechanicalFitting).PartType == PartType.Transition)
                         {
-                            RoutingPreferenceRule transitionsRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.Transitions, 0);
-                            FamilySymbol transitionsFamilySymbol = doc.GetElement(transitionsRule.MEPPartId) as FamilySymbol;
-                            if (transitionsFamilySymbol.Id != ductFitting.Symbol.Id)
+                            if (!connectorShapeChangeFlag)
                             {
-                                ductFitting.Symbol = transitionsFamilySymbol;
+                                RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
+                                int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.Transitions);
+                                if (initRuleCount != 0)
+                                {
+                                    RoutingPreferenceRule transitionsRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.Transitions, 0);
+                                    FamilySymbol transitionsFamilySymbol = doc.GetElement(transitionsRule.MEPPartId) as FamilySymbol;
+                                    if (transitionsFamilySymbol.Id != ductFitting.Symbol.Id)
+                                    {
+                                        try
+                                        {
+                                            ductFitting.Symbol = transitionsFamilySymbol;
+                                        }
+                                        catch
+                                        {
+                                            if (!errorElementsIdList.Contains(ductFitting.Id))
+                                            {
+                                                errorElementsIdList.Add(ductFitting.Id);
+                                            }
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
+                                int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.TransitionsRectangularToRound);
+                                if (initRuleCount != 0)
+                                {
+                                    RoutingPreferenceRule transitionsRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.TransitionsRectangularToRound, 0);
+                                    FamilySymbol transitionsFamilySymbol = doc.GetElement(transitionsRule.MEPPartId) as FamilySymbol;
+                                    if (transitionsFamilySymbol.Id != ductFitting.Symbol.Id)
+                                    {
+                                        try
+                                        {
+                                            ductFitting.Symbol = transitionsFamilySymbol;
+                                        }
+                                        catch
+                                        {
+                                            if (!errorElementsIdList.Contains(ductFitting.Id))
+                                            {
+                                                errorElementsIdList.Add(ductFitting.Id);
+                                            }
+                                            continue;
+                                        }
+                                    }
+                                }
                             }
                         }
-                    }
-                    else if (!flag && (ductFitting.MEPModel as MechanicalFitting).PartType == PartType.Cap)
-                    {
-                        RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
-                        int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.Caps);
-                        if (initRuleCount != 0)
+                        else if ((ductFitting.MEPModel as MechanicalFitting).PartType == PartType.Cap)
                         {
-                            RoutingPreferenceRule capsRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.Caps, 0);
-                            FamilySymbol capsRuleFamilySymbol = doc.GetElement(capsRule.MEPPartId) as FamilySymbol;
-                            if (capsRuleFamilySymbol.Id != ductFitting.Symbol.Id)
+                            RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
+                            int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.Caps);
+                            if (initRuleCount != 0)
                             {
-                                ductFitting.Symbol = capsRuleFamilySymbol;
+                                RoutingPreferenceRule capsRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.Caps, 0);
+                                FamilySymbol capsRuleFamilySymbol = doc.GetElement(capsRule.MEPPartId) as FamilySymbol;
+                                if (capsRuleFamilySymbol.Id != ductFitting.Symbol.Id)
+                                {
+                                    try
+                                    {
+                                        ductFitting.Symbol = capsRuleFamilySymbol;
+                                    }
+                                    catch
+                                    {
+                                        if (!errorElementsIdList.Contains(ductFitting.Id))
+                                        {
+                                            errorElementsIdList.Add(ductFitting.Id);
+                                        }
+                                        continue;
+                                    }
+                                }
                             }
                         }
-                    }
-                    else if (!flag && (ductFitting.MEPModel as MechanicalFitting).PartType == PartType.Tee)
-                    {
-                        RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
-                        int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.Junctions);
-                        if (initRuleCount != 0)
+                        else if ((ductFitting.MEPModel as MechanicalFitting).PartType == PartType.Tee)
                         {
-                            RoutingPreferenceRule junctionsRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.Junctions, 0);
-                            FamilySymbol junctionsRuleFamilySymbol = doc.GetElement(junctionsRule.MEPPartId) as FamilySymbol;
-                            if (junctionsRuleFamilySymbol.Id != ductFitting.Symbol.Id)
+                            RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
+                            int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.Junctions);
+                            if (initRuleCount != 0)
                             {
-                                ductFitting.Symbol = junctionsRuleFamilySymbol;
+                                RoutingPreferenceRule junctionsRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.Junctions, 0);
+                                FamilySymbol junctionsRuleFamilySymbol = doc.GetElement(junctionsRule.MEPPartId) as FamilySymbol;
+                                if (junctionsRuleFamilySymbol.Id != ductFitting.Symbol.Id)
+                                {
+                                    try
+                                    {
+                                        ductFitting.Symbol = junctionsRuleFamilySymbol;
+                                    }
+                                    catch
+                                    {
+                                        if (!errorElementsIdList.Contains(ductFitting.Id))
+                                        {
+                                            errorElementsIdList.Add(ductFitting.Id);
+                                        }
+                                        continue;
+                                    }
+                                }
                             }
                         }
-                    }
-                    else if (!flag && (ductFitting.MEPModel as MechanicalFitting).PartType == PartType.Cross)
-                    {
-                        RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
-                        int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.Crosses);
-                        if (initRuleCount != 0)
+                        else if ((ductFitting.MEPModel as MechanicalFitting).PartType == PartType.Cross)
                         {
-                            RoutingPreferenceRule crossRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.Crosses, 0);
-                            FamilySymbol crossRuleFamilySymbol = doc.GetElement(crossRule.MEPPartId) as FamilySymbol;
-                            if (crossRuleFamilySymbol.Id != ductFitting.Symbol.Id)
+                            RoutingPreferenceManager routePrefManager = ductType.RoutingPreferenceManager;
+                            int initRuleCount = routePrefManager.GetNumberOfRules(RoutingPreferenceRuleGroupType.Crosses);
+                            if (initRuleCount != 0)
                             {
-                                ductFitting.Symbol = crossRuleFamilySymbol;
+                                RoutingPreferenceRule crossRule = routePrefManager.GetRule(RoutingPreferenceRuleGroupType.Crosses, 0);
+                                FamilySymbol crossRuleFamilySymbol = doc.GetElement(crossRule.MEPPartId) as FamilySymbol;
+                                if (crossRuleFamilySymbol.Id != ductFitting.Symbol.Id)
+                                {
+                                    try
+                                    {
+                                        ductFitting.Symbol = crossRuleFamilySymbol;
+                                    }
+                                    catch
+                                    {
+                                        if (!errorElementsIdList.Contains(ductFitting.Id))
+                                        {
+                                            errorElementsIdList.Add(ductFitting.Id);
+                                        }
+                                        continue;
+                                    }
+                                }
                             }
                         }
                     }
                 }
                 t.Commit();
             }
-            TaskDialog.Show("Revit","Обработка завершена!");
+            if(errorElementsIdList.Count == 0)
+            {
+                TaskDialog.Show("Revit", "Обработка завершена!");
+            }
+            else
+            {
+                string errorElementsIdStringList = "";
+                foreach(ElementId id in errorElementsIdList)
+                {
+                    if(errorElementsIdStringList == "")
+                    {
+                        errorElementsIdStringList += id.ToString();
+                    }
+                    else
+                    {
+                        errorElementsIdStringList = errorElementsIdStringList + ";" + id.ToString();
+                    }
+                    
+                }
+                RefreshDuctFittingsErrorForm refreshDuctFittingsErrorForm = new RefreshDuctFittingsErrorForm(errorElementsIdStringList);
+                refreshDuctFittingsErrorForm.ShowDialog();
+            }
             return Result.Succeeded;
         }
     }

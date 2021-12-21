@@ -32,10 +32,10 @@
             this.btn_Ok = new System.Windows.Forms.Button();
             this.checkBox_CheckSelectedPanels = new System.Windows.Forms.CheckBox();
             this.groupBox_VerificationOptions = new System.Windows.Forms.GroupBox();
-            this.radioButton_PanelInsolation = new System.Windows.Forms.RadioButton();
-            this.radioButton_PointInsolation = new System.Windows.Forms.RadioButton();
-            this.checkBox_CheckSelectedPoints = new System.Windows.Forms.CheckBox();
             this.checkBox_WallsAndFloorsGeometry = new System.Windows.Forms.CheckBox();
+            this.checkBox_CheckSelectedPoints = new System.Windows.Forms.CheckBox();
+            this.radioButton_PointInsolation = new System.Windows.Forms.RadioButton();
+            this.radioButton_PanelInsolation = new System.Windows.Forms.RadioButton();
             this.groupBox_VerificationOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,27 +90,15 @@
             this.groupBox_VerificationOptions.TabStop = false;
             this.groupBox_VerificationOptions.Text = "Варианты проверки";
             // 
-            // radioButton_PanelInsolation
+            // checkBox_WallsAndFloorsGeometry
             // 
-            this.radioButton_PanelInsolation.AutoSize = true;
-            this.radioButton_PanelInsolation.Checked = true;
-            this.radioButton_PanelInsolation.Location = new System.Drawing.Point(7, 20);
-            this.radioButton_PanelInsolation.Name = "radioButton_PanelInsolation";
-            this.radioButton_PanelInsolation.Size = new System.Drawing.Size(63, 17);
-            this.radioButton_PanelInsolation.TabIndex = 9;
-            this.radioButton_PanelInsolation.TabStop = true;
-            this.radioButton_PanelInsolation.Text = "Панели";
-            this.radioButton_PanelInsolation.UseVisualStyleBackColor = true;
-            // 
-            // radioButton_PointInsolation
-            // 
-            this.radioButton_PointInsolation.AutoSize = true;
-            this.radioButton_PointInsolation.Location = new System.Drawing.Point(7, 66);
-            this.radioButton_PointInsolation.Name = "radioButton_PointInsolation";
-            this.radioButton_PointInsolation.Size = new System.Drawing.Size(55, 17);
-            this.radioButton_PointInsolation.TabIndex = 10;
-            this.radioButton_PointInsolation.Text = "Точки";
-            this.radioButton_PointInsolation.UseVisualStyleBackColor = true;
+            this.checkBox_WallsAndFloorsGeometry.AutoSize = true;
+            this.checkBox_WallsAndFloorsGeometry.Location = new System.Drawing.Point(24, 112);
+            this.checkBox_WallsAndFloorsGeometry.Name = "checkBox_WallsAndFloorsGeometry";
+            this.checkBox_WallsAndFloorsGeometry.Size = new System.Drawing.Size(353, 17);
+            this.checkBox_WallsAndFloorsGeometry.TabIndex = 12;
+            this.checkBox_WallsAndFloorsGeometry.Text = "Учитывать геометрию стен и перекрытий из связанных файлов";
+            this.checkBox_WallsAndFloorsGeometry.UseVisualStyleBackColor = true;
             // 
             // checkBox_CheckSelectedPoints
             // 
@@ -124,15 +112,27 @@
             this.checkBox_CheckSelectedPoints.Text = "Проверить выбранные точки";
             this.checkBox_CheckSelectedPoints.UseVisualStyleBackColor = true;
             // 
-            // checkBox_WallsAndFloorsGeometry
+            // radioButton_PointInsolation
             // 
-            this.checkBox_WallsAndFloorsGeometry.AutoSize = true;
-            this.checkBox_WallsAndFloorsGeometry.Location = new System.Drawing.Point(24, 112);
-            this.checkBox_WallsAndFloorsGeometry.Name = "checkBox_WallsAndFloorsGeometry";
-            this.checkBox_WallsAndFloorsGeometry.Size = new System.Drawing.Size(353, 17);
-            this.checkBox_WallsAndFloorsGeometry.TabIndex = 12;
-            this.checkBox_WallsAndFloorsGeometry.Text = "Учитывать геометрию стен и перекрытий из связанных файлов";
-            this.checkBox_WallsAndFloorsGeometry.UseVisualStyleBackColor = true;
+            this.radioButton_PointInsolation.AutoSize = true;
+            this.radioButton_PointInsolation.Location = new System.Drawing.Point(7, 66);
+            this.radioButton_PointInsolation.Name = "radioButton_PointInsolation";
+            this.radioButton_PointInsolation.Size = new System.Drawing.Size(55, 17);
+            this.radioButton_PointInsolation.TabIndex = 10;
+            this.radioButton_PointInsolation.Text = "Точки";
+            this.radioButton_PointInsolation.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_PanelInsolation
+            // 
+            this.radioButton_PanelInsolation.AutoSize = true;
+            this.radioButton_PanelInsolation.Checked = true;
+            this.radioButton_PanelInsolation.Location = new System.Drawing.Point(7, 20);
+            this.radioButton_PanelInsolation.Name = "radioButton_PanelInsolation";
+            this.radioButton_PanelInsolation.Size = new System.Drawing.Size(63, 17);
+            this.radioButton_PanelInsolation.TabIndex = 9;
+            this.radioButton_PanelInsolation.TabStop = true;
+            this.radioButton_PanelInsolation.Text = "Панели";
+            this.radioButton_PanelInsolation.UseVisualStyleBackColor = true;
             // 
             // InsolationAtPointForm
             // 

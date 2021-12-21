@@ -288,6 +288,18 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RefreshDuctFittings.cs" />
+    <Compile Include="RefreshDuctFittingsErrorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RefreshDuctFittingsErrorForm.Designer.cs">
+      <DependentUpon>RefreshDuctFittingsErrorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RefreshDuctFittingsStartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RefreshDuctFittingsStartForm.Designer.cs">
+      <DependentUpon>RefreshDuctFittingsStartForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SystemsToSpace.cs" />
     <Compile Include="WallSelectionFilter.cs" />
     <Compile Include="FormRebarOutletsCreator.cs">
@@ -481,6 +493,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RebarGroupCopier\RebarGroupCopierForm.resx">
       <DependentUpon>RebarGroupCopierForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RefreshDuctFittingsErrorForm.resx">
+      <DependentUpon>RefreshDuctFittingsErrorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RefreshDuctFittingsStartForm.resx">
+      <DependentUpon>RefreshDuctFittingsStartForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TXTExportForm.resx">
       <DependentUpon>TXTExportForm.cs</DependentUpon>

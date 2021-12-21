@@ -31,15 +31,15 @@
             this.btn_Cancel = new System.Windows.Forms.Button();
             this.btn_Ok = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBox_ReplaceBeamType = new System.Windows.Forms.CheckBox();
-            this.checkBox_ReplaceWallType = new System.Windows.Forms.CheckBox();
-            this.checkBox_ReplaceСolumnType = new System.Windows.Forms.CheckBox();
-            this.checkBox_ReplaceFloorType = new System.Windows.Forms.CheckBox();
             this.checkBox_FoundatioTransfer = new System.Windows.Forms.CheckBox();
             this.checkBox_WallTransfer = new System.Windows.Forms.CheckBox();
             this.checkBox_BeamTransfer = new System.Windows.Forms.CheckBox();
             this.checkBox_СolumnTransfer = new System.Windows.Forms.CheckBox();
             this.checkBox_FloorTransfer = new System.Windows.Forms.CheckBox();
+            this.checkBox_ReplaceBeamType = new System.Windows.Forms.CheckBox();
+            this.checkBox_ReplaceWallType = new System.Windows.Forms.CheckBox();
+            this.checkBox_ReplaceСolumnType = new System.Windows.Forms.CheckBox();
+            this.checkBox_ReplaceFloorType = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -80,46 +80,6 @@
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Перенести элементы:";
-            // 
-            // checkBox_ReplaceBeamType
-            // 
-            this.checkBox_ReplaceBeamType.AutoSize = true;
-            this.checkBox_ReplaceBeamType.Location = new System.Drawing.Point(6, 88);
-            this.checkBox_ReplaceBeamType.Name = "checkBox_ReplaceBeamType";
-            this.checkBox_ReplaceBeamType.Size = new System.Drawing.Size(57, 17);
-            this.checkBox_ReplaceBeamType.TabIndex = 8;
-            this.checkBox_ReplaceBeamType.Text = "Балки";
-            this.checkBox_ReplaceBeamType.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_ReplaceWallType
-            // 
-            this.checkBox_ReplaceWallType.AutoSize = true;
-            this.checkBox_ReplaceWallType.Location = new System.Drawing.Point(6, 65);
-            this.checkBox_ReplaceWallType.Name = "checkBox_ReplaceWallType";
-            this.checkBox_ReplaceWallType.Size = new System.Drawing.Size(58, 17);
-            this.checkBox_ReplaceWallType.TabIndex = 7;
-            this.checkBox_ReplaceWallType.Text = "Стены";
-            this.checkBox_ReplaceWallType.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_ReplaceСolumnType
-            // 
-            this.checkBox_ReplaceСolumnType.AutoSize = true;
-            this.checkBox_ReplaceСolumnType.Location = new System.Drawing.Point(6, 42);
-            this.checkBox_ReplaceСolumnType.Name = "checkBox_ReplaceСolumnType";
-            this.checkBox_ReplaceСolumnType.Size = new System.Drawing.Size(71, 17);
-            this.checkBox_ReplaceСolumnType.TabIndex = 6;
-            this.checkBox_ReplaceСolumnType.Text = "Колонны";
-            this.checkBox_ReplaceСolumnType.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_ReplaceFloorType
-            // 
-            this.checkBox_ReplaceFloorType.AutoSize = true;
-            this.checkBox_ReplaceFloorType.Location = new System.Drawing.Point(6, 19);
-            this.checkBox_ReplaceFloorType.Name = "checkBox_ReplaceFloorType";
-            this.checkBox_ReplaceFloorType.Size = new System.Drawing.Size(89, 17);
-            this.checkBox_ReplaceFloorType.TabIndex = 5;
-            this.checkBox_ReplaceFloorType.Text = "Перекрытия";
-            this.checkBox_ReplaceFloorType.UseVisualStyleBackColor = true;
             // 
             // checkBox_FoundatioTransfer
             // 
@@ -170,6 +130,46 @@
             this.checkBox_FloorTransfer.TabIndex = 0;
             this.checkBox_FloorTransfer.Text = "Перекрытия";
             this.checkBox_FloorTransfer.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_ReplaceBeamType
+            // 
+            this.checkBox_ReplaceBeamType.AutoSize = true;
+            this.checkBox_ReplaceBeamType.Location = new System.Drawing.Point(6, 88);
+            this.checkBox_ReplaceBeamType.Name = "checkBox_ReplaceBeamType";
+            this.checkBox_ReplaceBeamType.Size = new System.Drawing.Size(57, 17);
+            this.checkBox_ReplaceBeamType.TabIndex = 8;
+            this.checkBox_ReplaceBeamType.Text = "Балки";
+            this.checkBox_ReplaceBeamType.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_ReplaceWallType
+            // 
+            this.checkBox_ReplaceWallType.AutoSize = true;
+            this.checkBox_ReplaceWallType.Location = new System.Drawing.Point(6, 65);
+            this.checkBox_ReplaceWallType.Name = "checkBox_ReplaceWallType";
+            this.checkBox_ReplaceWallType.Size = new System.Drawing.Size(58, 17);
+            this.checkBox_ReplaceWallType.TabIndex = 7;
+            this.checkBox_ReplaceWallType.Text = "Стены";
+            this.checkBox_ReplaceWallType.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_ReplaceСolumnType
+            // 
+            this.checkBox_ReplaceСolumnType.AutoSize = true;
+            this.checkBox_ReplaceСolumnType.Location = new System.Drawing.Point(6, 42);
+            this.checkBox_ReplaceСolumnType.Name = "checkBox_ReplaceСolumnType";
+            this.checkBox_ReplaceСolumnType.Size = new System.Drawing.Size(71, 17);
+            this.checkBox_ReplaceСolumnType.TabIndex = 6;
+            this.checkBox_ReplaceСolumnType.Text = "Колонны";
+            this.checkBox_ReplaceСolumnType.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_ReplaceFloorType
+            // 
+            this.checkBox_ReplaceFloorType.AutoSize = true;
+            this.checkBox_ReplaceFloorType.Location = new System.Drawing.Point(6, 19);
+            this.checkBox_ReplaceFloorType.Name = "checkBox_ReplaceFloorType";
+            this.checkBox_ReplaceFloorType.Size = new System.Drawing.Size(89, 17);
+            this.checkBox_ReplaceFloorType.TabIndex = 5;
+            this.checkBox_ReplaceFloorType.Text = "Перекрытия";
+            this.checkBox_ReplaceFloorType.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 

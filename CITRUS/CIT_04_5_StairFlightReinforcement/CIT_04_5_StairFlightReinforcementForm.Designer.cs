@@ -49,17 +49,17 @@
             this.textBox_BottomExtensionHeightStaircaseNodeA2 = new System.Windows.Forms.TextBox();
             this.radioButton_NodeA2 = new System.Windows.Forms.RadioButton();
             this.radioButton_NodeA1 = new System.Windows.Forms.RadioButton();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.groupBox_TopConnectionNode = new System.Windows.Forms.GroupBox();
             this.radioButton_NodeB1 = new System.Windows.Forms.RadioButton();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox_BottomConnectionNode.SuspendLayout();
-            this.groupBox_TopConnectionNode.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.groupBox_TopConnectionNode.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -267,6 +267,30 @@
             this.radioButton_NodeA1.Text = "Узел А1";
             this.radioButton_NodeA1.UseVisualStyleBackColor = true;
             // 
+            // pictureBox4
+            // 
+            this.pictureBox4.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox4.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_Node3;
+            this.pictureBox4.Location = new System.Drawing.Point(321, 42);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(293, 185);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 19;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox2.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_Node1;
+            this.pictureBox2.Location = new System.Drawing.Point(6, 42);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(309, 185);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 19;
+            this.pictureBox2.TabStop = false;
+            // 
             // groupBox_TopConnectionNode
             // 
             this.groupBox_TopConnectionNode.Controls.Add(this.radioButton_NodeB1);
@@ -305,30 +329,6 @@
             this.pictureBox3.TabIndex = 20;
             this.pictureBox3.TabStop = false;
             // 
-            // pictureBox4
-            // 
-            this.pictureBox4.BackColor = System.Drawing.SystemColors.Window;
-            this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox4.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_Node3;
-            this.pictureBox4.Location = new System.Drawing.Point(321, 42);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(293, 185);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 19;
-            this.pictureBox4.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.SystemColors.Window;
-            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox2.Image = global::CITRUS.Properties.Resources.staircaseReinforcement_Node1;
-            this.pictureBox2.Location = new System.Drawing.Point(6, 42);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(309, 185);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 19;
-            this.pictureBox2.TabStop = false;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
@@ -366,11 +366,11 @@
             this.Text = "Свойства армирования";
             this.groupBox_BottomConnectionNode.ResumeLayout(false);
             this.groupBox_BottomConnectionNode.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.groupBox_TopConnectionNode.ResumeLayout(false);
             this.groupBox_TopConnectionNode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

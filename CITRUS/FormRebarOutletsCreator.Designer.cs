@@ -45,8 +45,8 @@ namespace CITRUS
             this.comboBox_StirrupBarTapes = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox_ColumnArrangement = new System.Windows.Forms.GroupBox();
-            this.radioButton_Link = new System.Windows.Forms.RadioButton();
             this.radioButton_Project = new System.Windows.Forms.RadioButton();
+            this.radioButton_Link = new System.Windows.Forms.RadioButton();
             this.group_OutletSizes.SuspendLayout();
             this.groupBox_ForceType.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -208,6 +208,16 @@ namespace CITRUS
             this.groupBox_ColumnArrangement.TabStop = false;
             this.groupBox_ColumnArrangement.Text = "Расположение колонн:";
             // 
+            // radioButton_Project
+            // 
+            this.radioButton_Project.AutoSize = true;
+            this.radioButton_Project.Location = new System.Drawing.Point(9, 44);
+            this.radioButton_Project.Name = "radioButton_Project";
+            this.radioButton_Project.Size = new System.Drawing.Size(62, 17);
+            this.radioButton_Project.TabIndex = 1;
+            this.radioButton_Project.Text = "Проект";
+            this.radioButton_Project.UseVisualStyleBackColor = true;
+            // 
             // radioButton_Link
             // 
             this.radioButton_Link.AutoSize = true;
@@ -219,16 +229,6 @@ namespace CITRUS
             this.radioButton_Link.TabStop = true;
             this.radioButton_Link.Text = "Связь";
             this.radioButton_Link.UseVisualStyleBackColor = true;
-            // 
-            // radioButton_Project
-            // 
-            this.radioButton_Project.AutoSize = true;
-            this.radioButton_Project.Location = new System.Drawing.Point(9, 44);
-            this.radioButton_Project.Name = "radioButton_Project";
-            this.radioButton_Project.Size = new System.Drawing.Size(62, 17);
-            this.radioButton_Project.TabIndex = 1;
-            this.radioButton_Project.Text = "Проект";
-            this.radioButton_Project.UseVisualStyleBackColor = true;
             // 
             // FormRebarOutletsCreator
             // 
