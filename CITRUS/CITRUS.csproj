@@ -261,6 +261,7 @@
     <Compile Include="CIT_05_4_1_MEPViewScheduleCreator_Roven\CIT_05_4_1_MEPViewScheduleCreator_Roven.cs" />
     <Compile Include="CIT_05_4_1_MEPViewScheduleCreator_Roven\CIT_05_4_1_MEPViewScheduleCleaner_Roven.cs" />
     <Compile Include="CreateLineDimensions.cs" />
+    <Compile Include="DuctFittingSelectionFilter.cs" />
     <Compile Include="FinishingSheet.cs" />
     <Compile Include="ColumnCutter.cs" />
     <Compile Include="GloryHoleCutter.cs" />

@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.UI;
+using Autodesk.Revit.UI.Selection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace CITRUS
         {
             // Получение текущего документа
             Document doc = commandData.Application.ActiveUIDocument.Document;
+            //Получение доступа к Selection
+            Selection sel = commandData.Application.ActiveUIDocument.Selection;
 
             RefreshDuctFittingsStartForm refreshDuctFittingsStartForm = new RefreshDuctFittingsStartForm();
             refreshDuctFittingsStartForm.ShowDialog();
@@ -23,12 +26,44 @@ namespace CITRUS
             {
                 return Result.Cancelled;
             }
+            string refreshOptionCheckedButtonName = refreshDuctFittingsStartForm.RefreshOptionCheckedButtonName;
+            
+            List<FamilyInstance> ductFittingList = new List<FamilyInstance>();
+            if (refreshOptionCheckedButtonName == "radioButton_Selected")
+            {
+                //Выбор связанного файла
+                DuctFittingSelectionFilter selFilterDuctFitting = new DuctFittingSelectionFilter();
+                IList<Reference> selDuctFitting = null;
+                try
+                {
+                    selDuctFitting = sel.PickObjects(ObjectType.Element, selFilterDuctFitting, "Выберите соединительные детали!");
+                }
+                catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+                {
+                    return Result.Cancelled;
+                }
 
-            List<FamilyInstance> ductFittingList = new FilteredElementCollector(doc)
-                .OfCategory(BuiltInCategory.OST_DuctFitting)
-                .WhereElementIsNotElementType()
-                .Cast<FamilyInstance>()
-                .ToList();
+                foreach(Reference refElem in selDuctFitting)
+                {
+                    ductFittingList.Add((doc.GetElement(refElem)) as FamilyInstance);
+                }
+            }
+            else if (refreshOptionCheckedButtonName == "radioButton_VisibleInView")
+            {
+                ductFittingList = new FilteredElementCollector(doc, doc.ActiveView.Id)
+                    .OfCategory(BuiltInCategory.OST_DuctFitting)
+                    .WhereElementIsNotElementType()
+                    .Cast<FamilyInstance>()
+                    .ToList();
+            }
+            else if(refreshOptionCheckedButtonName == "radioButton_WholeProject")
+            {
+                ductFittingList = new FilteredElementCollector(doc)
+                    .OfCategory(BuiltInCategory.OST_DuctFitting)
+                    .WhereElementIsNotElementType()
+                    .Cast<FamilyInstance>()
+                    .ToList();
+            }
 
             List<ElementId> errorElementsIdList = new List<ElementId>();
             using (Transaction t = new Transaction(doc))

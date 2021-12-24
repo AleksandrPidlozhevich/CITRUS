@@ -378,6 +378,9 @@ namespace CITRUS
                                     intersectionPoint.get_Parameter(intersectionPointWidthGuid).Set(intersectionPointWidth);
                                     intersectionPoint.get_Parameter(intersectionPointHeightGuid).Set(intersectionPointHeight);
                                     intersectionPoint.get_Parameter(intersectionPointThicknessGuid).Set(intersectionPointThickness);
+                                    intersectionPoint.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM)
+                                        .Set(intersectionPoint.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM).AsDouble()
+                                        + floor.get_Parameter(BuiltInParameter.FLOOR_HEIGHTABOVELEVEL_PARAM).AsDouble());
                                     pipeFloorIntersectionPointList.Add(intersectionPoint);
                                 }
                             }
@@ -427,6 +430,9 @@ namespace CITRUS
                                         intersectionPoint.get_Parameter(intersectionPointWidthGuid).Set(intersectionPointWidth);
                                         intersectionPoint.get_Parameter(intersectionPointHeightGuid).Set(intersectionPointHeight);
                                         intersectionPoint.get_Parameter(intersectionPointThicknessGuid).Set(intersectionPointThickness);
+                                        intersectionPoint.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM)
+                                            .Set(intersectionPoint.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM).AsDouble()
+                                            + floor.get_Parameter(BuiltInParameter.FLOOR_HEIGHTABOVELEVEL_PARAM).AsDouble());
                                     }
                                     else
                                     {
@@ -447,6 +453,9 @@ namespace CITRUS
                                         intersectionPoint.get_Parameter(intersectionPointWidthGuid).Set(intersectionPointWidth);
                                         intersectionPoint.get_Parameter(intersectionPointHeightGuid).Set(intersectionPointHeight);
                                         intersectionPoint.get_Parameter(intersectionPointThicknessGuid).Set(intersectionPointThickness);
+                                        intersectionPoint.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM)
+                                            .Set(intersectionPoint.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM).AsDouble()
+                                            + floor.get_Parameter(BuiltInParameter.FLOOR_HEIGHTABOVELEVEL_PARAM).AsDouble());
 
                                         if (ductRotationAngle != 0)
                                         {

@@ -12,6 +12,7 @@ namespace CITRUS
 {
     public partial class RefreshDuctFittingsStartForm : Form
     {
+        public string RefreshOptionCheckedButtonName;
         public RefreshDuctFittingsStartForm()
         {
             InitializeComponent();
@@ -19,6 +20,7 @@ namespace CITRUS
 
         private void btn_Ok_Click(object sender, EventArgs e)
         {
+            RefreshOptionCheckedButtonName = groupBox_RefreshOption.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -33,6 +35,7 @@ namespace CITRUS
         {
             if (e.KeyValue == (char)Keys.Enter || e.KeyValue == (char)Keys.Space)
             {
+                RefreshOptionCheckedButtonName = groupBox_RefreshOption.Controls.OfType<RadioButton>().FirstOrDefault(rb => rb.Checked).Name;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
