@@ -31,21 +31,34 @@ namespace CITRUS
             List<FamilyInstance> ductFittingList = new List<FamilyInstance>();
             if (refreshOptionCheckedButtonName == "radioButton_Selected")
             {
-                //Выбор связанного файла
-                DuctFittingSelectionFilter selFilterDuctFitting = new DuctFittingSelectionFilter();
-                IList<Reference> selDuctFitting = null;
-                try
+                ICollection<ElementId> selectedIds = sel.GetElementIds();
+                foreach (ElementId intersectionPointId in selectedIds)
                 {
-                    selDuctFitting = sel.PickObjects(ObjectType.Element, selFilterDuctFitting, "Выберите соединительные детали!");
-                }
-                catch (Autodesk.Revit.Exceptions.OperationCanceledException)
-                {
-                    return Result.Cancelled;
+                    if (doc.GetElement(intersectionPointId) is FamilyInstance
+                        && null != doc.GetElement(intersectionPointId).Category
+                        && doc.GetElement(intersectionPointId).Category.Id.IntegerValue.Equals((int)BuiltInCategory.OST_DuctFitting))
+                    {
+                        ductFittingList.Add(doc.GetElement(intersectionPointId) as FamilyInstance);
+                    }
                 }
 
-                foreach(Reference refElem in selDuctFitting)
+                if(ductFittingList.Count == 0)
                 {
-                    ductFittingList.Add((doc.GetElement(refElem)) as FamilyInstance);
+                    DuctFittingSelectionFilter selFilterDuctFitting = new DuctFittingSelectionFilter();
+                    IList<Reference> selDuctFitting = null;
+                    try
+                    {
+                        selDuctFitting = sel.PickObjects(ObjectType.Element, selFilterDuctFitting, "Выберите соединительные детали!");
+                    }
+                    catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+                    {
+                        return Result.Cancelled;
+                    }
+
+                    foreach (Reference refElem in selDuctFitting)
+                    {
+                        ductFittingList.Add((doc.GetElement(refElem)) as FamilyInstance);
+                    }
                 }
             }
             else if (refreshOptionCheckedButtonName == "radioButton_VisibleInView")

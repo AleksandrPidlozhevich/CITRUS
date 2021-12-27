@@ -52,6 +52,7 @@ namespace CITRUS
             //Получение стен из связанного файла
             List<Wall> wallsInLinkList = new FilteredElementCollector(linkDoc)
                 .OfCategory(BuiltInCategory.OST_Walls)
+                .OfClass(typeof(Wall))
                 .WhereElementIsNotElementType()
                 .Cast<Wall>()
                 .Where(w => w.CurtainGrid == null)
