@@ -132,18 +132,24 @@ namespace CITRUS
             Guid levelOffsetGuid = new Guid("515dc061-93ce-40e4-859a-e29224d80a10");
 
             //Вызов формы
-            GloryHoleForm gloryHoleForm = new GloryHoleForm();
-            gloryHoleForm.ShowDialog();
-            if (gloryHoleForm.DialogResult != System.Windows.Forms.DialogResult.OK)
+            //GloryHoleForm gloryHoleForm = new GloryHoleForm();
+            //gloryHoleForm.ShowDialog();
+            //if (gloryHoleForm.DialogResult != System.Windows.Forms.DialogResult.OK)
+            //{
+            //    return Result.Cancelled;
+            //}
+            GloryHoleWPF gloryHoleWPF = new GloryHoleWPF();
+            gloryHoleWPF.ShowDialog();
+            if (gloryHoleWPF.DialogResult != true)
             {
                 return Result.Cancelled;
             }
-            double pipeSideClearance = (gloryHoleForm.PipeSideClearance * 2) / 304.8;
-            double pipeTopBottomClearance = (gloryHoleForm.PipeTopBottomClearance * 2) / 304.8;
-            double ductSideClearance = (gloryHoleForm.DuctSideClearance * 2) / 304.8;
-            double ductTopBottomClearance = (gloryHoleForm.DuctTopBottomClearance * 2) / 304.8;
-            double roundUpIncrement = gloryHoleForm.RoundUpIncrement;
-            bool mergeHoles = gloryHoleForm.MergeHoles;
+            double pipeSideClearance = (gloryHoleWPF.PipeSideClearance * 2) / 304.8;
+            double pipeTopBottomClearance = (gloryHoleWPF.PipeTopBottomClearance * 2) / 304.8;
+            double ductSideClearance = (gloryHoleWPF.DuctSideClearance * 2) / 304.8;
+            double ductTopBottomClearance = (gloryHoleWPF.DuctTopBottomClearance * 2) / 304.8;
+            double roundUpIncrement = gloryHoleWPF.RoundUpIncrement;
+            bool mergeHoles = gloryHoleWPF.MergeHoles;
 
             List<FamilyInstance> pipeWallIntersectionPointList = new List<FamilyInstance>();
             List<FamilyInstance> pipeFloorIntersectionPointList = new List<FamilyInstance>();

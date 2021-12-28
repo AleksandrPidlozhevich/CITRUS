@@ -32,13 +32,13 @@ namespace CITRUS
                 .ToList();
 
             //Вызов формы
-            GloryHoleSaveAssignmentVersionForm gloryHoleSaveAssignmentVersionForm = new GloryHoleSaveAssignmentVersionForm();
-            gloryHoleSaveAssignmentVersionForm.ShowDialog();
-            if (gloryHoleSaveAssignmentVersionForm.DialogResult != System.Windows.Forms.DialogResult.OK)
+            GloryHoleSaveAssignmentVersionWPF gloryHoleSaveAssignmentVersionWPF = new GloryHoleSaveAssignmentVersionWPF();
+            gloryHoleSaveAssignmentVersionWPF.ShowDialog();
+            if (gloryHoleSaveAssignmentVersionWPF.DialogResult != true)
             {
                 return Result.Cancelled;
             }
-            string actionSelectionButtonName = gloryHoleSaveAssignmentVersionForm.ActionSelectionButtonName;
+            string actionSelectionButtonName = gloryHoleSaveAssignmentVersionWPF.ActionSelectionButtonName;
             using (Transaction t = new Transaction(doc))
             {
                 t.Start("Сохранение версии задания");

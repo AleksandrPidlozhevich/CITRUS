@@ -107,6 +107,7 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="RevitAPI">
       <HintPath>C:\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
       <Private>False</Private>
@@ -146,6 +147,7 @@
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -280,7 +282,13 @@
     <Compile Include="GloryHoleSaveAssignmentVersionForm.Designer.cs">
       <DependentUpon>GloryHoleSaveAssignmentVersionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GloryHoleSaveAssignmentVersionWPF.xaml.cs">
+      <DependentUpon>GloryHoleSaveAssignmentVersionWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GloryHoleSettings.cs" />
+    <Compile Include="GloryHoleWPF.xaml.cs">
+      <DependentUpon>GloryHoleWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PipeDuctSelectionFilter.cs" />
     <Compile Include="GloryHoleWindowsSelectionFilter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -665,12 +673,6 @@
     <None Include="Resources\RectangularColumnsReinforcement_Large.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GloryHole.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\GloryHole_Large.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\formBeamReinforcement.png" />
   </ItemGroup>
   <ItemGroup>
@@ -740,10 +742,7 @@
     <None Include="Resources\InsolationAtPoint_Large.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GloryHoleForm.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\GloryHoleForm1.png" />
+    <Resource Include="Resources\GloryHoleForm.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\GloryHoleIcon_Large.png" />
@@ -786,6 +785,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\RefreshDuctFittings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="GloryHoleSaveAssignmentVersionWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GloryHoleWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
