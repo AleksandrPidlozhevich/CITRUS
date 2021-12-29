@@ -16,19 +16,18 @@ using System.Windows.Shapes;
 namespace CITRUS
 {
     /// <summary>
-    /// Логика взаимодействия для GloryHoleSaveAssignmentVersionWPF.xaml
+    /// Логика взаимодействия для RefreshDuctFittingsStartWPF.xaml
     /// </summary>
-    public partial class GloryHoleSaveAssignmentVersionWPF : Window
+    public partial class RefreshDuctFittingsStartWPF : Window
     {
-        public string ActionSelectionButtonName;
-        public GloryHoleSaveAssignmentVersionWPF()
+        public string RefreshOptionCheckedButtonName;
+        public RefreshDuctFittingsStartWPF()
         {
             InitializeComponent();
         }
-
         private void btn_Ok_Click(object sender, RoutedEventArgs e)
         {
-            ActionSelectionButtonName = (this.groupBox_ActionSelection.Content as Grid).Children.OfType<RadioButton>().FirstOrDefault(rb => rb.IsChecked.Value == true).Name;
+            RefreshOptionCheckedButtonName = (groupBox_RefreshOption.Content as Grid).Children.OfType<RadioButton>().FirstOrDefault(rb => rb.IsChecked.Value == true).Name;
             this.DialogResult = true;
             this.Close();
         }
@@ -38,11 +37,11 @@ namespace CITRUS
             this.DialogResult = false;
             this.Close();
         }
-        private void GloryHoleSaveAssignmentVersionWPF_KeyDown(object sender, KeyEventArgs e)
+        private void RefreshDuctFittingsStartWPF_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter || e.Key == Key.Space)
             {
-                ActionSelectionButtonName = (this.groupBox_ActionSelection.Content as Grid).Children.OfType<RadioButton>().FirstOrDefault(rb => rb.IsChecked.Value == true).Name;
+                RefreshOptionCheckedButtonName = (groupBox_RefreshOption.Content as Grid).Children.OfType<RadioButton>().FirstOrDefault(rb => rb.IsChecked.Value == true).Name;
                 this.DialogResult = true;
                 this.Close();
             }
@@ -53,6 +52,5 @@ namespace CITRUS
                 this.Close();
             }
         }
-
     }
 }

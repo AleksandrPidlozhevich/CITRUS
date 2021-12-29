@@ -20,13 +20,13 @@ namespace CITRUS
             //Получение доступа к Selection
             Selection sel = commandData.Application.ActiveUIDocument.Selection;
 
-            RefreshDuctFittingsStartForm refreshDuctFittingsStartForm = new RefreshDuctFittingsStartForm();
-            refreshDuctFittingsStartForm.ShowDialog();
-            if (refreshDuctFittingsStartForm.DialogResult != System.Windows.Forms.DialogResult.OK)
+            RefreshDuctFittingsStartWPF refreshDuctFittingsStartWPF = new RefreshDuctFittingsStartWPF();
+            refreshDuctFittingsStartWPF.ShowDialog();
+            if (refreshDuctFittingsStartWPF.DialogResult != true)
             {
                 return Result.Cancelled;
             }
-            string refreshOptionCheckedButtonName = refreshDuctFittingsStartForm.RefreshOptionCheckedButtonName;
+            string refreshOptionCheckedButtonName = refreshDuctFittingsStartWPF.RefreshOptionCheckedButtonName;
             
             List<FamilyInstance> ductFittingList = new List<FamilyInstance>();
             if (refreshOptionCheckedButtonName == "radioButton_Selected")
@@ -337,8 +337,8 @@ namespace CITRUS
                     }
                     
                 }
-                RefreshDuctFittingsErrorForm refreshDuctFittingsErrorForm = new RefreshDuctFittingsErrorForm(errorElementsIdStringList);
-                refreshDuctFittingsErrorForm.ShowDialog();
+                RefreshDuctFittingsErrorWPF refreshDuctFittingsErrorWPF = new RefreshDuctFittingsErrorWPF(errorElementsIdStringList);
+                refreshDuctFittingsErrorWPF.ShowDialog();
             }
             return Result.Succeeded;
         }

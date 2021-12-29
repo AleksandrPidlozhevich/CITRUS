@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Задание на отверстия" Height="150" Width="450" WindowStyle="ToolWindow"
         WindowStartupLocation="CenterScreen" MinWidth="450" MinHeight="150" MaxWidth="450" MaxHeight="150"
-        KeyDown="GloryHoleSaveAssignmentVersionForm_KeyDown">
+        KeyDown="GloryHoleSaveAssignmentVersionWPF_KeyDown">
     <Grid>
         <Button x:Name="btn_Ok" Content="Ок" HorizontalAlignment="Right" Margin="0,0,125,10" VerticalAlignment="Bottom" Width="100" Height="25" Click="btn_Ok_Click"/>
         <Button x:Name="btn_Cancel" Content="Отмена" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="100" Height="25" Click="btn_Cancel_Click"/>

@@ -303,11 +303,17 @@
     <Compile Include="RefreshDuctFittingsErrorForm.Designer.cs">
       <DependentUpon>RefreshDuctFittingsErrorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RefreshDuctFittingsErrorWPF.xaml.cs">
+      <DependentUpon>RefreshDuctFittingsErrorWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RefreshDuctFittingsStartForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RefreshDuctFittingsStartForm.Designer.cs">
       <DependentUpon>RefreshDuctFittingsStartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RefreshDuctFittingsStartWPF.xaml.cs">
+      <DependentUpon>RefreshDuctFittingsStartWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="SystemsToSpace.cs" />
     <Compile Include="WallSelectionFilter.cs" />
@@ -792,6 +798,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GloryHoleWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RefreshDuctFittingsErrorWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RefreshDuctFittingsStartWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
